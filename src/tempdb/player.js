@@ -11,7 +11,7 @@ module.exports = {
         added: 1474513259950,
         lastTalked: 0,
         timesTalked: 0,
-        userLinked: 'dan',
+        userLinked: "dan",
       },
     },
     inventory: {
@@ -24,7 +24,7 @@ module.exports = {
     memberLevel: 2,
     online: true,
     server: 1,
-    sid: 'twJxqcR4mywEwsG8AAAB',
+    sid: "twJxqcR4mywEwsG8AAAB",
     signedUp: 1474513259945,
     skills: {
       cooking: {
@@ -86,8 +86,8 @@ module.exports = {
       monstersKilled: 0,
       timesLogged: 1,
     },
-    username: 'Dan',
-    version: '0.5.0',
+    username: "Dan",
+    version: "0.5.0",
     wear: {
       armor: 0,
       arrows: {

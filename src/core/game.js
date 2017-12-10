@@ -5,13 +5,10 @@ class Game {
   }
 
   async init() {
-    console.log(`Loading assets`, this.assets);
     const images = this.assets.map(asset => this.uploadImage(asset));
-    const imgs = await Promise.all(images);
-    return imgs;
+    const promisedImages = await Promise.all(images);
 
-    // const images = assets => Promise.all(assets.map(this.uploadImage));
-    // images(this.assets);
+    return promisedImages;
   }
 
   uploadImage(path) {
