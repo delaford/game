@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import { player } from "../tempdb/player";
 import config from "../core/config";
 import Map from "../core/map";
 import Game from "../core/game";
@@ -19,19 +18,19 @@ export default {
   name: "Game",
   data() {
     return {
-      player,
+      player: null,
       config,
       map: []
     };
   },
   async mounted() {
+    const mainCanvas = document.querySelector(".main-canvas");    
     const game = new Game(this.config.assets);
-    const [_map, _player] = await game.init();
+    const {images, data} = await game.init();
+    const map = new Map(mainCanvas);
+    this.player = data.player;
 
-    const mainCanvas = document.querySelector(".main-canvas");
-    const map = new Map(this.config.map, mainCanvas);
-    map.build(_player);
-    console.log(_map);
+    map.build(images[0]);
     // console.log(map.config.tileset.height);
   }
 };
