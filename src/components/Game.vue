@@ -21,16 +21,13 @@
  * (HTML) What to and where to display
  */
 import config from '../core/config';
-import Map from '../core/map';
 import Game from '../core/game';
 
 export default {
   name: 'Game',
   data() {
     return {
-      player: null,
       config,
-      map: false,
       images: false,
       board: [],
     };
@@ -38,17 +35,7 @@ export default {
   async mounted() {
     // Start game
     const game = new Game(this.config.assets);
-    const { images, data } = await game.init();
-
-    // Load map
-    this.map = new Map('surface', images, data);
-    this.images = images;
-
-    // Assign data to Vue instance
-    this.player = data.player;
-    this.board = await this.map.load();
-
-    this.map.build();
+    game.start();
   },
   methods: {
     movePlayer(event) {
@@ -58,36 +45,10 @@ export default {
         default:
         case 'ArrowRight':
           this.player.x += 1;
-          this.map.context.drawImage(
-            this.images[0],
-            this.player.x * 32,
-            0,
-            32,
-            32,
-          );
-          this.map.context.clearRect(
-            0,
-            0,
-            this.map.context.width,
-            this.map.context.height,
-          );
           break;
 
         case 'ArrowLeft':
           this.player.x -= 1;
-          this.map.context.drawImage(
-            this.images[0],
-            this.player.x * 32,
-            0,
-            32,
-            32,
-          );
-          this.map.context.clearRect(
-            0,
-            0,
-            this.map.context.width,
-            this.map.context.height,
-          );
           break;
       }
     },

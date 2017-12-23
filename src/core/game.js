@@ -1,9 +1,18 @@
 import player from '../tempdb/player';
-import map from '../core/map';
+import Map from './map';
 
 class Game {
   constructor(assets) {
     this.assets = assets.reverse();
+  }
+
+  async start() {
+    const { images, data } = await this.init();
+
+    // Load map
+    this.map = new Map('surface', images, data);
+    this.board = await this.map.load();
+    this.map.build(this.board);
   }
 
   /**
@@ -45,7 +54,7 @@ class Game {
   static loadData() {
     const data = new Promise((resolve) => {
       const block = {
-        map,
+        map: Map,
         player,
       };
 
