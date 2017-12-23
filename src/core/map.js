@@ -6,27 +6,42 @@ class Map {
     this.config = config;
     this.level = level;
 
+    // Image and data
     this.images = { player, tileset };
     this.data = data;
 
     // Canvas
     this.canvas = document.querySelector('.main-canvas');
     this.context = this.canvas.getContext('2d');
+    this.board = null;
   }
 
-  async build() {
+  /**
+   * Starts to setup board canvas
+   *
+   * @param {array} board The tile index of the board
+   */
+  build(board) {
+    this.board = board;
+
     this.setUpCanvas();
   }
 
+  /**
+   * Sets canvas dimensions and constructs it
+   */
   setUpCanvas() {
     this.canvas.setAttribute('width', 512);
     this.canvas.setAttribute('height', 352);
-    this.constructMap();
+    this.drawMap();
   }
 
-  constructMap() {
-    console.log(JSON.stringify(this.config.map));
-    console.log(JSON.stringify(this.data));
+  /**
+   * Paint the map based on player's position
+   */
+  drawMap() {
+    console.log(this.data.player);
+    console.log(this.board[0]);
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (let vY = 0; vY <= this.config.map.viewport.y; vY += 1) {
       for (let vX = 0; vX <= this.config.map.viewport.x; vX += 1) {
