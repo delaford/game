@@ -6,19 +6,22 @@
 </template>
 
 <script>
-import Game from "./components/Game";
+import Game from './components/Game';
 
 export default {
-  name: "app",
+  name: 'navarra',
   components: {
-    Game
-  }
+    Game,
+  },
 };
 </script>
 
 <style lang="scss">
 @import "//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css";
-
+@font-face {
+  font-family: "MyWebFont";
+  src: url("./assets/vcr_osd.ttf") format("truetype");
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -44,6 +47,10 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
+
+    p {
+      font-family: "MyWebFont", sans-serif;
+    }
   }
 }
 </style>

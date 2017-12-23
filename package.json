@@ -5,17 +5,15 @@
   "author": "Dan Jasnowski <danjasnowski@gmail.com>",
   "private": true,
   "scripts": {
-    "dev":
-      "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js",
-    "format": "prettier-eslint \"src/**/*.js\""
+    "format": "eslint --fix"
   },
   "dependencies": {
-    "prettier": "^1.9.1",
     "vue": "^2.5.2"
   },
   "devDependencies": {
@@ -34,7 +32,6 @@
     "css-loader": "^0.28.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.3.0",
-    "eslint-config-prettier": "^2.9.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-import-resolver-webpack": "^0.8.3",
     "eslint-loader": "^1.7.1",
@@ -54,7 +51,6 @@
     "portfinder": "^1.0.13",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
-    "prettier-eslint-cli": "^4.4.2",
     "rimraf": "^2.6.0",
     "sass-loader": "^6.0.6",
     "semver": "^5.3.0",
@@ -75,5 +71,9 @@
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
