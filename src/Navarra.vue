@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png" class="logo">
+    <section class="logo">
+      Navarra
+    </section>
     <Game/>
   </div>
 </template>
@@ -17,25 +19,26 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
 @import "//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css";
 @font-face {
   font-family: "MyWebFont";
   src: url("./assets/vcr_osd.ttf") format("truetype");
 }
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   flex-direction: column;
 
-  img.logo {
-    margin-bottom: 1em;
+  section.logo {
+    font-size: 3em;
   }
 }
 
