@@ -23,6 +23,7 @@
 import config from '../core/config';
 import Game from '../core/game';
 
+
 export default {
   name: 'Game',
   data() {

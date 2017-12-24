@@ -1,6 +1,6 @@
 module.exports = {
-  y: 5,
-  x: 7,
+  x: 54,
+  y: 51,
   bank: {
     slot_1: {
       id: 5.1,
