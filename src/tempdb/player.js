@@ -1,4 +1,6 @@
 module.exports = {
+  y: 5,
+  x: 7,
   bank: {
     slot_1: {
       id: 5.1,
@@ -102,7 +104,5 @@ module.exports = {
     rightHand: 0,
     ring: 0,
   },
-  x: 10,
-  y: 7,
   minimap: [],
 };
