@@ -1,7 +1,7 @@
 <template>
   <div>
     <canvas tabindex="0"
-      id="ui-layer"
+      id="game-map"
       class="main-canvas"
       height="352"
       width="512"
@@ -28,14 +28,15 @@ export default {
   data() {
     return {
       config,
-      images: false,
-      board: [],
+      game: false,
     };
   },
   async mounted() {
     // Start game
-    const game = new Game(this.config.assets);
-    game.start();
+    this.game = new Game(this.config.assets);
+    this.game.start();
+
+    document.querySelector('canvas#game-map').focus();
   },
   methods: {
     movePlayer(event) {
@@ -43,12 +44,23 @@ export default {
 
       switch (key) {
         default:
+          console.log('Nothing happened');
+          break;
+
         case 'ArrowRight':
-          this.player.x += 1;
+          this.game.move('right');
           break;
 
         case 'ArrowLeft':
-          this.player.x -= 1;
+          this.game.move('left');
+          break;
+
+        case 'ArrowDown':
+          this.game.move('down');
+          break;
+
+        case 'ArrowUp':
+          this.game.move('up');
           break;
       }
     },
