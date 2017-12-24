@@ -1,5 +1,6 @@
 import player from '../tempdb/player';
 import Map from './map';
+import Player from './player';
 
 class Game {
   constructor(assets) {
@@ -7,12 +8,16 @@ class Game {
   }
 
   async start() {
+    // Load images and data
     const { images, data } = await this.init();
 
-    // Load map
+    // Load map data
     this.map = new Map('surface', images, data);
     this.board = await this.map.load();
     this.map.build(this.board);
+
+    // Create player
+    this.player = new Player(data.player);
   }
 
   /**
@@ -78,6 +83,10 @@ class Game {
     });
 
     return asset;
+  }
+
+  move(direction) {
+    this.player.move(direction, this.map);
   }
 }
 

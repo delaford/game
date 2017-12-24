@@ -88,7 +88,6 @@ module.exports = {
     timesLogged: 1,
   },
   username: 'Dan',
-  version: '0.5.0',
   wear: {
     armor: 0,
     arrows: {
@@ -104,5 +103,4 @@ module.exports = {
     rightHand: 0,
     ring: 0,
   },
-  minimap: [],
 };

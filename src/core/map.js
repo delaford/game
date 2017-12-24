@@ -31,6 +31,23 @@ class Map {
    * Sets canvas dimensions and constructs it
    */
   setUpCanvas() {
+    this.configureCanvas();
+
+    this.paintMap();
+  }
+
+  /**
+   * Draw the map from its tiles to the player
+   */
+  paintMap() {
+    this.drawMap();
+    this.drawPlayer();
+  }
+
+  /**
+   * Configure the canvas paramters correctly
+   */
+  configureCanvas() {
     const tileset = this.config.map.tileset;
 
     const canvasWidth = tileset.tile.width * (1 + this.config.map.viewport.x);
@@ -42,13 +59,11 @@ class Map {
 
     // Do not smooth any pixels painted on
     this.context.imageSmoothingEnabled = false;
-
-    // Draw the whole map and the player within
-    // the confines of the player's current viewport
-    this.drawMap();
-    this.drawPlayer();
   }
 
+  /**
+   * Draw the player on the board
+   */
   drawPlayer() {
     this.context.drawImage(
       this.images.player,
@@ -62,33 +77,32 @@ class Map {
   /**
    * Paint the map based on player's position
    */
-  drawMap() {
+  drawMap(x = this.data.player.x, y = this.data.player.y) {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     const { tileset, size, viewport } = this.config.map;
     const tilesetDivider = tileset.width / tileset.tile.width;
 
     const tileCrop = {
-      x: this.data.player.x - Math.floor(0.5 * viewport.x),
-      y: this.data.player.y - Math.floor(0.5 * viewport.y),
+      x: x - Math.floor(0.5 * viewport.x),
+      y: y - Math.floor(0.5 * viewport.y),
     };
 
     // Drawing the map row by column.
-    for (let vY = 0; vY <= viewport.y; vY += 1) {
-      for (let vX = 0; vX <= viewport.x; vX += 1) {
-        const tileSearch = this.board[(((vY + tileCrop.y) * size.x) + vX) + tileCrop.x] - 1;
+    for (let column = 0; column <= viewport.y; column += 1) {
+      for (let row = 0; row <= viewport.x; row += 1) {
+        const tileSearch = this.board[(((column + tileCrop.y) * size.x) + row) + tileCrop.x] - 1;
 
         const tile = {
           clip: {
-            x: Math.floor(tileSearch % tilesetDivider) * 32,
-            y: Math.floor(tileSearch / tilesetDivider) * 32,
+            x: Math.floor(tileSearch % tilesetDivider) * tileset.tile.width,
+            y: Math.floor(tileSearch / tilesetDivider) * tileset.tile.height,
           },
           pos: {
-            x: vX * 32,
-            y: vY * 32,
+            x: row * tileset.tile.width,
+            y: column * tileset.tile.height,
           },
-          width: 32,
-          height: 32,
+          width: tileset.tile.width,
+          height: tileset.tile.height,
         };
 
         this.context.drawImage(
