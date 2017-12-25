@@ -23,7 +23,7 @@ export default {
 @import "//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css";
 @font-face {
   font-family: "MyWebFont";
-  src: url("./assets/vcr_osd.ttf") format("truetype");
+  src: url("./assets/fonts/vcr_osd.ttf") format("truetype");
 }
 #app {
   font-family: "Roboto Slab", Helvetica, Arial, sans-serif;

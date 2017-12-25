@@ -29,8 +29,8 @@ const config = {
     },
   },
   assets: [
-    'src/assets/all_tiles.png', // Tileset
-    'src/assets/player1.png', // Player
+    'src/assets/tiles/tileset.png', // Tileset
+    'src/assets/player.png', // Player
   ],
 };
 
