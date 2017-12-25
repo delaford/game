@@ -16,6 +16,8 @@ const config = {
         width: 32,
         height: 32,
       },
+      // eslint-disable-next-line
+      blocked: [1, 442, 424, 283, 426, 23, 343, 346, 446, 90, 493, 509, 494, 492, 502, 485, 501, 495],
     },
     viewport: { // How big will our view be?
       x: 15,

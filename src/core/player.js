@@ -1,4 +1,4 @@
-// import config from './config';
+import config from './config';
 
 class Player {
   constructor(data) {
@@ -8,7 +8,7 @@ class Player {
 
     this.server = 'us-1';
 
-    console.log(`Spawned at ${this.x}, ${this.y}`);
+    console.log(`[${this.server}] Spawned at ${this.x}, ${this.y}`);
   }
 
   move(direction, map) {
@@ -18,24 +18,56 @@ class Player {
         break;
 
       case 'right':
-        this.x += 1;
+        if (!this.checkCollision(map, direction)) {
+          this.x += 1;
+        }
         break;
 
       case 'left':
-        this.x -= 1;
+        if (!this.checkCollision(map, direction)) {
+          this.x -= 1;
+        }
         break;
 
       case 'up':
-        this.y -= 1;
+        if (!this.checkCollision(map, direction)) {
+          this.y -= 1;
+        }
         break;
 
       case 'down':
-        this.y += 1;
+        if (!this.checkCollision(map, direction)) {
+          this.y += 1;
+        }
+
         break;
 
     }
     map.drawMap(this.x, this.y);
     map.drawPlayer();
+  }
+
+  checkCollision(map, direction) {
+    const { size, viewport, tileset } = config.map;
+    const tileCrop = {
+      x: this.x - Math.floor(0.5 * viewport.x),
+      y: this.y - Math.floor(0.5 * viewport.y),
+    };
+
+    const getY = (dirMove) => {
+      if (dirMove === 'right' || dirMove === 'left') return 5;
+      return dirMove === 'up' ? 4 : 6;
+    };
+
+    const getX = (dirMove) => {
+      if (dirMove === 'up' || dirMove === 'down') return 7;
+      return dirMove === 'left' ? 6 : 8;
+    };
+
+    // eslint-disable-next-line
+    const steppedOn = map.board[(((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x] - 1;
+
+    return tileset.blocked.includes(steppedOn);
   }
 }
 
