@@ -1,4 +1,6 @@
-import config from '../core/config';
+import config from './config';
+
+import UI from './utilities/ui';
 
 class Map {
   constructor(level, [player, tileset], data) {
@@ -32,8 +34,27 @@ class Map {
    */
   setUpCanvas() {
     this.configureCanvas();
-
+    this.addListeners();
     this.paintMap();
+  }
+
+  addListeners() {
+    this.canvas.addEventListener('mousemove', this.mouseSelection, false);
+  }
+
+  mouseSelection(event) {
+    const { tile } = config.map.tileset;
+
+    const mousePosition = UI.getMousePos(this, event);
+    const mouseSelection = {
+      x: Math.floor(mousePosition.x / tile.width),
+      y: Math.floor(mousePosition.y / tile.height),
+    };
+
+    if (mouseSelection.x > 0 && mouseSelection.y > 0) {
+      // Draw selection on canvas
+      console.log(mouseSelection);
+    }
   }
 
   /**
@@ -49,7 +70,6 @@ class Map {
    */
   configureCanvas() {
     const tileset = this.config.map.tileset;
-
     const canvasWidth = tileset.tile.width * (1 + this.config.map.viewport.x);
     const canvasHeight = tileset.tile.height * (1 + this.config.map.viewport.y);
 
@@ -76,6 +96,9 @@ class Map {
 
   /**
    * Paint the map based on player's position
+   *
+   * @param x {integer} The x-axis the player is on
+   * @param y {integer} The y-axis the player is on
    */
   drawMap(x = this.data.player.x, y = this.data.player.y) {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -87,22 +110,10 @@ class Map {
       y: y - Math.floor(0.5 * viewport.y),
     };
 
-    // let vX = x - Math.floor(0.5 * 15);
-    // if (vX < 0) vX = 0;
-    // if (vX+15 > 50) vX = 50 - 15;
-
-
-    // let vY = y - Math.floor(0.5 * 10);
-    // if (vY < 0) vY = 0;
-    // if (vY+10 > 50) vY = 50 - 10;
-
     // Drawing the map row by column.
     for (let column = 0; column <= viewport.y; column += 1) {
       for (let row = 0; row <= viewport.x; row += 1) {
         const tileSearch = this.board[(((column + tileCrop.y) * size.x) + row) + tileCrop.x] - 1;
-
-        // this.context.fillStyle = 'black';
-        // this.context.fillRect(10, 10, 32, 32);
 
         const tile = {
           clip: {
