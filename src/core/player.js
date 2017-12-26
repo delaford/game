@@ -47,6 +47,13 @@ class Player {
     map.drawPlayer();
   }
 
+  /**
+   * Checks to see if player can continue walking
+   *
+   * @param map {object} The map object being passed
+   * @param direction {string} The direction player is going
+   * @returns {boolean} Checks if tile is on blocked array list
+   */
   checkCollision(map, direction) {
     const { size, viewport, tileset } = config.map;
     const tileCrop = {
