@@ -5,6 +5,7 @@
       class="main-canvas"
       height="352"
       width="512"
+      @mousemove="mouseSelection"
       @keyup="movePlayer">
     </canvas>
   </div>
@@ -22,7 +23,8 @@
  */
 import config from '../core/config';
 import Game from '../core/game';
-
+import Map from '../core/map';
+import UI from '../core/utilities/ui';
 
 export default {
   name: 'Game',
@@ -40,6 +42,21 @@ export default {
     document.querySelector('canvas#game-map').focus();
   },
   methods: {
+    mouseSelection(event) {
+      const { tile } = this.config.map.tileset;
+
+      const mousePosition = UI.getMousePos(event);
+      const hoveredSquare = {
+        x: Math.floor(mousePosition.x / tile.width),
+        y: Math.floor(mousePosition.y / tile.height),
+      };
+
+      console.log(JSON.stringify(hoveredSquare));
+
+      if (hoveredSquare.x > 0 && hoveredSquare.y > 0) {
+        // Map.drawMouseSelection(0, hoveredSquare.x, hoveredSquare.y);
+      }
+    },
     movePlayer(event) {
       const key = event.key;
 
