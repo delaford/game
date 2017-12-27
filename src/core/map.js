@@ -1,7 +1,5 @@
 import config from './config';
 
-import UI from './utilities/ui';
-
 class Map {
   constructor(level, [player, tileset], data) {
     // Getters & Setters
@@ -34,27 +32,7 @@ class Map {
    */
   setUpCanvas() {
     this.configureCanvas();
-    this.addListeners();
     this.paintMap();
-  }
-
-  addListeners() {
-    this.canvas.addEventListener('mousemove', this.mouseSelection, false);
-  }
-
-  mouseSelection(event) {
-    const { tile } = config.map.tileset;
-
-    const mousePosition = UI.getMousePos(this, event);
-    const mouseSelection = {
-      x: Math.floor(mousePosition.x / tile.width),
-      y: Math.floor(mousePosition.y / tile.height),
-    };
-
-    if (mouseSelection.x > 0 && mouseSelection.y > 0) {
-      // Draw selection on canvas
-      console.log(mouseSelection);
-    }
   }
 
   /**
@@ -79,6 +57,25 @@ class Map {
 
     // Do not smooth any pixels painted on
     this.context.imageSmoothingEnabled = false;
+  }
+
+  drawMouseSelection(type = 0, x, y) {
+    // moveTo - Open selection to move to
+    // blockedTo - Cannot move to that tile
+    // attack - Can attack monster
+    // useDo - Do certain action on object/item
+    const typeIt = ['moveTo', 'blocked', 'attack', 'useDo'];
+
+    const currMouse = new Image();
+    currMouse.src = `../../src/assets/graphics/ui/mouse/${typeIt[type]}.png`;
+
+    console.log(x, y);
+
+    const c = document.querySelector('canvas#game-map');
+    const ctx = c.getContext('2d');
+
+    this.paintMap();
+    ctx.drawImage(currMouse, (x * 32), (y * 32), 32, 32);
   }
 
   /**

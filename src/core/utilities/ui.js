@@ -1,6 +1,6 @@
 class UI {
-  static getMousePos(canvas, event) {
-    const rect = canvas.getBoundingClientRect();
+  static getMousePos(event) {
+    const rect = event.currentTarget.getBoundingClientRect();
 
     return {
       x: event.clientX - rect.left,
