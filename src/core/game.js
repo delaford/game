@@ -5,6 +5,12 @@ import Player from './player';
 class Game {
   constructor(assets) {
     this.assets = assets.reverse();
+
+    /**
+     * Should contain:
+     * 1. Player
+     * 2. Board
+     */
   }
 
   async start() {
