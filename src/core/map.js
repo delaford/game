@@ -8,6 +8,11 @@ class Map {
 
     // Image and data
     this.images = { player, tileset };
+    /**
+     * TODO:
+     * This.data contains {Map, Player}
+     * Make it so it only refactors to Player
+     */
     this.data = data;
 
     // Canvas
@@ -59,7 +64,7 @@ class Map {
     this.context.imageSmoothingEnabled = false;
   }
 
-  drawMouseSelection(type = 0, x, y) {
+  static drawMouseSelection(type = 0, x, y) {
     // moveTo - Open selection to move to
     // blockedTo - Cannot move to that tile
     // attack - Can attack monster
@@ -68,8 +73,6 @@ class Map {
 
     const currMouse = new Image();
     currMouse.src = `../../src/assets/graphics/ui/mouse/${typeIt[type]}.png`;
-
-    console.log(x, y);
 
     const c = document.querySelector('canvas#game-map');
     const ctx = c.getContext('2d');

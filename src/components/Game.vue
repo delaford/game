@@ -36,6 +36,7 @@ export default {
   },
   async mounted() {
     // Start game
+    // Make so game has instance for everything
     this.game = new Game(this.config.assets);
     this.game.start();
 
@@ -51,10 +52,10 @@ export default {
         y: Math.floor(mousePosition.y / tile.height),
       };
 
-      console.log(JSON.stringify(hoveredSquare));
+      console.log(hoveredSquare.x, hoveredSquare.y);
 
       if (hoveredSquare.x > 0 && hoveredSquare.y > 0) {
-        // Map.drawMouseSelection(0, hoveredSquare.x, hoveredSquare.y);
+        Map.drawMouseSelection(0, hoveredSquare.x, hoveredSquare.y);
       }
     },
     movePlayer(event) {
