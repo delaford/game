@@ -7,7 +7,7 @@ class Game {
     this.assets = assets.reverse();
 
     /**
-     * Should contain:
+     * Abstract to contain two instances:
      * 1. Player
      * 2. Board
      */
