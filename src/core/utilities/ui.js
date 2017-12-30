@@ -28,6 +28,16 @@ class UI {
   static getTileOverMouse(board, playerX, playerY, mouseX, mouseY) {
     return board[(((mouseY + (playerY - 5)) * map.size.x) + mouseX) + (playerX - 7)] - 1;
   }
+
+  /**
+   * Checks to see if the tile can be walked through or not
+   *
+   * @param {integer} tile The ID of the tile
+   * @returns {boolean}
+   */
+  static tileWalkable(tile) {
+    return map.tileset.blocked.indexOf(tile) === -1;
+  }
 }
 
 export default UI;
