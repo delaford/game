@@ -8,7 +8,7 @@ class Player {
 
     this.server = 'us-1';
 
-    console.log(`[${this.server}] Spawned at ${this.x}, ${this.y}`);
+    console.log(`[${this.server}] Player spawned at ${this.x}, ${this.y}`);
   }
 
   move(direction, map) {
@@ -43,6 +43,7 @@ class Player {
         break;
 
     }
+    console.log('Moving to...', this.x, this.y);
     map.drawMap(this.x, this.y);
     map.drawPlayer();
   }
