@@ -2,24 +2,19 @@ import config from './config';
 import UI from './utilities/ui';
 
 class Map {
-  constructor(level, [player, tileset], data) {
+  constructor(level, [playerImage, tilesetImage], player) {
     // Getters & Setters
     this.config = config;
     this.level = level;
 
     // Image and data
-    this.images = { player, tileset };
-    /**
-     * TODO:
-     * This.data contains {Map, Player}
-     * Make it so it only refactors to Player
-     */
-    this.data = data;
+    this.images = { playerImage, tilesetImage };
+    this.board = null;
+    this.player = player;
 
     // Canvas
     this.canvas = document.querySelector('.main-canvas');
     this.context = this.canvas.getContext('2d');
-    this.board = null;
   }
 
   /**
@@ -57,7 +52,7 @@ class Map {
     const canvasWidth = tileset.tile.width * (1 + this.config.map.viewport.x);
     const canvasHeight = tileset.tile.height * (1 + this.config.map.viewport.y);
 
-    // Just in case we forgot
+    // Make sure canvas is set accordingly
     this.canvas.setAttribute('width', canvasWidth);
     this.canvas.setAttribute('height', canvasHeight);
 
@@ -79,8 +74,8 @@ class Map {
         current: 0,
       },
       player: {
-        x: this.data.player.x,
-        y: this.data.player.y,
+        x: this.player.x,
+        y: this.player.y,
       },
     };
 
@@ -109,7 +104,7 @@ class Map {
    */
   drawPlayer() {
     this.context.drawImage(
-      this.images.player,
+      this.images.playerImage,
       224,
       160,
       32,
@@ -120,7 +115,10 @@ class Map {
   /**
    * Paint the map based on player's position
    */
-  drawMap(x = this.data.player.x, y = this.data.player.y) {
+  drawMap() {
+    const x = this.player.x;
+    const y = this.player.y;
+
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     const { tileset, size, viewport } = this.config.map;
     const tilesetDivider = tileset.width / tileset.tile.width;
@@ -149,7 +147,7 @@ class Map {
         };
 
         this.context.drawImage(
-          this.images.tileset, // The Image() instance
+          this.images.tilesetImage, // The Image() instance
           tile.clip.x, // Coordinate to clip the X-axis
           tile.clip.y, // Coordinate to clip the Y-axis
           tile.width, // How wide, in pixels, to clip the sub-rectangle
