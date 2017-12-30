@@ -2,15 +2,17 @@ import player from '../tempdb/player';
 import Map from './map';
 import Player from './player';
 
+import bus from '../core/utilities/bus';
+
 class Game {
   constructor(assets) {
     this.assets = assets.reverse();
 
-    /**
-     * Abstract to contain two instances:
-     * 1. Player
-     * 2. Board
-     */
+    bus.$on('DRAW:MOUSE', (data) => {
+      this.map.data.player.x = this.player.x;
+      this.map.data.player.y = this.player.y;
+      this.map.drawMouseSelection(data.x, data.y);
+    });
   }
 
   async start() {

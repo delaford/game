@@ -24,8 +24,8 @@ const config = {
       y: 10,
     },
     size: { // How big will our map be?
-      x: 100,
-      y: 100,
+      x: 50,
+      y: 50,
     },
   },
   assets: [

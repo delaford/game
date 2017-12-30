@@ -23,8 +23,9 @@
  */
 import config from '../core/config';
 import Game from '../core/game';
-import Map from '../core/map';
 import UI from '../core/utilities/ui';
+
+import bus from '../core/utilities/bus';
 
 export default {
   name: 'Game',
@@ -52,10 +53,10 @@ export default {
         y: Math.floor(mousePosition.y / tile.height),
       };
 
-      console.log(hoveredSquare.x, hoveredSquare.y);
+      if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
+        const data = { x: hoveredSquare.x, y: hoveredSquare.y };
 
-      if (hoveredSquare.x > 0 && hoveredSquare.y > 0) {
-        Map.drawMouseSelection(0, hoveredSquare.x, hoveredSquare.y);
+        bus.$emit('DRAW:MOUSE', data);
       }
     },
     movePlayer(event) {
