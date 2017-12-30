@@ -1,3 +1,5 @@
+import { map } from '../config';
+
 class UI {
   /**
    * Calculates the current mouse position in pixels from the canvas
@@ -24,7 +26,7 @@ class UI {
    * @param {integer} mouseY The current y-axis of the mouse on the viewport
    */
   static getTileOverMouse(board, playerX, playerY, mouseX, mouseY) {
-    return board[(((mouseY + (playerY - 5)) * 50) + mouseX) + (playerX - 7)] - 1;
+    return board[(((mouseY + (playerY - 5)) * map.size.x) + mouseX) + (playerX - 7)] - 1;
   }
 }
 

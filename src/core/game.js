@@ -8,24 +8,20 @@ class Game {
   constructor(assets) {
     this.assets = assets.reverse();
 
-    bus.$on('DRAW:MOUSE', (data) => {
-      this.map.data.player.x = this.player.x;
-      this.map.data.player.y = this.player.y;
-      this.map.drawMouseSelection(data.x, data.y);
-    });
+    bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.drawMouseSelection(x, y));
   }
 
   async start() {
     // Load images and data
     const { images, data } = await this.init();
 
-    // Load map data
-    this.map = new Map('surface', images, data);
-    this.board = await this.map.load();
-    this.map.build(this.board);
-
     // Create player
     this.player = new Player(data.player);
+
+    // Load map data
+    this.map = new Map('surface', images, this.player);
+    this.board = await this.map.load();
+    this.map.build(this.board);
   }
 
   /**

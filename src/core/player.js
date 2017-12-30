@@ -41,10 +41,9 @@ class Player {
         }
 
         break;
-
     }
-    console.log('Moving to...', this.x, this.y);
-    map.drawMap(this.x, this.y);
+
+    map.drawMap();
     map.drawPlayer();
   }
 
