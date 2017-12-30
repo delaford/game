@@ -9,6 +9,7 @@ class Game {
     this.assets = assets.reverse();
 
     bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.drawMouseSelection(x, y));
+    bus.$on('MOVE:PLAYER', ({ x, y }) => this.map.findPath(x, y));
   }
 
   async start() {

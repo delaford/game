@@ -6,6 +6,7 @@
       height="352"
       width="512"
       @mousemove="mouseSelection"
+      @click="mouseClick"
       @keyup="movePlayer">
     </canvas>
   </div>
@@ -37,20 +38,28 @@ export default {
   },
   async mounted() {
     // Start game
-    // Make so game has instance for everything
     this.game = new Game(this.config.assets);
     this.game.start();
 
     document.querySelector('canvas#game-map').focus();
   },
   methods: {
+    mouseClick(event) {
+      const { tile } = this.config.map.tileset;
+
+      const clickedSquare = {
+        x: Math.floor(UI.getMousePos(event).x / tile.width),
+        y: Math.floor(UI.getMousePos(event).y / tile.height),
+      };
+
+      bus.$emit('MOVE:PLAYER', clickedSquare);
+    },
     mouseSelection(event) {
       const { tile } = this.config.map.tileset;
 
-      const mousePosition = UI.getMousePos(event);
       const hoveredSquare = {
-        x: Math.floor(mousePosition.x / tile.width),
-        y: Math.floor(mousePosition.y / tile.height),
+        x: Math.floor(UI.getMousePos(event).x / tile.width),
+        y: Math.floor(UI.getMousePos(event).y / tile.height),
       };
 
       if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
