@@ -47,12 +47,13 @@ export default {
     mouseClick(event) {
       const { tile } = this.config.map.tileset;
 
+      // Clicked on square (4, 9)
       const clickedSquare = {
         x: Math.floor(UI.getMousePos(event).x / tile.width),
         y: Math.floor(UI.getMousePos(event).y / tile.height),
       };
 
-      bus.$emit('MOVE:PLAYER', clickedSquare);
+      bus.$emit('PLAYER:MOVE', clickedSquare);
     },
     mouseSelection(event) {
       const { tile } = this.config.map.tileset;

@@ -1,6 +1,8 @@
 import PF from 'pathfinding';
 import config from './config';
 import UI from './utilities/ui';
+import bus from '../core/utilities/bus';
+
 
 class Map {
   constructor(level, [playerImage, tilesetImage], player) {
@@ -17,16 +19,37 @@ class Map {
       grid: null,
       finder: new PF.DijkstraFinder(),
       current: {
-        length: -1,
+        length: 0,
         path: [],
-        step: -1,
+        walking: [],
+        step: 0,
         walkable: false,
+        interrupted: false,
       },
     };
 
     // Canvas
     this.canvas = document.querySelector('.main-canvas');
     this.context = this.canvas.getContext('2d');
+
+    // Listeners
+    bus.$on('PLAYER:STOP_MOVEMENT', () => this.resetPath());
+    bus.$on('MAP:SET_PATH', data => this.setPath(data));
+
+    // Stuff to delete
+    this.nameTag = ['RED', 'BLUE', 'GREEN', 'WHITE', 'ORANGE'];
+  }
+
+  resetPath() {
+    console.log('Reseting path');
+    this.path.current = {
+      length: 0,
+      path: [],
+      walking: [],
+      step: 0,
+      walkable: false,
+      interrupted: false,
+    };
   }
 
   /**
@@ -57,6 +80,12 @@ class Map {
   }
 
   findPath(x, y) {
+    if (this.player.moving) {
+      this.path.current.interrupted = true;
+    }
+
+    // The player's x-y on map (always 7,5)
+    // to where they clicked on the map
     const path = this.path.finder.findPath(
       7,
       5,
@@ -65,12 +94,17 @@ class Map {
       this.path.grid,
     );
 
+    // If the last tile can be walked on, continue
     if (this.path.current.walkable) {
       this.path.current.path = path;
       this.path.current.length = path.length;
       this.path.current.step = 0;
 
-      this.player.walkPath(this.path.current, this);
+      // We start moving the player along their path
+      const name = `${this.nameTag[0]} [PATH] - `;
+      this.player.walkPath(this.path.current, this, name);
+      debugger;
+      this.nameTag.shift();
     }
   }
 
@@ -129,6 +163,10 @@ class Map {
     currMouse.src = `../../src/assets/graphics/ui/mouse/${data.mouse.type[data.mouse.current]}.png`;
 
     this.context.drawImage(currMouse, (x * 32), (y * 32), 32, 32);
+  }
+
+  setPath(path) {
+    this.path.current.walking = path.path;
   }
 
   /**
