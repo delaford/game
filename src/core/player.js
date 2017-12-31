@@ -1,4 +1,5 @@
 import config from './config';
+import UI from './utilities/ui';
 
 class Player {
   constructor(data) {
@@ -45,6 +46,31 @@ class Player {
 
     map.drawMap();
     map.drawPlayer();
+  }
+
+  walkPath(path, map) {
+    setTimeout(() => {
+      const activePath = path;
+
+      const steps = {
+        current: {
+          x: activePath.path[activePath.step][0],
+          y: activePath.path[activePath.step][1],
+        },
+        next: {
+          x: activePath.path[(activePath.step + 1)][0],
+          y: activePath.path[(activePath.step + 1)][1],
+        },
+      };
+
+      activePath.step += 1;
+
+      this.move(UI.getMovementDirection(steps), map);
+
+      if ((activePath.step + 1) < activePath.length) {
+        this.walkPath(activePath, map);
+      }
+    }, 125);
   }
 
   /**

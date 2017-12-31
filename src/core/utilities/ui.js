@@ -38,6 +38,27 @@ class UI {
   static tileWalkable(tile) {
     return map.tileset.blocked.indexOf(tile) === -1;
   }
+
+  /**
+   * Find which way for the player to move next for pathfinding
+   *
+   * @param {object} steps The steps of the current and next in the iteration
+   * @returns {boolean}
+   */
+  static getMovementDirection(steps) {
+    const currentX = steps.current.x;
+    const currentY = steps.current.y;
+    const nextX = steps.next.x;
+    const nextY = steps.next.y;
+    let direction = null;
+
+    if (nextX === currentX && nextY < currentY) direction = 'up';
+    if (nextX === currentX && nextY > currentY) direction = 'down';
+    if (nextX > currentX && nextY === currentY) direction = 'right';
+    if (nextX < currentX && nextY === currentY) direction = 'left';
+
+    return direction;
+  }
 }
 
 export default UI;

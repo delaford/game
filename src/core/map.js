@@ -11,10 +11,18 @@ class Map {
     // Image and data
     this.images = { playerImage, tilesetImage };
     this.board = null;
-    this.grid = null;
     this.player = player;
 
-    this.finder = new PF.DijkstraFinder();
+    this.path = {
+      grid: null,
+      finder: new PF.DijkstraFinder(),
+      current: {
+        length: -1,
+        path: [],
+        step: -1,
+        walkable: false,
+      },
+    };
 
     // Canvas
     this.canvas = document.querySelector('.main-canvas');
@@ -49,15 +57,21 @@ class Map {
   }
 
   findPath(x, y) {
-    const path = this.finder.findPath(
+    const path = this.path.finder.findPath(
       7,
       5,
       x,
       y,
-      this.grid,
+      this.path.grid,
     );
 
-    console.log(path);
+    if (this.path.current.walkable) {
+      this.path.current.path = path;
+      this.path.current.length = path.length;
+      this.path.current.step = 0;
+
+      this.player.walkPath(this.path.current, this);
+    }
   }
 
   /**
@@ -104,6 +118,8 @@ class Map {
       x,
       y,
     );
+
+    this.path.current.walkable = UI.tileWalkable(tileSearch);
 
     if (!UI.tileWalkable(tileSearch)) {
       data.mouse.current = 1;
@@ -152,6 +168,7 @@ class Map {
       for (let row = 0; row <= viewport.x; row += 1) {
         const tileSearch = this.board[(((column + tileCrop.y) * size.x) + row) + tileCrop.x] - 1;
         grid.push(UI.tileWalkable(tileSearch) ? 0 : 1);
+
         const tile = {
           clip: {
             x: Math.floor(tileSearch % tilesetDivider) * tileset.tile.width,
@@ -180,7 +197,7 @@ class Map {
       matrix.push(grid);
     }
 
-    this.grid = new PF.Grid(matrix);
+    this.path.grid = new PF.Grid(matrix);
   }
 
   async load() {
