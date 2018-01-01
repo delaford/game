@@ -16,15 +16,17 @@ class Map {
     this.player = player;
 
     this.path = {
-      grid: null,
+      grid: null, // a 0/1 grid of blocked tiles
       finder: new PF.DijkstraFinder(),
       current: {
-        length: 0,
-        path: [],
-        step: 0,
-        walkable: false,
-        walking: [],
-        interrupted: false,
+        length: 0, // Number of steps in current path
+        path: {
+          walking: [], // Current path walking
+          set: [], // Current path from last walk-loop
+        },
+        step: 0, // Steps player has taken to walk
+        walkable: false, // Did we click on a blocked tile?
+        interrupted: false, // Did we click-to-walk elsewhere while walking current loop?
       },
     };
 
@@ -37,6 +39,9 @@ class Map {
     bus.$on('MAP:SET_PATH', data => this.setPath(data));
   }
 
+  /**
+   * When player is doing walking
+   */
   resetPath() {
     console.log('Resetting path');
     this.path = {
@@ -44,10 +49,12 @@ class Map {
       finder: new PF.DijkstraFinder(),
       current: {
         length: 0,
-        path: [],
+        path: {
+          walking: [],
+          set: [],
+        },
         step: 0,
         walkable: false,
-        walking: [],
         interrupted: false,
       },
     };
@@ -80,12 +87,24 @@ class Map {
     this.drawPlayer();
   }
 
+  /**
+   * Resolve a promise to find the path
+   *
+   * @param {integer} x The x-axis coord on where user clicked on game-gap
+   * @param {integer} y The y-axis coord on where user clicked on game-gap
+   */
   findQuickestPath(x, y) {
     return new Promise((resolve) => {
       resolve(this.path.finder.findPath(7, 5, x, y, this.path.grid));
     });
   }
 
+  /**
+   * Find a path and set that path in motion
+   *
+   * @param {integer} x The x-axis coord on where user clicked on game-gap
+   * @param {integer} y The y-axis coord on where user clicked on game-gap
+   */
   async findPath(x, y) {
     if (this.player.moving) {
       this.path.current.interrupted = true;
@@ -95,9 +114,10 @@ class Map {
     // to where they clicked on the map
     const path = await this.findQuickestPath(x, y);
 
-    // If the last tile can be walked on, continue
+    // If the tile we clicked on
+    // can be walked on, continue ->
     if (this.path.current.walkable) {
-      this.path.current.path = path;
+      this.path.current.path.set = path;
       this.path.current.length = path.length;
       this.path.current.step = 0;
 
@@ -163,8 +183,13 @@ class Map {
     this.context.drawImage(currMouse, (x * 32), (y * 32), 32, 32);
   }
 
+  /**
+   * Set player's current path on first step
+   *
+   * @param {object} path The path from the first step in the walk-loop
+   */
   setPath(path) {
-    this.path.current.walking = path.path;
+    this.path.current.path.walking = path.path.set;
   }
 
   /**
@@ -205,6 +230,7 @@ class Map {
         const tileSearch = this.board[(((column + tileCrop.y) * size.x) + row) + tileCrop.x] - 1;
         grid.push(UI.tileWalkable(tileSearch) ? 0 : 1);
 
+        // Get the correct tile to draw
         const tile = {
           clip: {
             x: Math.floor(tileSearch % tilesetDivider) * tileset.tile.width,
@@ -230,12 +256,17 @@ class Map {
           tile.height, // The height, in pixels, to draw the image
         );
       }
+
+      // Push blocked/non-blocked array for pathfinding
       matrix.push(grid);
     }
 
     this.path.grid = new PF.Grid(matrix);
   }
 
+  /**
+   * Load map tile data
+   */
   async load() {
     const data = new Promise((resolve) => {
       let tile = [];
@@ -244,6 +275,7 @@ class Map {
         case 'surface-compressed':
           // Compressed using Gzip
           // and encoded in Base-64
+          // (currently not being used)
           // eslint-disable-next-line
           tile = "H4sIAAAAAAAAA+3WQWrCQBQG4JmcoqDepocQPJ+L0iO48DBCd23Vhe5KJzrBaDUFUSaEb\/HBm2Tz3vw8khhCiAAAAAAAAAAAAAAAAAAAAAAAAHeYx79K9zR0i3juJZxM0vkte5fH02xaqg7yeJzX6rp1ODfqUHqGIanv\/isVP9l3PD5r9qLJo7qRRdWDGYbksAupmIWjz4s8tsF+9C2Pmv0om8f2Io+u\/Vj1YI6hqO9+l4qPbN\/Ko63r\/0oej83jmuZ98z2fpsMym2Z1DosojxJW\/yjdH8At41i+BwAAAAAAAAAAAAAAAAAAALjHL0vBAD9AnAAA";
           break;

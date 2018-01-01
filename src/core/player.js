@@ -7,13 +7,17 @@ class Player {
     this.x = data.x;
     this.y = data.y;
     this.moving = false;
-    this.surface_level = 1;
 
-    this.server = 'us-1';
-
-    console.log(`[${this.server}] Player spawned at ${this.x}, ${this.y}`);
+    console.log(`Player spawned at ${this.x}, ${this.y}`);
   }
 
+  /**
+   * Move the player in a direction per a tile
+   *
+   * @param {string} direction The direction which the player is moving
+   * @param {object} map The map method associated with player
+   * @param {boolean} pathfind Whether pathfinding is being used to move player
+   */
   move(direction, map, pathfind = false) {
     if (pathfind) {
       this.moving = true;
@@ -54,57 +58,73 @@ class Player {
     map.drawPlayer();
   }
 
+  /**
+   * Walk the player after a path is found
+   *
+   * @param {object} path The information to be used of the pathfind
+   * @param {object} map The map object associated with player
+   */
   walkPath(path, map) {
-    const speed = 150;
+    const speed = 150; // Delay to next step during walk
 
-    // From the last loop of last coordinates to step on
-    // and currently the last coordinates to step on
+    // The X,Y coords of the last step we clicked on to walk
+    // The X,Y coords of the last step during the walk-loop
+    // (this lets us now if our route changed based on x,y coords)
     const onStep = {
-      last: path.path[path.path.length - 1],
-      loop: map.path.current.walking[map.path.current.walking.length - 1],
+      last: path.path.set[path.path.set.length - 1],
+      loop: map.path.current.path.walking[map.path.current.path.walking.length - 1],
     };
 
     // Immediately-invoked function expression (IIFE) for the setTimeout
-    // so that the setTimeouts do not queue up and do not intertwine with each other
+    // so that the setTimeouts queue up and do not mix with each other
     (() => {
       setTimeout(() => {
-        if (!onStep.loop || JSON.stringify(onStep.last) === JSON.stringify(onStep.loop)) {
+        if (!onStep.loop || onStep.last === onStep.loop) {
           // If equal, it means our last step is the same as from
           // when our pathfinding first started, so we keep going.
 
           const activePath = path;
-          if (JSON.stringify(activePath.path) !== JSON.stringify(map.path.current.walking)) {
+          // eslint-disable-next-line
+          if (JSON.stringify(activePath.path.set) !== JSON.stringify(map.path.current.path.walking)) {
             bus.$emit('MAP:SET_PATH', activePath);
           }
 
           const steps = {
             current: {
-              x: activePath.path[0][0],
-              y: activePath.path[0][1],
+              x: activePath.path.walking[0][0],
+              y: activePath.path.walking[0][1],
             },
             next: {
-              x: activePath.path[1][0],
-              y: activePath.path[1][1],
+              x: activePath.path.walking[1][0],
+              y: activePath.path.walking[1][1],
             },
           };
 
+
+          // Move the player whichever direction
+          this.move(UI.getMovementDirection(steps), map, true);
           activePath.step += 1;
 
-          this.move(UI.getMovementDirection(steps), map, true);
-
+          // If our next step is less than the length
+          // then let us continue walking obviously...
           if ((activePath.step + 1) < activePath.length) {
             this.walkPath(activePath, map, name);
-            activePath.path.shift();
+            activePath.path.walking.shift();
           } else {
+            // We are done walking
+            // so let's reset path
             this.stopMovement();
           }
         } else {
-          debugger;
+          console.log('We have detected you changing routes while walking!');
         }
       }, speed);
     })(window);
   }
 
+  /**
+   * When player stops moving during pathfinding walking
+   */
   stopMovement() {
     this.moving = false;
     bus.$emit('PLAYER:STOP_MOVEMENT');

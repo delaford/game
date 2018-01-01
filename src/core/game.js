@@ -12,6 +12,11 @@ class Game {
     bus.$on('PLAYER:MOVE', ({ x, y }) => this.map.findPath(x, y));
   }
 
+  /**
+   * The main entry point.
+   *
+   * Start the game.
+   */
   async start() {
     // Load images and data
     const { images, data } = await this.init();
@@ -90,6 +95,11 @@ class Game {
     return asset;
   }
 
+  /**
+   * Move the player one tile
+   *
+   * @param {string} direction The direction the player moved
+   */
   move(direction) {
     this.player.move(direction, this.map);
   }
