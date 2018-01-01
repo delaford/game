@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <section class="logo">
-      Navarra
-    </section>
+    <img class="logo" src="src/assets/logo.png" alt="Logo">
     <Game/>
   </div>
 </template>
@@ -32,9 +30,8 @@ export default {
   height: 100%;
   flex-direction: column;
 
-  section.logo {
-    display: none;
-    font-size: 3em;
+  img.logo {
+    margin-bottom: 1em;
   }
 }
 
