@@ -19,6 +19,7 @@ class Map {
       grid: null, // a 0/1 grid of blocked tiles
       finder: new PF.DijkstraFinder(),
       current: {
+        name: '',
         length: 0, // Number of steps in current path
         path: {
           walking: [], // Current path walking
@@ -47,6 +48,7 @@ class Map {
       grid: null,
       finder: new PF.DijkstraFinder(),
       current: {
+        name: '',
         length: 0,
         path: {
           walking: [],
@@ -119,6 +121,7 @@ class Map {
       this.path.current.path.set = path;
       this.path.current.length = path.length;
       this.path.current.step = 0;
+      this.path.current.name = window.btoa(Math.random()).slice(-4);
 
       // We start moving the player along their path
       this.player.walkPath(this.path.current, this);
