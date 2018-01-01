@@ -1,8 +1,8 @@
 # Navarra
 
-Welcome to Navarra. A 2D top-down medieval game using Vue.js, the latest JavaScript and more.
+Welcome to Navarra. A 2D top-down medieval fantasy game using Vue.js, the latest JavaScript and more.
 
-![Game](https://github.com/Navarra/game/raw/master/src/assets/bg-screen.png "Tilemap")
+![Game](https://github.com/Navarra/game/raw/master/src/assets/navarra_readme_hero.png "Tilemap")
 
 ## Getting Started
 
