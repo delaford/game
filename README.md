@@ -1,25 +1,31 @@
-# navarra
+# Navarra
 
-> Top-down 2D Medieval RPG
+Welcome to Navarra. A 2D top-down medieval game using Vue.js, the latest JavaScript and more.
 
-## Build Setup
+![Game](https://github.com/Navarra/game/raw/master/src/assets/bg-screen.png "Tilemap")
 
-```bash
-# install dependencies
-npm install
+## Getting Started
 
-# serve with hot reload at localhost:8080
-npm run dev
+      $ git clone https://github.com/Navarra/game
+      $ cd game
+      $ npm install / yarn
+      $ npm run dev
 
-# build for production with minification
-npm run build
+Visit http://localhost:8080, or whichever it tells unless you are using port 8080 for something else.
 
-# build for production and view the bundle analyzer report
-npm run build --report
+## Systems and Engines
 
-# run unit tests
-npm run unit
+Here are the types of things I will be adding. Not too over the top but enough to cover the basics until more is added.
 
-# run all tests
-npm test
-```
+- Player
+  - Walking / pathfinding
+  - Statistics (D3 / data-viz)
+  - Inventory
+  - Character wear
+- NPC
+  - Trading
+  - Interaction
+- Monsters
+  - Battling
+  - Pickups / Loot
+  - Spawning

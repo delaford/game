@@ -43,7 +43,6 @@ class Map {
    * When player is doing walking
    */
   resetPath() {
-    console.log('Resetting path');
     this.path = {
       grid: null,
       finder: new PF.DijkstraFinder(),
