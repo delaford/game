@@ -41,9 +41,15 @@ export default {
     this.game = new Game(this.config.assets);
     this.game.start();
 
+    // Focus on the game-map
     document.querySelector('canvas#game-map').focus();
   },
   methods: {
+    /**
+     * Player clicks on game-map
+     *
+     * @param {event} event
+     */
     mouseClick(event) {
       const { tile } = this.config.map.tileset;
 
@@ -53,8 +59,15 @@ export default {
         y: Math.floor(UI.getMousePos(event).y / tile.height),
       };
 
+      // Send to game engine that
+      // the player clicked to move
       bus.$emit('PLAYER:MOVE', clickedSquare);
     },
+    /**
+     * Player hovering over game-map
+     *
+     * @param {event} event
+     */
     mouseSelection(event) {
       const { tile } = this.config.map.tileset;
 
@@ -65,10 +78,16 @@ export default {
 
       if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
         const data = { x: hoveredSquare.x, y: hoveredSquare.y };
-
-        bus.$emit('DRAW:MOUSE', data);
+        if (this.game.map && typeof this.game.map.drawMouseSelection === 'function') {
+          bus.$emit('DRAW:MOUSE', data);
+        }
       }
     },
+    /**
+     * Player uses keyboard to move
+     *
+     * @param {event} event
+     */
     movePlayer(event) {
       const key = event.key;
 
