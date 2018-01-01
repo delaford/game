@@ -50,7 +50,6 @@ class Player {
         if (!this.checkCollision(map, direction)) {
           this.y += 1;
         }
-
         break;
     }
 
@@ -79,6 +78,7 @@ class Player {
     // so that the setTimeouts queue up and do not mix with each other
     (() => {
       setTimeout(() => {
+        console.log('Timestamp:', path.name, '- Step', (path.step + 1), '/', (path.length - 1));
         if (!onStep.loop || onStep.last === onStep.loop) {
           // If equal, it means our last step is the same as from
           // when our pathfinding first started, so we keep going.
