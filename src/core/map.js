@@ -21,9 +21,9 @@ class Map {
       current: {
         length: 0,
         path: [],
-        walking: [],
         step: 0,
         walkable: false,
+        walking: [],
         interrupted: false,
       },
     };
@@ -35,20 +35,21 @@ class Map {
     // Listeners
     bus.$on('PLAYER:STOP_MOVEMENT', () => this.resetPath());
     bus.$on('MAP:SET_PATH', data => this.setPath(data));
-
-    // Stuff to delete
-    this.nameTag = ['RED', 'BLUE', 'GREEN', 'WHITE', 'ORANGE'];
   }
 
   resetPath() {
-    console.log('Reseting path');
-    this.path.current = {
-      length: 0,
-      path: [],
-      walking: [],
-      step: 0,
-      walkable: false,
-      interrupted: false,
+    console.log('Resetting path');
+    this.path = {
+      grid: null,
+      finder: new PF.DijkstraFinder(),
+      current: {
+        length: 0,
+        path: [],
+        step: 0,
+        walkable: false,
+        walking: [],
+        interrupted: false,
+      },
     };
   }
 
@@ -79,20 +80,20 @@ class Map {
     this.drawPlayer();
   }
 
-  findPath(x, y) {
+  findQuickestPath(x, y) {
+    return new Promise((resolve) => {
+      resolve(this.path.finder.findPath(7, 5, x, y, this.path.grid));
+    });
+  }
+
+  async findPath(x, y) {
     if (this.player.moving) {
       this.path.current.interrupted = true;
     }
 
     // The player's x-y on map (always 7,5)
     // to where they clicked on the map
-    const path = this.path.finder.findPath(
-      7,
-      5,
-      x,
-      y,
-      this.path.grid,
-    );
+    const path = await this.findQuickestPath(x, y);
 
     // If the last tile can be walked on, continue
     if (this.path.current.walkable) {
@@ -101,10 +102,7 @@ class Map {
       this.path.current.step = 0;
 
       // We start moving the player along their path
-      const name = `${this.nameTag[0]} [PATH] - `;
-      this.player.walkPath(this.path.current, this, name);
-      debugger;
-      this.nameTag.shift();
+      this.player.walkPath(this.path.current, this);
     }
   }
 

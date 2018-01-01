@@ -54,14 +54,18 @@ class Player {
     map.drawPlayer();
   }
 
-  walkPath(path, map, name) {
-    const speed = 250;
+  walkPath(path, map) {
+    const speed = 150;
 
+    // From the last loop of last coordinates to step on
+    // and currently the last coordinates to step on
     const onStep = {
       last: path.path[path.path.length - 1],
       loop: map.path.current.walking[map.path.current.walking.length - 1],
     };
 
+    // Immediately-invoked function expression (IIFE) for the setTimeout
+    // so that the setTimeouts do not queue up and do not intertwine with each other
     (() => {
       setTimeout(() => {
         if (!onStep.loop || JSON.stringify(onStep.last) === JSON.stringify(onStep.loop)) {
@@ -85,8 +89,6 @@ class Player {
           };
 
           activePath.step += 1;
-
-          console.log(name, activePath.step);
 
           this.move(UI.getMovementDirection(steps), map, true);
 
