@@ -32,8 +32,8 @@ Here are the types of things I will be adding. Not too over the top but enough t
   - [ ] Overall look &amp; feel
   - [ ] Basic view of main player stats
 - [NPC](https://github.com/Navarra/game/projects/3)
-  - Trading
-  - Interaction
+  - [ ] Trading
+  - [ ] Interaction (Talk, Examine, etc.)
 - [Monsters](https://github.com/Navarra/game/projects/3)
   - [ ] Battling
   - [ ] Pickups / Loot
