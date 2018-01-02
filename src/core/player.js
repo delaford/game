@@ -58,26 +58,26 @@ class Player {
   }
 
   /**
-   * Initiates the walking of the path for the player
+   * Walk the player after a path is found
    *
    * @param {object} path The information to be used of the pathfind
    * @param {object} map The map object associated with player
-   * @returns {function} An IIFE to start the walk
    */
   walkPath(path, map) {
-    return ((stepsToTake) => {
-      // Immediately-invoked function expression (IIFE) for the setTimeout
-      // so that the setTimeouts queue up and do not mix with each other
-      setTimeout(() => {
-        // The X,Y coords of the last step we clicked on to walk
-        // The X,Y coords of the last step during the walk-loop
-        // (this lets us now if our route changed based on x,y coords)
-        const onStep = {
-          last: path.path.set[path.path.set.length - 1],
-          loop: map.path.current.path.walking[map.path.current.path.walking.length - 1],
-        };
+    const speed = 150; // Delay to next step during walk
 
-        console.log('Path UID:', path.name, '- Step', (path.step + 1), '/', (path.length - 1));
+    // The X,Y coords of the last step we clicked on to walk
+    // The X,Y coords of the last step during the walk-loop
+    // (this lets us now if our route changed based on x,y coords)
+    const onStep = {
+      last: path.path.set[path.path.set.length - 1],
+      loop: map.path.current.path.walking[map.path.current.path.walking.length - 1],
+    };
+
+    // Immediately-invoked function expression (IIFE) for the setTimeout
+    // so that the setTimeouts queue up and do not mix with each other
+    ((stepsToTake) => {
+      setTimeout(() => {
         if (!onStep.loop || onStep.last === onStep.loop) {
           // If equal, it means our last step is the same as from
           // when our pathfinding first started, so we keep going.
@@ -94,21 +94,20 @@ class Player {
               y: activePath.path.walking[0][1],
             },
             next: {
-              x: activePath.path.walking[1] ? activePath.path.walking[1][0] : null,
-              y: activePath.path.walking[1] ? activePath.path.walking[1][1] : null,
+              x: activePath.path.walking[1][0],
+              y: activePath.path.walking[1][1],
             },
           };
 
-          if (steps.next.x !== null) {
-            // Move the player whichever direction
-            this.move(UI.getMovementDirection(steps), map, true);
-            activePath.step += 1;
-          }
+          // Move the player whichever direction
+          this.move(UI.getMovementDirection(steps), map, true);
+          activePath.step += 1;
+          const newStepsToTake = stepsToTake - 1;
 
-          // If we have steps left to take...
-          // eslint-disable-next-line
-          if (--stepsToTake) {
-            this.walkPath(activePath, map, name);
+          // If our next step is less than the length
+          // then let us continue walking obviously...
+          if ((activePath.step + 1) < activePath.length) {
+            this.walkPath(activePath, map, newStepsToTake);
             activePath.path.walking.shift();
           } else {
             // We are done walking
@@ -116,11 +115,10 @@ class Player {
             this.stopMovement();
           }
         } else {
-          this.stopMovement();
           console.log('We have detected you changing routes while walking!');
         }
-      }, 150);
-    })((map.path.current.path.set.length - 1));
+      }, speed);
+    })();
   }
 
   /**
