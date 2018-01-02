@@ -22,27 +22,26 @@ Please check out our [CONTRIBUTING.md](https://github.com/Navarra/game/blob/mast
 Here are the types of things I will be adding. Not too over the top but enough to cover the basics until more is added. Each section links to a project which will contain its sub-tasks within.
 
 - [Player](https://github.com/Navarra/game/projects/1)
-  - Walking / pathfinding
-  - Statistics (D3 / data-viz)
-  - Inventory
-  - Character wear
+  - [x] Walking / pathfinding
+  - [ ] Statistics (D3 / data-viz)
+  - [ ] Inventory
+  - [ ] Character wear
 - [User Interface](https://github.com/Navarra/game/projects/2)
-  - Inventory
-  - Character wear
-  - Overall look &amp; feel
-  - Basic view of main player stats
+  - [ ] Inventory
+  - [ ] Character wear
+  - [ ] Overall look &amp; feel
+  - [ ] Basic view of main player stats
 - [NPC](https://github.com/Navarra/game/projects/3)
   - Trading
   - Interaction
 - [Monsters](https://github.com/Navarra/game/projects/3)
-  - Battling
-  - Pickups / Loot
-  - Spawning
+  - [ ] Battling
+  - [ ] Pickups / Loot
+  - [ ] Spawning
 
 ## Notice
 
 Navarra contains work from multiple sources not organically made by contributions from Navarra directly.
 
 - [Tileset, monsters, items, players](http://pousse.rapiere.free.fr/tome/tome-tiles.htm) by David E. Gervais. &middot; [CC license](https://creativecommons.org/licenses/by/3.0/)
-
 - [Main screen music](https://opengameart.org/content/enchanted-festival) by [Matthew Pablo](http://www.matthewpablo.com). &middot; [CC license](https://creativecommons.org/licenses/by/3.0/)
