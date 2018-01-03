@@ -11,7 +11,7 @@
       @keyup="movePlayer">
     </canvas>
 
-    <context-menu v-if="loaded" :game="data"></context-menu>
+    <context-menu v-if="loaded" :game="game"></context-menu>
   </div>
 </template>
 
@@ -22,13 +22,12 @@
  * <-- View - HTML templates
  *
  * ex: (Vue) use right-clicks on map
- * (JS) Core files tells what to go in context menu
+ * (JS) Core files tells data for context menu
  * (HTML) What to and where to display
  */
 import config from '../core/config';
 import Game from '../core/game';
 import UI from '../core/utilities/ui';
-
 import bus from '../core/utilities/bus';
 
 import ContextMenu from './sub/ContextMenu';
@@ -51,7 +50,6 @@ export default {
     this.game = new Game(this.config.assets);
     await this.game.start();
     this.loaded = true;
-    this.data = this.game;
 
     // Focus on the game-map
     document.querySelector('canvas#game-map').focus();
@@ -116,26 +114,9 @@ export default {
     movePlayer(event) {
       const key = event.key;
 
-      switch (key) {
-        default:
-          console.log('Nothing happened');
-          break;
-
-        case 'ArrowRight':
-          this.game.move('right');
-          break;
-
-        case 'ArrowLeft':
-          this.game.move('left');
-          break;
-
-        case 'ArrowDown':
-          this.game.move('down');
-          break;
-
-        case 'ArrowUp':
-          this.game.move('up');
-          break;
+      if (UI.userPressToMove(key)) {
+        const direction = key.split('Arrow')[1].toLowerCase();
+        this.game.move(direction);
       }
     },
   },

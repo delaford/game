@@ -1,12 +1,12 @@
 <template>
   <div @click.right="contextClick" id="context-menu" v-bind:style="style">
       <ul
-        v-if="viewMenu"
+        v-if="view"
         ref="right"
         @blur="closeMenu"
-        id="right-click-menu"
+        id="actions"
         tabindex="-1">
-          <li v-for="(item, index) in items" :key="index" @click="selectAction($event, item)">
+          <li class="action" v-for="(item, index) in items" :key="index" @click="selectAction($event, item)">
             {{ item }}
           </li>
       </ul>
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       actions: {},
-      viewMenu: false,
+      view: false,
       tile: {
         x: null,
         y: null,
@@ -69,7 +69,7 @@ export default {
      * Closes the context-menu
      */
     closeMenu() {
-      this.viewMenu = false;
+      this.view = false;
     },
     /**
      * Generates the list of selectable items on context-menu
@@ -83,7 +83,7 @@ export default {
       this.actions = new Actions(this.game);
       this.items = await Actions.build();
 
-      this.viewMenu = true;
+      this.view = true;
 
       this.$nextTick(
         () => {
@@ -107,6 +107,7 @@ export default {
 <style lang="scss" scoped>
 $menu_bg_color: #8d8d8d;
 $menu_font_color: #fff;
+$menu_font_hover_color: #ffd829;
 
 @font-face {
   font-family: "GameFont";
@@ -114,7 +115,7 @@ $menu_font_color: #fff;
     url("../../assets/fonts/pixelmix_bold.ttf") format("truetype");
 }
 
-#right-click-menu {
+ul#actions {
   font-family: "GameFont", sans-serif;
   box-shadow: 2.5px 2.5px 0px 0px rgba(0, 0, 0, 0.75);
   outline: none;
@@ -128,17 +129,17 @@ $menu_font_color: #fff;
   font-size: 12px;
   z-index: 999999;
 
-  li {
+  li.action {
     cursor: pointer;
     color: $menu_font_color;
     text-align: left;
     padding: 2px 5px;
     text-shadow: 1px 1px 0px #000;
     margin: 0;
-  }
-}
 
-#right-click-menu li:hover {
-  color: #ffd829;
+    &:hover {
+      color: $menu_font_hover_color;
+    }
+  }
 }
 </style>
