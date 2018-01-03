@@ -1,14 +1,17 @@
 <template>
-  <div>
+  <div class="wrapper">
     <canvas tabindex="0"
       id="game-map"
       class="main-canvas"
       height="352"
       width="512"
       @mousemove="mouseSelection"
-      @click="mouseClick"
+      @click.left="leftClick"
+      @click.right="rightClick"
       @keyup="movePlayer">
     </canvas>
+
+    <context-menu v-if="loaded" :game="data"></context-menu>
   </div>
 </template>
 
@@ -28,41 +31,62 @@ import UI from '../core/utilities/ui';
 
 import bus from '../core/utilities/bus';
 
+import ContextMenu from './sub/ContextMenu';
+
 export default {
   name: 'Game',
   data() {
     return {
       config,
+      loaded: false,
       game: false,
+      data: null,
     };
+  },
+  components: {
+    ContextMenu,
   },
   async mounted() {
     // Start game
     this.game = new Game(this.config.assets);
-    this.game.start();
+    await this.game.start();
+    this.loaded = true;
+    this.data = this.game;
 
     // Focus on the game-map
     document.querySelector('canvas#game-map').focus();
   },
   methods: {
     /**
+     * Right-click brings up context-menu
+     *
+     * @param {event} event The mouse-click event
+     */
+    rightClick(event) {
+      const coordinates = UI.getViewportCoordinates(event);
+
+      const data = {
+        event,
+        coordinates,
+      };
+
+      event.preventDefault();
+      bus.$emit('PLAYER:MENU', data);
+    },
+
+    /**
      * Player clicks on game-map
      *
-     * @param {event} event
+     * @param {event} event The mouse-click event
      */
-    mouseClick(event) {
-      const { tile } = this.config.map.tileset;
-
-      // Clicked on square (4, 9)
-      const clickedSquare = {
-        x: Math.floor(UI.getMousePos(event).x / tile.width),
-        y: Math.floor(UI.getMousePos(event).y / tile.height),
-      };
+    leftClick(event) {
+      const coordinates = UI.getViewportCoordinates(event);
 
       // Send to game engine that
       // the player clicked to move
-      bus.$emit('PLAYER:MOVE', clickedSquare);
+      bus.$emit('PLAYER:MOVE', coordinates);
     },
+
     /**
      * Player hovering over game-map
      *
@@ -83,6 +107,7 @@ export default {
         }
       }
     },
+
     /**
      * Player uses keyboard to move
      *
@@ -119,8 +144,14 @@ export default {
 
 <style lang="scss" scoped>
 /** Main canvas **/
-canvas.main-canvas {
-  background: #fff;
-  outline: none;
+.wrapper {
+  canvas.main-canvas {
+    background: #fff;
+    outline: none;
+  }
+
+  #context-menu {
+    position: absolute;
+  }
 }
 </style>

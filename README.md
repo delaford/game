@@ -23,6 +23,7 @@ Here are the types of things I will be adding. Not too over the top but enough t
 
 - [Player](https://github.com/Navarra/game/projects/1)
   - [x] Walking / pathfinding
+  - [x] Context-menu / Actions
   - [ ] Statistics (D3 / data-viz)
   - [ ] Inventory
   - [ ] Character wear
@@ -36,6 +37,7 @@ Here are the types of things I will be adding. Not too over the top but enough t
   - [ ] Interaction (Talk, Examine, etc.)
 - [Monsters](https://github.com/Navarra/game/projects/3)
   - [ ] Battling
+  - [ ] Smart AI (maybe?)
   - [ ] Pickups / Loot
   - [ ] Spawning
 
@@ -45,3 +47,4 @@ Navarra contains work from multiple sources not organically made by contribution
 
 - [Tileset, monsters, items, players](http://pousse.rapiere.free.fr/tome/tome-tiles.htm) by David E. Gervais. &middot; [CC license](https://creativecommons.org/licenses/by/3.0/)
 - [Main screen music](https://opengameart.org/content/enchanted-festival) by [Matthew Pablo](http://www.matthewpablo.com). &middot; [CC license](https://creativecommons.org/licenses/by/3.0/)
+- Game font '[PixelMix](https://www.dafont.com/pixelmix.font)' by [Andrew Tyler](http://andrewtyler.net/fonts/)
