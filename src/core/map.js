@@ -117,7 +117,7 @@ class Map {
 
     // If the tile we clicked on
     // can be walked on, continue ->
-    if (this.path.current.walkable) {
+    if (this.path.current.walkable && path.length) {
       this.path.current.path.set = path;
       this.path.current.length = path.length;
       this.path.current.step = 0;

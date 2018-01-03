@@ -66,7 +66,7 @@ class UI {
    * @param {event} event The mouse-click on the game viewport
    * @returns {object}
    */
-  static getViewportCoordinaes(event) {
+  static getViewportCoordinates(event) {
     const { tile } = map.tileset;
 
     const coordinates = {

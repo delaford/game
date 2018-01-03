@@ -112,6 +112,7 @@ class Player {
           } else {
             // We are done walking
             // so let's reset path
+            debugger;
             this.stopMovement();
           }
         } else {

@@ -6,10 +6,15 @@ class Actions {
     this.player = data.player;
     this.board = data.board;
 
-    bus.$on('ITEM:DO', this.do);
+    bus.$on('ITEM:DO', Actions.do);
   }
 
-  do(data) {
+  /**
+   * Execute the certain action by checking (if allowed)
+   *
+   * @param {object} data Information of tile, Action class and items
+   */
+  static do(data) {
     const item = data.item;
     const { player, board } = data.actions;
     const clickedTile = data.tile;
@@ -23,7 +28,6 @@ class Actions {
 
         if (tileWalkable) {
           const coordinates = { x: clickedTile.x, y: clickedTile.y };
-          debugger;
           bus.$emit('PLAYER:MOVE', coordinates);
         }
         break;
@@ -33,7 +37,10 @@ class Actions {
     }
   }
 
-  build() {
+  /**
+   * Build the context-menu list items
+   */
+  static build() {
     return new Promise((resolve) => {
       let list = 0;
       const allActions = Actions.list();
@@ -41,7 +48,7 @@ class Actions {
 
       do {
         const action = allActions[list];
-        const result = this.check(action);
+        const result = Actions.check(action);
         if (result) {
           actionableItems.push(action);
         }
@@ -51,8 +58,14 @@ class Actions {
       resolve(actionableItems);
     });
   }
-  // eslint-disable-next-line
-  check(action) {
+
+  /**
+   * Check to see if the list item is needed in list
+   *
+   * @param {string} action The item being checked
+   * @returns {boolean}
+   */
+  static check(action) {
     switch (action) {
       case 'Walk here':
         // Walk here (1 of 2) actions always enabled
@@ -64,6 +77,11 @@ class Actions {
     }
   }
 
+  /**
+   * The list of actionable items
+   *
+   * @returns {array}
+   */
   static list() {
     return [
       'Walk here',

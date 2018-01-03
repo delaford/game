@@ -19,9 +19,6 @@ import Actions from '../../core/engine/actions';
 
 export default {
   props: ['game'],
-  mounted() {
-    console.log(this.game);
-  },
   created() {
     bus.$on('PLAYER:MENU', this.openMenu);
     this.$forceUpdate();
@@ -41,6 +38,12 @@ export default {
     };
   },
   methods: {
+    /**
+     * Tell the game to do the selected action
+     *
+     * @param {event} event The mouse-click event
+     * @param {string} item The menu item selected
+     */
     selectAction(event, item) {
       const data = {
         item,
@@ -52,21 +55,35 @@ export default {
 
       this.closeMenu();
     },
+
+    /**
+     * Sets the context-menu where mouse was clicked upon
+     *
+     * @param {integer} x The x-axis of where the mouse was clicked
+     * @param {integer} y The y-axis of where the mouse was clicked
+     */
     setMenu(x, y) {
       this.style.left = `${x}px`;
       this.style.top = `${y}px`;
-      this.$forceUpdate();
     },
 
+    /**
+     * Closes the context-menu
+     */
     closeMenu() {
       this.viewMenu = false;
     },
+    /**
+     * Generates the list of selectable items on context-menu
+     *
+     * @param {object} data The coordinates clicked on
+     */
     async openMenu(data) {
       this.tile.x = data.coordinates.x;
       this.tile.y = data.coordinates.y;
 
       this.actions = new Actions(this.game);
-      this.items = await this.actions.build();
+      this.items = await Actions.build();
 
       this.viewMenu = true;
 

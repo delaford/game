@@ -57,8 +57,13 @@ export default {
     document.querySelector('canvas#game-map').focus();
   },
   methods: {
+    /**
+     * Right-click brings up context-menu
+     *
+     * @param {event} event The mouse-click event
+     */
     rightClick(event) {
-      const coordinates = UI.getViewportCoordinaes(event);
+      const coordinates = UI.getViewportCoordinates(event);
 
       const data = {
         event,
@@ -68,18 +73,20 @@ export default {
       event.preventDefault();
       bus.$emit('PLAYER:MENU', data);
     },
+
     /**
      * Player clicks on game-map
      *
-     * @param {event} event
+     * @param {event} event The mouse-click event
      */
     leftClick(event) {
-      const coordinates = UI.getViewportCoordinaes(event);
+      const coordinates = UI.getViewportCoordinates(event);
 
       // Send to game engine that
       // the player clicked to move
       bus.$emit('PLAYER:MOVE', coordinates);
     },
+
     /**
      * Player hovering over game-map
      *
@@ -100,6 +107,7 @@ export default {
         }
       }
     },
+
     /**
      * Player uses keyboard to move
      *
