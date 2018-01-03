@@ -5,8 +5,6 @@ class Actions {
   constructor(data) {
     this.player = data.player;
     this.board = data.board;
-
-    bus.$on('ITEM:DO', Actions.do);
   }
 
   /**
@@ -14,9 +12,10 @@ class Actions {
    *
    * @param {object} data Information of tile, Action class and items
    */
-  static do(data) {
+  do(data) {
+    const player = this.player;
+    const board = this.board;
     const item = data.item;
-    const { player, board } = data.actions;
     const clickedTile = data.tile;
 
     switch (item) {
