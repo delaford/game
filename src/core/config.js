@@ -17,15 +17,15 @@ const config = {
         height: 32,
       },
       // eslint-disable-next-line
-      blocked: [1, 442, 424, 283, 426, 23, 343, 346, 446, 90, 493, 509, 494, 492, 502, 485, 501, 495],
+      blocked: [1, 442, 324, 289, 156, 424, 283, 426, 23, 343, 346, 446, 90, 493, 509, 494, 492, 502, 485, 501, 495],
     },
     viewport: { // How big will our view be?
       x: 15,
       y: 10,
     },
     size: { // How big will our map be?
-      x: 50,
-      y: 50,
+      x: 100,
+      y: 100,
     },
   },
   assets: [

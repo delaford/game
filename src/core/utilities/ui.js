@@ -76,6 +76,15 @@ class UI {
 
     return coordinates;
   }
+
+  /**
+   * Return whether the user pressed an arrow key (to move)
+   *
+   * @param {string} key The key code of the event of EventListner from canvas
+   */
+  static userPressToMove(key) {
+    return key.search('Arrow') > -1;
+  }
 }
 
 export default UI;
