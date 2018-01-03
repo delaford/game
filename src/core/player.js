@@ -112,6 +112,7 @@ class Player {
           } else {
             // We are done walking
             // so let's reset path
+            debugger;
             this.stopMovement();
           }
         } else {
@@ -157,6 +158,10 @@ class Player {
     const steppedOn = map.board[(((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x] - 1;
 
     return tileset.blocked.includes(steppedOn);
+  }
+
+  do(item) {
+    console.log(this.x, this.y, `Doing ${item}`);
   }
 }
 
