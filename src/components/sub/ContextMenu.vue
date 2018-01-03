@@ -21,7 +21,6 @@ export default {
   props: ['game'],
   created() {
     bus.$on('PLAYER:MENU', this.openMenu);
-    this.$forceUpdate();
   },
   data() {
     return {
@@ -48,10 +47,9 @@ export default {
       const data = {
         item,
         tile: this.tile,
-        actions: this.actions,
       };
 
-      bus.$emit('ITEM:DO', data);
+      this.actions.do(data);
 
       this.closeMenu();
     },
