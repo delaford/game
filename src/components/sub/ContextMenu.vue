@@ -1,27 +1,39 @@
 <template>
-  <div @click="contextClick" id="context-menu" v-bind:style="style">
+  <div @click.right="contextClick" id="context-menu" v-bind:style="style">
       <ul
         v-if="viewMenu"
         ref="right"
         @blur="closeMenu"
         id="right-click-menu"
         tabindex="-1">
-          <li @click="selectAction">Walk here</li>
-          <li @click="selectAction">Cancel</li>
+          <li v-for="(item, index) in items" :key="index" @click="selectAction($event, item)">
+            {{ item }}
+          </li>
       </ul>
   </div>
 </template>
 
 <script>
 import bus from '../../core/utilities/bus';
+import Actions from '../../core/engine/actions';
 
 export default {
+  props: ['game'],
+  mounted() {
+    console.log(this.game);
+  },
   created() {
-    bus.$on('menu', this.openMenu);
+    bus.$on('PLAYER:MENU', this.openMenu);
+    this.$forceUpdate();
   },
   data() {
     return {
+      actions: {},
       viewMenu: false,
+      tile: {
+        x: null,
+        y: null,
+      },
       style: {
         top: '0px',
         left: '0px',
@@ -29,8 +41,15 @@ export default {
     };
   },
   methods: {
-    selectAction() {
-      console.log('Action selected');
+    selectAction(event, item) {
+      const data = {
+        item,
+        tile: this.tile,
+        actions: this.actions,
+      };
+
+      bus.$emit('ITEM:DO', data);
+
       this.closeMenu();
     },
     setMenu(x, y) {
@@ -42,16 +61,27 @@ export default {
     closeMenu() {
       this.viewMenu = false;
     },
+    async openMenu(data) {
+      this.tile.x = data.coordinates.x;
+      this.tile.y = data.coordinates.y;
 
-    openMenu(e) {
+      this.actions = new Actions(this.game);
+      this.items = await this.actions.build();
+
       this.viewMenu = true;
+
       this.$nextTick(
         () => {
           this.$refs.right.focus();
-          this.setMenu(e.x, e.y);
+          this.setMenu(data.event.x, data.event.y);
         },
       );
     },
+    /**
+     * Incase we click on the context menu with anything but a left-click
+     *
+     * @param {event} event The non-left mouse-click on the context-menu
+     */
     contextClick(event) {
       event.preventDefault();
     },

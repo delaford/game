@@ -11,7 +11,7 @@
       @keyup="movePlayer">
     </canvas>
 
-    <context-menu></context-menu>
+    <context-menu v-if="loaded" :game="data"></context-menu>
   </div>
 </template>
 
@@ -38,7 +38,9 @@ export default {
   data() {
     return {
       config,
+      loaded: false,
       game: false,
+      data: null,
     };
   },
   components: {
@@ -47,16 +49,24 @@ export default {
   async mounted() {
     // Start game
     this.game = new Game(this.config.assets);
-    this.game.start();
+    await this.game.start();
+    this.loaded = true;
+    this.data = this.game;
 
     // Focus on the game-map
     document.querySelector('canvas#game-map').focus();
   },
   methods: {
     rightClick(event) {
+      const coordinates = UI.getViewportCoordinaes(event);
+
+      const data = {
+        event,
+        coordinates,
+      };
+
       event.preventDefault();
-      bus.$emit('menu', event);
-      console.log('Bring up menu');
+      bus.$emit('PLAYER:MENU', data);
     },
     /**
      * Player clicks on game-map
@@ -64,17 +74,11 @@ export default {
      * @param {event} event
      */
     leftClick(event) {
-      const { tile } = this.config.map.tileset;
-
-      // Clicked on square (4, 9)
-      const clickedSquare = {
-        x: Math.floor(UI.getMousePos(event).x / tile.width),
-        y: Math.floor(UI.getMousePos(event).y / tile.height),
-      };
+      const coordinates = UI.getViewportCoordinaes(event);
 
       // Send to game engine that
       // the player clicked to move
-      bus.$emit('PLAYER:MOVE', clickedSquare);
+      bus.$emit('PLAYER:MOVE', coordinates);
     },
     /**
      * Player hovering over game-map

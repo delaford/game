@@ -158,6 +158,10 @@ class Player {
 
     return tileset.blocked.includes(steppedOn);
   }
+
+  do(item) {
+    console.log(this.x, this.y, `Doing ${item}`);
+  }
 }
 
 export default Player;

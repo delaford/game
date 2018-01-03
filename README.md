@@ -23,6 +23,7 @@ Here are the types of things I will be adding. Not too over the top but enough t
 
 - [Player](https://github.com/Navarra/game/projects/1)
   - [x] Walking / pathfinding
+  - [x] Context-menu / Actions
   - [ ] Statistics (D3 / data-viz)
   - [ ] Inventory
   - [ ] Character wear
@@ -36,6 +37,7 @@ Here are the types of things I will be adding. Not too over the top but enough t
   - [ ] Interaction (Talk, Examine, etc.)
 - [Monsters](https://github.com/Navarra/game/projects/3)
   - [ ] Battling
+  - [ ] Smart AI (maybe?)
   - [ ] Pickups / Loot
   - [ ] Spawning
 

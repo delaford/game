@@ -8,6 +8,10 @@ class Game {
   constructor(assets) {
     this.assets = assets.reverse();
 
+    this.map = null;
+    this.board = null;
+    this.player = null;
+
     bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.drawMouseSelection(x, y));
     bus.$on('PLAYER:MOVE', ({ x, y }) => this.map.findPath(x, y));
   }
@@ -18,16 +22,20 @@ class Game {
    * Start the game.
    */
   async start() {
-    // Load images and data
-    const { images, data } = await this.init();
+    return new Promise(async (resolve) => {
+      // Load images and data
+      const { images, data } = await this.init();
 
-    // Create player
-    this.player = new Player(data.player);
+      // Create player
+      this.player = new Player(data.player);
 
-    // Load map data
-    this.map = new Map('surface', images, this.player);
-    this.board = await this.map.load();
-    this.map.build(this.board);
+      // Load map data
+      this.map = new Map('surface', images, this.player);
+      this.board = await this.map.load();
+      this.map.build(this.board);
+
+      resolve(200);
+    });
   }
 
   /**

@@ -59,6 +59,23 @@ class UI {
 
     return direction;
   }
+
+  /**
+   * Calculate the x,y position on the viewport when clicked on canvas
+   *
+   * @param {event} event The mouse-click on the game viewport
+   * @returns {object}
+   */
+  static getViewportCoordinaes(event) {
+    const { tile } = map.tileset;
+
+    const coordinates = {
+      x: Math.floor(this.getMousePos(event).x / tile.width),
+      y: Math.floor(this.getMousePos(event).y / tile.height),
+    };
+
+    return coordinates;
+  }
 }
 
 export default UI;
