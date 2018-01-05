@@ -140,9 +140,4 @@ export default {
     position: absolute;
   }
 }
-#fps {
-  position: absolute;
-  top: 70px;
-  left: 10px;
-}
 </style>
