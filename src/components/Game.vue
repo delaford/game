@@ -11,8 +11,6 @@
       @keyup="movePlayer">
     </canvas>
 
-    <div id="fps" v-text="fps"></div>
-
     <context-menu v-if="loaded" :game="game"></context-menu>
   </div>
 </template>
