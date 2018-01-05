@@ -41,7 +41,6 @@ export default {
       config,
       loaded: false,
       game: false,
-      fps: 0,
     };
   },
   components: {
