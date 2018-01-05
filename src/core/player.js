@@ -52,9 +52,6 @@ class Player {
         }
         break;
     }
-
-    map.drawMap();
-    map.drawPlayer();
   }
 
   /**
