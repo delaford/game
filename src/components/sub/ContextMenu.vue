@@ -15,7 +15,7 @@
 
 <script>
 import bus from '../../core/utilities/bus';
-import Actions from '../../core/engine/actions';
+import Actions from '../../core/player/actions';
 
 export default {
   props: ['game'],

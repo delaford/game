@@ -11,6 +11,8 @@
       @keyup="movePlayer">
     </canvas>
 
+    <div id="fps" v-text="fps"></div>
+
     <context-menu v-if="loaded" :game="game"></context-menu>
   </div>
 </template>
@@ -30,6 +32,8 @@ import Game from '../core/game';
 import UI from '../core/utilities/ui';
 import bus from '../core/utilities/bus';
 
+import Engine from '../core/engine';
+
 import ContextMenu from './sub/ContextMenu';
 
 export default {
@@ -39,7 +43,7 @@ export default {
       config,
       loaded: false,
       game: false,
-      data: null,
+      fps: 0,
     };
   },
   components: {
@@ -50,6 +54,9 @@ export default {
     this.game = new Game(this.config.assets);
     await this.game.start();
     this.loaded = true;
+
+    const engine = new Engine(this.game);
+    engine.start();
 
     // Focus on the game-map
     document.querySelector('canvas#game-map').focus();
@@ -134,5 +141,10 @@ export default {
   #context-menu {
     position: absolute;
   }
+}
+#fps {
+  position: absolute;
+  top: 70px;
+  left: 10px;
 }
 </style>

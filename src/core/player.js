@@ -53,8 +53,8 @@ class Player {
         break;
     }
 
-    map.drawMap();
-    map.drawPlayer();
+    // map.drawMap();
+    // map.drawPlayer();
   }
 
   /**
