@@ -109,8 +109,6 @@ class Map {
       this.path.current.interrupted = true;
     }
 
-    debugger;
-
     // The player's x-y on map (always 7,5)
     // to where they clicked on the map
     const path = await this.findQuickestPath(x, y);
