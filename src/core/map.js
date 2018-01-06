@@ -5,7 +5,7 @@ import bus from '../core/utilities/bus';
 
 
 class Map {
-  constructor(level, [playerImage, tilesetImage], player) {
+  constructor(level, [playerImage, tilesetImage], player, npcs) {
     // Getters & Setters
     this.config = config;
     this.level = level;
@@ -14,6 +14,7 @@ class Map {
     this.images = { playerImage, tilesetImage };
     this.board = null;
     this.player = player;
+    this.npcs = npcs;
 
     this.path = {
       grid: null, // a 0/1 grid of blocked tiles
@@ -204,6 +205,12 @@ class Map {
       32,
       32,
     );
+  }
+
+  drawNPCs() {
+    debugger;
+    console.log(this.npcs);
+    console.log('Drawing NPCs...');
   }
 
   /**

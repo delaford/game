@@ -156,6 +156,11 @@ class Player {
     return tileset.blocked.includes(steppedOn);
   }
 
+  /**
+   * Player will perform an action
+   *
+   * @param {string} item Action to do
+   */
   do(item) {
     console.log(this.x, this.y, `Doing ${item}`);
   }

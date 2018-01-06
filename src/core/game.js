@@ -33,12 +33,10 @@ class Game {
       this.player = new Player(data.player);
 
       // Create NPCs
-      data.npcs.forEach((npc) => {
-        this.npcs.push(new NPC(npc));
-      }, this);
+      data.npcs.forEach(npc => this.npcs.push(new NPC(npc)), this);
 
       // Load map data
-      this.map = new Map('surface', images, this.player);
+      this.map = new Map('surface', images, this.player, this.npcs);
       this.board = await Map.load();
       this.map.build(this.board);
 

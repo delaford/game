@@ -71,6 +71,9 @@ class Engine {
     // Draw the tile map
     this.game.map.drawMap();
 
+    // Draw the NPCs
+    this.game.map.drawNPCs();
+
     // Draw the player
     this.game.map.drawPlayer();
 

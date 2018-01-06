@@ -10,6 +10,11 @@ module.exports = [
     actions: [
       'examine',
     ],
+    spawn: {
+      x: 42,
+      y: 50,
+      range: 3,
+    },
   },
   {
     id: 2,
@@ -22,6 +27,11 @@ module.exports = [
     actions: [
       'examine',
     ],
+    spawn: {
+      x: 5,
+      y: 1,
+      range: 4,
+    },
   },
   {
     id: 3,
@@ -34,5 +44,10 @@ module.exports = [
     actions: [
       'examine',
     ],
+    spawn: {
+      x: 37,
+      y: 55,
+      range: 4,
+    },
   },
 ];
