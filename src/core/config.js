@@ -30,7 +30,7 @@ const config = {
   },
   assets: [
     'src/assets/tiles/tileset.png', // Tileset
-    'src/assets/player.png', // Player
+    'src/assets/graphics/actors/players/human.png', // Player
   ],
 };
 
