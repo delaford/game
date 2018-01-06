@@ -12,7 +12,7 @@ class Game {
     this.board = null;
     this.player = null;
 
-    bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.drawMouseSelection(x, y));
+    bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.setMouseCoordinates(x, y));
     bus.$on('PLAYER:MOVE', ({ x, y }) => this.map.findPath(x, y));
   }
 

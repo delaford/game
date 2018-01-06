@@ -75,7 +75,7 @@ class Engine {
     this.game.map.drawPlayer();
 
     // Draw the mouse selection
-    this.game.map.doMouseSel();
+    this.game.map.drawMouse();
   }
 }
 
