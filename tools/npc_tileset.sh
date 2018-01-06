@@ -1,8 +1,8 @@
 # Excuse my weak bash skills.
 
 # How it works:
-# 1. Dump a bunch of 32x32 pixel transparent NPCs
-# 2. Make sure that they are all 32x32
+# 1. Copy a bunch of 32x32 pixel transparent NPCs
+# 2. Paste them /tools/dump folder (create it)
 # 3. Run command from /tools
 # 4. Move newly-generated file to correct folder
 # (somewhere along the lines of /src/assets/graphics/actors...)

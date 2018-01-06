@@ -210,23 +210,28 @@ class Map {
   drawNPCs() {
     // Filter out NPCs in viewport
     const nearbyNPCs = this.npcs.filter((npc) => {
-      const foundNPCs = (this.player.x < (Math.floor(this.config.map.viewport.x / 2) + npc.x))
-        && (this.player.x > (npc.x - Math.floor(this.config.map.viewport.x / 2)))
-        && (this.player.y < (Math.floor(this.config.map.viewport.y / 2) + npc.y))
-        && (this.player.y > (npc.y - Math.floor(this.config.map.viewport.y / 2)));
+      const foundNPCs = (this.player.x <= (Math.floor(this.config.map.viewport.x / 2) + npc.x))
+        && (this.player.x >= (npc.x - Math.floor(this.config.map.viewport.x / 2)))
+        && (this.player.y <= (Math.floor(this.config.map.viewport.y / 2) + npc.y))
+        && (this.player.y >= (npc.y - Math.floor(this.config.map.viewport.y / 2)));
 
       return foundNPCs;
     });
 
     nearbyNPCs.forEach((npc) => {
+      const viewport = {
+        x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - npc.x),
+        y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - npc.y),
+      };
+
       this.context.drawImage(
         this.images.npcsImage,
         (npc.column * 32), // Number in NPC tileset
-        0, // X-level always 0
+        0, // Y-axis always 0
         32,
         32,
-        0,
-        0,
+        viewport.x * 32,
+        viewport.y * 32,
         32,
         32,
       );
