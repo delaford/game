@@ -283,7 +283,6 @@ class Map {
    * @returns {array}
    */
   static fetchMap(level) {
-    console.log(level);
     return new Promise((resolve) => {
       fetch('../src/tempdb/map.json')
         .then((response) => {
