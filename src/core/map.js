@@ -109,13 +109,15 @@ class Map {
       this.path.current.interrupted = true;
     }
 
+    debugger;
+
     // The player's x-y on map (always 7,5)
     // to where they clicked on the map
     const path = await this.findQuickestPath(x, y);
 
     // If the tile we clicked on
     // can be walked on, continue ->
-    if (this.path.current.walkable && path.length) {
+    if (this.path.current.walkable && path.length && path.length > 1) {
       this.path.current.path.set = path;
       this.path.current.length = path.length;
       this.path.current.step = 0;
@@ -143,12 +145,12 @@ class Map {
   }
 
   /**
-   * Draw the mouse selection on the canvas's viewport
+   * Set the coordinates to where the mouse currently is (if on canvas)
    *
    * @param {integer} x Mouse's x-axis on the canvas viewport
    * @param {integer} y Mouses's y-axus on the canvas viewport
    */
-  drawMouseSelection(x, y) {
+  setMouseCoordinates(x, y) {
     // eslint-disable-next-line
     let data = {
       mouse: {
@@ -156,8 +158,6 @@ class Map {
         current: 0,
       },
     };
-
-    // this.paintMap();
 
     const tileSearch = UI.getTileOverMouse(
       this.board,
@@ -173,15 +173,16 @@ class Map {
       data.mouse.current = 1;
     }
 
-    this.mouse.selection.src = `../../src/assets/graphics/ui/mouse/${data.mouse.type[data.mouse.current]}.png`;
     this.mouse.x = x;
     this.mouse.y = y;
     this.mouse.type = data.mouse.current;
-    debugger;
+    this.mouse.selection.src = `../../src/assets/graphics/ui/mouse/${data.mouse.type[data.mouse.current]}.png`;
   }
 
-  doMouseSel() {
-    // eslint-disable-next-line
+  /**
+   * Draw the mouse selection on the canvas's viewport
+   */
+  drawMouse() {
     this.context.drawImage(this.mouse.selection, (this.mouse.x * 32), (this.mouse.y * 32), 32, 32);
   }
 
