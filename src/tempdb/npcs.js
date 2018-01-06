@@ -5,7 +5,7 @@ module.exports = [
     examine: 'Local town bum. Phew!',
     graphic: {
       row: 0,
-      column: 1,
+      column: 0,
     },
     actions: [
       'examine',
@@ -22,7 +22,7 @@ module.exports = [
     examine: 'A city dweller looking for his next opportunity.',
     graphic: {
       row: 0,
-      column: 2,
+      column: 1,
     },
     actions: [
       'examine',
@@ -39,14 +39,14 @@ module.exports = [
     examine: 'Woodhurst\'s cheerful town shopkeeper.',
     graphic: {
       row: 0,
-      column: 3,
+      column: 2,
     },
     actions: [
       'examine',
     ],
     spawn: {
-      x: 37,
-      y: 55,
+      x: 62,
+      y: 62,
       range: 4,
     },
   },

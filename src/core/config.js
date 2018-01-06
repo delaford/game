@@ -28,10 +28,11 @@ const config = {
       y: 100,
     },
   },
-  assets: [
-    'src/assets/tiles/tileset.png', // Tileset
-    'src/assets/graphics/actors/players/human.png', // Player
-  ],
+  assets: {
+    player: 'src/assets/graphics/actors/players/human.png', // Player
+    tileset: 'src/assets/tiles/tileset.png', // Tileset
+    npcs: 'src/assets/graphics/actors/npcs.png', // NPCs
+  },
 };
 
 module.exports = config;

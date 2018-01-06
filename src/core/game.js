@@ -8,7 +8,7 @@ import NPC from './npc';
 
 class Game {
   constructor(assets) {
-    this.assets = assets.reverse();
+    this.assets = assets;
 
     this.map = null;
     this.board = null;
@@ -68,7 +68,7 @@ class Game {
    * @return {array}
    */
   loadAssets() {
-    const images = this.assets.map(asset =>
+    const images = Object.values(this.assets).map(asset =>
       this.constructor.uploadImage(asset),
     );
 

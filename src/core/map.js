@@ -5,13 +5,13 @@ import bus from '../core/utilities/bus';
 
 
 class Map {
-  constructor(level, [playerImage, tilesetImage], player, npcs) {
+  constructor(level, [playerImage, tilesetImage, npcsImage], player, npcs) {
     // Getters & Setters
     this.config = config;
     this.level = level;
 
     // Image and data
-    this.images = { playerImage, tilesetImage };
+    this.images = { playerImage, tilesetImage, npcsImage };
     this.board = null;
     this.player = player;
     this.npcs = npcs;
@@ -208,9 +208,33 @@ class Map {
   }
 
   drawNPCs() {
-    debugger;
-    console.log(this.npcs);
-    console.log('Drawing NPCs...');
+    // Filter out NPCs in viewport
+    const nearbyNPCs = this.npcs.filter((npc) => {
+      const foundNPCs = (this.player.x < (Math.floor(this.config.map.viewport.x / 2) + npc.x))
+        && (this.player.x > (npc.x - Math.floor(this.config.map.viewport.x / 2)))
+        && (this.player.y < (Math.floor(this.config.map.viewport.y / 2) + npc.y))
+        && (this.player.y > (npc.y - Math.floor(this.config.map.viewport.y / 2)));
+
+      return foundNPCs;
+    });
+
+    nearbyNPCs.forEach((npc) => {
+      this.context.drawImage(
+        this.images.npcsImage,
+        (npc.column * 32), // Number in NPC tileset
+        0, // X-level always 0
+        32,
+        32,
+        0,
+        0,
+        32,
+        32,
+      );
+    }, this);
+
+    // Compute their XY on map
+
+    // Draw them on canvas
   }
 
   /**

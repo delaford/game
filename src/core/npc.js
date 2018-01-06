@@ -8,7 +8,7 @@ class NPC {
     this.y = data.spawn.y;
     this.range = data.spawn.range;
 
-    console.log(`[NPC] ${this.name} has spawned.`);
+    this.column = data.graphic.column;
   }
 }
 
