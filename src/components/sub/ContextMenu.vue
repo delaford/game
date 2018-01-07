@@ -6,9 +6,11 @@
         @blur="closeMenu"
         id="actions"
         tabindex="-1">
+          <li class="action" @click="selectAction($event, { action: 'walk-here' })">Walk here</li>
           <li class="action" v-for="(item, index) in items" :key="index" @click="selectAction($event, item)">
-            {{ item }}
+            {{ item.label }}
           </li>
+          <li class="action" @click="selectAction($event, { action: 'cancel' })">Cancel</li>
       </ul>
   </div>
 </template>
@@ -61,8 +63,8 @@ export default {
      * @param {integer} y The y-axis of where the mouse was clicked
      */
     setMenu(x, y) {
-      this.style.left = `${x}px`;
-      this.style.top = `${y}px`;
+      this.style.left = `${x - 9}px`;
+      this.style.top = `${y - 7}px`;
     },
 
     /**
@@ -80,8 +82,8 @@ export default {
       this.tile.x = data.coordinates.x;
       this.tile.y = data.coordinates.y;
 
-      this.actions = new Actions(this.game);
-      this.items = await Actions.build();
+      this.actions = new Actions(this.game, this.tile);
+      this.items = await this.actions.build();
 
       this.view = true;
 
@@ -107,6 +109,7 @@ export default {
 <style lang="scss" scoped>
 $menu_bg_color: #8d8d8d;
 $menu_font_color: #fff;
+$menu_width: 175px;
 $menu_font_hover_color: #ffd829;
 
 @font-face {
@@ -123,9 +126,9 @@ ul#actions {
   display: block;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 3px 0;
   position: absolute;
-  width: 120px;
+  width: $menu_width;
   font-size: 12px;
   z-index: 999999;
 

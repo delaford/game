@@ -1,16 +1,19 @@
+import npcs from '../tempdb/npcs';
 import player from '../tempdb/player';
+import bus from '../core/utilities/bus';
+
 import Map from './map';
 import Player from './player';
-
-import bus from '../core/utilities/bus';
+import NPC from './npc';
 
 class Game {
   constructor(assets) {
-    this.assets = assets.reverse();
+    this.assets = assets;
 
     this.map = null;
     this.board = null;
     this.player = null;
+    this.npcs = [];
 
     bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.setMouseCoordinates(x, y));
     bus.$on('PLAYER:MOVE', ({ x, y }) => this.map.findPath(x, y));
@@ -29,9 +32,12 @@ class Game {
       // Create player
       this.player = new Player(data.player);
 
+      // Create NPCs
+      data.npcs.forEach(npc => this.npcs.push(new NPC(npc)), this);
+
       // Load map data
-      this.map = new Map('surface', images, this.player);
-      this.board = await Map.load();
+      this.map = new Map('surface', images, this.player, this.npcs);
+      this.board = await this.map.load();
       this.map.build(this.board);
 
       resolve(200);
@@ -62,7 +68,7 @@ class Game {
    * @return {array}
    */
   loadAssets() {
-    const images = this.assets.map(asset =>
+    const images = Object.values(this.assets).map(asset =>
       this.constructor.uploadImage(asset),
     );
 
@@ -79,6 +85,7 @@ class Game {
       const block = {
         map: Map,
         player,
+        npcs,
       };
 
       resolve(block);
