@@ -24,12 +24,16 @@ class Engine {
     this.loop = this.loop.bind(this);
   }
 
+  /**
+   * Handle NPC movement on map
+   */
   npcMovement() {
     this.game.npcs.map((npc) => {
+      // Next movement allowed in 2.5 seconds
       const nextActionAllowed = npc.lastAction + 2500;
 
       if (npc.lastAction === 0 || nextActionAllowed < Date.now()) {
-        // Let the NPCs stray!
+        // Are they going to move or sit still this time?
         const action = UI.getRandomInt(1, 2) === 1 ? 'move' : 'nothing';
 
         // NPCs going to move during this loop?

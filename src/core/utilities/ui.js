@@ -89,6 +89,7 @@ class UI {
 
   /**
    * Generates a random number between a pair
+   *
    * @param {integer} min The lesser number
    * @param {integer} max The greater number
    * @returns {integer}
