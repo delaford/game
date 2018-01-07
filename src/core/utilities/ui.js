@@ -86,6 +86,30 @@ class UI {
   static userPressToMove(key) {
     return key.search('Arrow') > -1;
   }
+
+  /**
+   * Generates a random number between a pair
+   * @param {integer} min The lesser number
+   * @param {integer} max The greater number
+   * @returns {integer}
+   */
+  static getRandomInt(min, max) {
+    return Math.floor(Math.random() * ((max - min) + 1)) + min;
+  }
+
+  static getTileID(board, x, y, direction) {
+    const getY = (dirMove) => {
+      if (dirMove === 'right' || dirMove === 'left') return 0;
+      return dirMove === 'up' ? 0 : 2;
+    };
+
+    const getX = (dirMove) => {
+      if (dirMove === 'up' || dirMove === 'down') return 0;
+      return dirMove === 'left' ? -1 : 1;
+    };
+
+    return board[((100 * (y + getY(direction))) - (100 - (x + getX(direction))))] - 1;
+  }
 }
 
 export default UI;

@@ -210,20 +210,24 @@ class Map {
   drawNPCs() {
     // Filter out NPCs in viewport
     const nearbyNPCs = this.npcs.filter((npc) => {
-      const foundNPCs = (this.player.x <= (Math.floor(this.config.map.viewport.x / 2) + npc.x))
-        && (this.player.x >= (npc.x - Math.floor(this.config.map.viewport.x / 2)))
-        && (this.player.y <= (Math.floor(this.config.map.viewport.y / 2) + npc.y))
-        && (this.player.y >= (npc.y - Math.floor(this.config.map.viewport.y / 2)));
+      // TODO
+      // Use map.player config + 1
+      const foundNPCs = (this.player.x <= (8 + npc.x))
+        && (this.player.x >= (npc.x - 8))
+        && (this.player.y <= (6 + npc.y))
+        && (this.player.y >= (npc.y - 6));
 
       return foundNPCs;
     });
 
+    // Get relative X,Y coordinates to paint on viewport
     nearbyNPCs.forEach((npc) => {
       const viewport = {
         x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - npc.x),
         y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - npc.y),
       };
 
+      // Paint the NPC on map
       this.context.drawImage(
         this.images.npcsImage,
         (npc.column * 32), // Number in NPC tileset
@@ -236,10 +240,6 @@ class Map {
         32,
       );
     }, this);
-
-    // Compute their XY on map
-
-    // Draw them on canvas
   }
 
   /**

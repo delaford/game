@@ -27,6 +27,10 @@ const config = {
       x: 100,
       y: 100,
     },
+    player: {
+      x: 7,
+      y: 5,
+    },
   },
   assets: {
     player: 'src/assets/graphics/actors/players/human.png', // Player

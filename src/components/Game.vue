@@ -135,6 +135,7 @@ export default {
   canvas.main-canvas {
     background: #fff;
     outline: none;
+    cursor: pointer;
   }
 
   #context-menu {

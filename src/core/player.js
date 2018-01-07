@@ -131,7 +131,7 @@ class Player {
    *
    * @param map {object} The map object being passed
    * @param direction {string} The direction player is going
-   * @returns {boolean} Checks if tile is on blocked array list
+   * @returns {boolean}
    */
   checkCollision(map, direction) {
     const { size, viewport, tileset } = config.map;

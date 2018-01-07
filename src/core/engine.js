@@ -1,3 +1,5 @@
+import UI from '../core/utilities/ui';
+
 class Engine {
   constructor(game) {
     this.game = game;
@@ -22,6 +24,61 @@ class Engine {
     this.loop = this.loop.bind(this);
   }
 
+  manageMovement() {
+    this.game.npcs.map((npc) => {
+      const nextActionAllowed = npc.lastAction + 75;
+
+      if (npc.lastAction === 0 || nextActionAllowed < Date.now()) {
+        // Let the NPCs stray!
+        const action = UI.getRandomInt(1, 2) === 1 ? 'move' : 'nothing';
+
+        if (action === 'move') {
+          // const direction = ['up', 'down', 'left', 'right'];
+          // const going = direction[UI.getRandomInt(0, 3)];
+          const going = 'left';
+          const tileID = UI.getTileID(this.game.map.board, npc.x, npc.y, going);
+
+          // if (npc.name === 'Baynard' && going === 'up') debugger;
+          switch (going) {
+            default:
+            case 'up':
+              if ((npc.y - 1) >= (npc.spawn.y - npc.range)) {
+                if (UI.tileWalkable(tileID)) {
+                  npc.y -= 1;
+                }
+              }
+              break;
+            case 'down':
+              if ((npc.y + 1) <= (npc.spawn.y + npc.range)) {
+                if (UI.tileWalkable(tileID)) {
+                  npc.y += 1;
+                }
+              }
+              break;
+            case 'left':
+              if ((npc.x - 1) >= (npc.spawn.x - npc.range)) {
+                if (UI.tileWalkable(tileID)) {
+                  npc.x -= 1;
+                }
+              }
+              break;
+            case 'right':
+              if ((npc.x + 1) <= (npc.spawn.x + npc.range)) {
+                if (UI.tileWalkable(tileID)) {
+                  npc.x += 1;
+                }
+              }
+              break;
+          }
+        }
+
+        npc.lastAction = Date.now();
+      }
+
+      return npc;
+    });
+  }
+
   /**
    * The main game loop
    *
@@ -32,6 +89,10 @@ class Engine {
     if (timestamp < this.frame.lastTimeMS + (1000 / this.fps.max)) {
       requestAnimationFrame(this.loop);
       return;
+    }
+
+    if (this.game.npcs) {
+      this.manageMovement();
     }
 
     // Note that the loop ran
