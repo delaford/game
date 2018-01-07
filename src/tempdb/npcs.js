@@ -12,7 +12,7 @@ module.exports = [
     ],
     spawn: {
       x: 42,
-      y: 50,
+      y: 51,
       range: 3,
     },
   },

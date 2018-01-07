@@ -207,11 +207,12 @@ class Map {
     );
   }
 
+  /**
+   * Draw the NPCs on the game viewport canvas
+   */
   drawNPCs() {
     // Filter out NPCs in viewport
     const nearbyNPCs = this.npcs.filter((npc) => {
-      // TODO
-      // Use map.player config + 1
       const foundNPCs = (this.player.x <= (8 + npc.x))
         && (this.player.x >= (npc.x - 8))
         && (this.player.y <= (6 + npc.y))
@@ -306,8 +307,8 @@ class Map {
    *
    * @returns {array}
    */
-  static async load() {
-    const data = await Map.fetchMap('surface');
+  async load() {
+    const data = await Map.fetchMap(this.level);
 
     return data;
   }

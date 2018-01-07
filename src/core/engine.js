@@ -24,21 +24,23 @@ class Engine {
     this.loop = this.loop.bind(this);
   }
 
-  manageMovement() {
+  npcMovement() {
     this.game.npcs.map((npc) => {
-      const nextActionAllowed = npc.lastAction + 75;
+      const nextActionAllowed = npc.lastAction + 2500;
 
       if (npc.lastAction === 0 || nextActionAllowed < Date.now()) {
         // Let the NPCs stray!
         const action = UI.getRandomInt(1, 2) === 1 ? 'move' : 'nothing';
 
+        // NPCs going to move during this loop?
         if (action === 'move') {
-          // const direction = ['up', 'down', 'left', 'right'];
-          // const going = direction[UI.getRandomInt(0, 3)];
-          const going = 'left';
-          const tileID = UI.getTileID(this.game.map.board, npc.x, npc.y, going);
+          // Which way?
+          const direction = ['up', 'down', 'left', 'right'];
+          const going = direction[UI.getRandomInt(0, 3)];
 
-          // if (npc.name === 'Baynard' && going === 'up') debugger;
+          // What tile will they be stepping on?
+          const tileID = UI.getFutureTileID(this.game.map.board, npc.x, npc.y, going);
+
           switch (going) {
             default:
             case 'up':
@@ -72,6 +74,7 @@ class Engine {
           }
         }
 
+        // Register their last action
         npc.lastAction = Date.now();
       }
 
@@ -91,8 +94,9 @@ class Engine {
       return;
     }
 
+    // Manage NPC movement
     if (this.game.npcs) {
-      this.manageMovement();
+      this.npcMovement();
     }
 
     // Note that the loop ran

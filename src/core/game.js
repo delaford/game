@@ -37,7 +37,7 @@ class Game {
 
       // Load map data
       this.map = new Map('surface', images, this.player, this.npcs);
-      this.board = await Map.load();
+      this.board = await this.map.load();
       this.map.build(this.board);
 
       resolve(200);
