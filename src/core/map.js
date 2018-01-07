@@ -1,4 +1,7 @@
 import PF from 'pathfinding';
+import mapLoad from '@/tempdb/map.json';
+import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
+import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
 import config from './config';
 import UI from './utilities/ui';
 import bus from '../core/utilities/bus';
@@ -153,7 +156,7 @@ class Map {
     // eslint-disable-next-line
     let data = {
       mouse: {
-        type: ['moveTo', 'blocked', 'attack', 'useDo'],
+        type: [moveToMouse, blockedMouse], // To add: Use, Attack
         current: 0,
       },
     };
@@ -175,7 +178,7 @@ class Map {
     this.mouse.x = x;
     this.mouse.y = y;
     this.mouse.type = data.mouse.current;
-    this.mouse.selection.src = `../../src/assets/graphics/ui/mouse/${data.mouse.type[data.mouse.current]}.png`;
+    this.mouse.selection.src = data.mouse.type[data.mouse.current];
   }
 
   /**
@@ -321,18 +324,7 @@ class Map {
    */
   static fetchMap(level) {
     return new Promise((resolve) => {
-      fetch('../src/tempdb/map.json')
-        .then((response) => {
-          const contentType = response.headers.get('content-type');
-          if (contentType && contentType.includes('application/json')) {
-            return response.json();
-          }
-
-          throw new TypeError('Map is not in JSON.');
-        })
-        .then((data) => {
-          resolve(data[level]);
-        });
+      resolve(mapLoad[level]);
     });
   }
 }
