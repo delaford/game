@@ -1,10 +1,14 @@
-import npcs from '../tempdb/npcs';
-import player from '../tempdb/player';
-import bus from '../core/utilities/bus';
+import tilesetImage from '@/assets/tiles/tileset.png';
+import npcImage from '@/assets/graphics/actors/npcs.png';
+import playerImage from '@/assets/graphics/actors/players/human.png';
+import npcs from '@/tempdb/npcs';
+import player from '@/tempdb/player';
 
+import bus from '../core/utilities/bus';
 import Map from './map';
 import Player from './player';
 import NPC from './npc';
+
 
 class Game {
   constructor(assets) {
@@ -68,7 +72,13 @@ class Game {
    * @return {array}
    */
   loadAssets() {
-    const images = Object.values(this.assets).map(asset =>
+    const assets = [
+      playerImage,
+      tilesetImage,
+      npcImage,
+    ];
+
+    const images = Object.values(assets).map(asset =>
       this.constructor.uploadImage(asset),
     );
 
