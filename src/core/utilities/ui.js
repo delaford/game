@@ -86,6 +86,40 @@ class UI {
   static userPressToMove(key) {
     return key.search('Arrow') > -1;
   }
+
+  /**
+   * Generates a random number between a pair
+   *
+   * @param {integer} min The lesser number
+   * @param {integer} max The greater number
+   * @returns {integer}
+   */
+  static getRandomInt(min, max) {
+    return Math.floor(Math.random() * ((max - min) + 1)) + min;
+  }
+
+  /**
+   * Checks the tile 1 square in that direction
+   *
+   * @param {array} board The main board map
+   * @param {integer} x The x-axis on where the tile is
+   * @param {integer} y The y-axis on where the tile is
+   * @param {string} direction Where they are going
+   * @returns {integer}
+   */
+  static getFutureTileID(board, x, y, direction) {
+    const getY = (dirMove) => {
+      if (dirMove === 'right' || dirMove === 'left') return 1;
+      return dirMove === 'up' ? 0 : 2;
+    };
+
+    const getX = (dirMove) => {
+      if (dirMove === 'up' || dirMove === 'down') return 0;
+      return dirMove === 'left' ? -1 : 1;
+    };
+
+    return board[((map.size.y * (y + getY(direction))) - (map.size.x - (x + getX(direction))))] - 1;
+  }
 }
 
 export default UI;

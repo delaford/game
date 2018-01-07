@@ -5,15 +5,16 @@ import bus from '../core/utilities/bus';
 
 
 class Map {
-  constructor(level, [playerImage, tilesetImage], player) {
+  constructor(level, [playerImage, tilesetImage, npcsImage], player, npcs) {
     // Getters & Setters
     this.config = config;
     this.level = level;
 
     // Image and data
-    this.images = { playerImage, tilesetImage };
+    this.images = { playerImage, tilesetImage, npcsImage };
     this.board = null;
     this.player = player;
+    this.npcs = npcs;
 
     this.path = {
       grid: null, // a 0/1 grid of blocked tiles
@@ -207,6 +208,42 @@ class Map {
   }
 
   /**
+   * Draw the NPCs on the game viewport canvas
+   */
+  drawNPCs() {
+    // Filter out NPCs in viewport
+    const nearbyNPCs = this.npcs.filter((npc) => {
+      const foundNPCs = (this.player.x <= (8 + npc.x))
+        && (this.player.x >= (npc.x - 8))
+        && (this.player.y <= (6 + npc.y))
+        && (this.player.y >= (npc.y - 6));
+
+      return foundNPCs;
+    });
+
+    // Get relative X,Y coordinates to paint on viewport
+    nearbyNPCs.forEach((npc) => {
+      const viewport = {
+        x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - npc.x),
+        y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - npc.y),
+      };
+
+      // Paint the NPC on map
+      this.context.drawImage(
+        this.images.npcsImage,
+        (npc.column * 32), // Number in NPC tileset
+        0, // Y-axis always 0
+        32,
+        32,
+        viewport.x * 32,
+        viewport.y * 32,
+        32,
+        32,
+      );
+    }, this);
+  }
+
+  /**
    * Paint the map based on player's position
    */
   drawMap() {
@@ -270,8 +307,8 @@ class Map {
    *
    * @returns {array}
    */
-  static async load() {
-    const data = await Map.fetchMap('surface');
+  async load() {
+    const data = await Map.fetchMap(this.level);
 
     return data;
   }

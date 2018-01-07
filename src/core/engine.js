@@ -1,3 +1,5 @@
+import UI from '../core/utilities/ui';
+
 class Engine {
   constructor(game) {
     this.game = game;
@@ -23,6 +25,68 @@ class Engine {
   }
 
   /**
+   * Handle NPC movement on map
+   */
+  npcMovement() {
+    this.game.npcs.map((npc) => {
+      // Next movement allowed in 2.5 seconds
+      const nextActionAllowed = npc.lastAction + 2500;
+
+      if (npc.lastAction === 0 || nextActionAllowed < Date.now()) {
+        // Are they going to move or sit still this time?
+        const action = UI.getRandomInt(1, 2) === 1 ? 'move' : 'nothing';
+
+        // NPCs going to move during this loop?
+        if (action === 'move') {
+          // Which way?
+          const direction = ['up', 'down', 'left', 'right'];
+          const going = direction[UI.getRandomInt(0, 3)];
+
+          // What tile will they be stepping on?
+          const tileID = UI.getFutureTileID(this.game.map.board, npc.x, npc.y, going);
+
+          switch (going) {
+            default:
+            case 'up':
+              if ((npc.y - 1) >= (npc.spawn.y - npc.range)) {
+                if (UI.tileWalkable(tileID)) {
+                  npc.y -= 1;
+                }
+              }
+              break;
+            case 'down':
+              if ((npc.y + 1) <= (npc.spawn.y + npc.range)) {
+                if (UI.tileWalkable(tileID)) {
+                  npc.y += 1;
+                }
+              }
+              break;
+            case 'left':
+              if ((npc.x - 1) >= (npc.spawn.x - npc.range)) {
+                if (UI.tileWalkable(tileID)) {
+                  npc.x -= 1;
+                }
+              }
+              break;
+            case 'right':
+              if ((npc.x + 1) <= (npc.spawn.x + npc.range)) {
+                if (UI.tileWalkable(tileID)) {
+                  npc.x += 1;
+                }
+              }
+              break;
+          }
+        }
+
+        // Register their last action
+        npc.lastAction = Date.now();
+      }
+
+      return npc;
+    });
+  }
+
+  /**
    * The main game loop
    *
    * @param {decimal} timestamp The timestamp of when last called
@@ -32,6 +96,11 @@ class Engine {
     if (timestamp < this.frame.lastTimeMS + (1000 / this.fps.max)) {
       requestAnimationFrame(this.loop);
       return;
+    }
+
+    // Manage NPC movement
+    if (this.game.npcs) {
+      this.npcMovement();
     }
 
     // Note that the loop ran
@@ -70,6 +139,9 @@ class Engine {
   paintCanvas() {
     // Draw the tile map
     this.game.map.drawMap();
+
+    // Draw the NPCs
+    this.game.map.drawNPCs();
 
     // Draw the player
     this.game.map.drawPlayer();

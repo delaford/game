@@ -24,16 +24,17 @@ Here are the types of things I will be adding. Not too over the top but enough t
 - [Player](https://github.com/Navarra/game/projects/1)
   - [x] Walking / pathfinding
   - [x] Context-menu / Actions
+  - [ ] Health and stats
   - [ ] Inventory
   - [ ] Character wear
 - [User Interface](https://github.com/Navarra/game/projects/2)
   - [ ] Inventory
   - [ ] Character wear
   - [ ] Overall look &amp; feel
-  - [ ] Statistics (D3 / data-viz)
   - [ ] Basic view of main player stats
 - [NPC](https://github.com/Navarra/game/projects/3)
   - [ ] Trading
+  - [x] Walking around
   - [ ] Interaction (Talk, Examine, etc.)
 - [Monsters](https://github.com/Navarra/game/projects/3)
   - [ ] Battling
