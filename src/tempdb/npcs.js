@@ -28,8 +28,8 @@ module.exports = [
       'examine',
     ],
     spawn: {
-      x: 5,
-      y: 1,
+      x: 32,
+      y: 57,
       range: 4,
     },
   },
