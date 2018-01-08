@@ -8,14 +8,21 @@ class Actions {
     this.board = data.board;
     this.npcs = data.npcs;
 
+    // Viewport X,Y coordinates
     this.clicked = {
       x: tile.x,
       y: tile.y,
     };
 
+    // Coordinates on map where clicked
     this.coordinates = {
       x: (this.player.x - map.player.x) + this.clicked.x,
       y: (this.player.y - map.player.y) + this.clicked.y,
+    };
+
+    // Label color
+    this.color = {
+      Examine: '#EBE04D',
     };
   }
 
@@ -97,7 +104,7 @@ class Actions {
         getNPCs.forEach((npc) => {
           if (npc.actions.includes(action.toLowerCase())) {
             const object = {
-              label: `Examine ${npc.name}`,
+              label: `Examine <span style='color:${this.color[action]}'>${npc.name}</span>`,
               action,
               type: 'npc',
               id: npc.id,
