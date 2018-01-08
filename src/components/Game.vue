@@ -55,7 +55,7 @@ export default {
     const engine = new Engine(this.game);
     engine.start();
 
-    console.log('Welcome to Woodhurst.');
+    console.log('Welcome to Woodhurst!');
 
     // Focus on the game-map
     document.querySelector('canvas#game-map').focus();
