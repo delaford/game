@@ -7,9 +7,11 @@
         id="actions"
         tabindex="-1">
           <li class="action" @click="selectAction($event, { action: 'walk-here' })">Walk here</li>
-          <li class="action" v-for="(item, index) in items" :key="index" @click="selectAction($event, item)">
-            {{ item.label }}
-          </li>
+          <li class="action"
+            v-for="(item, index) in items"
+            :key="index"
+            @click="selectAction($event, item)"
+            v-html="item.label"></li>
           <li class="action" @click="selectAction($event, { action: 'cancel' })">Cancel</li>
       </ul>
   </div>
