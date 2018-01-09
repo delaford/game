@@ -19,7 +19,7 @@ Please check out our [CONTRIBUTING.md](https://github.com/Navarra/game/blob/mast
 
 ## Systems and Engines
 
-Here are the types of things I will be adding. Not too over the top but enough to cover the basics until more is added. Each section links to a project which will contain its sub-tasks within.
+Here are the types of things I will be adding as a minimum viable product (alpha). Not too over the top but enough to cover the basics until more is added. Each section links to a project which will contain its sub-tasks within.
 
 - [Player](https://github.com/Navarra/game/projects/1)
   - [x] Walking / pathfinding
@@ -27,19 +27,28 @@ Here are the types of things I will be adding. Not too over the top but enough t
   - [ ] Health and stats
   - [ ] Inventory
   - [ ] Character wear
+  - [ ] Your first quest
 - [User Interface](https://github.com/Navarra/game/projects/2)
-  - [ ] Inventory
-  - [ ] Character wear
+  - [ ] Inventory tab
+  - [ ] Quests tab
+  - [ ] Chatbox (for players and actions)
+  - [ ] Character wear tab
   - [ ] Overall look &amp; feel
   - [ ] Basic view of main player stats
 - [NPC](https://github.com/Navarra/game/projects/3)
   - [ ] Trading
   - [x] Walking around
-  - [ ] Interaction (Talk, Examine, etc.)
+  - [x] Interaction (Talk, Examine, etc.)
 - [Monsters](https://github.com/Navarra/game/projects/3)
-  - [ ] Battling
-  - [ ] Pickups / Loot
+  - [ ] Battle System
+  - [ ] Looting
   - [ ] Spawning
+- [Networking](https://github.com/Navarra/game/projects/5)
+  - [ ] Players connect to a game world
+  - [ ] Monsters/NPCs and items register on the map
+  - [ ] Player-vs-player interaction (Trade and talk)
+
+Once all of these items are checked, Navarra will be stable.
 
 ## What's this for?
 
@@ -47,11 +56,11 @@ The point of having this game on an open-source platform is to have the collabor
 
 When release beta 1.0.0 drops, players will see the ability to connect (via websockets and Node.js), fighting small monsters, gain loot and perform some small actions in a small, small world. The barebones. Oh, and having the ability to _save their data_.
 
-After release alpha 1.0.0, Navarra will be officially stable where players will be able to collect items in their bank, gain experience points in multiple skills and *not have their data reset*.
+After release alpha 1.0.0, Navarra will be officially stable where players will be able to collect items in their bank, gain experience points in multiple skills and *not have their data reset possibly*. (we'll see.)
 
-**What about after it's officially released?** Navarra will continue to be officially developed and open-source. Depending on the popularity, efforts will be redistributed on how we can prioritize moving forward. There's lots on the backburner such as an administrative panel for admins and player mods, an API, an online site to register/create players (will most likely use Laravel here) and more.
+**What about after it's officially released?** Navarra will continue to be officially developed and open-source. Depending on the popularity, efforts will be redistributed on how we can prioritize moving forward. There's lots on the backburner such as an administrative panel for admins and player mods, an API, an online site to register/create players (will most likely use Laravel here) and more. Those will be split up into different repositories with their own respective focus.
 
-The end-game is, at its core, to make a fun medieval fantasy game with the latest JavaScript harnessing the best of the web such as D3 for graphs, Vue.js and more.
+The end-game is, at its core, to make a fun medieval fantasy game with the latest JavaScript harnessing the best of the web such as D3 for graphs, Vue.js, CSS Grids, and more. And make sure everyone is having fun while doing it.
 
 ## Notice
 
