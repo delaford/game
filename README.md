@@ -1,4 +1,4 @@
-# Navarra
+![Logo](https://github.com/Navarra/game/raw/master/src/assets/logo.png "Logo")
 
 Welcome to Navarra. A 2D top-down medieval fantasy game using Vue.js, the latest JavaScript and more.
 
