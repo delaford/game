@@ -43,13 +43,13 @@ Here are the types of things I will be adding. Not too over the top but enough t
 
 ## What's this for?
 
-The point of having this game open-sourced is to have this collaberative open-source effort where people can suggest their ideas, code and efforts. Take a look at the issues to get started!
+The point of having this game on an open-source platform is to have the collaborative effort where people can suggest their ideas, code from pull-requests and overall efforts. Take a look at the issues to get started!
 
-When release beta 1.0.0 drops, players will see the ability to connect, create a player and save their data and the bare bones like fighting small monsters, gain loot and perform some small actions in a small, small world.
+When release beta 1.0.0 drops, players will see the ability to connect (via websockets and Node.js), fighting small monsters, gain loot and perform some small actions in a small, small world. The barebones. Oh, and having the ability to _save their data_.
 
 After release alpha 1.0.0, Navarra will be officially stable where players will be able to collect items in their bank, gain experience points in multiple skills and *not have their data reset*.
 
-**What about after it's officially released?** Navarra will continue to be officially developed and open-source. Depending on the popularity, efforts will be redistributed.
+**What about after it's officially released?** Navarra will continue to be officially developed and open-source. Depending on the popularity, efforts will be redistributed on how we can prioritize moving forward. There's lots on the backburner such as an administrative panel for admins and player mods, an API, an online site to register/create players (will most likely use Laravel here) and more.
 
 The end-game is, at its core, to make a fun medieval fantasy game with the latest JavaScript harnessing the best of the web such as D3 for graphs, Vue.js and more.
 
