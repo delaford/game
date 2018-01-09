@@ -117,6 +117,9 @@ class Map {
     // to where they clicked on the map
     const path = await this.findQuickestPath(x, y);
 
+    // Actively set mouse coordinates while walking
+    this.setMouseCoordinates(this.mouse.x, this.mouse.y);
+
     // If the tile we clicked on
     // can be walked on, continue ->
     if (this.path.current.walkable && path.length && path.length > 1) {
