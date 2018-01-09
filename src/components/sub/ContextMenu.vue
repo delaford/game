@@ -113,7 +113,10 @@ $menu_bg_color: #8d8d8d;
 $menu_font_color: #fff;
 $menu_width: 175px;
 $menu_font_hover_color: #ffd829;
-
+@font-face {
+  font-family: "ChatFont";
+  src: url("../../assets/fonts/PxPlus_IBM_VGA8.ttf") format("truetype");
+}
 @font-face {
   font-family: "GameFont";
   src: url("../../assets/fonts/pixelmix.ttf") format("truetype"),
