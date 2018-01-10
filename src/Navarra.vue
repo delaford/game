@@ -4,7 +4,7 @@
 
     <div class="wrapper">
       <Canvas :game="game" />
-      <Chatbox/>
+      <Chatbox :game="game"/>
     </div>
   </div>
 </template>
@@ -33,7 +33,6 @@ export default {
     // Start game
     this.game = new Game(this.config.assets);
     await this.game.start();
-    debugger;
     this.loaded = true;
 
     const engine = new Engine(this.game);
