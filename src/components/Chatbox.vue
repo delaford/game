@@ -1,16 +1,59 @@
 <template>
     <div class="chatbox">
-      <textarea readonly id="chat">Welcome to Woodhurst.</textarea>
+      <div readonly id="chat">
+        <div v-for="(chat, i) in chatbox" class="chat"> {{ showChatMessage(chat) }}</div>
+      </div>
 
-      <input maxlength="50" v-model="said" type="text" class="typing">
+      <input @keydown.enter="say" maxlength="50" v-model="said" type="text" class="typing">
     </div>
 </template>
 
 <script>
 export default {
+  methods: {
+    showChatMessage(chat) {
+      let message = '';
+      if (chat.type === 'chat') {
+        message = `Sir: ${chat.text}`;
+      }
+
+      if (chat.type === 'normal') {
+        message = chat.text;
+      }
+
+      return message;
+    },
+    say() {
+      if (this.sayingSomething) {
+        // TODO: Transfer to network code
+        const typed = [
+          ...this.chatbox,
+          {
+            type: 'chat',
+            text: this.said,
+          },
+        ];
+
+        Object.assign(this.chatbox, typed);
+
+        this.said = '';
+      }
+    },
+  },
+  computed: {
+    sayingSomething() {
+      return this.said.length >= 1 && this.said.length <= 50;
+    },
+  },
   data() {
     return {
-      said: 'Hello world.',
+      said: '',
+      chatbox: [
+        {
+          type: 'normal',
+          text: 'Welcome to Navarra.',
+        },
+      ],
     };
   },
 };
@@ -20,12 +63,13 @@ export default {
 .chatbox {
   display: flex;
   flex-direction: column;
-  textarea#chat {
+  div#chat {
     font-family: "ChatFont";
     background-color: #ededed;
     color: #383838;
     padding: 5px;
     width: 100%;
+    text-align: left;
     box-sizing: border-box;
     resize: none;
     border-width: 0;

@@ -4,6 +4,7 @@ import bus from '../core/utilities/bus';
 
 class Player {
   constructor(data) {
+    this.username = data.username;
     this.x = data.x;
     this.y = data.y;
     this.moving = false;

@@ -3,20 +3,44 @@
     <img class="logo" src="./assets/logo.png" alt="Logo">
 
     <div class="wrapper">
-      <Game/>
+      <Canvas :game="game" />
       <Chatbox/>
     </div>
   </div>
 </template>
 
 <script>
-import Game from './components/Game';
+import Canvas from './components/Canvas';
 import Chatbox from './components/Chatbox';
+
+import Game from './core/game';
+import Engine from './core/engine';
+import config from './core/config';
 
 export default {
   name: 'navarra',
   components: {
-    Game, Chatbox,
+    Canvas, Chatbox,
+  },
+  data() {
+    return {
+      config,
+      loaded: false,
+      game: false,
+    };
+  },
+  async mounted() {
+    // Start game
+    this.game = new Game(this.config.assets);
+    await this.game.start();
+    debugger;
+    this.loaded = true;
+
+    const engine = new Engine(this.game);
+    engine.start();
+
+    // Focus on the game-map
+    document.querySelector('canvas#game-map').focus();
   },
 };
 </script>

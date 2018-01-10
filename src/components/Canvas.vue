@@ -11,7 +11,7 @@
       @keyup="movePlayer">
     </canvas>
 
-    <context-menu v-if="loaded" :game="game"></context-menu>
+    <context-menu :game="game"></context-menu>
   </div>
 </template>
 
@@ -25,42 +25,21 @@
  * (JS) Core files tells data for context menu
  * (HTML) What to and where to display
  */
-import config from '../core/config';
-import Game from '../core/game';
 import UI from '../core/utilities/ui';
 import bus from '../core/utilities/bus';
+import config from '../core/config';
 
-import Engine from '../core/engine';
-
-import ContextMenu from './sub/ContextMenu';
-
+// Main Vue components
 import Chatbox from './Chatbox';
+
+// Sub Vue components
+import ContextMenu from './sub/ContextMenu';
 
 export default {
   name: 'Game',
-  data() {
-    return {
-      config,
-      loaded: false,
-      game: false,
-    };
-  },
+  props: ['game'],
   components: {
     ContextMenu, Chatbox,
-  },
-  async mounted() {
-    // Start game
-    this.game = new Game(this.config.assets);
-    await this.game.start();
-    this.loaded = true;
-
-    const engine = new Engine(this.game);
-    engine.start();
-
-    console.log('Welcome to Woodhurst!');
-
-    // Focus on the game-map
-    document.querySelector('canvas#game-map').focus();
   },
   methods: {
     /**
@@ -99,7 +78,7 @@ export default {
      * @param {event} event
      */
     mouseSelection(event) {
-      const { tile } = this.config.map.tileset;
+      const { tile } = config.map.tileset;
 
       const hoveredSquare = {
         x: Math.floor(UI.getMousePos(event).x / tile.width),

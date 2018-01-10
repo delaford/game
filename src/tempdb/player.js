@@ -25,7 +25,6 @@ module.exports = {
   memberLevel: 2,
   online: true,
   server: 1,
-  sid: 'twJxqcR4mywEwsG8AAAB',
   signedUp: 1474513259945,
   skills: {
     cooking: {
@@ -87,7 +86,7 @@ module.exports = {
     monstersKilled: 0,
     timesLogged: 1,
   },
-  username: 'Dan',
+  username: 'Player',
   wear: {
     armor: 0,
     arrows: {
