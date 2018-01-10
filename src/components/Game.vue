@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="game">
     <canvas tabindex="0"
       id="game-map"
       class="main-canvas"
@@ -34,6 +34,8 @@ import Engine from '../core/engine';
 
 import ContextMenu from './sub/ContextMenu';
 
+import Chatbox from './Chatbox';
+
 export default {
   name: 'Game',
   data() {
@@ -44,7 +46,7 @@ export default {
     };
   },
   components: {
-    ContextMenu,
+    ContextMenu, Chatbox,
   },
   async mounted() {
     // Start game
@@ -131,8 +133,15 @@ export default {
 
 <style lang="scss" scoped>
 /** Main canvas **/
-.wrapper {
+@font-face {
+  font-family: "ChatFont";
+  src: url("../assets/fonts/PxPlus_IBM_VGA8.ttf") format("truetype");
+}
+div.game {
+  height: 352px;
+  margin-bottom: 5px;
   canvas.main-canvas {
+    height: 352px;
     background: #fff;
     outline: none;
     cursor: pointer;

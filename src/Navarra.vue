@@ -1,22 +1,27 @@
 <template>
   <div id="app">
     <img class="logo" src="./assets/logo.png" alt="Logo">
-    <Game/>
+
+    <div class="wrapper">
+      <Game/>
+      <Chatbox/>
+    </div>
   </div>
 </template>
 
 <script>
 import Game from './components/Game';
+import Chatbox from './components/Chatbox';
 
 export default {
   name: 'navarra',
   components: {
-    Game,
+    Game, Chatbox,
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css";
 #app {
   font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
@@ -33,16 +38,10 @@ export default {
   img.logo {
     margin-bottom: 1em;
   }
-}
 
-html {
-  height: 100%;
-  background-color: #655a5a;
-
-  body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  .wrapper {
+    background-color: #ababab;
+    padding: 5px;
   }
 }
 </style>
