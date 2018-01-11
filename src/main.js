@@ -11,6 +11,3 @@ new Vue({
   template: '<Navarra/>',
   components: { Navarra },
 });
-
-// Setup Vue bus *choo, choo*
-window.events = new Vue();

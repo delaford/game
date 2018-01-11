@@ -9,9 +9,27 @@
 </template>
 
 <script>
+import bus from '../core/utilities/bus';
+
 export default {
   props: ['game'],
+  mounted() {
+    bus.$on('CHAT:MESSAGE', this.display);
+  },
+  watch: {
+    chatbox: {
+      handler() {
+        console.log('changed');
+      },
+      deep: true,
+    },
+  },
   methods: {
+    say() {
+      if (this.sayingSomething) {
+        this.display({ text: this.said, type: 'chat' });
+      }
+    },
     /**
      * Displays the chat box
      *
@@ -34,36 +52,44 @@ export default {
           break;
       }
 
+      // AFTER EXAMINE TEXT
+      // DO SAY SO THE VUE ARRAY OF CHATBOX
+      // GETS UPDATED
+
       return message;
     },
-    say() {
-      if (this.sayingSomething) {
-        // TODO: Transfer to network code
-        // Make new chat message object
-        const typed = [
-          ...this.chatbox,
-          {
-            type: 'chat',
-            color: '#1D56F2',
-            text: this.said,
-          },
+    display({ text, type }) {
+      // TODO: Transfer to network code
+      const typed = [
+        ...this.chatbox,
+        {
+          type,
+          color: '#1D56F2',
+          text,
+        },
+      ];
 
-        ];
+      // Copy new messages to original object
+      Object.assign(this.chatbox, typed);
 
-        // Copy new messages to original object
-        Object.assign(this.chatbox, typed);
+      this.clearInput();
 
-        // Clear out user input
-        this.said = '';
+      this.scrollDown();
 
-        this.$nextTick(
-          () => {
-            // Scroll to bottom
-            const container = this.$el.querySelector('div#chat');
-            container.scrollTop = container.scrollHeight;
-          },
-        );
-      }
+      this.$forceUpdate();
+    },
+    clearInput() {
+      // Clear out user input
+      this.said = '';
+    },
+    scrollDown() {
+      this.$nextTick(
+        () => {
+          // Scroll to bottom
+          const container = this.$el.querySelector('div#chat');
+          container.scrollTop = container.scrollHeight;
+        },
+      );
     },
   },
   computed: {
