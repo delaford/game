@@ -3,8 +3,18 @@
     <img class="logo" src="./assets/logo.png" alt="Logo">
 
     <div class="wrapper">
-      <Canvas :game="game" />
-      <Chatbox :game="game"/>
+      <div class="left">
+        <Canvas :game="game" />
+        <Chatbox :game="game" />
+      </div>
+      <div class="right">
+
+        <div class="content">
+          Minimap?
+        </div>
+
+        <Slots :game="game" />
+      </div>
     </div>
   </div>
 </template>
@@ -12,6 +22,7 @@
 <script>
 import Canvas from './components/Canvas';
 import Chatbox from './components/Chatbox';
+import Slots from './components/Slots';
 
 import Game from './core/game';
 import Engine from './core/engine';
@@ -20,7 +31,7 @@ import config from './core/config';
 export default {
   name: 'navarra',
   components: {
-    Canvas, Chatbox,
+    Canvas, Chatbox, Slots,
   },
   data() {
     return {
@@ -63,9 +74,21 @@ export default {
     margin-bottom: 1em;
   }
 
-  .wrapper {
+  div.wrapper {
     background-color: #ababab;
     padding: 5px;
+    display: grid;
+    grid-template-columns: 512px 180px;
+
+    div.content {
+      display: flex;
+      background-color: #c7c7c7;
+      color: darken(#a7a7a7, 10%);
+      height: 75px;
+      font-size: 12px;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 </style>
