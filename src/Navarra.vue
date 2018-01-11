@@ -35,10 +35,11 @@ export default {
     await this.game.start();
     this.loaded = true;
 
+    // Start game engine
     const engine = new Engine(this.game);
     engine.start();
 
-    // Focus on the game-map
+    // Focus mouse on the game-map
     document.querySelector('canvas#game-map').focus();
   },
 };
