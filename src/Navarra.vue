@@ -10,7 +10,6 @@
       <div class="right">
 
         <div class="content">
-          Minimap?
         </div>
 
         <Slots :game="game" />

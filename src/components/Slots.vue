@@ -13,7 +13,7 @@
     </div>
 
     <div class="pane">
-      Stuff goes here
+      <Inventory />
     </div>
 
     <div class="bottom_slots">
@@ -34,7 +34,12 @@
 </template>
 
 <script>
+import Inventory from './slots/Inventory';
+
 export default {
+  components: {
+    Inventory,
+  },
   props: ['game'],
 };
 </script>
@@ -76,6 +81,7 @@ div.slots {
     background: $main_bg_color;
     height: 280px;
     width: auto;
+    padding: 5px;
   }
 }
 </style>
