@@ -14,21 +14,17 @@ import bus from '../core/utilities/bus';
 export default {
   props: ['game'],
   mounted() {
-    bus.$on('CHAT:MESSAGE', this.display);
-  },
-  watch: {
-    chatbox: {
-      handler() {
-        console.log('changed');
-      },
-      deep: true,
-    },
+    bus.$on('CHAT:MESSAGE', this.pipeline);
   },
   methods: {
-    say() {
-      if (this.sayingSomething) {
-        this.display({ text: this.said, type: 'chat' });
-      }
+    /**
+     * Transfer messages from other components to chatbox
+     *
+     * @param {object} data The message to add
+     */
+    pipeline(data) {
+      this.said = data.text;
+      this.say(null, data.type);
     },
     /**
      * Displays the chat box
@@ -58,38 +54,54 @@ export default {
 
       return message;
     },
-    display({ text, type }) {
-      // TODO: Transfer to network code
-      const typed = [
-        ...this.chatbox,
-        {
-          type,
-          color: '#1D56F2',
-          text,
-        },
-      ];
+    /**
+     * Add message to chatbox
+     *
+     * @param {event} event The event code
+     * @param {string} type The type of message we are adding
+     */
+    say(event, type = 'chat') {
+      // Does our message actually have lines?
+      if (this.sayingSomething) {
+        // TODO: Transfer to network code
+        const typed = [
+          ...this.chatbox,
+          {
+            type,
+            color: '#1D56F2',
+            text: this.said,
+          },
 
-      // Copy new messages to original object
-      Object.assign(this.chatbox, typed);
+        ];
 
-      this.clearInput();
+        // Copy new messages to original object
+        Object.assign(this.chatbox, typed);
 
-      this.scrollDown();
+        // Clear user input
+        this.clearInput();
 
-      this.$forceUpdate();
+        // Scroll chatbox to bottom
+        this.scrollToBottom();
+      }
     },
+    /**
+     * Scroll chatbox to bottom on next Vue's life-cycle tick
+     */
+    scrollToBottom() {
+      this.$nextTick(
+          () => {
+            // Scroll to bottom
+            const container = this.$el.querySelector('div#chat');
+            container.scrollTop = container.scrollHeight;
+          },
+        );
+    },
+    /**
+     * Clear user input
+     */
     clearInput() {
       // Clear out user input
       this.said = '';
-    },
-    scrollDown() {
-      this.$nextTick(
-        () => {
-          // Scroll to bottom
-          const container = this.$el.querySelector('div#chat');
-          container.scrollTop = container.scrollHeight;
-        },
-      );
     },
   },
   computed: {
