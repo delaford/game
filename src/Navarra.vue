@@ -1,23 +1,68 @@
 <template>
   <div id="app">
     <img class="logo" src="./assets/logo.png" alt="Logo">
-    <Game/>
+
+    <div class="wrapper">
+      <div class="left">
+
+        <!-- Main canvas -->
+        <Canvas :game="game" />
+
+        <!-- Chatbox -->
+        <Chatbox :game="game" />
+      </div>
+      <div class="right">
+        <!-- Player overview -->
+        <Info :game="game" />
+
+        <!-- Slots (Stats, Wear, Inventory, etc.) -->
+        <Slots :game="game" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Game from './components/Game';
+import Canvas from './components/Canvas';
+import Chatbox from './components/Chatbox';
+import Slots from './components/Slots';
+import Info from './components/Info';
+
+import Game from './core/game';
+import Engine from './core/engine';
+import config from './core/config';
 
 export default {
   name: 'navarra',
   components: {
-    Game,
+    Canvas, Chatbox, Info, Slots,
+  },
+  data() {
+    return {
+      config,
+      loaded: false,
+      game: false,
+    };
+  },
+  async mounted() {
+    // Start game
+    this.game = new Game(this.config.assets);
+    await this.game.start();
+    this.loaded = true;
+
+    // Start game engine
+    const engine = new Engine(this.game);
+    engine.start();
+
+    // Focus mouse on the game-map
+    document.querySelector('canvas#game-map').focus();
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css";
+
 #app {
   font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,16 +78,24 @@ export default {
   img.logo {
     margin-bottom: 1em;
   }
-}
 
-html {
-  height: 100%;
-  background-color: #655a5a;
+  div.wrapper {
+    background-color: #ababab;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 512px auto;
 
-  body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    div.right {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      div.content {
+        background-color: #c7c7c7;
+        height: 100px;
+        font-size: 12px;
+      }
+    }
   }
 }
 </style>

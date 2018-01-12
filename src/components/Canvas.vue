@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="game">
     <canvas tabindex="0"
       id="game-map"
       class="main-canvas"
@@ -11,7 +11,7 @@
       @keyup="movePlayer">
     </canvas>
 
-    <context-menu v-if="loaded" :game="game"></context-menu>
+    <context-menu :game="game"></context-menu>
   </div>
 </template>
 
@@ -25,40 +25,21 @@
  * (JS) Core files tells data for context menu
  * (HTML) What to and where to display
  */
-import config from '../core/config';
-import Game from '../core/game';
 import UI from '../core/utilities/ui';
 import bus from '../core/utilities/bus';
+import config from '../core/config';
 
-import Engine from '../core/engine';
+// Main Vue components
+import Chatbox from './Chatbox';
 
+// Sub Vue components
 import ContextMenu from './sub/ContextMenu';
 
 export default {
   name: 'Game',
-  data() {
-    return {
-      config,
-      loaded: false,
-      game: false,
-    };
-  },
+  props: ['game'],
   components: {
-    ContextMenu,
-  },
-  async mounted() {
-    // Start game
-    this.game = new Game(this.config.assets);
-    await this.game.start();
-    this.loaded = true;
-
-    const engine = new Engine(this.game);
-    engine.start();
-
-    console.log('Welcome to Woodhurst!');
-
-    // Focus on the game-map
-    document.querySelector('canvas#game-map').focus();
+    ContextMenu, Chatbox,
   },
   methods: {
     /**
@@ -97,7 +78,7 @@ export default {
      * @param {event} event
      */
     mouseSelection(event) {
-      const { tile } = this.config.map.tileset;
+      const { tile } = config.map.tileset;
 
       const hoveredSquare = {
         x: Math.floor(UI.getMousePos(event).x / tile.width),
@@ -131,8 +112,15 @@ export default {
 
 <style lang="scss" scoped>
 /** Main canvas **/
-.wrapper {
+@font-face {
+  font-family: "ChatFont";
+  src: url("../assets/fonts/PxPlus_IBM_VGA8.ttf") format("truetype");
+}
+div.game {
+  height: 352px;
+  margin-bottom: 5px;
   canvas.main-canvas {
+    height: 352px;
     background: #fff;
     outline: none;
     cursor: pointer;
