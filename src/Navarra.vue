@@ -4,14 +4,18 @@
 
     <div class="wrapper">
       <div class="left">
+
+        <!-- Main canvas -->
         <Canvas :game="game" />
+
+        <!-- Chatbox -->
         <Chatbox :game="game" />
       </div>
       <div class="right">
+        <!-- Player overview -->
+        <Info :game="game" />
 
-        <div class="content">
-        </div>
-
+        <!-- Slots (Stats, Wear, Inventory, etc.) -->
         <Slots :game="game" />
       </div>
     </div>
@@ -22,6 +26,7 @@
 import Canvas from './components/Canvas';
 import Chatbox from './components/Chatbox';
 import Slots from './components/Slots';
+import Info from './components/Info';
 
 import Game from './core/game';
 import Engine from './core/engine';
@@ -30,7 +35,7 @@ import config from './core/config';
 export default {
   name: 'navarra',
   components: {
-    Canvas, Chatbox, Slots,
+    Canvas, Chatbox, Info, Slots,
   },
   data() {
     return {
@@ -57,6 +62,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css";
+
 #app {
   font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -77,16 +83,18 @@ export default {
     background-color: #ababab;
     padding: 5px;
     display: grid;
-    grid-template-columns: 512px 180px;
+    grid-template-columns: 512px auto;
 
-    div.content {
+    div.right {
       display: flex;
-      background-color: #c7c7c7;
-      color: darken(#a7a7a7, 10%);
-      height: 75px;
-      font-size: 12px;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      div.content {
+        background-color: #c7c7c7;
+        height: 100px;
+        font-size: 12px;
+      }
     }
   }
 }

@@ -20,6 +20,10 @@
     <div class="item"></div>
     <div class="item"></div>
     <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
   </div>
 </template>
 
@@ -41,7 +45,7 @@ div.inventory_slot {
     width: 35px;
     height: 35px;
     text-align: center;
-    background: red;
+    background: darken(grey, 5%);
   }
 }
 </style>

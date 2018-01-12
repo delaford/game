@@ -9,6 +9,16 @@ class Player {
     this.y = data.y;
     this.moving = false;
 
+    this.hp = {
+      current: data.skills.main.hp.current,
+      max: data.skills.main.hp.max,
+    };
+
+    this.level = data.skills.level;
+
+    this.attack = data.skills.main.attack;
+    this.defence = data.skills.main.defence;
+
     console.log(`Player spawned at ${this.x}, ${this.y}`);
   }
 

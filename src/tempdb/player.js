@@ -39,19 +39,18 @@ module.exports = {
       exp: 0,
       level: 1,
     },
-    level: {
-      exp: 0,
-      level: 1,
-    },
+    level: 1,
     magic: {
       exp: 0,
       level: 1,
     },
     main: {
       attack: 1,
-      currHP: 10,
       defence: 1,
-      maxHP: 10,
+      hp: {
+        current: 7,
+        max: 10,
+      },
     },
     mining: {
       exp: 0,
