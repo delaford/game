@@ -2,7 +2,7 @@
 
 Welcome to Navarra. A 2D top-down medieval fantasy game using Vue.js, the latest JavaScript and more.
 
-![Game](https://github.com/Navarra/game/raw/master/src/assets/navarra_readme_hero.png "Tilemap")
+![Game](https://user-images.githubusercontent.com/616320/34860792-9a2c0ee8-f725-11e7-9e60-91b8610926f2.png "Game")
 
 ## Getting Started
 
@@ -29,12 +29,12 @@ Here are the types of things I will be adding as a minimum viable product (alpha
   - [ ] Character wear
   - [ ] Your first quest
 - [User Interface](https://github.com/Navarra/game/projects/2)
-  - [ ] Inventory tab
+  - [x] Inventory tab
   - [ ] Quests tab
-  - [ ] Chatbox (for players and actions)
+  - [x] Chatbox (for players and actions)
   - [ ] Character wear tab
-  - [ ] Overall look &amp; feel
-  - [ ] Basic view of main player stats
+  - [x] Overall look &amp; feel
+  - [x] Basic view of main player stats
 - [NPC](https://github.com/Navarra/game/projects/3)
   - [ ] Trading
   - [x] Walking around
