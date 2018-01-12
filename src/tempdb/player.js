@@ -25,7 +25,6 @@ module.exports = {
   memberLevel: 2,
   online: true,
   server: 1,
-  sid: 'twJxqcR4mywEwsG8AAAB',
   signedUp: 1474513259945,
   skills: {
     cooking: {
@@ -40,19 +39,18 @@ module.exports = {
       exp: 0,
       level: 1,
     },
-    level: {
-      exp: 0,
-      level: 1,
-    },
+    level: 1,
     magic: {
       exp: 0,
       level: 1,
     },
     main: {
       attack: 1,
-      currHP: 10,
       defence: 1,
-      maxHP: 10,
+      hp: {
+        current: 7,
+        max: 10,
+      },
     },
     mining: {
       exp: 0,
@@ -87,7 +85,7 @@ module.exports = {
     monstersKilled: 0,
     timesLogged: 1,
   },
-  username: 'Dan',
+  username: 'Player',
   wear: {
     armor: 0,
     arrows: {

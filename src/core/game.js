@@ -9,7 +9,6 @@ import Map from './map';
 import Player from './player';
 import NPC from './npc';
 
-
 class Game {
   constructor(assets) {
     this.assets = assets;

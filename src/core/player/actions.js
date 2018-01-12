@@ -54,7 +54,7 @@ class Actions {
       // eslint-disable-next-line no-case-declarations
       case 'examine':
         const getNPC = this.npcs.filter(npc => npc.id === data.item.id)[0];
-        console.log(getNPC.examine);
+        bus.$emit('CHAT:MESSAGE', { type: 'normal', text: getNPC.examine });
         // TODO: Add this to the text-box.
         break;
 
