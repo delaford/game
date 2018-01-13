@@ -10,8 +10,6 @@
       @click.right="rightClick"
       @keyup="movePlayer">
     </canvas>
-
-    <context-menu :game="game"></context-menu>
   </div>
 </template>
 
@@ -29,18 +27,9 @@ import UI from '../core/utilities/ui';
 import bus from '../core/utilities/bus';
 import config from '../core/config';
 
-// Main Vue components
-import Chatbox from './Chatbox';
-
-// Sub Vue components
-import ContextMenu from './sub/ContextMenu';
-
 export default {
   name: 'Game',
   props: ['game'],
-  components: {
-    ContextMenu, Chatbox,
-  },
   methods: {
     /**
      * Right-click brings up context-menu

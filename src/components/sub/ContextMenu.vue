@@ -113,31 +113,33 @@ $menu_bg_color: #8d8d8d;
 $menu_font_color: #fff;
 $menu_width: 175px;
 $menu_font_hover_color: #ffd829;
-
-ul#actions {
-  font-family: "GameFont", sans-serif;
-  box-shadow: 2.5px 2.5px 0px 0px rgba(0, 0, 0, 0.75);
-  outline: none;
-  background: $menu_bg_color;
-  display: block;
-  list-style: none;
-  margin: 0;
-  padding: 0 0 3px 0;
+div {
   position: absolute;
-  width: $menu_width;
-  font-size: 12px;
-  z-index: 999999;
 
-  li.action {
-    cursor: pointer;
-    color: $menu_font_color;
-    text-align: left;
-    padding: 2px 5px;
-    text-shadow: 1px 1px 0px #000;
+  ul#actions {
+    font-family: "GameFont", sans-serif;
+    box-shadow: 2.5px 2.5px 0px 0px rgba(0, 0, 0, 0.75);
+    outline: none;
+    background: $menu_bg_color;
+    display: block;
+    list-style: none;
     margin: 0;
+    padding: 0 0 3px 0;
+    width: $menu_width;
+    font-size: 12px;
+    z-index: 999999;
 
-    &:hover {
-      color: $menu_font_hover_color;
+    li.action {
+      cursor: pointer;
+      color: $menu_font_color;
+      text-align: left;
+      padding: 2px 5px;
+      text-shadow: 1px 1px 0px #000;
+      margin: 0;
+
+      &:hover {
+        color: $menu_font_hover_color;
+      }
     }
   }
 }

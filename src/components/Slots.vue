@@ -73,7 +73,7 @@ export default {
         'Logout',
         'Quests',
       ],
-      selected: 3,
+      selected: 1,
       svg: {
         stats,
         inventory,
