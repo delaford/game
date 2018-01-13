@@ -3,7 +3,9 @@
     <span v-text="player.username"></span>
 
 		<div class="health" v-if="hp">
-			<div :style="displayHealthPercentage" class="bar"></div>
+			<div :style="displayHealthPercentage" class="bar">
+        <div>{{ hp.current + ' / ' + hp.max }}</div>
+      </div>
 		</div>
 
     <div class="stats">
@@ -73,6 +75,13 @@ div.info {
       width: 50%;
       height: 100%;
       background: #3ae43a;
+
+      div {
+        font-size: 10px;
+        color: white;
+        text-shadow: 1px 1px 0 #000;
+        padding: 2px 0 0 4px;
+      }
     }
   }
 

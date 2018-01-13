@@ -52,7 +52,7 @@ div.friend_list {
     width: 100%;
     list-style: none;
     text-align: left;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5em;
 
     li.item:nth-child(odd) {
@@ -64,7 +64,7 @@ div.friend_list {
     }
 
     li.item {
-      padding: 2px 5px;
+      padding: 0 3px;
       span.name {
         text-shadow: 1px 1px 0px black;
         font-family: "ChatFont", sans-serif;
