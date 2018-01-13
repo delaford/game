@@ -1,0 +1,18 @@
+// UI font
+@font-face {
+  font-family: "UIFont";
+  src: url("../../assets/fonts/Px437_IBM_PS2thin2.ttf") format("truetype");
+}
+
+// Chat Font
+@font-face {
+  font-family: "ChatFont";
+  src: url("../../assets/fonts/PxPlus_IBM_VGA8.ttf") format("truetype");
+}
+
+// Canvas Font
+@font-face {
+  font-family: "GameFont";
+  src: url("../../assets/fonts/pixelmix.ttf") format("truetype"),
+    url("../../assets/fonts/pixelmix_bold.ttf") format("truetype");
+}

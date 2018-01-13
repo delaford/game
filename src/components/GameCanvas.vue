@@ -112,10 +112,6 @@ export default {
 
 <style lang="scss" scoped>
 /** Main canvas **/
-@font-face {
-  font-family: "ChatFont";
-  src: url("../assets/fonts/PxPlus_IBM_VGA8.ttf") format("truetype");
-}
 div.game {
   height: 352px;
   margin-bottom: 5px;
