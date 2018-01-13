@@ -15,6 +15,7 @@
       <Stats :game="game" v-show="selected === 0" />
       <Inventory :game="game" v-show="selected === 1" />
       <Friend-List :game="game" v-show="selected === 3" />
+      <Logout :game="game" v-show="selected === 5" />
     </div>
 
     <div class="bottom_slots">
@@ -42,10 +43,11 @@ import quests from '@/assets/graphics/ui/client/slots/quests.svg';
 import Inventory from './slots/Inventory';
 import Stats from './slots/Stats';
 import FriendList from './slots/FriendList';
+import Logout from './slots/Logout';
 
 export default {
   components: {
-    Inventory, Stats, FriendList,
+    Inventory, Stats, FriendList, Logout,
   },
   methods: {
     setPane(event, index) {
