@@ -6,7 +6,7 @@
       <div class="left">
 
         <!-- Main canvas -->
-        <Canvas :game="game" />
+        <GameCanvas :game="game" />
 
         <!-- Chatbox -->
         <Chatbox :game="game" />
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Canvas from './components/Canvas';
+import GameCanvas from './components/GameCanvas';
 import Chatbox from './components/Chatbox';
 import Slots from './components/Slots';
 import Info from './components/Info';
@@ -35,7 +35,7 @@ import config from './core/config';
 export default {
   name: 'navarra',
   components: {
-    Canvas, Chatbox, Info, Slots,
+    GameCanvas, Chatbox, Info, Slots,
   },
   data() {
     return {
