@@ -18,6 +18,8 @@
         <!-- Slots (Stats, Wear, Inventory, etc.) -->
         <Slots :game="game" />
       </div>
+
+      <context-menu :game="game"></context-menu>
     </div>
   </div>
 </template>
@@ -28,6 +30,9 @@ import Chatbox from './components/Chatbox';
 import Slots from './components/Slots';
 import Info from './components/Info';
 
+// Sub Vue components
+import ContextMenu from './components/sub/ContextMenu';
+
 import Game from './core/game';
 import Engine from './core/engine';
 import config from './core/config';
@@ -35,7 +40,7 @@ import config from './core/config';
 export default {
   name: 'navarra',
   components: {
-    GameCanvas, Chatbox, Info, Slots,
+    GameCanvas, Chatbox, Info, Slots, ContextMenu,
   },
   data() {
     return {
@@ -46,6 +51,8 @@ export default {
   },
   methods: {
     nothing(event) {
+      // Make right-click system for
+      // rest of the game view.
       event.preventDefault();
     },
   },
@@ -93,6 +100,7 @@ export default {
     div.right {
       display: flex;
       flex-direction: column;
+      position: relative;
       justify-content: flex-end;
 
       div.content {
