@@ -29,11 +29,6 @@ export default {
       deep: true,
     },
   },
-  methods: {
-    updateFPS(val) {
-      console.log(val);
-    },
-  },
   data() {
     return {
       selected: {
