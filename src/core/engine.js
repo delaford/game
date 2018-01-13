@@ -1,4 +1,5 @@
 import UI from '../core/utilities/ui';
+import bus from '../core/utilities/bus';
 
 class Engine {
   constructor(game) {
@@ -22,6 +23,8 @@ class Engine {
     // Bind context to same method as
     // we will be calling it out-of-context
     this.loop = this.loop.bind(this);
+
+    bus.$on('SETTINGS:FPS', s => this.change('fps', s));
   }
 
   /**
@@ -84,6 +87,17 @@ class Engine {
 
       return npc;
     });
+  }
+
+  change(setting, val) {
+    switch (setting) {
+      case 'fps':
+        this.fps.max = val;
+        break;
+
+      default:
+        break;
+    }
   }
 
   /**
