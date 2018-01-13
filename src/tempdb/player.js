@@ -7,14 +7,28 @@ module.exports = {
       qty: 50,
     },
   },
-  friend_list: {
-    dan: {
-      added: 1474513259950,
-      lastTalked: 0,
-      timesTalked: 0,
-      userLinked: 'dan',
+  friend_list: [
+    {
+      added: 1474513255950,
+      online: false,
+      user: 'Haydn',
     },
-  },
+    {
+      added: 1474513159950,
+      online: true,
+      user: 'Beethoven',
+    },
+    {
+      added: 1474513259950,
+      online: false,
+      user: 'Mozart',
+    },
+    {
+      added: 1474513259670,
+      online: true,
+      user: 'Handel',
+    },
+  ],
   inventory: {
     slot_1: {
       amount: 1,
@@ -26,56 +40,43 @@ module.exports = {
   online: true,
   server: 1,
   signedUp: 1474513259945,
-  skills: {
-    cooking: {
-      exp: 0,
-      level: 1,
-    },
-    fishing: {
-      exp: 0,
-      level: 1,
-    },
-    health: {
-      exp: 0,
-      level: 1,
-    },
-    level: 1,
-    magic: {
-      exp: 0,
-      level: 1,
-    },
-    main: {
-      attack: 1,
-      defence: 1,
-      hp: {
-        current: 7,
-        max: 10,
-      },
-    },
-    mining: {
-      exp: 0,
-      level: 1,
-    },
-    range: {
-      exp: 0,
-      level: 1,
-    },
-    scrolls: {
-      archaeologist: 0,
-      criticalTimes: 0,
-      fracturedBone: 0,
-      hardHitter: 0,
-      internalBleeding: 0,
-      merchant: 0,
-      miningFiend: 0,
-      sleekFox: 0,
-      steelStrength: 0,
-    },
-    smithing: {
-      exp: 0,
-      level: 1,
-    },
+  level: 1,
+  hp: {
+    current: 9,
+    max: 10,
   },
+  skills: [
+    {
+      name: 'Attack',
+      level: 1,
+      exp: 0,
+    },
+    {
+      name: 'Defence',
+      level: 1,
+      exp: 0,
+    },
+    {
+      name: 'Mining',
+      level: 1,
+      exp: 0,
+    },
+    {
+      name: 'Smithing',
+      level: 1,
+      exp: 0,
+    },
+    {
+      name: 'Cooking',
+      level: 1,
+      exp: 0,
+    },
+    {
+      name: 'Fishing',
+      level: 1,
+      exp: 0,
+    },
+  ],
   stats: {
     damageGiven: 0,
     damageTaken: 0,

@@ -11,8 +11,8 @@
         <strong>Lvl:</strong> <span class="integer" v-text="player.level"></span>
       </div>
       <div class="att_def">
-        <strong>ATT:</strong> <span class="integer" v-text="player.attack"></span>
-        <strong>DEF:</strong> <span class="integer" v-text="player.defence"></span>
+        <strong>ATT:</strong> <span class="integer" v-text="getAttack.level"></span>
+        <strong>DEF:</strong> <span class="integer" v-text="getDefence.level"></span>
       </div>
     </div>
 
@@ -35,6 +35,12 @@ export default {
     getHealthPercentage() {
       return (this.hp.current / this.hp.max) * 100;
     },
+    getAttack() {
+      return this.game.player.skills.filter(s => s.name === 'Attack')[0];
+    },
+    getDefence() {
+      return this.game.player.skills.filter(s => s.name === 'Defence')[0];
+    },
     displayHealthPercentage() {
       return `width:${this.getHealthPercentage}%`;
     },
@@ -44,12 +50,6 @@ export default {
 
 <style lang="scss" scoped>
 $info_text_color: rgb(68, 68, 68);
-
-@font-face {
-  font-family: "GameFont";
-  src: url("../assets/fonts/pixelmix.ttf") format("truetype"),
-    url("../assets/fonts/pixelmix_bold.ttf") format("truetype");
-}
 
 div.info {
   margin-bottom: auto;

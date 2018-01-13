@@ -114,12 +114,6 @@ $menu_font_color: #fff;
 $menu_width: 175px;
 $menu_font_hover_color: #ffd829;
 
-@font-face {
-  font-family: "GameFont";
-  src: url("../../assets/fonts/pixelmix.ttf") format("truetype"),
-    url("../../assets/fonts/pixelmix_bold.ttf") format("truetype");
-}
-
 ul#actions {
   font-family: "GameFont", sans-serif;
   box-shadow: 2.5px 2.5px 0px 0px rgba(0, 0, 0, 0.75);
