@@ -2,7 +2,7 @@
   <div id="app">
     <img class="logo" src="./assets/logo.png" alt="Logo">
 
-    <div class="wrapper">
+    <div class="wrapper" @click.right="nothing">
       <div class="left">
 
         <!-- Main canvas -->
@@ -43,6 +43,11 @@ export default {
       loaded: false,
       game: false,
     };
+  },
+  methods: {
+    nothing(event) {
+      event.preventDefault();
+    },
   },
   async mounted() {
     // Start game
