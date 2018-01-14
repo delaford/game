@@ -20,9 +20,9 @@
       </div>
 
       <div class="third_row row">
-        <div class="slot right"></div>
+        <div class="slot sword"></div>
         <div class="slot torso"></div>
-        <div class="slot left"></div>
+        <div class="slot shield"></div>
       </div>
 
       <div class="fourth_row row">
@@ -53,6 +53,7 @@ div.wear {
     stroke: darken(darkgrey, 25%);
     stroke-width: 3;
     height: 100%;
+    width: 100%;
     top: 0;
     left: 0;
   }
@@ -61,13 +62,8 @@ div.wear {
     flex-direction: column;
     align-content: center;
     height: 100%;
-
     display: grid;
     grid-template-columns: repeat(20, [col-start] 1fr);
-
-    div {
-      width: 100%;
-    }
 
     div.slot {
       height: 35px;
@@ -76,11 +72,21 @@ div.wear {
       width: 35px;
       margin: 0;
       background-color: darken(darkgrey, 10%);
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     div.row {
+      width: 100%;
       display: inline-flex;
       margin-bottom: 1em;
+
+      $slots: torso gloves shield head arrows necklace sword ring boots cape;
+      @each $slot in $slots {
+        div.#{$slot} {
+          background-image: url(./../../assets/graphics/ui/client/slots/wear/#{$slot}.png);
+        }
+      }
     }
 
     div.first_row {
