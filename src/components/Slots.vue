@@ -14,6 +14,7 @@
     <div class="pane" v-if="game.player">
       <Stats :game="game" v-show="selected === 0" />
       <Inventory :game="game" v-show="selected === 1" />
+      <Wear :game="game" v-show="selected === 2" />
       <Friend-List :game="game" v-show="selected === 3" />
       <Settings v-show="selected === 4" />
       <Logout :game="game" v-show="selected === 5" />
@@ -48,10 +49,11 @@ import FriendList from './slots/FriendList';
 import Logout from './slots/Logout';
 import Quests from './slots/Quests';
 import Settings from './slots/Settings';
+import Wear from './slots/Wear';
 
 export default {
   components: {
-    Inventory, Stats, FriendList, Logout, Quests, Settings,
+    Inventory, Stats, FriendList, Logout, Quests, Settings, Wear,
   },
   methods: {
     setPane(event, index) {
