@@ -1,13 +1,16 @@
 import tilesetImage from '@/assets/tiles/tileset.png';
 import npcImage from '@/assets/graphics/actors/npcs.png';
 import playerImage from '@/assets/graphics/actors/players/human.png';
+import weaponsImage from '@/assets/graphics/items/weapons.png';
 import npcs from '@/tempdb/npcs';
+import items from '@/tempdb/items';
 import player from '@/tempdb/player';
 
 import bus from '../core/utilities/bus';
 import Map from './map';
 import Player from './player';
 import NPC from './npc';
+import Item from './item';
 
 class Game {
   constructor(assets) {
@@ -16,6 +19,7 @@ class Game {
     this.map = null;
     this.board = null;
     this.player = null;
+    this.items = [];
     this.npcs = [];
 
     bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.setMouseCoordinates(x, y));
@@ -38,6 +42,9 @@ class Game {
       // Create NPCs
       data.npcs.forEach(npc => this.npcs.push(new NPC(npc)), this);
 
+      // Create items
+      data.items.forEach(item => this.items.push(new Item(item)), this);
+      debugger;
       // Load map data
       this.map = new Map('surface', images, this.player, this.npcs);
       this.board = await this.map.load();
@@ -75,6 +82,7 @@ class Game {
       playerImage,
       tilesetImage,
       npcImage,
+      weaponsImage,
     ];
 
     const images = Object.values(assets).map(asset =>
@@ -95,6 +103,7 @@ class Game {
         map: Map,
         player,
         npcs,
+        items,
       };
 
       resolve(block);
