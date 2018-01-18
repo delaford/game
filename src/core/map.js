@@ -5,6 +5,7 @@ import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
 import config from './config';
 import UI from './utilities/ui';
 import bus from '../core/utilities/bus';
+import surfaceMap from '../../server/maps/layers/surface.json';
 
 
 class Map {
@@ -16,6 +17,7 @@ class Map {
     // Image and data
     this.images = { playerImage, tilesetImage, npcsImage };
     this.board = null;
+    this.foreground = null;
     this.player = player;
     this.npcs = npcs;
 
@@ -78,7 +80,11 @@ class Map {
    * @param {array} board The tile index of the board
    */
   build(board) {
-    this.board = board;
+    this.board = board[0];
+    this.foreground = board[1];
+    debugger;
+
+    // Setup config from data here (this.config)
 
     this.setUpCanvas();
   }
@@ -326,8 +332,9 @@ class Map {
    * @returns {array}
    */
   static fetchMap(level) {
+    console.log(level);
     return new Promise((resolve) => {
-      resolve(mapLoad[level]);
+      resolve(surfaceMap.layers);
     });
   }
 }

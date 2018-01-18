@@ -13,19 +13,19 @@ const config = {
       width: 768,
       height: 800,
       tile: { // How big is each tile?
-        width: 32,
-        height: 32,
+        width: 0,
+        height: 0,
       },
       // eslint-disable-next-line
-      blocked: [1, 442, 324, 289, 396, 567, 156, 424, 283, 426, 23, 343, 346, 446, 90, 493, 509, 494, 492, 502, 485, 501, 495],
+      blocked: [],
     },
     viewport: { // How big will our view be?
       x: 15,
       y: 10,
     },
     size: { // How big will our map be?
-      x: 100,
-      y: 100,
+      x: null,
+      y: null,
     },
     player: {
       x: 7,
