@@ -9,13 +9,13 @@ import surfaceMap from '../../server/maps/layers/surface.json';
 
 
 class Map {
-  constructor(level, [playerImage, tilesetImage, npcsImage], player, npcs) {
+  constructor(level, [playerImage, tilesetImage, npcsImage, objectImage, terrainImage], player, npcs) {
     // Getters & Setters
     this.config = config;
     this.level = level;
 
     // Image and data
-    this.images = { playerImage, tilesetImage, npcsImage };
+    this.images = { playerImage, tilesetImage, npcsImage, objectImage, terrainImage };
     this.board = null;
     this.foreground = null;
     this.player = player;
@@ -78,13 +78,16 @@ class Map {
    * Starts to setup board canvas
    *
    * @param {array} board The tile index of the board
+   * @param {array} images The image board assets
    */
-  build(board) {
+  build(board, images) {
+    const [player, tileset, npc, objects, terrain] = images;
     this.board = board[0];
     this.foreground = board[1];
-    debugger;
 
     // Setup config from data here (this.config)
+    this.config.map.tileset.width = terrain.width;
+    this.config.map.tileset.height = terrain.height;
 
     this.setUpCanvas();
   }
@@ -295,7 +298,7 @@ class Map {
         };
 
         this.context.drawImage(
-          this.images.tilesetImage, // The Image() instance
+          this.images.terrainImage, // The Image() instance
           tile.clip.x, // Coordinate to clip the X-axis
           tile.clip.y, // Coordinate to clip the Y-axis
           tile.width, // How wide, in pixels, to clip the sub-rectangle

@@ -48,7 +48,13 @@ class Game {
       const mapData = await this.map.load();
       this.board = mapData[0].data;
       this.foreground = mapData[0].data;
-      this.map.build(this.board);
+
+      this.images = [
+        terrainTileset,
+        objectsTileset,
+      ];
+
+      this.map.build([this.board, this.foreground], images);
 
       resolve(200);
     });

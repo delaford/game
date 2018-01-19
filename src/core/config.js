@@ -10,8 +10,18 @@ const config = {
   version: '0.0.1',
   map: {
     tileset: { // How big is the tileset?
-      width: 768,
-      height: 800,
+      width: 0,
+      height: 0,
+      tile: { // How big is each tile?
+        width: 32,
+        height: 32,
+      },
+      // eslint-disable-next-line
+      blocked: [],
+    },
+    objects: { // How big is the objects tileset?
+      width: 0,
+      height: 0,
       tile: { // How big is each tile?
         width: 0,
         height: 0,
@@ -24,8 +34,8 @@ const config = {
       y: 10,
     },
     size: { // How big will our map be?
-      x: null,
-      y: null,
+      x: 200,
+      y: 200,
     },
     player: {
       x: 7,
