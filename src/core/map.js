@@ -89,6 +89,9 @@ class Map {
     this.config.map.tileset.width = terrain.width;
     this.config.map.tileset.height = terrain.height;
 
+    this.config.map.objects.width = objects.width;
+    this.config.map.objects.height = objects.height;
+
     this.setUpCanvas();
   }
 
@@ -266,8 +269,10 @@ class Map {
     const y = this.player.y;
 
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    const { tileset, size, viewport } = this.config.map;
+    const { tileset, size, viewport, objects } = this.config.map;
+
     const tilesetDivider = tileset.width / tileset.tile.width;
+    const objectDivider = objects.width / tileset.tile.width;
 
     const tileCrop = {
       x: x - Math.floor(0.5 * viewport.x),
@@ -280,8 +285,12 @@ class Map {
     for (let column = 0; column <= viewport.y; column += 1) {
       const grid = [];
       for (let row = 0; row <= viewport.x; row += 1) {
-        const tileSearch = this.board[(((column + tileCrop.y) * size.x) + row) + tileCrop.x] - 1;
+        const tileToFind = (((column + tileCrop.y) * size.x) + row) + tileCrop.x;
+        const tileSearch = this.board[tileToFind] - 1;
+        const foregroundTile = (this.foreground[tileToFind] - 1) - 252;
+
         grid.push(UI.tileWalkable(tileSearch) ? 0 : 1);
+
 
         // Get the correct tile to draw
         const tile = {
@@ -297,6 +306,20 @@ class Map {
           height: tileset.tile.height,
         };
 
+        const foreTile = {
+          clip: {
+            x: Math.floor(foregroundTile % objectDivider) * objects.tile.width,
+            y: Math.floor(foregroundTile / objectDivider) * objects.tile.height,
+          },
+          pos: {
+            x: row * objects.tile.width,
+            y: column * objects.tile.height,
+          },
+          width: objects.tile.width,
+          height: objects.tile.height,
+        };
+
+
         this.context.drawImage(
           this.images.terrainImage, // The Image() instance
           tile.clip.x, // Coordinate to clip the X-axis
@@ -308,6 +331,22 @@ class Map {
           tile.width, // The width, in pixels, to draw the image
           tile.height, // The height, in pixels, to draw the image
         );
+
+        debugger;
+        if (foregroundTile > -1) {
+          this.context.drawImage(
+            this.images.objectImage, // The Image() instance
+            foreTile.clip.x, // Coordinate to clip the X-axis
+            foreTile.clip.y, // Coordinate to clip the Y-axis
+            foreTile.width, // How wide, in pixels, to clip the sub-rectangle
+            foreTile.height, // How tall, in pixels, to clip the sub-rectangle
+            foreTile.pos.x, // Position the clipped picture along the X-axis
+            foreTile.pos.y, // Position the clipped picture along the Y-axis
+            foreTile.width, // The width, in pixels, to draw the image
+            foreTile.height, // The height, in pixels, to draw the image
+          );
+        }
+
       }
 
       // Push blocked/non-blocked array for pathfinding

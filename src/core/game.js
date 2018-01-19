@@ -1,4 +1,4 @@
-import tilesetImage from '@/assets/tiles/tileset.png';
+import tilesetImage from '@/assets/tiles/terrain.png';
 
 import terrainTileset from '@/assets/tiles/terrain.png';
 import objectsTileset from '@/assets/tiles/objects.png';
@@ -47,7 +47,7 @@ class Game {
       this.map = new Map('surface', images, this.player, this.npcs);
       const mapData = await this.map.load();
       this.board = mapData[0].data;
-      this.foreground = mapData[0].data;
+      this.foreground = mapData[1].data;
 
       this.images = [
         terrainTileset,

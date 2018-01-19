@@ -23,8 +23,8 @@ const config = {
       width: 0,
       height: 0,
       tile: { // How big is each tile?
-        width: 0,
-        height: 0,
+        width: 32,
+        height: 32,
       },
       // eslint-disable-next-line
       blocked: [],
