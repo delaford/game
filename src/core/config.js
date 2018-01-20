@@ -17,7 +17,7 @@ const config = {
         height: 32,
       },
       // eslint-disable-next-line
-      blocked: [31, 185, 185, 186, 187, 193, 194, 195, 196, 202, 203, 204, 205, 211, 212, 213, 214, 215], // TODO
+      blocked: [10, 31, 185, 185, 186, 187, 193, 194, 195, 196, 202, 203, 204, 205, 211, 212, 213, 214, 215], // TODO
     },
     objects: { // How big is the objects tileset?
       width: 0,
