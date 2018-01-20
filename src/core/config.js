@@ -17,7 +17,7 @@ const config = {
         height: 32,
       },
       // eslint-disable-next-line
-      blocked: [40],
+      blocked: [], // TODO
     },
     objects: { // How big is the objects tileset?
       width: 0,
@@ -27,7 +27,7 @@ const config = {
         height: 32,
       },
       // eslint-disable-next-line
-      blocked: [144],
+      blocked: [], // TODO
     },
     viewport: { // How big will our view be?
       x: 15,
