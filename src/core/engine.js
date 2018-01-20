@@ -46,34 +46,37 @@ class Engine {
           const going = direction[UI.getRandomInt(0, 3)];
 
           // What tile will they be stepping on?
-          const tileID = UI.getFutureTileID(this.game.map.background, npc.x, npc.y, going);
+          const tile = {
+            background: UI.getFutureTileID(this.game.map.background, npc.x, npc.y, going),
+            foreground: UI.getFutureTileID(this.game.map.foreground, npc.x, npc.y, going),
+          };
 
           switch (going) {
             default:
             case 'up':
               if ((npc.y - 1) >= (npc.spawn.y - npc.range)) {
-                if (UI.tileWalkable(tileID)) {
+                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
                   npc.y -= 1;
                 }
               }
               break;
             case 'down':
               if ((npc.y + 1) <= (npc.spawn.y + npc.range)) {
-                if (UI.tileWalkable(tileID)) {
+                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
                   npc.y += 1;
                 }
               }
               break;
             case 'left':
               if ((npc.x - 1) >= (npc.spawn.x - npc.range)) {
-                if (UI.tileWalkable(tileID)) {
+                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
                   npc.x -= 1;
                 }
               }
               break;
             case 'right':
               if ((npc.x + 1) <= (npc.spawn.x + npc.range)) {
-                if (UI.tileWalkable(tileID)) {
+                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
                   npc.x += 1;
                 }
               }

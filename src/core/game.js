@@ -33,11 +33,6 @@ class Game {
       // Load images and data
       const { images, data } = await this.init();
 
-      // Player
-      // NPCs
-      // Objects
-      // Terrain
-
       // Create player
       this.player = new Player(data.player);
 
@@ -46,14 +41,11 @@ class Game {
 
       // Load map data
       this.map = new Map('surface', images, this.player, this.npcs);
+
+      // Set data
       const mapData = await this.map.load();
       this.background = mapData[0].data;
       this.foreground = mapData[1].data;
-
-      this.images = [
-        terrainTileset,
-        objectsTileset,
-      ];
 
       this.map.build([this.background, this.foreground], images);
 
