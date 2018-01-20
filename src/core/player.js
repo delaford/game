@@ -146,7 +146,7 @@ class Player {
    * @returns {boolean}
    */
   checkCollision(map, direction) {
-    const { size, viewport, tileset } = config.map;
+    const { size, viewport, tileset, objects } = config.map;
     const tileCrop = {
       x: this.x - Math.floor(0.5 * viewport.x),
       y: this.y - Math.floor(0.5 * viewport.y),
@@ -162,10 +162,20 @@ class Player {
       return dirMove === 'left' ? 6 : 8;
     };
 
-    // eslint-disable-next-line
-    const steppedOn = map.board[(((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x] - 1;
+    const steppedOn = {
+      // eslint-disable-next-line
+      background: map.background[(((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x] - 1,
+      // eslint-disable-next-line
+      foreground: map.foreground[(((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x] - 1,
+    };
 
-    return tileset.blocked.includes(steppedOn);
+    // eslint-disable-next-line
+    const blocked = {
+      background: tileset.blocked.includes(steppedOn.background),
+      foreground: objects.blocked.includes((steppedOn.foreground - 252)),
+    };
+
+    return blocked.background || blocked.foreground;
   }
 
   /**

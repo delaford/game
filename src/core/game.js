@@ -1,4 +1,6 @@
-import tilesetImage from '@/assets/tiles/tileset.png';
+import terrainTileset from '@/assets/tiles/terrain.png';
+import objectsTileset from '@/assets/tiles/objects.png';
+
 import npcImage from '@/assets/graphics/actors/npcs.png';
 import playerImage from '@/assets/graphics/actors/players/human.png';
 import npcs from '@/tempdb/npcs';
@@ -10,11 +12,10 @@ import Player from './player';
 import NPC from './npc';
 
 class Game {
-  constructor(assets) {
-    this.assets = assets;
-
+  constructor() {
     this.map = null;
-    this.board = null;
+    this.background = null;
+    this.foreground = null;
     this.player = null;
     this.npcs = [];
 
@@ -40,8 +41,13 @@ class Game {
 
       // Load map data
       this.map = new Map('surface', images, this.player, this.npcs);
-      this.board = await this.map.load();
-      this.map.build(this.board);
+
+      // Set data
+      const mapData = await this.map.load();
+      this.background = mapData[0].data;
+      this.foreground = mapData[1].data;
+
+      this.map.build([this.background, this.foreground], images);
 
       resolve(200);
     });
@@ -73,8 +79,9 @@ class Game {
   loadAssets() {
     const assets = [
       playerImage,
-      tilesetImage,
       npcImage,
+      objectsTileset,
+      terrainTileset,
     ];
 
     const images = Object.values(assets).map(asset =>

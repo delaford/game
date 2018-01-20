@@ -58,7 +58,7 @@ export default {
   },
   async mounted() {
     // Start game
-    this.game = new Game(this.config.assets);
+    this.game = new Game();
     await this.game.start();
     this.loaded = true;
 

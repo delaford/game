@@ -11,8 +11,8 @@ module.exports = [
       'examine',
     ],
     spawn: {
-      x: 42,
-      y: 51,
+      x: 36,
+      y: 98,
       range: 3,
     },
   },
