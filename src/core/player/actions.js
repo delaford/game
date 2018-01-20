@@ -5,7 +5,7 @@ import { map } from '../config';
 class Actions {
   constructor(data, tile) {
     this.player = data.player;
-    this.board = data.board;
+    this.background = data.background;
     this.npcs = data.npcs;
 
     // Viewport X,Y coordinates
@@ -33,7 +33,7 @@ class Actions {
    */
   do(data) {
     const player = this.player;
-    const board = this.board;
+    const board = this.background;
     const item = data.item;
     const clickedTile = data.tile;
     const doing = item.action.toLowerCase();
@@ -43,7 +43,7 @@ class Actions {
       case 'walk-here':
         // eslint-disable-next-line
         const tile = UI.getTileOverMouse(board, player.x, player.y, clickedTile.x, clickedTile.y);
-        const tileWalkable = UI.tileWalkable(tile);
+        const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
 
         if (tileWalkable) {
           const coordinates = { x: clickedTile.x, y: clickedTile.y };

@@ -1,5 +1,3 @@
-import tilesetImage from '@/assets/tiles/terrain.png';
-
 import terrainTileset from '@/assets/tiles/terrain.png';
 import objectsTileset from '@/assets/tiles/objects.png';
 
@@ -14,11 +12,9 @@ import Player from './player';
 import NPC from './npc';
 
 class Game {
-  constructor(assets) {
-    this.assets = assets;
-
+  constructor() {
     this.map = null;
-    this.board = null;
+    this.background = null;
     this.foreground = null;
     this.player = null;
     this.npcs = [];
@@ -37,6 +33,11 @@ class Game {
       // Load images and data
       const { images, data } = await this.init();
 
+      // Player
+      // NPCs
+      // Objects
+      // Terrain
+
       // Create player
       this.player = new Player(data.player);
 
@@ -46,7 +47,7 @@ class Game {
       // Load map data
       this.map = new Map('surface', images, this.player, this.npcs);
       const mapData = await this.map.load();
-      this.board = mapData[0].data;
+      this.background = mapData[0].data;
       this.foreground = mapData[1].data;
 
       this.images = [
@@ -54,7 +55,7 @@ class Game {
         objectsTileset,
       ];
 
-      this.map.build([this.board, this.foreground], images);
+      this.map.build([this.background, this.foreground], images);
 
       resolve(200);
     });
@@ -86,7 +87,6 @@ class Game {
   loadAssets() {
     const assets = [
       playerImage,
-      tilesetImage,
       npcImage,
       objectsTileset,
       terrainTileset,

@@ -46,7 +46,7 @@ class Engine {
           const going = direction[UI.getRandomInt(0, 3)];
 
           // What tile will they be stepping on?
-          const tileID = UI.getFutureTileID(this.game.map.board, npc.x, npc.y, going);
+          const tileID = UI.getFutureTileID(this.game.map.background, npc.x, npc.y, going);
 
           switch (going) {
             default:
