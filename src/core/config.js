@@ -6,22 +6,34 @@ const config = {
   version: '0.0.1',
   map: {
     tileset: { // How big is the tileset?
-      width: 768,
-      height: 800,
+      width: 0,
+      height: 0,
       tile: { // How big is each tile?
         width: 32,
         height: 32,
       },
       // eslint-disable-next-line
-      blocked: [1, 442, 324, 289, 396, 567, 156, 424, 283, 426, 23, 343, 346, 446, 90, 493, 509, 494, 492, 502, 485, 501, 495],
+      blocked: [10, 31, 185, 185, 186, 187, 193, 194, 195, 196, 202, 203, 204, 205, 211, 212, 213, 214, 215], // TODO
+    },
+    objects: { // How big is the objects tileset?
+      width: 0,
+      height: 0,
+      tile: { // How big is each tile?
+        width: 32,
+        height: 32,
+      },
+      // eslint-disable-next-line
+      // (It's probably easier to include a
+      //  list of non-walkables here, heh.)
+      blocked: [114, 120, 119], // TODO
     },
     viewport: { // How big will our view be?
       x: 15,
       y: 10,
     },
     size: { // How big will our map be?
-      x: 100,
-      y: 100,
+      x: 200,
+      y: 200,
     },
     player: {
       x: 7,

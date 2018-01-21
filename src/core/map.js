@@ -1,21 +1,22 @@
 import PF from 'pathfinding';
-import mapLoad from '@/tempdb/map.json';
 import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
 import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
 import config from './config';
 import UI from './utilities/ui';
 import bus from '../core/utilities/bus';
+import surfaceMap from '../../server/maps/layers/surface.json';
 
 
 class Map {
-  constructor(level, [playerImage, tilesetImage, npcsImage], player, npcs) {
+  constructor(level, [playerImage, npcsImage, objectImage, terrainImage, weaponsImage], player, npcs) {
     // Getters & Setters
     this.config = config;
     this.level = level;
 
     // Image and data
-    this.images = { playerImage, tilesetImage, npcsImage };
-    this.board = null;
+    this.images = { playerImage, npcsImage, objectImage, terrainImage, weaponsImage };
+    this.background = null;
+    this.foreground = null;
     this.player = player;
     this.npcs = npcs;
 
@@ -76,9 +77,21 @@ class Map {
    * Starts to setup board canvas
    *
    * @param {array} board The tile index of the board
+   * @param {array} images The image board assets
    */
-  build(board) {
-    this.board = board;
+  build(board, images) {
+    const terrain = images[2];
+    const objects = images[3];
+
+    this.background = board[0];
+    this.foreground = board[1];
+
+    // Setup config from data here (this.config)
+    this.config.map.tileset.width = terrain.width;
+    this.config.map.tileset.height = terrain.height;
+
+    this.config.map.objects.width = objects.width;
+    this.config.map.objects.height = objects.height;
 
     this.setUpCanvas();
   }
@@ -164,17 +177,29 @@ class Map {
       },
     };
 
-    const tileSearch = UI.getTileOverMouse(
-      this.board,
-      this.player.x,
-      this.player.y,
-      x,
-      y,
-    );
+    const tile = {
+      background: UI.getTileOverMouse(
+        this.background,
+        this.player.x,
+        this.player.y,
+        x,
+        y,
+      ),
+      foreground: UI.getTileOverMouse(
+        this.foreground,
+        this.player.x,
+        this.player.y,
+        x,
+        y,
+      ) - 252,
+    };
 
-    this.path.current.walkable = UI.tileWalkable(tileSearch);
+    let isWalkable = UI.tileWalkable(tile.background);
+    if (isWalkable && tile.foreground > -1) isWalkable = UI.tileWalkable(tile.foreground, 'foreground');
 
-    if (!UI.tileWalkable(tileSearch)) {
+    this.path.current.walkable = isWalkable;
+
+    if (!isWalkable) {
       data.mouse.current = 1;
     }
 
@@ -257,8 +282,12 @@ class Map {
     const y = this.player.y;
 
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    const { tileset, size, viewport } = this.config.map;
-    const tilesetDivider = tileset.width / tileset.tile.width;
+    const { tileset, size, viewport, objects } = this.config.map;
+
+    const divider = {
+      background: tileset.width / tileset.tile.width,
+      foreground: objects.width / tileset.tile.width,
+    };
 
     const tileCrop = {
       x: x - Math.floor(0.5 * viewport.x),
@@ -271,14 +300,31 @@ class Map {
     for (let column = 0; column <= viewport.y; column += 1) {
       const grid = [];
       for (let row = 0; row <= viewport.x; row += 1) {
-        const tileSearch = this.board[(((column + tileCrop.y) * size.x) + row) + tileCrop.x] - 1;
-        grid.push(UI.tileWalkable(tileSearch) ? 0 : 1);
+        const tileToFind = (((column + tileCrop.y) * size.x) + row) + tileCrop.x;
+        const backgroundTile = this.background[tileToFind] - 1;
+        const foregroundTile = (this.foreground[tileToFind] - 1) - 252;
+        // 252 because of the gid problem in Tiled
+
+        // Is the background walkable?
+        let walkable = UI.tileWalkable(backgroundTile) ? 0 : 1;
+        // If it is not, is the foreground walkable?
+        if (walkable === 0) walkable = UI.tileWalkable(foregroundTile, 'foreground') ? 0 : 1;
+
+        // Push the block/non-blocked tile to the
+        // grid so that the pathfinder can use it
+        grid.push(walkable);
 
         // Get the correct tile to draw
         const tile = {
           clip: {
-            x: Math.floor(tileSearch % tilesetDivider) * tileset.tile.width,
-            y: Math.floor(tileSearch / tilesetDivider) * tileset.tile.height,
+            background: {
+              x: Math.floor(backgroundTile % divider.background) * tileset.tile.width,
+              y: Math.floor(backgroundTile / divider.background) * tileset.tile.height,
+            },
+            foreground: {
+              x: Math.floor(foregroundTile % divider.foreground) * tileset.tile.width,
+              y: Math.floor(foregroundTile / divider.foreground) * tileset.tile.height,
+            },
           },
           pos: {
             x: row * tileset.tile.width,
@@ -288,10 +334,11 @@ class Map {
           height: tileset.tile.height,
         };
 
+        // Draw the background (terrain)
         this.context.drawImage(
-          this.images.tilesetImage, // The Image() instance
-          tile.clip.x, // Coordinate to clip the X-axis
-          tile.clip.y, // Coordinate to clip the Y-axis
+          this.images.terrainImage, // The Image() instance
+          tile.clip.background.x, // Coordinate to clip the X-axis
+          tile.clip.background.y, // Coordinate to clip the Y-axis
           tile.width, // How wide, in pixels, to clip the sub-rectangle
           tile.height, // How tall, in pixels, to clip the sub-rectangle
           tile.pos.x, // Position the clipped picture along the X-axis
@@ -299,12 +346,28 @@ class Map {
           tile.width, // The width, in pixels, to draw the image
           tile.height, // The height, in pixels, to draw the image
         );
+
+        // Draw the foreground (objects)
+        if (foregroundTile > -1) {
+          this.context.drawImage(
+            this.images.objectImage, // The Image() instance
+            tile.clip.foreground.x,
+            tile.clip.foreground.y,
+            tile.width,
+            tile.height,
+            tile.pos.x,
+            tile.pos.y,
+            tile.width,
+            tile.height,
+          );
+        }
       }
 
       // Push blocked/non-blocked array for pathfinding
       matrix.push(grid);
     }
 
+    // The new walkable/non-walkable grid
     this.path.grid = new PF.Grid(matrix);
   }
 
@@ -326,8 +389,12 @@ class Map {
    * @returns {array}
    */
   static fetchMap(level) {
+    const mapToLoad = {
+      surface: surfaceMap,
+    };
+
     return new Promise((resolve) => {
-      resolve(mapLoad[level]);
+      resolve(mapToLoad[level].layers);
     });
   }
 }

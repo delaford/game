@@ -33,10 +33,12 @@ class UI {
    * Checks to see if the tile can be walked through or not
    *
    * @param {integer} tile The ID of the tile
+   * @param {string} layer Check the foreground or background
    * @returns {boolean}
    */
-  static tileWalkable(tile) {
-    return map.tileset.blocked.indexOf(tile) === -1;
+  static tileWalkable(tile, layer = 'background') {
+    const certainLayer = layer === 'background' ? map.tileset : map.objects;
+    return certainLayer.blocked.indexOf(tile) === -1;
   }
 
   /**
