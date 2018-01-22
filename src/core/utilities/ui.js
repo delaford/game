@@ -1,3 +1,4 @@
+import items from '@/tempdb/items';
 import { map } from '../config';
 
 class UI {
@@ -98,6 +99,16 @@ class UI {
    */
   static getRandomInt(min, max) {
     return Math.floor(Math.random() * ((max - min) + 1)) + min;
+  }
+
+  /**
+   * Obtain the full information of an item by its ID
+   *
+   * @param {integer} id The ID of the item
+   * @returns {object}
+   */
+  static getItemData(id) {
+    return items.find(item => item.id === id);
   }
 
   /**
