@@ -24,7 +24,7 @@ class Actions {
     // Label color
     this.color = {
       Examine: '#EBE04D',
-      'Pick up': '#ffa619',
+      'Take': '#ffa619',
     };
   }
 
@@ -74,7 +74,7 @@ class Actions {
         // TODO: Add this to the text-box.
         break;
 
-      case 'pick up':
+      case 'take':
         if (tileWalkable) {
           const coordinates = { x: clickedTile.x, y: clickedTile.y };
           bus.$emit('PLAYER:MOVE', coordinates);
@@ -128,13 +128,13 @@ class Actions {
       default:
         return false;
       // eslint-disable-next-line no-case-declarations
-      case 'Pick up':
+      case 'Take':
         getItems.forEach((item) => {
           const itemData = Object.assign(item, UI.getItemData(item.id));
 
           if (itemData.actions.includes(action.toLowerCase())) {
             const object = {
-              label: `Pick up <span style='color:${this.color[action]}'>${itemData.name}</span>`,
+              label: `${action} <span style='color:${this.color[action]}'>${itemData.name}</span>`,
               action,
               type: 'item',
               id: itemData.id,
@@ -151,7 +151,7 @@ class Actions {
         getNPCs.forEach((npc) => {
           if (npc.actions.includes(action.toLowerCase())) {
             const object = {
-              label: `Examine <span style='color:${this.color[action]}'>${npc.name}</span>`,
+              label: `${action} <span style='color:${this.color[action]}'>${npc.name}</span>`,
               action,
               type: 'npc',
               id: npc.id,
@@ -187,7 +187,7 @@ class Actions {
    */
   static list() {
     return [
-      'Pick up',
+      'Take',
       'Examine',
     ];
   }

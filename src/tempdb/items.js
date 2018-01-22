@@ -2,7 +2,7 @@ module.exports = [
   {
     id: 0,
     name: 'Bronze Sword',
-    examine: 'A long sword made of Bronze',
+    examine: 'A sword made of Bronze.',
     price: 15,
     type: 'weapon',
     wearable: 'sword',
@@ -10,7 +10,7 @@ module.exports = [
     column: 0,
     tileset: 'weapons',
     actions: [
-      'pick up',
+      'take',
       'examine',
     ],
   },
