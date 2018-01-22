@@ -24,7 +24,7 @@ class Actions {
     // Label color
     this.color = {
       Examine: '#EBE04D',
-      'Take': '#ffa619',
+      Take: '#ffa619',
     };
   }
 
