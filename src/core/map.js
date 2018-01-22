@@ -8,17 +8,30 @@ import surfaceMap from '../../server/maps/layers/surface.json';
 
 
 class Map {
-  constructor(level, [playerImage, npcsImage, objectImage, terrainImage], player, npcs) {
+  constructor(level, images, player, npcs, items) {
     // Getters & Setters
     this.config = config;
     this.level = level;
 
+    // Define images
+    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage] = images;
+
     // Image and data
-    this.images = { playerImage, npcsImage, objectImage, terrainImage };
+    this.images = { playerImage, npcsImage, objectImage, terrainImage, weaponsImage };
     this.background = null;
     this.foreground = null;
     this.player = player;
     this.npcs = npcs;
+
+    this.items = items;
+
+    // Live map data
+    // [move server-side]
+    this.droppedItems = [{
+      id: 0,
+      x: 13,
+      y: 110,
+    }];
 
     this.path = {
       grid: null, // a 0/1 grid of blocked tiles
@@ -36,6 +49,7 @@ class Map {
       },
     };
 
+    // Mouse type and coordinates
     this.mouse = {
       x: null,
       y: null,
@@ -263,6 +277,54 @@ class Map {
       this.context.drawImage(
         this.images.npcsImage,
         (npc.column * 32), // Number in NPC tileset
+        0, // Y-axis always 0
+        32,
+        32,
+        viewport.x * 32,
+        viewport.y * 32,
+        32,
+        32,
+      );
+    }, this);
+  }
+
+  /**
+   * Draw dropped items on the map
+   */
+  drawItems() {
+    // Filter out NPCs in viewport
+    const nearbyItems = this.droppedItems.filter((item) => {
+      const foundItems = (this.player.x <= (8 + item.x))
+        && (this.player.x >= (item.x - 8))
+        && (this.player.y <= (6 + item.y))
+        && (this.player.y >= (item.y - 6));
+
+      return foundItems;
+    });
+
+    // Get relative X,Y coordinates to paint on viewport
+    nearbyItems.forEach((item) => {
+      const viewport = {
+        x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - item.x),
+        y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - item.y),
+      };
+
+      // Get item information
+      const info = UI.getItemData(item.id);
+
+      // Get the correct tileset to draw upon
+      const itemTileset = () => {
+        switch (info.tileset) {
+          default:
+          case 'weapons':
+            return this.images.weaponsImage;
+        }
+      };
+
+      // Paint the item on map
+      this.context.drawImage(
+        itemTileset(),
+        (info.column * 32), // Number in Item tileset
         0, // Y-axis always 0
         32,
         32,

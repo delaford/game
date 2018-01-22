@@ -7,6 +7,7 @@ class Actions {
     this.player = data.player;
     this.background = data.background;
     this.npcs = data.npcs;
+    this.droppedItems = data.map.droppedItems;
 
     // Viewport X,Y coordinates
     this.clicked = {
@@ -23,6 +24,7 @@ class Actions {
     // Label color
     this.color = {
       Examine: '#EBE04D',
+      'Take': '#ffa619',
     };
   }
 
@@ -38,12 +40,13 @@ class Actions {
     const clickedTile = data.tile;
     const doing = item.action.toLowerCase();
 
+    const tile = UI.getTileOverMouse(board, player.x, player.y, clickedTile.x, clickedTile.y);
+    const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
+
     switch (doing) {
       // eslint-disable-next-line no-case-declarations
       case 'walk-here':
         // eslint-disable-next-line
-        const tile = UI.getTileOverMouse(board, player.x, player.y, clickedTile.x, clickedTile.y);
-        const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
 
         if (tileWalkable) {
           const coordinates = { x: clickedTile.x, y: clickedTile.y };
@@ -53,9 +56,32 @@ class Actions {
 
       // eslint-disable-next-line no-case-declarations
       case 'examine':
-        const getNPC = this.npcs.filter(npc => npc.id === data.item.id)[0];
-        bus.$emit('CHAT:MESSAGE', { type: 'normal', text: getNPC.examine });
+        const getData = () => {
+          switch (data.item.type) {
+            default:
+              return null;
+
+            case 'npc':
+              return this.npcs;
+
+            case 'item':
+              return this.droppedItems;
+          }
+        };
+
+        const context = getData().find(npc => npc.id === data.item.id);
+        bus.$emit('CHAT:MESSAGE', { type: 'normal', text: context.examine });
         // TODO: Add this to the text-box.
+        break;
+
+      case 'take':
+        if (tileWalkable) {
+          const coordinates = { x: clickedTile.x, y: clickedTile.y };
+          bus.$emit('PLAYER:MOVE', coordinates);
+
+          // TODO .. Actually pick up the item.
+        }
+
         break;
 
       default:
@@ -74,10 +100,11 @@ class Actions {
       let list = 0;
       const allActions = Actions.list();
       let actionableItems = [];
+      const items = [];
 
       do {
         const action = allActions[list];
-        actionableItems = self.check(action);
+        actionableItems = self.check(action, items);
         list += 1;
       } while (list < allActions.length);
 
@@ -90,24 +117,59 @@ class Actions {
    *
    * @param {string} action The item being checked
    */
-  check(action) {
+  check(action, items) {
+    // eslint-disable-next-line
+    const getItems = this.droppedItems.filter(item => item.x === this.coordinates.x && item.y === this.coordinates.y);
+
+    // eslint-disable-next-line
+    const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
+
     switch (action) {
       default:
         return false;
       // eslint-disable-next-line no-case-declarations
+      case 'Take':
+        getItems.forEach((item) => {
+          const itemData = Object.assign(item, UI.getItemData(item.id));
+
+          if (itemData.actions.includes(action.toLowerCase())) {
+            const object = {
+              label: `${action} <span style='color:${this.color[action]}'>${itemData.name}</span>`,
+              action,
+              type: 'item',
+              id: itemData.id,
+            };
+
+            items.push(object);
+          }
+        });
+
+        return items;
+
+      // eslint-disable-next-line no-case-declarations
       case 'Examine':
-        // eslint-disable-next-line
-        const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
-
-        const items = [];
-
         getNPCs.forEach((npc) => {
           if (npc.actions.includes(action.toLowerCase())) {
             const object = {
-              label: `Examine <span style='color:${this.color[action]}'>${npc.name}</span>`,
+              label: `${action} <span style='color:${this.color[action]}'>${npc.name}</span>`,
               action,
               type: 'npc',
               id: npc.id,
+            };
+
+            items.push(object);
+          }
+        });
+
+        getItems.forEach((item) => {
+          const itemData = Object.assign(item, UI.getItemData(item.id));
+
+          if (itemData.actions.includes(action.toLowerCase())) {
+            const object = {
+              label: `Examine <span style='color:${this.color[action]}'>${itemData.name}</span>`,
+              action,
+              type: 'item',
+              id: itemData.id,
             };
 
             items.push(object);
@@ -125,6 +187,7 @@ class Actions {
    */
   static list() {
     return [
+      'Take',
       'Examine',
     ];
   }

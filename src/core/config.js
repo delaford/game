@@ -1,10 +1,6 @@
 const config = {
   /**
    * Game configuration
-   *
-   * All variables here tweak the design and UI of the game
-   * so please be very careful when updating. Assets and images
-   * are listed here as well -- so double check dimensions.
    */
   name: 'navarra',
   version: '0.0.1',
