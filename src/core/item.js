@@ -1,5 +1,6 @@
 class Item {
   constructor(data) {
+    this.id = data.id;
     this.name = data.name;
     this.examine = data.examine;
     this.price = data.price;
@@ -10,11 +11,7 @@ class Item {
     this.attack = data.attack;
     this.defence = data.defence;
 
-    this.dropped = data.dropped;
-    this.x = data.x;
-    this.y = data.y;
-
-    this.owner = data.owner;
+    this.user = data.user;
     this.carried = data.carried;
     this.slot = data.slot;
     this.equipped = data.equipped;

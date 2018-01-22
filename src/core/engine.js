@@ -157,6 +157,9 @@ class Engine {
     // Draw the tile map
     this.game.map.drawMap();
 
+    // Draw dropped items
+    this.game.map.drawItems();
+
     // Draw the NPCs
     this.game.map.drawNPCs();
 

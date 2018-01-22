@@ -45,9 +45,9 @@ class Game {
 
       // Create items
       data.items.forEach(item => this.items.push(new Item(item)), this);
-      debugger;
+
       // Load map data
-      this.map = new Map('surface', images, this.player, this.npcs);
+      this.map = new Map('surface', images, this.player, this.npcs, this.items);
 
       // Set data
       const mapData = await this.map.load();

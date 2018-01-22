@@ -111,7 +111,7 @@ export default {
 <style lang="scss" scoped>
 $menu_bg_color: #8d8d8d;
 $menu_font_color: #fff;
-$menu_width: 175px;
+$menu_width: 195px;
 $menu_font_hover_color: #ffd829;
 div {
   position: absolute;
