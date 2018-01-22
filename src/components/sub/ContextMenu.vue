@@ -115,6 +115,7 @@ $menu_width: 195px;
 $menu_font_hover_color: #ffd829;
 div {
   position: absolute;
+  z-index: 99999999;
 
   ul#actions {
     font-family: "GameFont", sans-serif;
