@@ -21,10 +21,12 @@ div.logout {
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
+
   p {
     text-shadow: 1px 1px 0 #000;
     padding: 0 10px;
   }
+
   button {
     width: 50%;
   }

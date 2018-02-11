@@ -1,9 +1,9 @@
-import config from './config';
-import UI from './utilities/ui';
-import bus from '../core/utilities/bus';
+const config = require('./config');
+// import UI from './utilities/ui';
+// import bus from '../core/utilities/bus';
 
 class Player {
-  constructor(data) {
+  constructor(data, token) {
     this.username = data.username;
     this.x = data.x;
     this.y = data.y;
@@ -20,7 +20,9 @@ class Player {
 
     this.friend_list = data.friend_list;
 
-    console.log(`Player spawned at ${this.x}, ${this.y}`);
+    this.token = token;
+
+    console.log(`${this.username} spawned at ${this.x}, ${this.y}`);
   }
 
   /**
@@ -94,22 +96,22 @@ class Player {
           const activePath = path;
           // eslint-disable-next-line
           if (JSON.stringify(activePath.path.set) !== JSON.stringify(map.path.current.path.walking)) {
-            bus.$emit('MAP:SET_PATH', activePath);
+            // bus.$emit('MAP:SET_PATH', activePath);
           }
 
-          const steps = {
-            current: {
-              x: activePath.path.walking[0][0],
-              y: activePath.path.walking[0][1],
-            },
-            next: {
-              x: activePath.path.walking[1][0],
-              y: activePath.path.walking[1][1],
-            },
-          };
+          // const steps = {
+          //   current: {
+          //     x: activePath.path.walking[0][0],
+          //     y: activePath.path.walking[0][1],
+          //   },
+          //   next: {
+          //     x: activePath.path.walking[1][0],
+          //     y: activePath.path.walking[1][1],
+          //   },
+          // };
 
           // Move the player whichever direction
-          this.move(UI.getMovementDirection(steps), map, true);
+          // this.move(UI.getMovementDirection(steps), map, true);
           activePath.step += 1;
           const newStepsToTake = stepsToTake - 1;
 
@@ -135,7 +137,7 @@ class Player {
    */
   stopMovement() {
     this.moving = false;
-    bus.$emit('PLAYER:STOP_MOVEMENT');
+    // bus.$emit('PLAYER:STOP_MOVEMENT');
   }
 
   /**
@@ -188,4 +190,4 @@ class Player {
   }
 }
 
-export default Player;
+module.exports = Player;

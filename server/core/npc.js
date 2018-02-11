@@ -30,4 +30,4 @@ class NPC {
   }
 }
 
-export default NPC;
+module.exports = NPC;

@@ -1,37 +1,25 @@
 import PF from 'pathfinding';
 import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
 import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
-import config from './config';
 import UI from './utilities/ui';
-import bus from '../core/utilities/bus';
-import surfaceMap from '../../server/maps/layers/surface.json';
-
+import config from './config';
 
 class Map {
-  constructor(level, images, player, npcs, items) {
-    // Getters & Setters
+  constructor(data) {
+    this.foreground = data.foreground.data;
+    this.background = data.background.data;
+
+    this.images = [];
+    this.npcs = [];
     this.config = config;
-    this.level = level;
 
-    // Define images
-    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage] = images;
-
-    // Image and data
-    this.images = { playerImage, npcsImage, objectImage, terrainImage, weaponsImage };
-    this.background = null;
-    this.foreground = null;
-    this.player = player;
-    this.npcs = npcs;
-
-    this.items = items;
-
-    // Live map data
-    // [move server-side]
     this.droppedItems = [{
       id: 0,
       x: 13,
       y: 110,
     }];
+
+    this.player = null;
 
     this.path = {
       grid: null, // a 0/1 grid of blocked tiles
@@ -60,31 +48,26 @@ class Map {
     // Canvas
     this.canvas = document.querySelector('.main-canvas');
     this.context = this.canvas.getContext('2d');
-
-    // Listeners
-    bus.$on('PLAYER:STOP_MOVEMENT', () => this.resetPath());
-    bus.$on('MAP:SET_PATH', data => this.setPath(data));
   }
 
-  /**
-   * When player is doing walking
-   */
-  resetPath() {
-    this.path = {
-      grid: null,
-      finder: new PF.DijkstraFinder(),
-      current: {
-        name: '',
-        length: 0,
-        path: {
-          walking: [],
-          set: [],
-        },
-        step: 0,
-        walkable: false,
-        interrupted: false,
-      },
-    };
+  setPlayer(player) {
+    this.player = player;
+  }
+
+  setNPCs(npcs) {
+    this.npcs = npcs;
+  }
+
+  setImages(images) {
+    // Define images
+    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage] = images;
+
+    // Image and data
+    this.images = { playerImage, npcsImage, objectImage, terrainImage, weaponsImage };
+
+    // Set image and config
+    debugger;
+    this.build();
   }
 
   /**
@@ -93,12 +76,9 @@ class Map {
    * @param {array} board The tile index of the board
    * @param {array} images The image board assets
    */
-  build(board, images) {
-    const terrain = images[2];
-    const objects = images[3];
-
-    this.background = board[0];
-    this.foreground = board[1];
+  build() {
+    const terrain = this.images.terrainImage;
+    const objects = this.images.objectImage;
 
     // Setup config from data here (this.config)
     this.config.map.tileset.width = terrain.width;
@@ -118,49 +98,6 @@ class Map {
   }
 
   /**
-   * Resolve a promise to find the path
-   *
-   * @param {integer} x The x-axis coord on where user clicked on game-gap
-   * @param {integer} y The y-axis coord on where user clicked on game-gap
-   */
-  findQuickestPath(x, y) {
-    return new Promise((resolve) => {
-      resolve(this.path.finder.findPath(7, 5, x, y, this.path.grid));
-    });
-  }
-
-  /**
-   * Find a path and set that path in motion
-   *
-   * @param {integer} x The x-axis coord on where user clicked on game-gap
-   * @param {integer} y The y-axis coord on where user clicked on game-gap
-   */
-  async findPath(x, y) {
-    if (this.player.moving) {
-      this.path.current.interrupted = true;
-    }
-
-    // The player's x-y on map (always 7,5)
-    // to where they clicked on the map
-    const path = await this.findQuickestPath(x, y);
-
-    // Actively set mouse coordinates while walking
-    this.setMouseCoordinates(this.mouse.x, this.mouse.y);
-
-    // If the tile we clicked on
-    // can be walked on, continue ->
-    if (this.path.current.walkable && path.length && path.length > 1) {
-      this.path.current.path.set = path;
-      this.path.current.length = path.length;
-      this.path.current.step = 0;
-      this.path.current.name = window.btoa(Math.random()).slice(-4);
-
-      // We start moving the player along their path
-      this.player.walkPath(this.path.current, this);
-    }
-  }
-
-  /**
    * Configure the canvas paramters correctly
    */
   configureCanvas() {
@@ -174,166 +111,6 @@ class Map {
 
     // Do not smooth any pixels painted on
     this.context.imageSmoothingEnabled = false;
-  }
-
-  /**
-   * Set the coordinates to where the mouse currently is (if on canvas)
-   *
-   * @param {integer} x Mouse's x-axis on the canvas viewport
-   * @param {integer} y Mouses's y-axus on the canvas viewport
-   */
-  setMouseCoordinates(x, y) {
-    // eslint-disable-next-line
-    let data = {
-      mouse: {
-        type: [moveToMouse, blockedMouse], // To add: Use, Attack
-        current: 0,
-      },
-    };
-
-    const tile = {
-      background: UI.getTileOverMouse(
-        this.background,
-        this.player.x,
-        this.player.y,
-        x,
-        y,
-      ),
-      foreground: UI.getTileOverMouse(
-        this.foreground,
-        this.player.x,
-        this.player.y,
-        x,
-        y,
-      ) - 252,
-    };
-
-    let isWalkable = UI.tileWalkable(tile.background);
-    if (isWalkable && tile.foreground > -1) isWalkable = UI.tileWalkable(tile.foreground, 'foreground');
-
-    this.path.current.walkable = isWalkable;
-
-    if (!isWalkable) {
-      data.mouse.current = 1;
-    }
-
-    this.mouse.x = x;
-    this.mouse.y = y;
-    this.mouse.type = data.mouse.current;
-    this.mouse.selection.src = data.mouse.type[data.mouse.current];
-  }
-
-  /**
-   * Draw the mouse selection on the canvas's viewport
-   */
-  drawMouse() {
-    this.context.drawImage(this.mouse.selection, (this.mouse.x * 32), (this.mouse.y * 32), 32, 32);
-  }
-
-  /**
-   * Set player's current path on first step
-   *
-   * @param {object} path The path from the first step in the walk-loop
-   */
-  setPath(path) {
-    this.path.current.path.walking = path.path.set;
-  }
-
-  /**
-   * Draw the player on the board
-   */
-  drawPlayer() {
-    this.context.drawImage(
-      this.images.playerImage,
-      224,
-      160,
-      32,
-      32,
-    );
-  }
-
-  /**
-   * Draw the NPCs on the game viewport canvas
-   */
-  drawNPCs() {
-    // Filter out NPCs in viewport
-    const nearbyNPCs = this.npcs.filter((npc) => {
-      const foundNPCs = (this.player.x <= (8 + npc.x))
-        && (this.player.x >= (npc.x - 8))
-        && (this.player.y <= (6 + npc.y))
-        && (this.player.y >= (npc.y - 6));
-
-      return foundNPCs;
-    });
-
-    // Get relative X,Y coordinates to paint on viewport
-    nearbyNPCs.forEach((npc) => {
-      const viewport = {
-        x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - npc.x),
-        y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - npc.y),
-      };
-
-      // Paint the NPC on map
-      this.context.drawImage(
-        this.images.npcsImage,
-        (npc.column * 32), // Number in NPC tileset
-        0, // Y-axis always 0
-        32,
-        32,
-        viewport.x * 32,
-        viewport.y * 32,
-        32,
-        32,
-      );
-    }, this);
-  }
-
-  /**
-   * Draw dropped items on the map
-   */
-  drawItems() {
-    // Filter out NPCs in viewport
-    const nearbyItems = this.droppedItems.filter((item) => {
-      const foundItems = (this.player.x <= (8 + item.x))
-        && (this.player.x >= (item.x - 8))
-        && (this.player.y <= (6 + item.y))
-        && (this.player.y >= (item.y - 6));
-
-      return foundItems;
-    });
-
-    // Get relative X,Y coordinates to paint on viewport
-    nearbyItems.forEach((item) => {
-      const viewport = {
-        x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - item.x),
-        y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - item.y),
-      };
-
-      // Get item information
-      const info = UI.getItemData(item.id);
-
-      // Get the correct tileset to draw upon
-      const itemTileset = () => {
-        switch (info.tileset) {
-          default:
-          case 'weapons':
-            return this.images.weaponsImage;
-        }
-      };
-
-      // Paint the item on map
-      this.context.drawImage(
-        itemTileset(),
-        (info.column * 32), // Number in Item tileset
-        0, // Y-axis always 0
-        32,
-        32,
-        viewport.x * 32,
-        viewport.y * 32,
-        32,
-        32,
-      );
-    }, this);
   }
 
   /**
@@ -434,30 +211,154 @@ class Map {
   }
 
   /**
-   * Load map tile data
-   *
-   * @returns {array}
+   * Draw dropped items on the map
    */
-  async load() {
-    const data = await Map.fetchMap(this.level);
+  drawItems() {
+    // Filter out NPCs in viewport
+    const nearbyItems = this.droppedItems.filter((item) => {
+      const foundItems = (this.player.x <= (8 + item.x))
+        && (this.player.x >= (item.x - 8))
+        && (this.player.y <= (6 + item.y))
+        && (this.player.y >= (item.y - 6));
 
-    return data;
+      return foundItems;
+    });
+
+    // Get relative X,Y coordinates to paint on viewport
+    nearbyItems.forEach((item) => {
+      const viewport = {
+        x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - item.x),
+        y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - item.y),
+      };
+
+      // Get item information
+      const info = UI.getItemData(item.id);
+
+      // Get the correct tileset to draw upon
+      const itemTileset = () => {
+        switch (info.tileset) {
+          default:
+          case 'weapons':
+            return this.images.weaponsImage;
+        }
+      };
+
+      // Paint the item on map
+      this.context.drawImage(
+        itemTileset(),
+        (info.column * 32), // Number in Item tileset
+        0, // Y-axis always 0
+        32,
+        32,
+        viewport.x * 32,
+        viewport.y * 32,
+        32,
+        32,
+      );
+    }, this);
   }
 
   /**
-   * Loads the map from an external JSON file
-   *
-   * @param {string} level The level of the map
-   * @returns {array}
+   * Draw the player on the board
    */
-  static fetchMap(level) {
-    const mapToLoad = {
-      surface: surfaceMap,
+  drawPlayer() {
+    this.context.drawImage(
+      this.images.playerImage,
+      224,
+      160,
+      32,
+      32,
+    );
+  }
+
+  /**
+   * Draw the NPCs on the game viewport canvas
+   */
+  drawNPCs() {
+    // Filter out NPCs in viewport
+    const nearbyNPCs = this.npcs.filter((npc) => {
+      const foundNPCs = (this.player.x <= (8 + npc.x))
+        && (this.player.x >= (npc.x - 8))
+        && (this.player.y <= (6 + npc.y))
+        && (this.player.y >= (npc.y - 6));
+
+      return foundNPCs;
+    });
+
+    // Get relative X,Y coordinates to paint on viewport
+    nearbyNPCs.forEach((npc) => {
+      const viewport = {
+        x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - npc.x),
+        y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - npc.y),
+      };
+
+      // Paint the NPC on map
+      this.context.drawImage(
+        this.images.npcsImage,
+        (npc.column * 32), // Number in NPC tileset
+        0, // Y-axis always 0
+        32,
+        32,
+        viewport.x * 32,
+        viewport.y * 32,
+        32,
+        32,
+      );
+    }, this);
+  }
+
+  /**
+   * Set the coordinates to where the mouse currently is (if on canvas)
+   *
+   * @param {integer} x Mouse's x-axis on the canvas viewport
+   * @param {integer} y Mouses's y-axus on the canvas viewport
+   */
+  setMouseCoordinates(x, y) {
+    // eslint-disable-next-line
+    let data = {
+      mouse: {
+        type: [moveToMouse, blockedMouse], // To add: Use, Attack
+        current: 0,
+      },
     };
 
-    return new Promise((resolve) => {
-      resolve(mapToLoad[level].layers);
-    });
+    const tile = {
+      background: UI.getTileOverMouse(
+        this.background,
+        this.player.x,
+        this.player.y,
+        x,
+        y,
+      ),
+      foreground: UI.getTileOverMouse(
+        this.foreground,
+        this.player.x,
+        this.player.y,
+        x,
+        y,
+      ) - 252,
+    };
+
+    let isWalkable = UI.tileWalkable(tile.background);
+    if (isWalkable && tile.foreground > -1) isWalkable = UI.tileWalkable(tile.foreground, 'foreground');
+
+    this.path.current.walkable = isWalkable;
+
+    if (!isWalkable) {
+      data.mouse.current = 1;
+    }
+
+    this.mouse.x = x;
+    this.mouse.y = y;
+    this.mouse.type = data.mouse.current;
+    this.mouse.selection.src = data.mouse.type[data.mouse.current];
+  }
+
+  /**
+   * Draw the mouse selection on the canvas's viewport
+   */
+  drawMouse() {
+    this.context.drawImage(this.mouse.selection, (this.mouse.x * 32), (this.mouse.y * 32), 32, 32);
   }
 }
 

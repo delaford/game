@@ -1,4 +1,4 @@
-import items from '@/tempdb/items';
+import items from './../../../server/entities/items';
 import { map } from '../config';
 
 class UI {
