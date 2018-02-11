@@ -73,6 +73,8 @@ export default {
   created() {
     window.ws.on('login-data', data => this.startGame(data));
     window.ws.on('player:login', data => this.startGame(data));
+
+    window.ws.on('npc:movement', data => this.npcMovement(data));
   },
   data() {
     return {
@@ -83,6 +85,11 @@ export default {
     };
   },
   methods: {
+    npcMovement(data) {
+      if (this.game.npcs) {
+        this.game.map.npcs = data;
+      }
+    },
     async startGame(data) {
       this.game = new Client(data);
       const images = await this.game.start();

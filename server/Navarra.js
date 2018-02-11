@@ -1,5 +1,4 @@
 const Authentication = require('./socket/authentication');
-const Assets = require('./socket/assets');
 
 const wsEvents = require('ws-events');
 const WebSocket = require('ws');
@@ -11,6 +10,9 @@ const NPC = require('./core/npc');
 const Map = require('./core/map');
 const Player = require('./core/player');
 
+// Tools
+const UI = require('./core/utilities/ui');
+
 class Navarra {
   constructor(port) {
     this.port = port;
@@ -21,9 +23,12 @@ class Navarra {
 
     this.players = [];
 
+    this.ws = null;
+    this.bus = null;
+
     console.log(`Starting game server ${port}`);
-    this.loadEntities();
     this.loadMap();
+    this.loadEntities();
   }
 
   async loadMap() {
@@ -35,6 +40,83 @@ class Navarra {
     // Let's load world map with default NPCs and map
     npcs.forEach(npc => this.npcs.push(new NPC(npc)), this);
     console.log('Loading defualt NPCs...');
+
+    if (this.map.foreground) this.npcMovement();
+  }
+
+  /**
+   * Handle NPC movement on map
+   */
+  npcMovement() {
+    this.npcs.map((npc) => {
+      // Next movement allowed in 2.5 seconds
+      const nextActionAllowed = npc.lastAction + 2500;
+
+      if (npc.lastAction === 0 || nextActionAllowed < Date.now()) {
+        // Are they going to move or sit still this time?
+        const action = UI.getRandomInt(1, 2) === 1 ? 'move' : 'nothing';
+
+        // NPCs going to move during this loop?
+        if (action === 'move') {
+          // Which way?
+          const direction = ['up', 'down', 'left', 'right'];
+          const going = direction[UI.getRandomInt(0, 3)];
+
+          // What tile will they be stepping on?
+          const tile = {
+            background: UI.getFutureTileID(this.map.background, npc.x, npc.y, going),
+            foreground: UI.getFutureTileID(this.map.foreground, npc.x, npc.y, going),
+          };
+
+          switch (going) {
+            default:
+            case 'up':
+              if ((npc.y - 1) >= (npc.spawn.y - npc.range)) {
+                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
+                  npc.y -= 1;
+                }
+              }
+              break;
+            case 'down':
+              if ((npc.y + 1) <= (npc.spawn.y + npc.range)) {
+                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
+                  npc.y += 1;
+                }
+              }
+              break;
+            case 'left':
+              if ((npc.x - 1) >= (npc.spawn.x - npc.range)) {
+                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
+                  npc.x -= 1;
+                }
+              }
+              break;
+            case 'right':
+              if ((npc.x + 1) <= (npc.spawn.x + npc.range)) {
+                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
+                  npc.x += 1;
+                }
+              }
+              break;
+          }
+        }
+
+        // Register their last action
+        npc.lastAction = Date.now();
+      }
+
+      return npc;
+    });
+
+    const that = this;
+
+    this.socket.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        if (that.bus) {
+          that.bus.emit('npc:movement', that.npcs);
+        }
+      }
+    });
   }
 
   /**
@@ -42,6 +124,7 @@ class Navarra {
    */
   start() {
     this.socket = new WebSocket.Server({ port: this.port });
+
     this.build();
   }
 
@@ -58,18 +141,21 @@ class Navarra {
    * @param {WebSocket} ws The websocket connection
    */
   connection(ws) {
+    this.ws = ws;
+    this.bus = wsEvents(ws);
     // Event bus (for actions)
-    const bus = wsEvents(ws);
+
+
+    setInterval(() => {
+      this.npcMovement();
+    }, 2000);
 
     // 1. Player
-    bus.on('player:login', async (incoming) => {
-      const { player, token } = await Authentication.login(bus, incoming);
+    this.bus.on('player:login', async (incoming) => {
+      const { player, token } = await Authentication.login(this.bus, incoming);
 
-      this.addPlayer(new Player(player, token), bus);
+      this.addPlayer(new Player(player, token), this.bus);
     });
-
-    // 2. Asset managment
-    bus.on('client:load-data', () => Assets.loadData(bus));
   }
 
   addPlayer(player, bus) {

@@ -5,7 +5,7 @@ import npcImage from '@/assets/graphics/actors/npcs.png';
 import playerImage from '@/assets/graphics/actors/players/human.png';
 import weaponsImage from '@/assets/graphics/items/weapons.png';
 
-// import Map from './map';
+import bus from '../core/utilities/bus';
 
 class Client {
   constructor(data) {
@@ -16,6 +16,8 @@ class Client {
 
     this.players = [];
     this.npcs = data.npcs;
+
+    bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.setMouseCoordinates(x, y));
   }
 
   async start() {

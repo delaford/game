@@ -66,7 +66,6 @@ class Map {
     this.images = { playerImage, npcsImage, objectImage, terrainImage, weaponsImage };
 
     // Set image and config
-    debugger;
     this.build();
   }
 
