@@ -75,6 +75,8 @@ export default {
     window.ws.on('player:login', data => this.startGame(data));
 
     window.ws.on('npc:movement', data => this.npcMovement(data));
+
+    window.ws.on('player:movement', data => this.playerMovement(data));
   },
   data() {
     return {
@@ -85,9 +87,16 @@ export default {
     };
   },
   methods: {
+    playerMovement(data) {
+      if (this.game.player.uuid === data.uuid) {
+        this.game.map.player = data;
+        this.game.player = data;
+      }
+    },
     npcMovement(data) {
       if (this.game.npcs) {
         this.game.map.npcs = data;
+        this.game.npcs = data;
       }
     },
     async startGame(data) {

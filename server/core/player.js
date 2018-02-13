@@ -1,9 +1,11 @@
 const config = require('./config');
+const PF = require('pathfinding');
+const emoji = require('node-emoji');
 // import UI from './utilities/ui';
 // import bus from '../core/utilities/bus';
 
 class Player {
-  constructor(data, token) {
+  constructor(data, token, socketId) {
     this.username = data.username;
     this.x = data.x;
     this.y = data.y;
@@ -22,7 +24,29 @@ class Player {
 
     this.token = token;
 
-    console.log(`${this.username} spawned at ${this.x}, ${this.y}`);
+    this.uuid = data.uuid;
+
+    this.wear = data.wear;
+
+    this.path = {
+      grid: null, // a 0/1 grid of blocked tiles
+      finder: new PF.DijkstraFinder(),
+      current: {
+        name: '',
+        length: 0, // Number of steps in current path
+        path: {
+          walking: [], // Current path walking
+          set: [], // Current path from last walk-loop
+        },
+        step: 0, // Steps player has taken to walk
+        walkable: false, // Did we click on a blocked tile?
+        interrupted: false, // Did we click-to-walk elsewhere while walking current loop?
+      },
+    };
+
+    this.socket_id = socketId;
+
+    console.log(`${emoji.get('high_brightness')} Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
   }
 
   /**

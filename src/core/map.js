@@ -6,8 +6,8 @@ import config from './config';
 
 class Map {
   constructor(data) {
-    this.foreground = data.foreground.data;
-    this.background = data.background.data;
+    this.foreground = data.foreground;
+    this.background = data.background;
 
     this.images = [];
     this.npcs = [];

@@ -23,6 +23,7 @@
  * (JS) Core files tells data for context menu
  * (HTML) What to and where to display
  */
+import Client from '../core/client';
 import UI from '../core/utilities/ui';
 import bus from '../core/utilities/bus';
 import config from '../core/config';
@@ -61,7 +62,14 @@ export default {
 
       // Send to game engine that
       // the player clicked to move
-      bus.$emit('PLAYER:MOVE', coordinates);
+      const data = {
+        id: this.game.player.uuid,
+        coordinates,
+      };
+
+      console.log(data);
+
+      // window.ws.emit('player:mouseTo', data);
     },
 
     /**
@@ -95,7 +103,12 @@ export default {
 
       if (UI.userPressToMove(key)) {
         const direction = key.split('Arrow')[1].toLowerCase();
-        this.game.move(direction);
+        const data = {
+          id: this.game.player.uuid,
+          direction,
+        };
+
+        Client.move(data);
       }
     },
   },

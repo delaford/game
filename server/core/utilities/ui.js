@@ -1,4 +1,4 @@
-const items = require('./../../../server/entities/items');
+const items = require('./../../../server/data/items');
 const { map } = require('../config');
 
 class UI {

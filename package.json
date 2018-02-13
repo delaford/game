@@ -12,7 +12,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js",
     "format": "eslint --fix",
-    "server": "nodemon server"
+    "server": "./node_modules/.bin/nodemon server"
   },
   "dependencies": {
     "vue": "^2.5.2",
@@ -50,8 +50,11 @@
     "jest": "^21.2.0",
     "jest-serializer-vue": "^0.3.0",
     "lodash": "^4.17.4",
+    "node-emoji": "^1.8.1",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.7.2",
+    "node-uuid": "^1.4.8",
+    "nodemon": "^1.14.12",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
     "pathfinding": "^0.4.18",

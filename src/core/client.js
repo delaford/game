@@ -10,8 +10,8 @@ import bus from '../core/utilities/bus';
 class Client {
   constructor(data) {
     this.map = data.map;
-    this.background = data.map.background.data;
-    this.foreground = data.map.foreground.data;
+    this.background = data.map.background;
+    this.foreground = data.map.foreground;
     this.player = data.player;
 
     this.players = [];
@@ -63,6 +63,15 @@ class Client {
     });
 
     return asset;
+  }
+
+  /**
+   * Move the player one tile
+   *
+   * @param {string} direction The direction the player moved
+   */
+  static move(direction) {
+    window.ws.emit('player:move', direction);
   }
 }
 
