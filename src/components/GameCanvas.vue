@@ -31,9 +31,6 @@ import config from '../core/config';
 export default {
   name: 'Game',
   props: ['game'],
-  created() {
-    //
-  },
   methods: {
     /**
      * Right-click brings up context-menu

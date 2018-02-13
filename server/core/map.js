@@ -1,14 +1,14 @@
 const surfaceMap = require('./../maps/layers/surface.json');
 const config = require('./config');
-
-// World
-const world = require('./world');
+const world = require('./../core/world');
 
 class Map {
   constructor(level) {
     // Getters & Setters
     this.config = config;
     this.level = level;
+
+    this.droppedItems = world.droppedItems;
 
     this.background = world.map.background;
     this.foreground = world.map.foreground;

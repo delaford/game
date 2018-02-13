@@ -46,7 +46,7 @@ class Player {
 
     this.socket_id = socketId;
 
-    console.log(`${emoji.get('high_brightness')} Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
+    console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
   }
 
   /**

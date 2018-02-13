@@ -17,6 +17,7 @@ const emoji = require('node-emoji');
 
 // World
 const world = require('./core/world');
+const { droppedItems } = require('./data/default');
 
 class Navarra {
   constructor(port) {
@@ -30,13 +31,14 @@ class Navarra {
     this.ws = null;
     this.bus = null;
 
-    console.log(`${emoji.get('rocket')} Starting game server on port ${port}. ${emoji.get('star2')}`);
+    console.log(`${emoji.get('rocket')}  Starting game server on port ${port}.`);
     this.constructor.loadMap();
     this.loadEntities();
   }
 
   static loadMap() {
-    console.log(`${emoji.get('european_castle')} Creating a new map...`);
+    console.log(`${emoji.get('european_castle')}  Creating a new map...`);
+    world.items = droppedItems;
     world.map = new Map('surface');
   }
 
@@ -45,7 +47,7 @@ class Navarra {
     npcs.forEach((npc) => {
       world.npcs.push(new NPC(npc));
     }, this);
-    console.log(`${emoji.get('walking')} Loading NPCs...`);
+    console.log(`${emoji.get('walking')}  Loading NPCs...`);
 
     if (world.map.foreground) this.npcMovement();
   }
@@ -150,7 +152,7 @@ class Navarra {
     if (player) {
       this.ws = ws;
       this.bus = wsEvents(ws);
-      console.log(`${emoji.get('red_circle')} Player ${player.username} left the game`);
+      console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
 
       // Remove player from the list.
       world.players = world.players.filter(p => p.socket_id !== ws.id);
@@ -169,7 +171,7 @@ class Navarra {
     // Event bus (for actions)
     this.ws = ws;
     this.bus = wsEvents(ws);
-    console.log(`${emoji.get('computer')} Someone connected.`);
+    console.log(`${emoji.get('computer')}  Someone connected.`);
 
     // Assign UUID to every connection
     ws.id = uuid.v4();
@@ -216,6 +218,7 @@ class Navarra {
       player,
       map: world.map,
       npcs: world.npcs,
+      droppedItems: world.items,
     };
 
     bus.emit('login-data', block);

@@ -106,13 +106,16 @@ export default {
       this.game.map.setImages(images);
       this.game.map.setPlayer(data.player);
       this.game.map.setNPCs(data.npcs);
+      this.game.map.setDroppedItems(data.droppedItems);
 
       // Start game engine
       const engine = new Engine(this.game);
       engine.start();
 
-      // Focus mouse on the game-map
-      document.querySelector('canvas#game-map').focus();
+      // Focus mouse on the game-map (so hacky... send help)
+      setTimeout(() => {
+        document.querySelector('canvas#game-map').focus();
+      }, 200);
 
       this.loaded = true;
     },

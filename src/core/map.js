@@ -13,11 +13,7 @@ class Map {
     this.npcs = [];
     this.config = config;
 
-    this.droppedItems = [{
-      id: 0,
-      x: 13,
-      y: 110,
-    }];
+    this.droppedItems = [];
 
     this.player = null;
 
@@ -56,6 +52,10 @@ class Map {
 
   setNPCs(npcs) {
     this.npcs = npcs;
+  }
+
+  setDroppedItems(items) {
+    this.droppedItems = items;
   }
 
   setImages(images) {
