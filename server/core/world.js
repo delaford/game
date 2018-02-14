@@ -6,6 +6,8 @@
  */
 
 module.exports = {
+  socket: {},
+  bus: {},
   map: {
     foreground: [],
     background: [],

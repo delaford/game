@@ -19,18 +19,18 @@ const emoji = require('node-emoji');
 const world = require('./core/world');
 const { droppedItems } = require('./data/default');
 
+const config = require('./core/config');
+const PF = require('pathfinding');
+
 class Navarra {
   constructor(port) {
+    // Port setting
     this.port = port;
 
-    // Initialize empty entities
-    this.map = null;
-    this.npcs = [];
-    this.players = [];
-
+    // Websocket server and bus (event-emitter)
     this.ws = null;
-    this.bus = null;
 
+    // Start the game server
     console.log(`${emoji.get('rocket')}  Starting game server on port ${port}.`);
     this.constructor.loadMap();
     this.loadEntities();
@@ -43,12 +43,14 @@ class Navarra {
   }
 
   loadEntities() {
-    // Let's load world map with default NPCs and map
+    // Push default NPCs into game world
     npcs.forEach((npc) => {
       world.npcs.push(new NPC(npc));
     }, this);
     console.log(`${emoji.get('walking')}  Loading NPCs...`);
 
+    // If the world map is created
+    // let us start the NPC movement
     if (world.map.foreground) this.npcMovement();
   }
 
@@ -116,13 +118,11 @@ class Navarra {
       return npc;
     });
 
-    const that = this;
-
-    if (this.socket) {
-      this.socket.clients.forEach((client) => {
+    if (world.socket.clients) {
+      world.socket.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          if (that.bus) {
-            that.bus.emit('npc:movement', world.npcs);
+          if (world.bus) {
+            world.bus.emit('npc:movement', world.npcs);
           }
         }
       });
@@ -133,7 +133,7 @@ class Navarra {
    * Create the new server with the port
    */
   start() {
-    this.socket = new WebSocket.Server({ port: this.port });
+    world.socket = new WebSocket.Server({ port: this.port });
 
     this.build();
   }
@@ -142,7 +142,7 @@ class Navarra {
    * Bind the websocket connection to the `this` context
    */
   build() {
-    this.socket.on('connection', this.connection.bind(this));
+    world.socket.on('connection', this.connection.bind(this));
   }
 
   close(ws) {
@@ -151,7 +151,7 @@ class Navarra {
 
     if (player) {
       this.ws = ws;
-      this.bus = wsEvents(ws);
+      world.bus = wsEvents(ws);
       console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
 
       // Remove player from the list.
@@ -170,7 +170,7 @@ class Navarra {
   connection(ws) {
     // Event bus (for actions)
     this.ws = ws;
-    this.bus = wsEvents(ws);
+    world.bus = wsEvents(ws);
     console.log(`${emoji.get('computer')}  Someone connected.`);
 
     // Assign UUID to every connection
@@ -181,34 +181,86 @@ class Navarra {
     }, 2000);
 
     // 1. Player
-    this.bus.on('player:login', async (incoming) => {
-      const { player, token } = await Authentication.login(this.bus, incoming);
+    world.bus.on('player:login', async (incoming) => {
+      const { player, token } = await Authentication.login(world.bus, incoming);
       const socketId = ws.id;
 
-      this.constructor.addPlayer(new Player(player, token, socketId), this.bus);
+      this.constructor.addPlayer(new Player(player, token, socketId), world.bus);
     });
 
-    this.bus.on('player:move', (incoming) => {
+    world.bus.on('player:move', (incoming) => {
       const playerIndex = world.players.findIndex(player => player.uuid === incoming.id);
-      world.players[playerIndex].move(incoming.direction, world.map);
+      world.players[playerIndex].move(incoming.direction);
 
-      const that = this;
       const playerChanging = world.players[playerIndex];
-      this.socket.clients.forEach((client) => {
+      world.socket.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          if (that.bus) {
-            that.bus.emit('player:movement', playerChanging);
+          if (world.bus) {
+            world.bus.emit('player:movement', playerChanging);
           }
         }
       });
     });
 
-    this.bus.on('player:mouseTo', (data) => {
+    world.bus.on('player:mouseTo', async (data) => {
       const { x, y } = data.coordinates;
+
+      const playerIndex = world.players.findIndex(p => p.uuid === data.id);
+
+      const matrix = await Navarra.getMatrix(world.players[playerIndex]);
+
+      world.players[playerIndex].path.grid = matrix;
+      // cheating for now...
+      world.players[playerIndex].path.current.walkable = true;
+
       world.map.findPath(data.id, x, y);
+
+      console.log(world.players[playerIndex].x, world.players[playerIndex].y);
     });
 
     ws.on('close', () => this.close(ws));
+  }
+
+  static getMatrix(player) {
+    const x = player.x;
+    const y = player.y;
+
+    const { size, viewport } = config.map;
+
+    return new Promise((resolve) => {
+      const tileCrop = {
+        x: x - Math.floor(0.5 * viewport.x),
+        y: y - Math.floor(0.5 * viewport.y),
+      };
+
+      const matrix = [];
+
+      // Drawing the map row by column.
+      for (let column = 0; column <= viewport.y; column += 1) {
+        const grid = [];
+        for (let row = 0; row <= viewport.x; row += 1) {
+          const tileToFind = (((column + tileCrop.y) * size.x) + row) + tileCrop.x;
+          const backgroundTile = world.map.background[tileToFind] - 1;
+          const foregroundTile = (world.map.foreground[tileToFind] - 1) - 252;
+          // 252 because of the gid problem in Tiled
+
+          // Is the background walkable?
+          let walkable = UI.tileWalkable(backgroundTile) ? 0 : 1;
+          // If it is not, is the foreground walkable?
+          if (walkable === 0) walkable = UI.tileWalkable(foregroundTile, 'foreground') ? 0 : 1;
+
+          // Push the block/non-blocked tile to the
+          // grid so that the pathfinder can use it
+          grid.push(walkable);
+        }
+
+        // Push blocked/non-blocked array for pathfinding
+        matrix.push(grid);
+      }
+
+      // The new walkable/non-walkable grid
+      resolve(new PF.Grid(matrix));
+    });
   }
 
   static addPlayer(player, bus) {

@@ -64,9 +64,9 @@ export default {
         coordinates,
       };
 
-      console.log(data);
+      console.log(data.coordinates);
 
-      // window.ws.emit('player:mouseTo', data);
+      window.ws.emit('player:mouseTo', data);
     },
 
     /**
