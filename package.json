@@ -75,8 +75,7 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.2",
     "webpack-dev-server": "^2.10.1",
-    "webpack-merge": "^4.1.0",
-    "ws-events": "^1.0.0"
+    "webpack-merge": "^4.1.0"
   },
   "engines": {
     "node": ">= 4.0.0",

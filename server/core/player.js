@@ -114,7 +114,6 @@ class Player {
 
         if ((path.current.step + 1) === path.current.path.walking.length) {
           this.stopMovement();
-          console.log('Stopped at', this.x, this.y);
         } else {
           const steps = {
             current: {

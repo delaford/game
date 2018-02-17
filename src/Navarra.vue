@@ -71,12 +71,26 @@ export default {
     GameCanvas, Chatbox, Info, Slots, ContextMenu, Login,
   },
   created() {
-    window.ws.on('login-data', data => this.startGame(data));
-    window.ws.on('player:login', data => this.startGame(data));
+    // window.ws.on('login-data', data => this.startGame(data));
+    // window.ws.on('player:joined', data => this.refreshPlayers(data));
+    // window.ws.on('player:login', data => this.startGame(data));
 
-    window.ws.on('npc:movement', data => this.npcMovement(data));
+    // window.ws.on('npc:movement', data => this.npcMovement(data));
 
-    window.ws.on('player:movement', data => this.playerMovement(data));
+    // window.ws.on('player:movement', data => this.playerMovement(data));
+
+    window.ws.onmessage = (evt) => {
+      const data = JSON.parse(evt.data);
+      console.log(data);
+
+      switch (data.event) {
+        default:
+          break;
+        case 'login-data':
+          this.startGame(data.data);
+          break;
+      }
+    };
   },
   data() {
     return {
@@ -87,6 +101,11 @@ export default {
     };
   },
   methods: {
+    refreshPlayers(data) {
+      if (this.game.players) {
+        this.game.players = data;
+      }
+    },
     playerMovement(data) {
       if (this.game.player.uuid === data.uuid) {
         this.game.map.player = data;
@@ -112,7 +131,6 @@ export default {
       const engine = new Engine(this.game);
       engine.start();
 
-      // Focus mouse on the game-map (so hacky... send help)
       setTimeout(() => {
         document.querySelector('canvas#game-map').focus();
       }, 200);
@@ -124,19 +142,6 @@ export default {
       // rest of the game view.
       event.preventDefault();
     },
-  },
-  async mounted() {
-    // // Start game
-    // this.game = new Game();
-    // await this.game.start();
-    // this.loaded = true;
-
-    // // Start game engine
-    // const engine = new Engine(this.game);
-    // engine.start();
-
-    // // Focus mouse on the game-map
-    // document.querySelector('canvas#game-map').focus();
   },
 };
 </script>

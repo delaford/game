@@ -14,11 +14,9 @@
 
 <script>
 import bus from '../../core/utilities/bus';
+import Socket from '../../core/utilities/socket';
 
 export default {
-  created() {
-    //
-  },
   methods: {
     cancel() {
       bus.$emit('go:main');
@@ -28,7 +26,7 @@ export default {
     login() {
       const data = { username: this.username, password: this.password };
 
-      window.ws.emit('player:login', data);
+      Socket.emit('player:login', data);
     },
   },
   data() {

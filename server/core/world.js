@@ -16,4 +16,5 @@ module.exports = {
   items: [],
   monsters: [],
   players: [],
+  clients: [],
 };

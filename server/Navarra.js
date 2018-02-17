@@ -1,7 +1,5 @@
-const Authentication = require('./socket/authentication');
-
-const wsEvents = require('ws-events');
-const WebSocket = require('ws');
+const Authentication = require('./lib/authentication');
+const Socket = require('./socket');
 const uuid = require('node-uuid');
 
 const npcs = require('./data/npcs');
@@ -25,10 +23,7 @@ const PF = require('pathfinding');
 class Navarra {
   constructor(port) {
     // Port setting
-    this.port = port;
-
-    // Websocket server and bus (event-emitter)
-    this.ws = null;
+    world.socket = new Socket(9000);
 
     // Start the game server
     console.log(`${emoji.get('rocket')}  Starting game server on port ${port}.`);
@@ -48,16 +43,12 @@ class Navarra {
       world.npcs.push(new NPC(npc));
     }, this);
     console.log(`${emoji.get('walking')}  Loading NPCs...`);
-
-    // If the world map is created
-    // let us start the NPC movement
-    if (world.map.foreground) this.npcMovement();
   }
 
   /**
    * Handle NPC movement on map
    */
-  npcMovement() {
+  static npcMovement() {
     world.npcs.map((npc) => {
       // Next movement allowed in 2.5 seconds
       const nextActionAllowed = npc.lastAction + 2500;
@@ -118,22 +109,24 @@ class Navarra {
       return npc;
     });
 
-    if (world.socket.clients) {
-      world.socket.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          if (world.bus) {
-            world.bus.emit('npc:movement', world.npcs);
-          }
-        }
-      });
-    }
+    // if (world.socket.clients) {
+    //   world.socket.clients.forEach((client) => {
+    //     if (client.readyState === WebSocket.OPEN) {
+    //       if (world.bus) {
+    //         world.bus.emit('npc:movement', world.npcs);
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   /**
    * Create the new server with the port
    */
   start() {
-    world.socket = new WebSocket.Server({ port: this.port });
+    setInterval(() => {
+      this.constructor.npcMovement();
+    }, 2000);
 
     this.build();
   }
@@ -142,16 +135,16 @@ class Navarra {
    * Bind the websocket connection to the `this` context
    */
   build() {
-    world.socket.on('connection', this.connection.bind(this));
+    world.socket.ws.on('connection', this.connection.bind(this));
   }
 
-  close(ws) {
+  static close(ws) {
+    console.log(ws.id, 'left');
+
     // Event bus (for actions)
     const player = world.players.find(f => f.socket_id === ws.id);
 
     if (player) {
-      this.ws = ws;
-      world.bus = wsEvents(ws);
       console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
 
       // Remove player from the list.
@@ -168,57 +161,82 @@ class Navarra {
    * @param {WebSocket} ws The websocket connection
    */
   connection(ws) {
-    // Event bus (for actions)
-    this.ws = ws;
-    world.bus = wsEvents(ws);
     console.log(`${emoji.get('computer')}  Someone connected.`);
+
+    world.socket.context = ws;
+
+
+    ws.on('message', async (msg) => {
+      const data = JSON.parse(msg);
+
+      switch (data.event) {
+        default:
+          break;
+        case 'player:login':
+          const { player, token } = await Authentication.login(data);
+          const socketId = ws.id;
+
+
+          this.constructor.addPlayer(new Player(player, token, socketId));
+          break;
+      }
+
+      // world.socket.broadcast(JSON.parse(msg));
+    });
+
 
     // Assign UUID to every connection
     ws.id = uuid.v4();
 
-    setInterval(() => {
-      this.npcMovement();
-    }, 2000);
+    world.clients.push(ws);
+
+    // world.clients.forEach((client) => {
+    //   console.log(`${client.id} was told of existance.`);
+
+    //   client.send('dan', {
+    //     any: 'json',
+    //   });
+    // });
 
     // 1. Player
-    world.bus.on('player:login', async (incoming) => {
+    ws.on('player:login', async (incoming) => {
       const { player, token } = await Authentication.login(world.bus, incoming);
       const socketId = ws.id;
+
 
       this.constructor.addPlayer(new Player(player, token, socketId), world.bus);
     });
 
-    world.bus.on('player:move', (incoming) => {
-      const playerIndex = world.players.findIndex(player => player.uuid === incoming.id);
-      world.players[playerIndex].move(incoming.direction);
+    // world.bus.on('player:move', (incoming) => {
+    //   const playerIndex = world.players.findIndex(player => player.uuid === incoming.id);
+    //   world.players[playerIndex].move(incoming.direction);
 
-      const playerChanging = world.players[playerIndex];
-      world.socket.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          if (world.bus) {
-            world.bus.emit('player:movement', playerChanging);
-          }
-        }
-      });
-    });
+    //   const playerChanging = world.players[playerIndex];
+    //   world.socket.clients.forEach((client) => {
+    //     if (client.readyState === WebSocket.OPEN) {
+    //       if (world.bus) {
+    //         world.bus.emit('player:movement', playerChanging);
+    //       }
+    //     }
+    //   });
+    // });
 
-    world.bus.on('player:mouseTo', async (data) => {
-      const { x, y } = data.coordinates;
+    // world.bus.on('player:mouseTo', async (data) => {
+    //   const { x, y } = data.coordinates;
 
-      const playerIndex = world.players.findIndex(p => p.uuid === data.id);
+    //   const playerIndex = world.players.findIndex(p => p.uuid === data.id);
 
-      const matrix = await Navarra.getMatrix(world.players[playerIndex]);
+    //   const matrix = await Navarra.getMatrix(world.players[playerIndex]);
 
-      world.players[playerIndex].path.grid = matrix;
-      // cheating for now...
-      world.players[playerIndex].path.current.walkable = true;
+    //   world.players[playerIndex].path.grid = matrix;
+    //   // cheating for now...
+    //   world.players[playerIndex].path.current.walkable = true;
 
-      world.map.findPath(data.id, x, y);
+    //   world.map.findPath(data.id, x, y);
+    // });
 
-      console.log(world.players[playerIndex].x, world.players[playerIndex].y);
-    });
-
-    ws.on('close', () => this.close(ws));
+    ws.on('error', e => console.log(e, `${ws.id} has left`));
+    ws.on('close', () => this.constructor.close(ws));
   }
 
   static getMatrix(player) {
@@ -263,7 +281,7 @@ class Navarra {
     });
   }
 
-  static addPlayer(player, bus) {
+  static addPlayer(player) {
     world.players.push(player);
 
     const block = {
@@ -273,7 +291,7 @@ class Navarra {
       droppedItems: world.items,
     };
 
-    bus.emit('login-data', block);
+    world.socket.emit('login-data', block);
   }
 }
 

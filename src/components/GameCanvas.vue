@@ -64,8 +64,6 @@ export default {
         coordinates,
       };
 
-      console.log(data.coordinates);
-
       window.ws.emit('player:mouseTo', data);
     },
 
@@ -107,6 +105,11 @@ export default {
 
         Client.move(data);
       }
+    },
+  },
+  computed: {
+    otherPlayers() {
+      return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
   },
 };

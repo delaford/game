@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 class Authentication {
-  static async login(bus, data) {
+  static async login(data) {
     return new Promise(async (resolve) => {
-      const token = await Authentication.getToken(data);
+      const token = await Authentication.getToken(data.data);
       const player = await Authentication.getProfile(token);
 
       resolve({ player, token });
