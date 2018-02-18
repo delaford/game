@@ -7,6 +7,8 @@ import weaponsImage from '@/assets/graphics/items/weapons.png';
 
 import bus from '../core/utilities/bus';
 
+import Socket from '../core/utilities/socket';
+
 class Client {
   constructor(data) {
     this.map = data.map;
@@ -71,7 +73,9 @@ class Client {
    * @param {string} direction The direction the player moved
    */
   static move(direction) {
-    window.ws.emit('player:move', direction);
+    // window.ws.emit('player:move', direction);
+
+    Socket.emit('player:move', direction);
   }
 }
 

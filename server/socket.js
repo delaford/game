@@ -14,18 +14,32 @@ class Socket {
       data,
     };
 
-    this.context.send(JSON.stringify(obj));
+    const player = world.clients.find(p => p.id === data.player.socket_id);
+
+    player.send(JSON.stringify(obj));
   }
 
-  broadcast(data) {
-    const that = this;
+  broadcast(event, data) {
+    // Refresh player list
+    this.clients = world.clients;
 
-    this.clients.forEach((client) => {
-      if (client.readyState === that.context.OPEN) {
-        console.log(data);
-        client.send(JSON.stringify(data));
+    const obj = {
+      event,
+      data,
+    };
+
+    this.clients.forEach((client, index) => {
+      if (client.readyState === 3) {
+        this.clients.splice(index, 1);
+      }
+      const getPlayer = world.clients.find(c => c.id === client.id);
+
+      if (getPlayer && (client.readyState === getPlayer.readyState) && (world.clients.length)) {
+        client.send(JSON.stringify(obj));
       }
     });
+
+    this.clients = this.clients.filter(client => client.readyState !== 3);
   }
 }
 

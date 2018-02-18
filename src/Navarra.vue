@@ -71,20 +71,30 @@ export default {
     GameCanvas, Chatbox, Info, Slots, ContextMenu, Login,
   },
   created() {
-    // window.ws.on('login-data', data => this.startGame(data));
-    // window.ws.on('player:joined', data => this.refreshPlayers(data));
-    // window.ws.on('player:login', data => this.startGame(data));
-
-    // window.ws.on('npc:movement', data => this.npcMovement(data));
-
-    // window.ws.on('player:movement', data => this.playerMovement(data));
-
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log(data);
+      if (data.event !== 'npc:movement') {
+        console.log('incoming:', data);
+      }
 
       switch (data.event) {
         default:
+          break;
+        case 'player:left':
+          if (this.game.map.players) {
+            const playerIndex = this.game.map.players.findIndex(p => data.data === p.uuid);
+            this.game.map.players.splice(playerIndex, 1);
+          }
+
+          break;
+        case 'player:joined':
+          this.refreshPlayers(data.data);
+          break;
+        case 'npc:movement':
+          this.npcMovement(data.data);
+          break;
+        case 'player:movement':
+          this.playerMovement(data.data);
           break;
         case 'login-data':
           this.startGame(data.data);
@@ -102,14 +112,18 @@ export default {
   },
   methods: {
     refreshPlayers(data) {
-      if (this.game.players) {
-        this.game.players = data;
+      if (data && this.game.player) {
+        this.game.map.players = data.filter(p => p.socket_id !== this.game.player.socket_id);
       }
     },
     playerMovement(data) {
       if (this.game.player.uuid === data.uuid) {
         this.game.map.player = data;
         this.game.player = data;
+      } else {
+        const playerIndex = this.game.map.players.findIndex(p => p.uuid === data.uuid);
+
+        this.game.map.players[playerIndex] = data;
       }
     },
     npcMovement(data) {

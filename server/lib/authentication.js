@@ -32,6 +32,19 @@ class Authentication {
         .then(r => resolve(r.data));
     });
   }
+
+  static async logout(response) {
+    const url = `${process.env.SITE_URL}/api/auth/logout`;
+    const config = {
+      headers: { Authorization: `Bearer ${response}` },
+    };
+
+    return new Promise((resolve) => {
+      axios
+        .post(url, null, config)
+        .then(r => resolve(r.data));
+    });
+  }
 }
 
 module.exports = Authentication;

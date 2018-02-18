@@ -13,6 +13,8 @@ class Map {
     this.background = world.map.background;
     this.foreground = world.map.foreground;
 
+    this.players = [];
+
     this.setUp();
   }
 

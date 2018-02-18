@@ -56,15 +56,16 @@ export default {
      */
     leftClick(event) {
       const coordinates = UI.getViewportCoordinates(event);
+      console.log(coordinates);
 
       // Send to game engine that
       // the player clicked to move
-      const data = {
-        id: this.game.player.uuid,
-        coordinates,
-      };
+      // const data = {
+      //   id: this.game.player.uuid,
+      //   coordinates,
+      // };
 
-      window.ws.emit('player:mouseTo', data);
+      // window.ws.emit('player:mouseTo', data);
     },
 
     /**

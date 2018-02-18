@@ -92,6 +92,9 @@ class Engine {
     // Draw the NPCs
     this.game.map.drawNPCs();
 
+    // Draw other players
+    this.game.map.drawPlayers();
+
     // Draw the player
     this.game.map.drawPlayer();
 

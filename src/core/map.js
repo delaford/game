@@ -15,6 +15,8 @@ class Map {
 
     this.droppedItems = [];
 
+    this.players = [];
+
     this.player = null;
 
     this.path = {
@@ -268,6 +270,39 @@ class Map {
       32,
       32,
     );
+  }
+
+  drawPlayers() {
+    // Filter out nearby players
+    const nearbyPlayers = this.players.filter((player) => {
+      const foundPlayers = (this.player.x <= (8 + player.x))
+        && (this.player.x >= (player.x - 8))
+        && (this.player.y <= (6 + player.y))
+        && (this.player.y >= (player.y - 6));
+
+      return foundPlayers;
+    });
+
+    // Get relative X,Y coordinates to paint on viewport
+    nearbyPlayers.forEach((player) => {
+      const viewport = {
+        x: Math.floor(this.config.map.viewport.x / 2) - (this.player.x - player.x),
+        y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - player.y),
+      };
+
+      // Paint the Player on map
+      this.context.drawImage(
+        this.images.playerImage,
+        0, // Number in NPC tileset
+        0, // Y-axis always 0
+        32,
+        32,
+        viewport.x * 32,
+        viewport.y * 32,
+        32,
+        32,
+      );
+    }, this);
   }
 
   /**

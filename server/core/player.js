@@ -4,6 +4,7 @@ const emoji = require('node-emoji');
 const world = require('./world');
 const WebSocket = require('ws');
 const UI = require('./utilities/ui');
+const axios = require('axios');
 // import UI from './utilities/ui';
 // import bus from '../core/utilities/bus';
 
@@ -131,7 +132,7 @@ class Player {
           this.move(movement, true);
 
           const playerChanging = world.players[playerIndex];
-          world.socket.clients.forEach((client) => {
+          world.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
               if (world.bus) {
                 world.bus.emit('player:movement', playerChanging);
@@ -204,6 +205,34 @@ class Player {
    */
   do(item) {
     console.log(this.x, this.y, `Doing ${item}`);
+  }
+
+  update() {
+    const url = `${process.env.SITE_URL}/api/auth/update`;
+    const reqConfig = {
+      headers: { Authorization: `Bearer ${this.token}` },
+    };
+
+    let getPlayer = world.players
+      .find(p => p.token === this.token);
+
+    getPlayer = {
+      x: getPlayer.x,
+      y: getPlayer.y,
+      username: getPlayer.username,
+      hp_current: getPlayer.hp.current,
+      hp_max: getPlayer.hp.max,
+    };
+
+    const data = { uuid: this.uuid, data: getPlayer };
+
+    return new Promise((resolve) => {
+      axios
+        .post(url, data, reqConfig)
+        .then((r) => {
+          resolve(r.data);
+        });
+    });
   }
 }
 

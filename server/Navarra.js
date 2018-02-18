@@ -20,6 +20,8 @@ const { droppedItems } = require('./data/default');
 const config = require('./core/config');
 const PF = require('pathfinding');
 
+const axios = require('axios');
+
 class Navarra {
   constructor(port) {
     // Port setting
@@ -109,15 +111,7 @@ class Navarra {
       return npc;
     });
 
-    // if (world.socket.clients) {
-    //   world.socket.clients.forEach((client) => {
-    //     if (client.readyState === WebSocket.OPEN) {
-    //       if (world.bus) {
-    //         world.bus.emit('npc:movement', world.npcs);
-    //       }
-    //     }
-    //   });
-    // }
+    world.socket.broadcast('npc:movement', world.npcs);
   }
 
   /**
@@ -138,20 +132,18 @@ class Navarra {
     world.socket.ws.on('connection', this.connection.bind(this));
   }
 
-  static close(ws) {
-    console.log(ws.id, 'left');
-
-    // Event bus (for actions)
+  static async close(ws) {
     const player = world.players.find(f => f.socket_id === ws.id);
 
     if (player) {
+      await Authentication.logout(player.token);
+      await player.update();
       console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
 
       // Remove player from the list.
       world.players = world.players.filter(p => p.socket_id !== ws.id);
-
-      // Send new player list out.
-      // ws-send...
+      world.clients = world.clients.filter(c => c.id !== ws.id);
+      world.socket.broadcast('player:left', ws.id);
     }
   }
 
@@ -163,21 +155,23 @@ class Navarra {
   connection(ws) {
     console.log(`${emoji.get('computer')}  Someone connected.`);
 
-    world.socket.context = ws;
-
-
     ws.on('message', async (msg) => {
       const data = JSON.parse(msg);
 
       switch (data.event) {
         default:
           break;
+        case 'player:move':
+          const playerIndex = world.players.findIndex(player => player.uuid === data.data.id);
+          world.players[playerIndex].move(data.data.direction);
+
+          const playerChanging = world.players[playerIndex];
+          world.socket.broadcast('player:movement', playerChanging);
+          break;
         case 'player:login':
           const { player, token } = await Authentication.login(data);
-          const socketId = ws.id;
 
-
-          this.constructor.addPlayer(new Player(player, token, socketId));
+          this.constructor.addPlayer(new Player(player, token, ws.id));
           break;
       }
 
@@ -190,36 +184,7 @@ class Navarra {
 
     world.clients.push(ws);
 
-    // world.clients.forEach((client) => {
-    //   console.log(`${client.id} was told of existance.`);
-
-    //   client.send('dan', {
-    //     any: 'json',
-    //   });
-    // });
-
     // 1. Player
-    ws.on('player:login', async (incoming) => {
-      const { player, token } = await Authentication.login(world.bus, incoming);
-      const socketId = ws.id;
-
-
-      this.constructor.addPlayer(new Player(player, token, socketId), world.bus);
-    });
-
-    // world.bus.on('player:move', (incoming) => {
-    //   const playerIndex = world.players.findIndex(player => player.uuid === incoming.id);
-    //   world.players[playerIndex].move(incoming.direction);
-
-    //   const playerChanging = world.players[playerIndex];
-    //   world.socket.clients.forEach((client) => {
-    //     if (client.readyState === WebSocket.OPEN) {
-    //       if (world.bus) {
-    //         world.bus.emit('player:movement', playerChanging);
-    //       }
-    //     }
-    //   });
-    // });
 
     // world.bus.on('player:mouseTo', async (data) => {
     //   const { x, y } = data.coordinates;
@@ -292,6 +257,8 @@ class Navarra {
     };
 
     world.socket.emit('login-data', block);
+
+    world.socket.broadcast('player:joined', world.players);
   }
 }
 
