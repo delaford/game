@@ -20,8 +20,6 @@ const { droppedItems } = require('./data/default');
 const config = require('./core/config');
 const PF = require('pathfinding');
 
-const axios = require('axios');
-
 class Navarra {
   constructor(port) {
     // Port setting
@@ -132,7 +130,7 @@ class Navarra {
     world.socket.ws.on('connection', this.connection.bind(this));
   }
 
-  static async close(ws) {
+  static async close(ws, logout = false) {
     const player = world.players.find(f => f.socket_id === ws.id);
 
     if (player) {
@@ -142,7 +140,9 @@ class Navarra {
 
       // Remove player from the list.
       world.players = world.players.filter(p => p.socket_id !== ws.id);
-      world.clients = world.clients.filter(c => c.id !== ws.id);
+      if (!logout) {
+        world.clients = world.clients.filter(c => c.id !== ws.id);
+      }
       world.socket.broadcast('player:left', ws.id);
     }
   }
@@ -161,6 +161,14 @@ class Navarra {
       switch (data.event) {
         default:
           break;
+        case 'player:say':
+          const playerChat = world.players.find(p => p.socket_id === data.data.id);
+          data.data.username = playerChat.username;
+          world.socket.broadcast('player:say', data.data, 10);
+          break;
+        case 'player:logout':
+          this.constructor.close(ws, true);
+          break;
         case 'player:move':
           const playerIndex = world.players.findIndex(player => player.uuid === data.data.id);
           world.players[playerIndex].move(data.data.direction);
@@ -170,6 +178,7 @@ class Navarra {
           break;
         case 'player:login':
           const { player, token } = await Authentication.login(data);
+          // also bring in players currently connected...
 
           this.constructor.addPlayer(new Player(player, token, ws.id));
           break;

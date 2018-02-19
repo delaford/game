@@ -72,10 +72,8 @@ class Client {
    *
    * @param {string} direction The direction the player moved
    */
-  static move(direction) {
-    // window.ws.emit('player:move', direction);
-
-    Socket.emit('player:move', direction);
+  static move(data) {
+    Socket.emit('player:move', data);
   }
 }
 

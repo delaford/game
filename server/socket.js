@@ -5,7 +5,6 @@ class Socket {
   constructor(port) {
     this.ws = new WebSocket({ port });
     this.clients = world.clients;
-    this.context = null;
   }
 
   emit(event, data) {
@@ -19,7 +18,7 @@ class Socket {
     player.send(JSON.stringify(obj));
   }
 
-  broadcast(event, data) {
+  broadcast(event, data, range = 0) {
     // Refresh player list
     this.clients = world.clients;
 
@@ -29,13 +28,22 @@ class Socket {
     };
 
     this.clients.forEach((client, index) => {
-      if (client.readyState === 3) {
-        this.clients.splice(index, 1);
-      }
-      const getPlayer = world.clients.find(c => c.id === client.id);
+      const getSender = world.players.find(p => p.socket_id === client.id);
 
-      if (getPlayer && (client.readyState === getPlayer.readyState) && (world.clients.length)) {
-        client.send(JSON.stringify(obj));
+      if (world.players.length && getSender) {
+
+        if (client.readyState === 3) {
+          this.clients.splice(index, 1);
+        }
+        const getPlayer = world.clients.find(c => c.id === client.id);
+
+        if (getPlayer && (client.readyState === getPlayer.readyState) && (world.clients.length)) {
+          if (range === 0) {
+            client.send(JSON.stringify(obj));
+          } else {
+            client.send(JSON.stringify(obj));
+          }
+        }
       }
     });
 

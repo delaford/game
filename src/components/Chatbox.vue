@@ -4,15 +4,19 @@
         <div v-for="(chat, i) in chatbox" class="message" v-html="showChatMessage(chat)"></div>
       </div>
 
-      <input @keydown.enter="say" maxlength="50" v-model="said" type="text" class="typing">
+      <input @keydown.enter="sendMessage" maxlength="50" v-model="said" type="text" class="typing">
     </div>
 </template>
 
 <script>
+import Socket from '../core/utilities/socket';
 import bus from '../core/utilities/bus';
 
 export default {
   props: ['game'],
+  created() {
+    bus.$on('player:say', data => this.pipeline(data));
+  },
   mounted() {
     bus.$on('CHAT:MESSAGE', this.pipeline);
   },
@@ -23,8 +27,8 @@ export default {
      * @param {object} data The message to add
      */
     pipeline(data) {
-      this.said = data.text;
-      this.say(null, data.type);
+      this.said = data.said;
+      this.say(null, data.type, data.username);
     },
     /**
      * Displays the chat box
@@ -44,7 +48,7 @@ export default {
 
         // Player chat message
         case 'chat':
-          message = `${this.game.player.username}: <span style='color:${chat.color}'>${chat.text}</span>`;
+          message = `${chat.username}: <span style='color:${chat.color}'>${chat.text}</span>`;
           break;
       }
 
@@ -54,14 +58,18 @@ export default {
 
       return message;
     },
+    sendMessage() {
+      Socket.emit('player:say', { said: this.said, id: this.game.player.socket_id });
+    },
     /**
      * Add message to chatbox
      *
      * @param {event} event The event code
      * @param {string} type The type of message we are adding
      */
-    say(event, type = 'chat') {
+    say(event, type = 'chat', username = null) {
       // Does our message actually have lines?
+
       if (this.sayingSomething) {
         // TODO: Transfer to network code
         const typed = [
@@ -70,6 +78,7 @@ export default {
             type,
             color: '#1D56F2',
             text: this.said,
+            username,
           },
 
         ];
