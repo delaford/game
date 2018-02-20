@@ -176,6 +176,20 @@ class Navarra {
           const playerChanging = world.players[playerIndex];
           world.socket.broadcast('player:movement', playerChanging);
           break;
+        case 'player:mouseTo':
+          const coords = data.data.coordinates;
+          const movingData = data.data;
+          const { x, y } = coords;
+
+          const playerIndexMoveTo = world.players.findIndex(p => p.uuid === movingData.id);
+          const matrix = await Navarra.getMatrix(world.players[playerIndexMoveTo]);
+
+          world.players[playerIndexMoveTo].path.grid = matrix;
+          // cheating for now...
+          world.players[playerIndexMoveTo].path.current.walkable = true;
+
+          world.map.findPath(movingData.id, x, y);
+          break;
         case 'player:login':
           const { player, token } = await Authentication.login(data);
           // also bring in players currently connected...

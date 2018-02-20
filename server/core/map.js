@@ -53,7 +53,7 @@ class Map {
     const playerIndex = world.players.findIndex(p => p.uuid === uuid);
 
     if (world.players[playerIndex].moving) {
-      this.path.current.interrupted = true;
+      world.players[playerIndex].path.current.interrupted = true;
     }
 
     // The player's x-y on map (always 7,5)

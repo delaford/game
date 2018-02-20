@@ -24,9 +24,10 @@
  * (HTML) What to and where to display
  */
 import Client from '../core/client';
+import config from '../core/config';
 import UI from '../core/utilities/ui';
 import bus from '../core/utilities/bus';
-import config from '../core/config';
+import Socket from '../core/utilities/socket';
 
 export default {
   name: 'Game',
@@ -60,12 +61,12 @@ export default {
 
       // Send to game engine that
       // the player clicked to move
-      // const data = {
-      //   id: this.game.player.uuid,
-      //   coordinates,
-      // };
+      const data = {
+        id: this.game.player.uuid,
+        coordinates,
+      };
 
-      // window.ws.emit('player:mouseTo', data);
+      Socket.emit('player:mouseTo', data);
     },
 
     /**

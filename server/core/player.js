@@ -135,7 +135,7 @@ class Player {
           world.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
               if (world.bus) {
-                world.bus.emit('player:movement', playerChanging);
+                world.socket.broadcast('player:movement', playerChanging);
               }
             }
           });
