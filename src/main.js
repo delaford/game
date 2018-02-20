@@ -20,3 +20,7 @@ new Vue({
 // Add an event listener to close the websocket
 // connection right before the browser closes.
 window.addEventListener('beforeunload', () => window.ws.close());
+
+window.focusOnGame = () => {
+  document.querySelector('canvas#game-map.main-canvas').focus();
+};

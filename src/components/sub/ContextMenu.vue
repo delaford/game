@@ -56,6 +56,8 @@ export default {
       this.actions.do(data);
 
       this.closeMenu();
+
+      window.focusOnGame();
     },
 
     /**
