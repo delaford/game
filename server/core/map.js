@@ -1,14 +1,10 @@
 const surfaceMap = require('./../maps/layers/surface.json');
-const config = require('./config');
 const world = require('./../core/world');
 
 class Map {
   constructor(level) {
     // Getters & Setters
-    this.config = config;
     this.level = level;
-
-    this.droppedItems = world.droppedItems;
 
     this.background = world.map.background;
     this.foreground = world.map.foreground;
@@ -49,7 +45,7 @@ class Map {
    * @param {integer} x The x-axis coord on where user clicked on game-gap
    * @param {integer} y The y-axis coord on where user clicked on game-gap
    */
-  async findPath(uuid, x, y) {
+  static async findPath(uuid, x, y) {
     const playerIndex = world.players.findIndex(p => p.uuid === uuid);
 
     if (world.players[playerIndex].moving) {

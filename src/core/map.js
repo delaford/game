@@ -14,9 +14,7 @@ class Map {
     this.config = config;
 
     this.droppedItems = [];
-
     this.players = [];
-
     this.player = null;
 
     this.path = {
@@ -60,6 +58,11 @@ class Map {
     this.droppedItems = items;
   }
 
+  /**
+   * Set the images that was downloaded
+   *
+   * @param {Image} images Images of the player and terrain
+   */
   setImages(images) {
     // Define images
     const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage] = images;
@@ -81,7 +84,6 @@ class Map {
     const terrain = this.images.terrainImage;
     const objects = this.images.objectImage;
 
-    // Setup config from data here (this.config)
     this.config.map.tileset.width = terrain.width;
     this.config.map.tileset.height = terrain.height;
 

@@ -5,33 +5,32 @@ const world = require('./world');
 const WebSocket = require('ws');
 const UI = require('./utilities/ui');
 const axios = require('axios');
-// import UI from './utilities/ui';
-// import bus from '../core/utilities/bus';
+const Socket = require('../socket');
 
 class Player {
   constructor(data, token, socketId) {
+    // Main statistics
     this.username = data.username;
     this.x = data.x;
     this.y = data.y;
-    this.moving = false;
-
+    this.level = data.level;
+    this.skills = data.skills;
     this.hp = {
       current: data.hp.current,
       max: data.hp.max,
     };
 
-    this.level = data.level;
-
-    this.skills = data.skills;
-
-    this.friend_list = data.friend_list;
-
+    // Authentication
+    this.moving = false;
     this.token = token;
-
     this.uuid = data.uuid;
+    this.socket_id = socketId;
 
+    // Tabs
+    this.friend_list = data.friend_list;
     this.wear = data.wear;
 
+    // Pathfinding
     this.path = {
       grid: null, // a 0/1 grid of blocked tiles
       finder: new PF.DijkstraFinder(),
@@ -47,8 +46,6 @@ class Player {
         interrupted: false, // Did we click-to-walk elsewhere while walking current loop?
       },
     };
-
-    this.socket_id = socketId;
 
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
   }
@@ -135,7 +132,7 @@ class Player {
           world.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
               if (world.bus) {
-                world.socket.broadcast('player:movement', playerChanging);
+                Socket.broadcast('player:movement', playerChanging);
               }
             }
           });

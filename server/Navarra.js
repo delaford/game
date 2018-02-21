@@ -109,31 +109,34 @@ class Navarra {
       return npc;
     });
 
-    world.socket.broadcast('npc:movement', world.npcs);
+    // Tell the clients of the new NPCs
+    Socket.broadcast('npc:movement', world.npcs);
   }
 
   /**
    * Create the new server with the port
    */
   start() {
+    // Simulate NPCs brain every 2 seconds
     setInterval(() => {
       this.constructor.npcMovement();
     }, 2000);
 
-    this.build();
-  }
-
-  /**
-   * Bind the websocket connection to the `this` context
-   */
-  build() {
+    // Bind the websocket connection to the `this` context
     world.socket.ws.on('connection', this.connection.bind(this));
   }
 
+  /**
+   * Log the user out and save the player profile
+   *
+   * @param {WebSocket} ws The socket connection of the player
+   * @param {boolean} logout Whether the connection was via player or interruption
+   */
   static async close(ws, logout = false) {
     const player = world.players.find(f => f.socket_id === ws.id);
 
     if (player) {
+      // Logout the player out and save the profile
       await Authentication.logout(player.token);
       await player.update();
       console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
@@ -143,7 +146,9 @@ class Navarra {
       if (!logout) {
         world.clients = world.clients.filter(c => c.id !== ws.id);
       }
-      world.socket.broadcast('player:left', ws.id);
+
+      // Tell the clients someone left
+      Socket.broadcast('player:left', ws.id);
     }
   }
 
@@ -164,7 +169,7 @@ class Navarra {
         case 'player:say':
           const playerChat = world.players.find(p => p.socket_id === data.data.id);
           data.data.username = playerChat.username;
-          world.socket.broadcast('player:say', data.data, 10);
+          Socket.broadcast('player:say', data.data, 10);
           break;
         case 'player:logout':
           this.constructor.close(ws, true);
@@ -174,54 +179,32 @@ class Navarra {
           world.players[playerIndex].move(data.data.direction);
 
           const playerChanging = world.players[playerIndex];
-          world.socket.broadcast('player:movement', playerChanging);
+          Socket.broadcast('player:movement', playerChanging);
           break;
         case 'player:mouseTo':
-          const coords = data.data.coordinates;
           const movingData = data.data;
-          const { x, y } = coords;
+          const { x, y } = movingData.coordinates;
 
           const playerIndexMoveTo = world.players.findIndex(p => p.uuid === movingData.id);
           const matrix = await Navarra.getMatrix(world.players[playerIndexMoveTo]);
 
           world.players[playerIndexMoveTo].path.grid = matrix;
-          // cheating for now...
           world.players[playerIndexMoveTo].path.current.walkable = true;
 
-          world.map.findPath(movingData.id, x, y);
+          Map.findPath(movingData.id, x, y);
           break;
         case 'player:login':
           const { player, token } = await Authentication.login(data);
-          // also bring in players currently connected...
 
           this.constructor.addPlayer(new Player(player, token, ws.id));
           break;
       }
-
-      // world.socket.broadcast(JSON.parse(msg));
     });
 
 
     // Assign UUID to every connection
     ws.id = uuid.v4();
-
     world.clients.push(ws);
-
-    // 1. Player
-
-    // world.bus.on('player:mouseTo', async (data) => {
-    //   const { x, y } = data.coordinates;
-
-    //   const playerIndex = world.players.findIndex(p => p.uuid === data.id);
-
-    //   const matrix = await Navarra.getMatrix(world.players[playerIndex]);
-
-    //   world.players[playerIndex].path.grid = matrix;
-    //   // cheating for now...
-    //   world.players[playerIndex].path.current.walkable = true;
-
-    //   world.map.findPath(data.id, x, y);
-    // });
 
     ws.on('error', e => console.log(e, `${ws.id} has left`));
     ws.on('close', () => this.constructor.close(ws));
@@ -279,9 +262,9 @@ class Navarra {
       droppedItems: world.items,
     };
 
-    world.socket.emit('login-data', block);
+    Socket.emit('player:login', block);
 
-    world.socket.broadcast('player:joined', world.players);
+    Socket.broadcast('player:joined', world.players);
   }
 }
 

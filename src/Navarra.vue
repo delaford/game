@@ -79,7 +79,7 @@ export default {
     const that = this;
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      if (data.event === 'player:joined' || data.event === 'login-data') {
+      if (data.event === 'player:joined' || data.event === 'player:login') {
         console.log('incoming:', data);
       }
 
@@ -110,7 +110,7 @@ export default {
         case 'player:say':
           bus.$emit('player:say', data.data);
           break;
-        case 'login-data':
+        case 'player:login':
           this.startGame(data.data);
           break;
       }
@@ -134,13 +134,6 @@ export default {
     logout() {
       this.screen = 'login';
       this.game = false;
-    },
-    refreshPlayers() {
-      // if (data && this.game.player) {
-      //   this.game.map.players = data.filter(p => {
-      //     return p.socket_id !== this.game.player.socket_id;
-      //   });
-      // }
     },
     playerMovement(data) {
       if (this.game.player.uuid === data.uuid) {
