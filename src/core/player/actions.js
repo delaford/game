@@ -23,20 +23,16 @@ class Actions {
       x: (this.player.x - map.player.x) + this.clicked.x,
       y: (this.player.y - map.player.y) + this.clicked.y,
     };
-    // These two 'for' loops are used to find any npcs or items at the
-    // mouse click location and set the color accordingly.
-    for (let i = 0; i < this.npcs.length; i += 1) { // Scans through NPCs
-      if (this.npcs[i].x === this.coordinates.x) { // Checks to see if NPCs
-        if (this.npcs[i].y === this.coordinates.y) { // match X and Y coords
-          this.color = config.map.color.npc; // Sets the color accordingly
-        }
+
+    // Looks through NPCs and sets color appropriately
+    for (let i = 0; i < this.npcs.length; i += 1) {
+      if ((this.npcs[i].x === this.coordinates.x) && (this.npcs[i].y === this.coordinates.y)) {
+        this.color = config.map.color.npc;
       }
     }
     for (let i = 0; i < this.droppedItems.length; i += 1) {
-      if (this.droppedItems[i].x === this.coordinates.x) {
-        if (this.droppedItems[i].y === this.coordinates.y) {
-          this.color = config.map.color.item;
-        }
+      if ((this.droppedItems[i].x === this.coordinates.x) && (this.droppedItems[i].y === this.coordinates.y)) {
+        this.color = config.map.color.item;
       }
     }
 
