@@ -53,6 +53,7 @@
 </template>
 
 <script>
+// Vue components
 import GameCanvas from './components/GameCanvas';
 import Chatbox from './components/Chatbox';
 import Slots from './components/Slots';
@@ -62,12 +63,11 @@ import Info from './components/Info';
 import ContextMenu from './components/sub/ContextMenu';
 import Login from './components/ui/Login';
 
+// Core assets
 import Client from './core/client';
 import Engine from './core/engine';
 import config from './core/config';
-
 import Map from './core/map';
-
 import bus from './core/utilities/bus';
 
 export default {
@@ -79,9 +79,6 @@ export default {
     const that = this;
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      if (data.event === 'player:joined' || data.event === 'player:login') {
-        console.log('incoming:', data);
-      }
 
       switch (data.event) {
         default:
