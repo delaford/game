@@ -4,7 +4,7 @@ Navarra uses WebSockets, plain and simple, to transmit actions from the player t
 
 Please refer to the graph below to see how certain actions are validated and checked.
 
-![Server client](https://preview.ibb.co/eg8B2c/server_client.png"Server-client")
+![Server client](https://cdn.rawgit.com/Navarra/game/feature/add-network/server/server-client.png "Server-client")
 
 ## The Server
 
@@ -15,3 +15,11 @@ When a user requests an action (like to move), the `WebSocket` server talks to t
 The clients then recieves the update and apply it to their client and the `Engine.js` client-side will repaint accordingly based on the new values.
 
 This all happens within a second or less and it's all basic, standard within the game. Nothing fancy here...
+
+## Player saving
+
+When a user connects, they are assigned a `JWT` token which only lets them access and update their profile.
+
+Upon entry to the server, their profile is fetched from the `MySQL` database. Then they get two authenticators: a `WebSocket` id and their player's `uuid`. When a user is moving, their X,Y is updated but only on the server. Not in the database.
+
+When you logout from either a browser close, internet disconnect or just plain-old logout, your profile is saved on the database with the new data from the game session you just exited from.
