@@ -17,6 +17,7 @@ Create your `MySQL` database and then edit the `.env.example` and fill out the d
 
       $ composer install
       $ php artisan jwt:secret
+      $ php artisan key:generate
       $ php artisan migrate
       $ php artisan config:cache
       $ yarn install
