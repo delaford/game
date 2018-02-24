@@ -1,4 +1,6 @@
 const axios = require('axios');
+const Socket = require('./../socket');
+const world = require('./../core/world');
 
 class Authentication {
   static async login(data) {
@@ -44,6 +46,21 @@ class Authentication {
         .post(url, null, config)
         .then(r => resolve(r.data));
     });
+  }
+
+  static addPlayer(player) {
+    world.players.push(player);
+
+    const block = {
+      player,
+      map: world.map,
+      npcs: world.npcs,
+      droppedItems: world.items,
+    };
+
+    Socket.emit('player:login', block);
+
+    Socket.broadcast('player:joined', world.players);
   }
 }
 

@@ -7,6 +7,12 @@ class Socket {
     this.clients = world.clients;
   }
 
+  /**
+   * Emit an event to a single client
+   *
+   * @param {string} event The type of event being emitted
+   * @param {object} data The data associated with the event
+   */
   static emit(event, data) {
     const obj = {
       event,
@@ -18,8 +24,13 @@ class Socket {
     player.send(JSON.stringify(obj));
   }
 
+  /**
+   * Broadcast an event to all clients connected in-game
+   *
+   * @param {string} event The type of event I am broadcasting
+   * @param {object} data Data associated with the event
+   */
   static broadcast(event, data) {
-    // Refresh player list
     const obj = {
       event,
       data,
