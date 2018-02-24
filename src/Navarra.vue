@@ -128,10 +128,16 @@ export default {
     };
   },
   methods: {
+    /**
+     * Logout player
+     */
     logout() {
       this.screen = 'login';
       this.game = false;
     },
+    /**
+     * Player movement, do something
+     */
     playerMovement(data) {
       if (this.game.player.uuid === data.uuid) {
         this.game.map.player = data;
@@ -142,31 +148,40 @@ export default {
         this.game.map.players[playerIndex] = data;
       }
     },
+
+    /**
+     * On NPC movement, update NPCs
+     */
     npcMovement(data) {
       if (this.game.npcs) {
         this.game.map.npcs = data;
         this.game.npcs = data;
       }
     },
+
+    /**
+     * Start the whole game
+     */
     async startGame(data) {
+      // Start the Client
       this.game = new Client(data);
-      const images = await this.game.start();
-      this.game.map = new Map(data.map);
-      this.game.map.setImages(images);
-      this.game.map.setPlayer(data.player);
-      this.game.map.setNPCs(data.npcs);
-      this.game.map.setDroppedItems(data.droppedItems);
+      await this.game.buildMap();
 
       // Start game engine
       const engine = new Engine(this.game);
       engine.start();
 
+      // Focus on game.
       setTimeout(() => {
-        document.querySelector('canvas#game-map').focus();
-      }, 1000);
+        window.focusOnGame();
+      }, 250);
 
+      // Show the game canvas
       this.loaded = true;
     },
+    /**
+     * A click-handler event that does nothing, really.
+     */
     nothing(event) {
       // Make right-click system for
       // rest of the game view.

@@ -9,24 +9,62 @@ import bus from '../core/utilities/bus';
 
 import Socket from '../core/utilities/socket';
 
+import Map from '../core/map';
+
+
 class Client {
   constructor(data) {
     this.map = data.map;
     this.background = data.map.background;
     this.foreground = data.map.foreground;
-    this.player = data.player;
 
+    this.player = data.player;
     this.players = [];
+    this.droppedItems = data.droppedItems;
+
     this.npcs = data.npcs;
 
     bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.setMouseCoordinates(x, y));
   }
 
+  async buildMap() {
+    return new Promise(async (resolve) => {
+      const images = await this.start();
+
+      const data = {
+        droppedItems: this.droppedItems,
+        map: this.map,
+        npcs: this.npcs,
+        player: this.player,
+      };
+
+      this.map = new Map(data, images);
+      resolve(200);
+    })
+  }
+
+  /**
+   * Start loading assets from server
+   */
   async start() {
     return new Promise(async (resolve) => {
       const assets = await Promise.all(this.loadAssets());
       resolve(assets);
     });
+  }
+
+  /**
+   * Start building the map itself
+   */
+  async setUp(serverMap) {
+    const images = await this.start();
+
+    this.map.setImages(images);
+
+    this.map = new Map(serverMap);
+    this.map.setPlayer(this.player);
+    this.map.setNPCs(this.npcs);
+    this.map.setDroppedItems(this.droppedItems);
   }
 
   /**

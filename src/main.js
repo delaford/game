@@ -21,6 +21,7 @@ new Vue({
 // connection right before the browser closes.
 window.addEventListener('beforeunload', () => window.ws.close());
 
+// Focus mouse on game-canvas
 window.focusOnGame = () => {
   document.querySelector('canvas#game-map.main-canvas').focus();
 };

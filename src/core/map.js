@@ -5,9 +5,9 @@ import UI from './utilities/ui';
 import config from './config';
 
 class Map {
-  constructor(data) {
-    this.foreground = data.foreground;
-    this.background = data.background;
+  constructor(data, images) {
+    this.foreground = data.map.foreground;
+    this.background = data.map.background;
 
     this.images = [];
     this.npcs = [];
@@ -44,16 +44,37 @@ class Map {
     // Canvas
     this.canvas = document.querySelector('.main-canvas');
     this.context = this.canvas.getContext('2d');
+
+    // Setup map
+    this.setImages(images);
+    this.setPlayer(data.player);
+    this.setNPCs(data.npcs);
+    this.setDroppedItems(data.droppedItems);
   }
 
+  /**
+   * Set the player
+   *
+   * @param {object} player The player themselves
+   */
   setPlayer(player) {
     this.player = player;
   }
 
+  /**
+   * The NPCs of the map
+   *
+   * @param {object} npcs The world NPCS
+   */
   setNPCs(npcs) {
     this.npcs = npcs;
   }
 
+  /**
+   * The items dropped on the map
+   *
+   * @param {object} items The items dropped on the map
+   */
   setDroppedItems(items) {
     this.droppedItems = items;
   }
