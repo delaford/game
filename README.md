@@ -11,13 +11,17 @@ Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5 (Canv
 ### 1. Website
 
       $ git clone https://github.com/Navarra/website
+      $ cp .env.example .env
 
 Create your `MySQL` database and then edit the `.env.example` and fill out the database credentials.
 
       $ composer install
       $ php artisan migrate
+      $ php artisan config:cache
+      $ yarn install
+      $ yarn dev
 
-Your database should now be created and its table successfully setup. Time to make a player.
+Your website's CSS should now be compiled and your database should now be created along with its tables successfully created. Time to make your player! Let's serve up the website:
 
       $ php artisan serve
 
@@ -29,6 +33,7 @@ Now go to `https://localhost:8000` and register your player account. All set!
       $ cd game
       $ yarn install
       $ yarn dev
+      $ cp .env.local .env
 
 Time to start the `Node.js` server: `yarn server`. This starts the server under the `nodemon` module which automatically restarts if any of the server-side code gets changed.
 
