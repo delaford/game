@@ -1,6 +1,8 @@
 ![Logo](https://github.com/Navarra/game/raw/master/src/assets/logo.png "Logo")
 
-Welcome to Navarra. A 2D top-down medieval fantasy game using Vue.js, the latest JavaScript and more.
+[![Join the chat at https://gitter.im/Navarra/game](https://badges.gitter.im/Navarra/game.svg)](https://gitter.im/Navarra/game?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5 (Canvas).
 
 <img width="704" alt="Game screenshot" src="https://user-images.githubusercontent.com/616320/34860792-9a2c0ee8-f725-11e7-9e60-91b8610926f2.png">
 

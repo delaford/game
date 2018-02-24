@@ -1,7 +1,11 @@
 import bus from '../utilities/bus';
+
 import UI from '../utilities/ui';
+
 import { map } from '../config';
 import Socket from '../../core/utilities/socket';
+
+const config = require('../config');
 
 class Actions {
   constructor(data, tile) {
@@ -9,7 +13,6 @@ class Actions {
     this.background = data.background;
     this.npcs = data.npcs;
     this.droppedItems = data.map.droppedItems;
-
     // Viewport X,Y coordinates
     this.clicked = {
       x: tile.x,
@@ -22,11 +25,19 @@ class Actions {
       y: (this.player.y - map.player.y) + this.clicked.y,
     };
 
+    // Looks through NPCs and sets color appropriately
+    for (let i = 0; i < this.npcs.length; i += 1) {
+      if ((this.npcs[i].x === this.coordinates.x) && (this.npcs[i].y === this.coordinates.y)) {
+        this.color = config.map.color.npc;
+      }
+    }
+    for (let i = 0; i < this.droppedItems.length; i += 1) {
+      if ((this.droppedItems[i].x === this.coordinates.x) && (this.droppedItems[i].y === this.coordinates.y)) {
+        this.color = config.map.color.item;
+      }
+    }
+
     // Label color
-    this.color = {
-      Examine: '#EBE04D',
-      Take: '#ffa619',
-    };
   }
 
   /**
@@ -96,7 +107,6 @@ class Actions {
         break;
     }
   }
-
   /**
    * Build the context-menu list items
    */
@@ -141,7 +151,7 @@ class Actions {
 
           if (itemData.actions.includes(action.toLowerCase())) {
             const object = {
-              label: `${action} <span style='color:${this.color[action]}'>${itemData.name}</span>`,
+              label: `${action} <span style='color:${this.color}'>${itemData.name}</span>`,
               action,
               type: 'item',
               id: itemData.id,
@@ -158,7 +168,7 @@ class Actions {
         getNPCs.forEach((npc) => {
           if (npc.actions.includes(action.toLowerCase())) {
             const object = {
-              label: `${action} <span style='color:${this.color[action]}'>${npc.name}</span>`,
+              label: `${action} <span style='color:${this.color}'>${npc.name}</span>`,
               action,
               type: 'npc',
               id: npc.id,
@@ -173,7 +183,7 @@ class Actions {
 
           if (itemData.actions.includes(action.toLowerCase())) {
             const object = {
-              label: `Examine <span style='color:${this.color[action]}'>${itemData.name}</span>`,
+              label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
               action,
               type: 'item',
               id: itemData.id,
