@@ -295,6 +295,9 @@ class Map {
     );
   }
 
+  /**
+   * Draw the other players on the screen
+   */
   drawPlayers() {
     // Filter out nearby players
     const nearbyPlayers = this.players.filter((player) => {

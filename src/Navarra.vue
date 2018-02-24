@@ -67,56 +67,32 @@ import Login from './components/ui/Login';
 import Client from './core/client';
 import Engine from './core/engine';
 import config from './core/config';
-import Map from './core/map';
 import bus from './core/utilities/bus';
+import Event from './core/player/events';
 
 export default {
   name: 'navarra',
   components: {
     GameCanvas, Chatbox, Info, Slots, ContextMenu, Login,
   },
+  /**
+   * WebSocket event handler
+   */
   created() {
-    const that = this;
+    const context = this;
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
 
-      switch (data.event) {
-        default:
-          break;
-        case 'player:left':
-          if (this.game && this.game.map && this.game.map.players) {
-            const playerIndex = this.game.map.players.findIndex(p => data.data === p.uuid);
-            this.game.map.players.splice(playerIndex, 1);
-          }
-
-          break;
-        case 'player:joined':
-          setTimeout(() => {
-            if (this.game.player) {
-              that.game.map.players = data.data
-              .filter(p => p.socket_id !== that.game.player.socket_id);
-            }
-          }, 1000);
-          break;
-        case 'npc:movement':
-          this.npcMovement(data.data);
-          break;
-        case 'player:movement':
-          this.playerMovement(data.data);
-          break;
-        case 'player:say':
-          bus.$emit('player:say', data.data);
-          break;
-        case 'player:login':
-          this.startGame(data.data);
-          break;
-      }
+      Event[data.event](data, context);
     };
 
+    // On server connection error,
+    // show the appropriate screen
     window.ws.onerror = () => {
       this.screen = 'server-down';
     };
 
+    // On logout, let's do a few things...
     bus.$on('player:logout', this.logout);
   },
   data() {

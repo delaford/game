@@ -14,19 +14,24 @@ import Map from '../core/map';
 
 class Client {
   constructor(data) {
+    // The map object
     this.map = data.map;
     this.background = data.map.background;
     this.foreground = data.map.foreground;
 
+    // Entities on map
     this.player = data.player;
     this.players = [];
     this.droppedItems = data.droppedItems;
-
     this.npcs = data.npcs;
 
+    // Tell client to draw mouse on canvas
     bus.$on('DRAW:MOUSE', ({ x, y }) => this.map.setMouseCoordinates(x, y));
   }
 
+  /**
+   * Build the local Map based on data from server
+   */
   async buildMap() {
     return new Promise(async (resolve) => {
       const images = await this.start();
@@ -40,7 +45,7 @@ class Client {
 
       this.map = new Map(data, images);
       resolve(200);
-    })
+    });
   }
 
   /**
@@ -57,11 +62,10 @@ class Client {
    * Start building the map itself
    */
   async setUp(serverMap) {
-    const images = await this.start();
-
-    this.map.setImages(images);
-
     this.map = new Map(serverMap);
+
+    const images = await this.start();
+    this.map.setImages(images);
     this.map.setPlayer(this.player);
     this.map.setNPCs(this.npcs);
     this.map.setDroppedItems(this.droppedItems);
