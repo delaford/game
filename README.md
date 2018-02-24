@@ -10,10 +10,12 @@ Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5 (Canv
 
 ### 1. Website
 
+First let's create the `MySQL` database.
+
       $ git clone https://github.com/Navarra/website
       $ cp .env.example .env
 
-Create your `MySQL` database and then edit the `.env.example` and fill out the database credentials.
+Then, let's edit the `.env` file we just created from our last command and put in the database credentials.
 
       $ composer install
       $ php artisan jwt:secret
@@ -23,11 +25,11 @@ Create your `MySQL` database and then edit the `.env.example` and fill out the d
       $ yarn install
       $ yarn dev
 
-Your website's CSS should now be compiled and your database should now be created along with its tables successfully created. Also, your secret JWT authentication key was created. Time to make your player! Let's serve up the website:
+Your website's CSS should now be compiled and your database should now be created along with its tables successfully created. Also, your secret JWT authentication key was created along wiht the Laravel application key. Time to make your player! Let's serve up the website:
 
       $ php artisan serve
 
-Now go to `https://localhost:8000` and register your player account. All set!
+Now go to `https://localhost:8000` and register your player account. You are all set!
 
 ### 2. Game
 
@@ -37,7 +39,7 @@ Now go to `https://localhost:8000` and register your player account. All set!
       $ yarn dev
       $ cp .env.local .env
 
-Now go to `.env` and fill out the `SITE_URL` with the URL of the `website`. And, as well, the database credentials.
+Now go to `.env` and fill out the `SITE_URL` with the URL of the website you setup previously. Then make sure to fill the database credentials as well inside `.env`.
 
 Time to start the `Node.js` server -- type: `yarn server`. This starts the server under the `nodemon` module which automatically restarts if any of the server-side code gets changed.
 
