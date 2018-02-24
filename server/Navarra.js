@@ -32,7 +32,6 @@ class Navarra {
    */
   static loadMap() {
     console.log(`${emoji.get('european_castle')}  Creating a new map...`);
-
     world.map = new Map('surface');
   }
 
@@ -47,7 +46,6 @@ class Navarra {
    * Create the new server with the port
    */
   start() {
-    // Simulate NPCs brain every 2 seconds
     setInterval(() => {
       NPC.movement();
     }, 2000);
@@ -73,6 +71,9 @@ class Navarra {
 
       // Remove player from the list.
       world.players = world.players.filter(p => p.socket_id !== ws.id);
+
+      // If the user did not logout,
+      // then we remove them from list
       if (!logout) {
         world.clients = world.clients.filter(c => c.id !== ws.id);
       }

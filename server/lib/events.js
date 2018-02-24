@@ -9,6 +9,7 @@ const Map = require('./../core/map');
  *
  * @param {object} data The incoming event and data associated
  * @param {object} ws The Socket connection to incoming client
+ * @param {object} context The server context
  */
 const handler = {
   /**
@@ -22,8 +23,8 @@ const handler = {
   /**
    * A player logs out of the game
    */
-  'player:logout': async (data, ws) => {
-    this.constructor.close(ws, true);
+  'player:logout': async (data, ws, context) => {
+    context.constructor.close(ws, true);
   },
 
   /**
