@@ -32,6 +32,7 @@ class Actions {
       }
     }
     for (let i = 0; i < this.droppedItems.length; i += 1) {
+      // eslint-disable-next-line
       if ((this.droppedItems[i].x === this.coordinates.x) && (this.droppedItems[i].y === this.coordinates.y)) {
         this.color = config.map.color.item;
       }
