@@ -3,6 +3,12 @@ const Socket = require('./../socket');
 const world = require('./../core/world');
 
 class Authentication {
+  /**
+   * Log the player in, get the JWT token and then their profile
+   *
+   * @param {object} data The username/password sent to the login endpoint
+   * @returns {object} Their player profile and token
+   */
   static async login(data) {
     return new Promise(async (resolve) => {
       const token = await Authentication.getToken(data.data);
@@ -12,6 +18,11 @@ class Authentication {
     });
   }
 
+  /**
+   * Logs the player in and returns their JWT token
+   *
+   * @param {object} data The player credentials
+   */
   static getToken(data) {
     const url = `${process.env.SITE_URL}/api/auth/login`;
 
@@ -22,10 +33,15 @@ class Authentication {
     });
   }
 
-  static getProfile(response) {
+  /**
+   * Gets the player profile upon login
+   *
+   * @param {string} token Their JWT authentication token
+   */
+  static getProfile(token) {
     const url = `${process.env.SITE_URL}/api/auth/me`;
     const config = {
-      headers: { Authorization: `Bearer ${response}` },
+      headers: { Authorization: `Bearer ${token}` },
     };
 
     return new Promise((resolve) => {
@@ -35,10 +51,15 @@ class Authentication {
     });
   }
 
-  static async logout(response) {
+  /**
+   * Logs the player out and saves the data.
+   *
+   * @param {string} token Their JWT authentication token
+   */
+  static async logout(token) {
     const url = `${process.env.SITE_URL}/api/auth/logout`;
     const config = {
-      headers: { Authorization: `Bearer ${response}` },
+      headers: { Authorization: `Bearer ${token}` },
     };
 
     return new Promise((resolve) => {
@@ -48,7 +69,13 @@ class Authentication {
     });
   }
 
+  /**
+   * Adds the player to world and logs them in
+   *
+   * @param {object} player The player who has just joined the server
+   */
   static addPlayer(player) {
+    // Add the player
     world.players.push(player);
 
     const block = {
@@ -58,8 +85,10 @@ class Authentication {
       droppedItems: world.items,
     };
 
+    // Tell the client they are logging in
     Socket.emit('player:login', block);
 
+    // Tell the world someone logged in
     Socket.broadcast('player:joined', world.players);
   }
 }
