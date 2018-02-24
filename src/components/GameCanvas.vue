@@ -57,7 +57,6 @@ export default {
      */
     leftClick(event) {
       const coordinates = UI.getViewportCoordinates(event);
-
       // Send to game engine that
       // the player clicked to move
       const data = {
