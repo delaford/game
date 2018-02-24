@@ -23,9 +23,11 @@
  * (JS) Core files tells data for context menu
  * (HTML) What to and where to display
  */
+import Client from '../core/client';
+import config from '../core/config';
 import UI from '../core/utilities/ui';
 import bus from '../core/utilities/bus';
-import config from '../core/config';
+import Socket from '../core/utilities/socket';
 
 export default {
   name: 'Game',
@@ -55,10 +57,14 @@ export default {
      */
     leftClick(event) {
       const coordinates = UI.getViewportCoordinates(event);
-
       // Send to game engine that
       // the player clicked to move
-      bus.$emit('PLAYER:MOVE', coordinates);
+      const data = {
+        id: this.game.player.uuid,
+        coordinates,
+      };
+
+      Socket.emit('player:mouseTo', data);
     },
 
     /**
@@ -92,8 +98,18 @@ export default {
 
       if (UI.userPressToMove(key)) {
         const direction = key.split('Arrow')[1].toLowerCase();
-        this.game.move(direction);
+        const data = {
+          id: this.game.player.uuid,
+          direction,
+        };
+
+        Client.move(data);
       }
+    },
+  },
+  computed: {
+    otherPlayers() {
+      return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
   },
 };

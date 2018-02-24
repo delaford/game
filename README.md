@@ -8,12 +8,31 @@ Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5 (Canv
 
 ## Getting Started
 
+### 1. Website
+
+      $ git clone https://github.com/Navarra/website
+
+Create your `MySQL` database and then edit the `.env.example` and fill out the database credentials.
+
+      $ composer install
+      $ php artisan migrate
+
+Your database should now be created and its table successfully setup. Time to make a player.
+
+      $ php artisan serve
+
+Now go to `https://localhost:8000` and register your player account. All set!
+
+### 2. Game
+
       $ git clone https://github.com/Navarra/game
       $ cd game
-      $ npm install (or) yarn
-      $ npm run dev
+      $ yarn install
+      $ yarn dev
 
-Visit http://localhost:8080, or whichever it tells unless you are using port 8080 for something else. You're all set!
+Time to start the `Node.js` server: `yarn server`. This starts the server under the `nodemon` module which automatically restarts if any of the server-side code gets changed.
+
+Now you may visit http://localhost:8080 to login to the game using your newly-created player.
 
 ## Contributing
 
@@ -26,9 +45,9 @@ Here are the types of things I will be adding as a minimum viable product (alpha
 - [Player](https://github.com/Navarra/game/projects/1)
   - [x] Walking / pathfinding
   - [x] Context-menu / Actions
-  - [ ] Health and stats
+  - [X] Health and stats
   - [ ] Inventory
-  - [ ] Character wear
+  - [X] Character wear
   - [ ] Your first quest
 - [User Interface](https://github.com/Navarra/game/projects/2)
   - [x] Inventory tab
@@ -40,29 +59,28 @@ Here are the types of things I will be adding as a minimum viable product (alpha
 - [NPC](https://github.com/Navarra/game/projects/3)
   - [ ] Trading
   - [x] Walking around
-  - [x] Interaction (Talk, Examine, etc.)
+  - [x] Talking
+  - [ ] Examine
 - [Monsters](https://github.com/Navarra/game/projects/3)
   - [ ] Battle System
   - [ ] Looting
   - [ ] Spawning
 - [Networking](https://github.com/Navarra/game/projects/5)
-  - [ ] Players connect to a game world
-  - [ ] Monsters/NPCs and items register on the map
-  - [ ] Player-vs-player interaction (Trade and talk)
+  - [X] Players connect to a game world
+  - [X] Monsters/NPCs and items register on the map
+  - [ ] Minor networking tweaks / alpha-stage
 
-Once all of these items are checked, Navarra will be stable.
+Once all of these items are checked, Navarra will be stable. (hopefully)
 
 ## What's this for?
 
-The point of having this game on an open-source platform is to have the collaborative effort where people can suggest their ideas, code from pull-requests and overall efforts. Take a look at the issues to get started!
+I've been wanting to make a Medieval-themed game for a while now with a old-school feel. Also, I wanted it to be multiplayer where players can connect and see each other. Maybe you want to train Mining and then maybe later Smithing? Yep. A neat PvE system? Yep.
 
-When release beta 1.0.0 drops, players will see the ability to connect (via websockets and Node.js), fighting small monsters, gain loot and perform some small actions in a small, small world. The barebones. Oh, and having the ability to _save their data_.
+An open-source environment, I hope, cultivates learning, sharing and developing together the world of Navarra. The lore and history, much of to be written, will drive this game.
 
-After release alpha 1.0.0, Navarra will be officially stable where players will be able to collect items in their bank, gain experience points in multiple skills and *not have their data reset possibly*. (we'll see.)
+I also hope to learn on topics such as collaboration (in an open-source world) where I develop my own DevOps skills wherein project standards are not only made but kept through the power of CI/CD.
 
-**What about after it's officially released?** Navarra will continue to be officially developed and open-source. Depending on the popularity, efforts will be redistributed on how we can prioritize moving forward. There's lots on the backburner such as an administrative panel for admins and player mods, an API, an online site to register/create players (will most likely use Laravel here) and more. Those will be split up into different repositories with their own respective focus.
-
-The end-game is, at its core, to make a fun medieval fantasy game with the latest JavaScript harnessing the best of the web such as D3 for graphs, Vue.js, CSS Grids, and more. And make sure everyone is having fun while doing it.
+Lastly, this game will give me a great reason to try out `D3` and make cool data viz graphs in the `Navarra/website` section. You want to see cool graphs regarding your player? You're gonna get it. Or, help contribute!
 
 ## Notice
 
