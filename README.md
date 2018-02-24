@@ -6,12 +6,31 @@ Welcome to Navarra. A 2D top-down medieval fantasy game using Vue.js, the latest
 
 ## Getting Started
 
+### Website
+
+      $ git clone https://github.com/Navarra/website
+
+Create your `MySQL` database and then edit the `.env.example` and fill out the database credentials.
+
+      $ composer install
+      $ php artisan migrate
+
+Your database should now be created and its table successfully setup. Time to make a player.
+
+      $ php artisan serve
+
+Now go to `https://localhost:8000` and register your player account. All set!
+
+### Game
+
       $ git clone https://github.com/Navarra/game
       $ cd game
-      $ npm install (or) yarn
-      $ npm run dev
+      $ yarn install
+      $ yarn dev
 
-Visit http://localhost:8080, or whichever it tells unless you are using port 8080 for something else. You're all set!
+Time to start the `Node.js` server: `yarn server`.
+
+Now you may visit http://localhost:8080 to login to the game using your newly-created player.
 
 ## Contributing
 
