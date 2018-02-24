@@ -1,8 +1,8 @@
 {
   "name": "navarra",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Top-down 2D Medieval RPG",
-  "author": "Dan Jasnowski <danjasnowski@gmail.com>",
+  "author": "Dan Jasnowski <djasnowski@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -11,13 +11,16 @@
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js",
-    "format": "eslint --fix"
+    "format": "eslint --fix",
+    "server": "./node_modules/.bin/nodemon server"
   },
   "dependencies": {
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "ws": "^4.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.5",
+    "axios": "^0.17.1",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^21.0.2",
@@ -27,10 +30,11 @@
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-preset-env": "^1.3.2",
     "babel-preset-stage-2": "^6.22.0",
-    "chalk": "^2.0.1",
+    "chalk": "^2.3.0",
     "compression-webpack-plugin": "^1.1.3",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.8",
+    "dotenv": "^5.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.3.0",
     "eslint-friendly-formatter": "^3.0.0",
@@ -46,8 +50,11 @@
     "jest": "^21.2.0",
     "jest-serializer-vue": "^0.3.0",
     "lodash": "^4.17.4",
+    "node-emoji": "^1.8.1",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.7.2",
+    "node-uuid": "^1.4.8",
+    "nodemon": "^1.14.12",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
     "pathfinding": "^0.4.18",

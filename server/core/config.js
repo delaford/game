@@ -42,11 +42,6 @@ const config = {
       x: 7,
       y: 5,
     },
-    color: {
-      item: '#ffaa00',
-      npc: '#f9f920',
-      player: '#ffffff',
-    },
   },
 };
 

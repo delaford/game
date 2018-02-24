@@ -1,4 +1,3 @@
-import UI from '../core/utilities/ui';
 import bus from '../core/utilities/bus';
 
 class Engine {
@@ -27,71 +26,6 @@ class Engine {
     bus.$on('SETTINGS:FPS', s => this.change('fps', s));
   }
 
-  /**
-   * Handle NPC movement on map
-   */
-  npcMovement() {
-    this.game.npcs.map((npc) => {
-      // Next movement allowed in 2.5 seconds
-      const nextActionAllowed = npc.lastAction + 2500;
-
-      if (npc.lastAction === 0 || nextActionAllowed < Date.now()) {
-        // Are they going to move or sit still this time?
-        const action = UI.getRandomInt(1, 2) === 1 ? 'move' : 'nothing';
-
-        // NPCs going to move during this loop?
-        if (action === 'move') {
-          // Which way?
-          const direction = ['up', 'down', 'left', 'right'];
-          const going = direction[UI.getRandomInt(0, 3)];
-
-          // What tile will they be stepping on?
-          const tile = {
-            background: UI.getFutureTileID(this.game.map.background, npc.x, npc.y, going),
-            foreground: UI.getFutureTileID(this.game.map.foreground, npc.x, npc.y, going),
-          };
-
-          switch (going) {
-            default:
-            case 'up':
-              if ((npc.y - 1) >= (npc.spawn.y - npc.range)) {
-                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
-                  npc.y -= 1;
-                }
-              }
-              break;
-            case 'down':
-              if ((npc.y + 1) <= (npc.spawn.y + npc.range)) {
-                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
-                  npc.y += 1;
-                }
-              }
-              break;
-            case 'left':
-              if ((npc.x - 1) >= (npc.spawn.x - npc.range)) {
-                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
-                  npc.x -= 1;
-                }
-              }
-              break;
-            case 'right':
-              if ((npc.x + 1) <= (npc.spawn.x + npc.range)) {
-                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
-                  npc.x += 1;
-                }
-              }
-              break;
-          }
-        }
-
-        // Register their last action
-        npc.lastAction = Date.now();
-      }
-
-      return npc;
-    });
-  }
-
   change(setting, val) {
     switch (setting) {
       case 'fps':
@@ -113,11 +47,6 @@ class Engine {
     if (timestamp < this.frame.lastTimeMS + (1000 / this.fps.max)) {
       requestAnimationFrame(this.loop);
       return;
-    }
-
-    // Manage NPC movement
-    if (this.game.npcs) {
-      this.npcMovement();
     }
 
     // Note that the loop ran
@@ -162,6 +91,9 @@ class Engine {
 
     // Draw the NPCs
     this.game.map.drawNPCs();
+
+    // Draw other players
+    this.game.map.drawPlayers();
 
     // Draw the player
     this.game.map.drawPlayer();

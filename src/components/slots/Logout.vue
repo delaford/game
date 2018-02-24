@@ -1,13 +1,22 @@
 <template>
   <div class="logout">
     <p>Please logout using this button to safely exit the game and save your progress.</p>
-    <button class="button is-danger is-big">Logout</button>
+    <button @click="logout" class="button is-danger is-big">Logout</button>
   </div>
 </template>
 
 <script>
+import bus from '../../core/utilities/bus';
+import Socket from '../../core/utilities/socket';
+
 export default {
   props: ['game'],
+  methods: {
+    logout() {
+      bus.$emit('player:logout');
+      Socket.emit('player:logout', { id: this.game.player.socket_id });
+    },
+  },
 };
 </script>
 
@@ -21,10 +30,12 @@ div.logout {
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
+
   p {
     text-shadow: 1px 1px 0 #000;
     padding: 0 10px;
   }
+
   button {
     width: 50%;
   }

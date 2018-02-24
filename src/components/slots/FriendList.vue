@@ -22,6 +22,10 @@ export default {
       return this.game.player.friend_list;
     },
     sorted_list() {
+      if (!this.friend_list) {
+        return [];
+      }
+
       return this.friend_list.sort((a, b) => b.online - a.online);
     },
   },

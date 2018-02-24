@@ -1,5 +1,5 @@
-import items from './../../../server/data/items';
-import { map } from '../config';
+const items = require('./../../../server/data/items');
+const { map } = require('../config');
 
 class UI {
   /**
@@ -27,12 +27,7 @@ class UI {
    * @param {integer} mouseY The current y-axis of the mouse on the viewport
    */
   static getTileOverMouse(board, playerX, playerY, mouseX, mouseY) {
-    const tile = (((mouseY + (playerY - 5)) * map.size.x) + mouseX) + (playerX - 7);
-    if (board !== undefined) {
-      return board[tile] - 1;
-    }
-
-    return -1;
+    return board[(((mouseY + (playerY - 5)) * map.size.x) + mouseX) + (playerX - 7)] - 1;
   }
 
   /**
@@ -140,4 +135,4 @@ class UI {
   }
 }
 
-export default UI;
+module.exports = UI;

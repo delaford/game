@@ -3,6 +3,7 @@ import bus from '../utilities/bus';
 import UI from '../utilities/ui';
 
 import { map } from '../config';
+import Socket from '../../core/utilities/socket';
 
 const config = require('../config');
 
@@ -61,7 +62,13 @@ class Actions {
 
         if (tileWalkable) {
           const coordinates = { x: clickedTile.x, y: clickedTile.y };
-          bus.$emit('PLAYER:MOVE', coordinates);
+
+          const outgoingData = {
+            id: player.uuid,
+            coordinates,
+          };
+
+          Socket.emit('player:mouseTo', outgoingData);
         }
         break;
 
