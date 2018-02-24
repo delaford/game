@@ -4,7 +4,7 @@ Navarra uses WebSockets, plain and simple, to transmit actions from the player t
 
 Please refer to the graph below to see how certain actions are validated and checked.
 
-![Server client](https://cdn.rawgit.com/Navarra/game/feature/add-network/server/server-client.png "Server-client")
+![Server client](https://cdn.rawgit.com/Navarra/game/master/server/server-client.png "Server-client")
 
 ## The Server
 
