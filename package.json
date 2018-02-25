@@ -15,6 +15,7 @@
     "server": "./node_modules/.bin/nodemon server"
   },
   "dependencies": {
+    "express": "^4.16.2",
     "vue": "^2.5.2",
     "ws": "^4.0.0"
   },
