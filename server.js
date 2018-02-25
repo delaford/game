@@ -12,7 +12,7 @@ require('dotenv').config();
 const app = express();
 
 //Start Express and use the correct env.
-const port = process.env.PORT || 8443;
+const port = process.env.PORT || 4000;
 app.use('/', express.static(process.env.PRODUCTION ? 'dist' : '/'));
 const server = app.listen(port, '127.0.0.1');
 
