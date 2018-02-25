@@ -13,6 +13,7 @@ const app = express();
 
 //Start Express and use the correct env.
 const port = process.env.PORT || 4000;
+const socket_port = process.env.PRODUCTION ? 443 : 9000;
 app.use('/', express.static(process.env.PRODUCTION ? 'dist' : '/'));
 const server = app.listen(port, '127.0.0.1');
 
@@ -20,7 +21,7 @@ const server = app.listen(port, '127.0.0.1');
 const Navarra = require('./server/Navarra');
 
 // Initialize the Game class with port number
-const game = new Navarra(8443);
+const game = new Navarra(socket_port);
 
 // Start the game server.
 game.start();
