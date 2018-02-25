@@ -13,7 +13,7 @@ const app = express();
 
 //Start Express and use the correct env.
 const port = process.env.PORT || 4000;
-const socket_port = process.env.PRODUCTION ? 443 : 9000;
+const socket_port = process.env.PRODUCTION ? 8443 : 9000;
 app.use('/', express.static(process.env.PRODUCTION ? 'dist' : '/'));
 const server = app.listen(port, '127.0.0.1');
 
