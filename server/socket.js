@@ -4,6 +4,8 @@ const world = require('./core/world');
 class Socket {
   constructor(port) {
     this.ws = new WebSocket({ port });
+    console.log('Socket port officially started on ', port);
+
     this.clients = world.clients;
   }
 
