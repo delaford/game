@@ -8,25 +8,19 @@
 
 // Start Express
 const express = require('express');
+require('dotenv').config();
 const app = express();
 
-//Start Express Router
-const router = express.Router();
-const port = process.env.PORT || 8080;
-
-// Connect path to Express router
-app.use("/", router);
-app.use(express.static('static'))
-var server = app.listen(port, function () {
-  console.log('Node.js static server listening on port: ' + port)
-});
+//Start Express and use the correct env.
+const port = process.env.PORT || 8443;
+app.use('/', express.static(process.env.PRODUCTION ? 'dist' : '/'));
+const server = app.listen(port, '127.0.0.1');
 
 // Actual game server
 const Navarra = require('./server/Navarra');
-require('dotenv').config();
 
 // Initialize the Game class with port number
-const game = new Navarra(9000);
+const game = new Navarra(8443);
 
 // Start the game server.
 game.start();
