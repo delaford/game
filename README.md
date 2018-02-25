@@ -41,7 +41,7 @@ Now go to `https://localhost:8000` and register your player account. You are all
 
 Now go to `.env` and fill out the `SITE_URL` with the URL of the website you setup previously. Then make sure to fill the database credentials as well inside `.env`.
 
-Time to start the `Node.js` server -- type: `yarn server`. This starts the server under the `nodemon` module which automatically restarts if any of the server-side code gets changed.
+Time to start the `Node.js` server -- type: `yarn server`. This starts the server under the `pm2` module which automatically restarts if any of the server-side code gets changed. It also keeps track of logs, monitor and more.
 
 Now you may visit `http://localhost:8080` to login to the game using your newly-created player.
 
