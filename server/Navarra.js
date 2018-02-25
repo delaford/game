@@ -17,7 +17,7 @@ const Events = require('./lib/events');
 class Navarra {
   constructor(port) {
     // Port setting
-    world.socket = new Socket(port);
+    world.socket = new Socket(9000);
 
     // Start the game server
     console.log(`${emoji.get('rocket')}  Starting game server on port ${port}.`);
