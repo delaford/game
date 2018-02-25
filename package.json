@@ -12,10 +12,11 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js",
     "format": "eslint --fix",
-    "server": "./node_modules/.bin/nodemon server"
+    "server": "./node_modules/.bin/pm2 start server"
   },
   "dependencies": {
     "express": "^4.16.2",
+    "pm2": "^2.10.1",
     "vue": "^2.5.2",
     "ws": "^4.0.0"
   },
@@ -55,7 +56,6 @@
     "node-notifier": "^5.1.2",
     "node-sass": "^4.7.2",
     "node-uuid": "^1.4.8",
-    "nodemon": "^1.14.12",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
     "pathfinding": "^0.4.18",

@@ -8,20 +8,32 @@
 
 // Start Express
 const express = require('express');
+const path = require('path');
 require('dotenv').config();
 const app = express();
+const onProduction = process.env.PRODUCTION === true;
+
+// Define express and socket port
+const CONSTANTS = {
+  port: {
+    express: 4000,
+    socket: onProduction ? 8443 : 9000,
+  },
+  root: {
+    folder: onProduction ? 'dist' : '/'
+  }
+};
 
 //Start Express and use the correct env.
-const port = process.env.PORT || 4000;
-const socket_port = process.env.PRODUCTION ? 8443 : 9000;
-app.use('/', express.static(process.env.PRODUCTION ? 'dist' : '/'));
-const server = app.listen(port, '127.0.0.1');
+app.use('/', express.static(path.join(__dirname, CONSTANTS.root.folder)))
+const server = app.listen(CONSTANTS.port.express, '127.0.0.1');
+console.log(`Starting web on port ${CONSTANTS.port.express}`);
 
 // Actual game server
 const Navarra = require('./server/Navarra');
 
 // Initialize the Game class with port number
-const game = new Navarra(socket_port);
+const game = new Navarra(CONSTANTS.port.socket);
 
 // Start the game server.
 game.start();
