@@ -8,7 +8,8 @@ Vue.config.productionTip = false;
 // Start the websocket server client-side
 if ('WebSocket' in window) {
   const tls = window.location.hostname.includes('localhost') ? 'ws' : 'wss';
-  window.ws = new WebSocket(`${tls}://${window.location.hostname}:8443`);
+  const port = window.location.hostname.includes('localhost') ? '9000' : '443';
+  window.ws = new WebSocket(`${tls}://${window.location.hostname}:${port}`);
 }
 
 /* eslint-disable no-new */
