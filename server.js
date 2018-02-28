@@ -11,18 +11,20 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config();
 const app = express();
-const onProduction = process.env.PRODUCTION === true;
+const onProduction = process.env.PRODUCTION === 'true'; // Accomodate process.env and eqeqeq eslint rule
 
 // Define express and socket port
 const CONSTANTS = {
   port: {
     express: 4000,
-    socket: onProduction ? 8443 : 9000,
+    socket: onProduction ? 9000 : 9000,
   },
   root: {
     folder: onProduction ? 'dist' : '/'
   }
 };
+
+console.log(CONSTANTS);
 
 //Start Express and use the correct env.
 app.use('/', express.static(path.join(__dirname, CONSTANTS.root.folder)))
