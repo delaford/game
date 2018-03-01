@@ -17,7 +17,7 @@ const onProduction = process.env.PRODUCTION === 'true'; // Accomodate process.en
 const CONSTANTS = {
   port: {
     express: 4000,
-    socket: onProduction ? 443 : 9000,
+    socket: onProduction ? 8443 : 9000,
   },
   root: {
     folder: onProduction ? 'dist' : '/'
