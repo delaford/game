@@ -41,3 +41,11 @@ deployment:
     commands:
       - echo 'deploying master branch'
       - ssh -v $DEPLOY_USER@navarra-rpg.com "cd ~/$SOURCE_PATH; ./deploy.sh"
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
