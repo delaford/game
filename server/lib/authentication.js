@@ -70,7 +70,6 @@ class Authentication {
         .then(r => resolve(r.data))
         .catch((error) => {
           reject(error.message);
-          throw new Error(error.message);
         });
     });
   }
