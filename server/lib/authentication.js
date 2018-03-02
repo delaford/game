@@ -14,6 +14,8 @@ class Authentication {
       const token = await Authentication.getToken(data.data);
       const player = await Authentication.getProfile(token);
 
+      console.log(token);
+
       resolve({ player, token });
     });
   }
