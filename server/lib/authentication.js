@@ -58,7 +58,6 @@ class Authentication {
    */
   static async logout(token) {
     const url = `${process.env.SITE_URL}/api/auth/logout`;
-    console.log(`xxxLogging out: ${url}`);
 
     const config = {
       headers: { Authorization: `Bearer ${token}` },
