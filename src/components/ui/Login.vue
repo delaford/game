@@ -1,8 +1,10 @@
 <template>
   <div class="form">
     <div class="inputs">
-      <input placeholder="Username" type="text" class="username" v-model="username" autocorrect="off" autofocus spellcheck="false" autocomplete="off">
-      <input placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
+      <form action="" autocomplete="off">
+        <input placeholder="Username" type="text" class="username" v-model="username" autocorrect="off" autofocus spellcheck="false" autocomplete="off">
+        <input placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
+      </form>
     </div>
 
     <div class="action_buttons">
@@ -44,7 +46,7 @@ export default {
 div.form {
   width: 100%;
 
-  .inputs {
+  form {
     display: flex;
     flex-direction: column;
 

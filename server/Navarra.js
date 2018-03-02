@@ -66,6 +66,7 @@ class Navarra {
     if (player) {
       // Logout the player out and save the profile
       await Authentication.logout(player.token);
+
       await player.update();
       console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
 
