@@ -69,7 +69,12 @@ class Authentication {
 
       axios
         .post(url, {}, config)
-        .then(r => resolve(r.data))
+        .then((r) => {
+          console.log('Resolving it.');
+
+          console.log(r);
+          resolve(r.data);
+        })
         .catch((error) => {
           console.log('THERE WAS AN ERROR');
           console.log(error);
