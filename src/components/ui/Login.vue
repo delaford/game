@@ -1,8 +1,8 @@
 <template>
   <div class="form">
     <div class="inputs">
-      <input placeholder="Username" type="text" class="username" v-model="username" spellcheck="false" autocomplete="off">
-      <input placeholder="Password" type="password" class="password" v-model="password">
+      <input placeholder="Username" type="text" class="username" v-model="username" autocorrect="off" autofocus spellcheck="false" autocomplete="off">
+      <input placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
     </div>
 
     <div class="action_buttons">
