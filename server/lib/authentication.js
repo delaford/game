@@ -65,19 +65,12 @@ class Authentication {
     };
 
     return new Promise((resolve, reject) => {
-      console.log(config);
-
       axios
         .post(url, {}, config)
         .then((r) => {
-          console.log('Resolving it.');
-
-          console.log(r);
           resolve(r.data);
         })
         .catch((error) => {
-          console.log('THERE WAS AN ERROR');
-          console.log(error);
           reject(error.message);
         });
     });
