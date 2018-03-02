@@ -57,15 +57,19 @@ class Authentication {
    * @param {string} token Their JWT authentication token
    */
   static async logout(token) {
-    const url = `${process.env.SITE_URL}/api/auth/logout`;
+    const url = `${process.env.SITE_URL}/api/auth/loxgout`;
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       axios
         .post(url, null, config)
-        .then(r => resolve(r.data));
+        .then(r => resolve(r.data))
+        .catch((error) => {
+          reject(error.message);
+          throw new Error(error.message);
+        });
     });
   }
 

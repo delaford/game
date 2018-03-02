@@ -24,8 +24,6 @@ const CONSTANTS = {
   }
 };
 
-console.log(CONSTANTS);
-
 //Start Express and use the correct env.
 app.use('/', express.static(path.join(__dirname, CONSTANTS.root.folder)))
 const server = app.listen(CONSTANTS.port.express, '127.0.0.1');
