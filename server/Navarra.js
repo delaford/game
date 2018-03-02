@@ -70,6 +70,9 @@ class Navarra {
       try {
         await Authentication.logout(player.token);
 
+        console.log('Successfully log out');
+
+
         await player.update();
         console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
 
