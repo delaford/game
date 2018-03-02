@@ -35,3 +35,9 @@ jobs:
 
       # run tests!
       - run: yarn test
+deployment:
+  master:
+    branch: master
+    commands:
+      - echo 'deploying master branch'
+      - ssh -v $DEPLOY_USER@navarra-rpg.com "cd ~/$SOURCE_PATH; ./deploy.sh"
