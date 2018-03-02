@@ -12,7 +12,7 @@ if ('WebSocket' in window) {
   const port = hostname.includes('localhost') ? ':9000' : '';
   const base = tls === 'ws' ? `localhost${port}` : (`${hostname}${port}/ws`);
   const connectionURI = `${tls}://${base}`;
-  console.log(`Connecting to: ${connectionURI}`);
+  console.log(`[Websocket] Connecting to: ${connectionURI}`);
   window.ws = new WebSocket(connectionURI);
 }
 
