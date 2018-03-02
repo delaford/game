@@ -204,6 +204,11 @@ class Player {
     console.log(this.x, this.y, `Doing ${item}`);
   }
 
+  /**
+   * Update the player profile in the database
+   *
+   * @return void
+   */
   update() {
     const url = `${process.env.SITE_URL}/api/auth/update`;
     const reqConfig = {
