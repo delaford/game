@@ -66,15 +66,17 @@ class Authentication {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    return new Promise((resolve, reject) => {
-      axios
-        .post(url, null, config)
-        .then(r => resolve(r.data))
-        .catch((error) => {
-          reject(error.message);
-          throw new Error(error.message);
-        });
-    });
+    console.log(config);
+
+    // return new Promise((resolve, reject) => {
+    //   axios
+    //     .post(url, null, config)
+    //     .then(r => resolve(r.data))
+    //     .catch((error) => {
+    //       reject(error.message);
+    //       throw new Error(error.message);
+    //     });
+    // });
   }
 
   /**
