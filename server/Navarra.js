@@ -65,6 +65,8 @@ class Navarra {
 
     if (player) {
       // Logout the player out and save the profile
+      console.log('logging out... ', player.token);
+
       await Authentication.logout(player.token);
 
       await player.update();
