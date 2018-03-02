@@ -69,6 +69,8 @@ class Authentication {
         .post(url, null, config)
         .then(r => resolve(r.data))
         .catch((error) => {
+          console.log('THERE WAS AN ERROR');
+          console.log(error);
           reject(error.message);
         });
     });
