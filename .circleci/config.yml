@@ -32,17 +32,14 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-  deployment:
-    master:
-      branch: master
-      commands:
-        - echo 'deploying master branch'
-        - ssh -v $DEPLOY_USER@navarra-rpg.com "cd ~/$SOURCE_PATH; ./deploy.sh"
+deployment:
+  master:
+    branch: master
+    commands:
+      - echo 'deploying master branch'
+      - ssh -v $DEPLOY_USER@navarra-rpg.com "cd ~/$SOURCE_PATH; ./deploy.sh"
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - build
-      - deployment:
-          requires:
-            - build
