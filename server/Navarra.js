@@ -67,22 +67,26 @@ class Navarra {
       // Logout the player out and save the profile
       console.log('logging out... ', player.token);
 
-      await Authentication.logout(player.token);
+      try {
+        await Authentication.logout(player.token);
 
-      await player.update();
-      console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
+        await player.update();
+        console.log(`${emoji.get('red_circle')}  Player ${player.username} left the game`);
 
-      // Remove player from the list.
-      world.players = world.players.filter(p => p.socket_id !== ws.id);
+        // Remove player from the list.
+        world.players = world.players.filter(p => p.socket_id !== ws.id);
 
-      // If the user did not logout,
-      // then we remove them from list
-      if (!logout) {
-        world.clients = world.clients.filter(c => c.id !== ws.id);
+        // If the user did not logout,
+        // then we remove them from list
+        if (!logout) {
+          world.clients = world.clients.filter(c => c.id !== ws.id);
+        }
+
+        // Tell the clients someone left
+        Socket.broadcast('player:left', ws.id);
+      } catch (err) {
+        console.log(err);
       }
-
-      // Tell the clients someone left
-      Socket.broadcast('player:left', ws.id);
     }
   }
 
