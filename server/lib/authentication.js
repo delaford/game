@@ -14,8 +14,6 @@ class Authentication {
       const token = await Authentication.getToken(data.data);
       const player = await Authentication.getProfile(token);
 
-      console.log(token);
-
       resolve({ player, token });
     });
   }
@@ -66,17 +64,15 @@ class Authentication {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    console.log(config);
-
-    // return new Promise((resolve, reject) => {
-    //   axios
-    //     .post(url, null, config)
-    //     .then(r => resolve(r.data))
-    //     .catch((error) => {
-    //       reject(error.message);
-    //       throw new Error(error.message);
-    //     });
-    // });
+    return new Promise((resolve, reject) => {
+      axios
+        .post(url, null, config)
+        .then(r => resolve(r.data))
+        .catch((error) => {
+          reject(error.message);
+          throw new Error(error.message);
+        });
+    });
   }
 
   /**
