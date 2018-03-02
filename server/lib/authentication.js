@@ -57,7 +57,7 @@ class Authentication {
    * @param {string} token Their JWT authentication token
    */
   static async logout(token) {
-    const url = `${process.env.SITE_URL}/api/auth/loxgout`;
+    const url = `${process.env.SITE_URL}/api/auth/logout`;
     console.log(`Logging out: ${url}`);
 
     const config = {
