@@ -83,8 +83,6 @@ class Navarra {
         // Tell the clients someone left
         Socket.broadcast('player:left', ws.id);
       } catch (err) {
-        console.log('@@@@@@@@@@@@@@@@@');
-        console.log('There was an error dog.');
         console.log(err);
       }
     }
