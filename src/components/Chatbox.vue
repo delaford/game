@@ -4,7 +4,7 @@
         <div v-for="(chat, i) in chatbox" class="message" v-html="showChatMessage(chat)"></div>
       </div>
 
-      <input @keydown.enter="sendMessage" maxlength="50" v-model="said" type="text" class="typing">
+      <input autocomplete="off" @keydown.enter="sendMessage" maxlength="50" v-model="said" type="text" class="typing">
     </div>
 </template>
 
