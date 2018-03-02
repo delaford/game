@@ -58,13 +58,15 @@ class Authentication {
    */
   static async logout(token) {
     const url = `${process.env.SITE_URL}/api/auth/logout`;
-    console.log(`Logging out: ${url}`);
+    console.log(`xxxLogging out: ${url}`);
 
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
     return new Promise((resolve, reject) => {
+      console.log('doin axios');
+
       axios
         .post(url, null, config)
         .then(r => resolve(r.data))
