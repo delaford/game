@@ -33,11 +33,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 deployment:
-  master:
+  production:
     branch: master
     commands:
-      - echo 'deploying master branch'
-      - ssh -v $DEPLOY_USER@navarra-rpg.com "cd ~/$SOURCE_PATH; ./deploy.sh"
+      - scp -r game/* $DEPLOY_USER@navarra-rpg.com:/DANIEL/
 workflows:
   version: 2
   build-and-deploy:
