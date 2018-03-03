@@ -10,6 +10,8 @@ Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5 (Canv
 
 ## Getting Started
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Navarra/game.svg)](https://greenkeeper.io/)
+
 ### 1. Website
 
 First let's create the `MySQL` database.
