@@ -70,37 +70,37 @@ class NPC {
           // What tile will they be stepping on?
           const tile = {
             background: UI.getFutureTileID(world.map.background, npc.x, npc.y, going),
-            foreground: UI.getFutureTileID(world.map.foreground, npc.x, npc.y, going),
+            foreground: UI.getFutureTileID(world.map.foreground, npc.x, npc.y, going) - 252,
           };
+
+          // Can the NPCs walk on that tile in their path?
+          const walkable = {
+            background: UI.tileWalkable(tile.background),
+            foreground: UI.tileWalkable(tile.foreground, 'foreground'),
+          };
+
+          const canWalkThrough = walkable.background && walkable.foreground;
 
           switch (going) {
             default:
             case 'up':
-              if ((npc.y - 1) >= (npc.spawn.y - npc.range)) {
-                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
-                  npc.y -= 1;
-                }
+              if ((npc.y - 1) >= (npc.spawn.y - npc.range) && canWalkThrough) {
+                npc.y -= 1;
               }
               break;
             case 'down':
-              if ((npc.y + 1) <= (npc.spawn.y + npc.range)) {
-                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
-                  npc.y += 1;
-                }
+              if ((npc.y + 1) <= (npc.spawn.y + npc.range) && canWalkThrough) {
+                npc.y += 1;
               }
               break;
             case 'left':
-              if ((npc.x - 1) >= (npc.spawn.x - npc.range)) {
-                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
-                  npc.x -= 1;
-                }
+              if ((npc.x - 1) >= (npc.spawn.x - npc.range) && canWalkThrough) {
+                npc.x -= 1;
               }
               break;
             case 'right':
-              if ((npc.x + 1) <= (npc.spawn.x + npc.range)) {
-                if (UI.tileWalkable(tile.background) && UI.tileWalkable(tile.foreground)) {
-                  npc.x += 1;
-                }
+              if ((npc.x + 1) <= (npc.spawn.x + npc.range) && canWalkThrough) {
+                npc.x += 1;
               }
               break;
           }

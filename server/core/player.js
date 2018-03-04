@@ -215,9 +215,6 @@ class Player {
       headers: { Authorization: `Bearer ${this.token}` },
     };
 
-    console.log(url);
-    console.log(reqConfig);
-
     let getPlayer = world.players
       .find(p => p.token === this.token);
 
