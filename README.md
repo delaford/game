@@ -1,15 +1,17 @@
-![Logo](https://github.com/Navarra/game/raw/master/src/assets/logo.png "Logo")
+<p align="center">
+  <img src="https://github.com/Navarra/game/raw/master/src/assets/logo.png"/>
+</p>
 
-<div style="display: flex;justify-content:space-around">
+<p align="center">
+  <a href="https://gitter.im/Navarra/game"><img src="https://badges.gitter.im/Navarra/game.svg" alt="gitter.im"></a>
+  <a href="https://circleci.com/gh/Navarra/game/tree/master"><img src="https://circleci.com/gh/Navarra/game/tree/master.svg?style=svg" alt="circleci"></a>
+</p>
 
-[![Join the chat at https://gitter.im/Navarra/game](https://badges.gitter.im/Navarra/game.svg)](https://gitter.im/Navarra/game?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<p align="center">
+  <strong>Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5.</strong>
 
-[![CircleCI](https://circleci.com/gh/Navarra/game/tree/master.svg?style=svg)](https://circleci.com/gh/Navarra/game/tree/master)
-</div>
-
-Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5 (Canvas).
-
-<img width="704" alt="Game screenshot" src="https://user-images.githubusercontent.com/616320/34860792-9a2c0ee8-f725-11e7-9e60-91b8610926f2.png">
+  <img width="704" alt="Game screenshot" src="https://user-images.githubusercontent.com/616320/34860792-9a2c0ee8-f725-11e7-9e60-91b8610926f2.png">
+</p>
 
 ## Getting Started
 
