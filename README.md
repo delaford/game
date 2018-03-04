@@ -1,8 +1,10 @@
 ![Logo](https://github.com/Navarra/game/raw/master/src/assets/logo.png "Logo")
 
+<div style='float:left'>
 [![Join the chat at https://gitter.im/Navarra/game](https://badges.gitter.im/Navarra/game.svg)](https://gitter.im/Navarra/game?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![CircleCI](https://circleci.com/gh/Navarra/game/tree/master.svg?style=svg)](https://circleci.com/gh/Navarra/game/tree/master)
+</div>
 
 Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5 (Canvas).
 
