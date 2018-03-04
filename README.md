@@ -15,6 +15,8 @@
 
 ## Getting Started
 
+> You can view a video-tutorial of this getting started guide [located here](https://www.youtube.com/watch?v=5a69TEEJ-oY).
+
 ### 1. Website
 
 First, using your terminal or Sequel Pro or PHPMyAdmin (or whatever), create your `MySQL` database.
