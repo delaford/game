@@ -56,9 +56,9 @@ Go to `/navarra` and now type the following, in your terminal:
 
 You should now have two folders under `navarra`:
 
-    - / navarra
-    -    / game
-    -    / website
+    navarra/
+    ├── game/
+    └── website/
 
 Now go to `.env` and fill out the `SITE_URL` with the URL of the website you setup previously. Then make sure to fill the database credentials as well inside `.env`.
 
