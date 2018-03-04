@@ -15,12 +15,16 @@ Welcome to Navarra. An online, 2D medieval game using JavaScript and HTML5 (Canv
 
 ### 1. Website
 
-First let's create the `MySQL` database.
+First, using your terminal or Sequel Pro or PHPMyAdmin (or whatever), create your `MySQL` database.
+
+Secondly, in your terminal, make a new directory called `navarra` and type the following:
 
       $ git clone https://github.com/Navarra/website
       $ cp .env.example .env
 
-Then, let's edit the `.env` file we just created from our last command and put in the database credentials.
+Then, let's edit the `.env` file we just created from our last command (`cp`) and put in the database credentials.
+
+Now, let's make the website. In your terminal, at `/navarra/website/`, type:
 
       $ composer install
       $ php artisan jwt:secret
@@ -30,7 +34,9 @@ Then, let's edit the `.env` file we just created from our last command and put i
       $ yarn install
       $ yarn dev
 
-Your website's CSS should now be compiled and your database should now be created along with its tables successfully created. Also, your secret JWT authentication key was created along wiht the Laravel application key. Time to make your player! Let's serve up the website:
+Your website's CSS should now be compiled and your database's tables should now be created. Also, your secret JWT authentication key was created along with the Laravel application key.
+
+Time to make your player! Let's serve up the website:
 
       $ php artisan serve
 
@@ -38,15 +44,25 @@ Now go to `https://localhost:8000` and register your player account. You are all
 
 ### 2. Game
 
+Go to `/navarra` and now type the following, in your terminal:
+
       $ git clone https://github.com/Navarra/game
       $ cd game
       $ yarn install
       $ yarn dev
       $ cp .env.local .env
 
+You should now have two folders under `navarra`:
+
+    - / navarra
+    -    / game
+    -    / website
+
 Now go to `.env` and fill out the `SITE_URL` with the URL of the website you setup previously. Then make sure to fill the database credentials as well inside `.env`.
 
-Time to start the `Node.js` server -- type: `yarn server`. This starts the server under the `pm2` module which automatically restarts if any of the server-side code gets changed. It also keeps track of logs, monitor and more.
+Time to start the `Node.js` server -- type: `yarn server`. This starts the server under the `pm2` module which keeps track of logs, monitor and more.
+
+> You can use `nodemon` instead of `pm2` to restart the server automatically on code changes by doing `yarn dev_server`
 
 Now you may visit `http://localhost:8080` to login to the game using your newly-created player.
 
