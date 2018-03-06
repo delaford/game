@@ -38,7 +38,32 @@ class Actions {
       }
     }
 
-    // Label color
+    this.handler = {
+      get(target, key) {
+        return target[key];
+      },
+      set(target, key, value) {
+        if (key === 'x' || key === 'y') {
+          if (!Number.isInteger(value)) {
+            throw new TypeError(`${key} coordinate is not an integer`);
+          }
+        }
+
+        console.log(key, value);
+
+        target[key] = value;
+
+        return true;
+      },
+    };
+
+    this.playerCoordinates = {
+      x: this.player.x,
+      y: this.player.y,
+    };
+
+    // Proxy for custom behavior
+    this.proxy = new Proxy(this.playerCoordinates, this.handler);
   }
 
   /**
@@ -90,13 +115,18 @@ class Actions {
 
         const context = getData().find(npc => npc.id === data.item.id);
         bus.$emit('CHAT:MESSAGE', { type: 'normal', text: context.examine });
-        // TODO: Add this to the text-box.
+
         break;
 
       case 'take':
         if (tileWalkable) {
-          const coordinates = { x: clickedTile.x, y: clickedTile.y };
-          bus.$emit('PLAYER:MOVE', coordinates);
+          const outgoingData = {
+            id: player.uuid,
+            coordinates: { x: clickedTile.x, y: clickedTile.y },
+          };
+
+          Socket.emit('player:mouseTo', outgoingData);
+
 
           // TODO .. Actually pick up the item.
         }

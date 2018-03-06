@@ -4,6 +4,8 @@ const world = require('../core/world');
 const Socket = require('../socket');
 const Map = require('./../core/map');
 
+const emoji = require('node-emoji');
+
 /**
  * A global event handler (RPC)
  *
@@ -33,6 +35,9 @@ const handler = {
   'player:say': (data) => {
     const playerChat = world.players.find(p => p.socket_id === data.data.id);
     data.data.username = playerChat.username;
+
+    console.log(`${emoji.get('speech_balloon')}  ${playerChat.username}: ${data.data.said}`);
+
     Socket.broadcast('player:say', data.data, 10);
   },
 

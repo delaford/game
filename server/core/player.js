@@ -152,7 +152,6 @@ class Player {
    */
   stopMovement() {
     this.moving = false;
-    // bus.$emit('PLAYER:STOP_MOVEMENT');
   }
 
   /**
