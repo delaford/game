@@ -67,6 +67,15 @@ const handler = {
 
     Map.findPath(movingData.id, x, y);
   },
+
+  /**
+   * Queue up an player action to executed they reach their destination
+   */
+  'player:queueAction': (data) => {
+    const playerIndex = world.players.findIndex(p => p.socket_id === data.data.player.socket_id);
+
+    world.players[playerIndex].queue.push(data.data);
+  },
 };
 
 module.exports = handler;

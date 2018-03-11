@@ -8,10 +8,16 @@ module.exports = [
     wearable: 'sword',
     attack: 3,
     column: 0,
+    graphics: {
+      tileset: 'weapons',
+      row: 0,
+      column: 0,
+    },
     tileset: 'weapons',
     actions: [
       'take',
       'examine',
     ],
+    stackable: false,
   },
 ];

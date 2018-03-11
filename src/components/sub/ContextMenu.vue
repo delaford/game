@@ -25,6 +25,11 @@ export default {
   props: ['game'],
   created() {
     bus.$on('PLAYER:MENU', this.openMenu);
+
+    /**
+     * Watch Player X,Y and do actio here...
+     * send to Actions.js
+     */
   },
   data() {
     return {
@@ -47,13 +52,23 @@ export default {
      * @param {event} event The mouse-click event
      * @param {string} item The menu item selected
      */
-    selectAction(event, item) {
+    async selectAction(event, item) {
+      // Data to perform action
       const data = {
         item,
         tile: this.tile,
       };
 
-      this.actions.do(data);
+      // Data for queued action
+      const queueItem = {
+        item: item.id,
+        tile: this.tile,
+        action: item.action,
+        at: item.at,
+        coordinate: 2,
+      };
+
+      this.actions.do(data, queueItem);
 
       this.closeMenu();
 

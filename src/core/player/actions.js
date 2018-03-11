@@ -1,7 +1,6 @@
+import { merge } from 'lodash';
 import bus from '../utilities/bus';
-
 import UI from '../utilities/ui';
-
 import { map } from '../config';
 import Socket from '../../core/utilities/socket';
 
@@ -40,16 +39,20 @@ class Actions {
 
     this.handler = {
       get(target, key) {
+        if (key.length === 1) {
+          console.log(target[key]);
+        }
+
         return target[key];
       },
       set(target, key, value) {
         if (key === 'x' || key === 'y') {
           if (!Number.isInteger(value)) {
             throw new TypeError(`${key} coordinate is not an integer`);
+          } else {
+            console.log(key, 'being set to', value);
           }
         }
-
-        console.log(key, value);
 
         target[key] = value;
 
@@ -70,8 +73,9 @@ class Actions {
    * Execute the certain action by checking (if allowed)
    *
    * @param {object} data Information of tile, Action class and items
+   * @param {object} queuedAction The action to take when a player reaches that tile
    */
-  do(data) {
+  do(data, queuedAction = null) {
     const player = this.player;
     const board = this.background;
     const item = data.item;
@@ -80,6 +84,11 @@ class Actions {
 
     const tile = UI.getTileOverMouse(board, player.x, player.y, clickedTile.x, clickedTile.y);
     const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
+
+    if (queuedAction) {
+      const queuedActionSocket = merge(queuedAction, { player: { socket_id: player.socket_id } });
+      Socket.emit('player:queueAction', queuedActionSocket);
+    }
 
     switch (doing) {
       // eslint-disable-next-line no-case-declarations
@@ -126,9 +135,6 @@ class Actions {
           };
 
           Socket.emit('player:mouseTo', outgoingData);
-
-
-          // TODO .. Actually pick up the item.
         }
 
         break;
@@ -185,6 +191,10 @@ class Actions {
               label: `${action} <span style='color:${this.color}'>${itemData.name}</span>`,
               action,
               type: 'item',
+              at: {
+                x: itemData.x,
+                y: itemData.y,
+              },
               id: itemData.id,
             };
 

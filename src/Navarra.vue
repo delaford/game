@@ -100,7 +100,7 @@ export default {
       config,
       loaded: false,
       game: false,
-      screen: 'main',
+      screen: 'login',
     };
   },
   methods: {

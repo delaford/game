@@ -1,35 +1,17 @@
 <template>
   <div class="inventory_slot">
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
-    <div class="item"></div>
+    <div v-for="(item, i) in items" class="item"></div>
   </div>
 </template>
 
 <script>
 export default {
   props: ['game'],
+  computed: {
+    items() {
+      return this.game.player.inventory;
+    },
+  },
 };
 </script>
 

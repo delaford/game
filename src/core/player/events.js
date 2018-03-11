@@ -50,6 +50,20 @@ const handler = {
     const playerIndex = context.game.map.players.findIndex(p => data.data === p.uuid);
     context.game.map.players.splice(playerIndex, 1);
   },
+
+  /**
+   * A player picks up or drops an item
+   */
+  'item:change': (data, context) => {
+    context.game.map.droppedItems = data.data;
+  },
+
+  /**
+   * A player recieves an item in their inventory
+   */
+  'item:pickup': (data, context) => {
+    context.game.player.inventory = data.data.data;
+  },
 };
 
 export default handler;
