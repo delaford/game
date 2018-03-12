@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Navarra from './Navarra';
+import bus from './core/utilities/bus';
 
 Vue.config.productionTip = false;
 
