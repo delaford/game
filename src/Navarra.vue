@@ -94,6 +94,8 @@ export default {
 
     // On logout, let's do a few things...
     bus.$on('player:logout', this.logout);
+
+    bus.$on('go:main', this.cancelLogin);
   },
   data() {
     return {
@@ -111,6 +113,15 @@ export default {
       this.screen = 'login';
       this.game = false;
     },
+
+    /**
+      * Cancel login
+      */
+
+    cancelLogin() {
+      this.screen = 'main';
+    },
+
     /**
      * Player movement, do something
      */
