@@ -20,9 +20,9 @@ import Socket from '../../core/utilities/socket';
 
 export default {
   methods: {
+    //Cancels login on button click
     cancel() {
       bus.$emit('go:main');
-      // Does nothing -- atm.
     },
     // Send login request to server.
     login() {
