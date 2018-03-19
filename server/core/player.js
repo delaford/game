@@ -139,6 +139,7 @@ class Player {
 
               const item = {
                 stackable: getItem.stackable,
+                graphics: getItem.graphics,
                 itemID: getItem.id,
               };
 
