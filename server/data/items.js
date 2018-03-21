@@ -2,7 +2,7 @@ module.exports = [
   {
     id: 0,
     name: 'Bronze Sword',
-    examine: 'A sword made of strong Bronze.',
+    examine: 'A sword made of Bronze.',
     price: 15,
     type: 'weapon',
     wearable: 'sword',
@@ -17,6 +17,7 @@ module.exports = [
     actions: [
       'take',
       'examine',
+      'drop',
     ],
     stackable: false,
   },

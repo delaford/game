@@ -3,8 +3,9 @@
     <div class="top_slots">
       <div
         v-for="(slot, i) in slots"
-        class="slot"
+        class="slot inventorySlot"
         v-if="i < 3"
+        :key="i"
         :class="{active: selected === i}"
         @click="setPane($event, i)">
           <img :src="svg[slot.toLowerCase()]" :alt="slot">
@@ -26,6 +27,7 @@
         v-for="(slot, i) in slots"
         class="slot"
         v-if="i > 2"
+        :key="i"
         :class="{active: selected === i}"
         @click="setPane($event, i)">
           <img :src="svg[slot.toLowerCase()]" :alt="slot">

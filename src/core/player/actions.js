@@ -4,10 +4,14 @@ import UI from '../utilities/ui';
 import { map } from '../config';
 import Socket from '../../core/utilities/socket';
 
+import actions from '../../data/actions';
+
 const config = require('../config');
 
 class Actions {
   constructor(data, tile) {
+    console.log(actions);
+
     this.player = data.player;
     this.background = data.background;
     this.npcs = data.npcs;
@@ -204,6 +208,28 @@ class Actions {
 
         return items;
 
+      case 'Drop':
+        getItems.forEach((item) => {
+          const itemData = Object.assign(item, UI.getItemData(item.id));
+
+          if (itemData.actions.includes(action.toLowerCase())) {
+            const object = {
+              label: `${action} <span style='color:${this.color}'>${itemData.name}</span>`,
+              action,
+              type: 'item',
+              at: {
+                x: itemData.x,
+                y: itemData.y,
+              },
+              id: itemData.id,
+            };
+
+            items.push(object);
+          }
+        });
+
+        return items;
+
       // eslint-disable-next-line no-case-declarations
       case 'Examine':
         getNPCs.forEach((npc) => {
@@ -247,6 +273,7 @@ class Actions {
     return [
       'Take',
       'Examine',
+      'Drop',
     ];
   }
 }

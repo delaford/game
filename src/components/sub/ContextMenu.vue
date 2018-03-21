@@ -6,7 +6,7 @@
         @blur="closeMenu"
         id="actions"
         tabindex="-1">
-          <li class="action" @click="selectAction($event, { action: 'walk-here' })">Walk here</li>
+          <li v-if="onMap" class="action" @click="selectAction($event, { action: 'walk-here' })">Walk here</li>
           <li class="action"
             v-for="(item, index) in items"
             :key="index"
@@ -20,6 +20,13 @@
 <script>
 import bus from '../../core/utilities/bus';
 import Actions from '../../core/player/actions';
+
+/**
+Get right-click DIV initiator and start from there.
+
+#game-canvas (walk here, cancel)
+#inventory (examine, cancel)
+*/
 
 export default {
   props: ['game'],
@@ -35,6 +42,7 @@ export default {
     return {
       actions: {},
       view: false,
+      onMap: false,
       tile: {
         x: null,
         y: null,
@@ -91,6 +99,7 @@ export default {
      */
     closeMenu() {
       this.view = false;
+      this.onMap = false;
     },
     /**
      * Generates the list of selectable items on context-menu
@@ -106,12 +115,16 @@ export default {
 
       this.view = true;
 
-      this.$nextTick(
-        () => {
+      const targetElement = data.target.className;
+
+      this.$nextTick(() => {
+        if (targetElement.includes('gameMap')) {
           this.$refs.right.focus();
-          this.setMenu(data.event.x, data.event.y);
-        },
-      );
+          this.onMap = true;
+        }
+
+        this.setMenu(data.event.x, data.event.y);
+      });
     },
     /**
      * Incase we click on the context menu with anything but a left-click
@@ -128,8 +141,10 @@ export default {
 <style lang="scss" scoped>
 $menu_bg_color: #8d8d8d;
 $menu_font_color: #fff;
-$menu_width: 195px;
+$menu_min_width: 100px;
+$menu_max_width: 195px;
 $menu_font_hover_color: #ffd829;
+
 div {
   position: absolute;
   z-index: 99999999;
@@ -143,7 +158,8 @@ div {
     list-style: none;
     margin: 0;
     padding: 0 0 3px 0;
-    width: $menu_width;
+    max-width: $menu_max_width;
+    min-width: $menu_min_width;
     font-size: 12px;
     z-index: 999999;
 

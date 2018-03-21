@@ -2,7 +2,7 @@
   <div class="game">
     <canvas tabindex="0"
       id="game-map"
-      class="main-canvas"
+      class="main-canvas gameMap"
       height="352"
       width="512"
       @mousemove="mouseSelection"
@@ -14,15 +14,6 @@
 </template>
 
 <script>
-/**
- * <-- Controller - Vue.js interactions
- * --> Model - JS core files
- * <-- View - HTML templates
- *
- * ex: (Vue) use right-clicks on map
- * (JS) Core files tells data for context menu
- * (HTML) What to and where to display
- */
 import Client from '../core/client';
 import config from '../core/config';
 import UI from '../core/utilities/ui';
@@ -44,6 +35,7 @@ export default {
       const data = {
         event,
         coordinates,
+        target: event.target,
       };
 
       event.preventDefault();
@@ -82,7 +74,10 @@ export default {
 
       if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
         const data = { x: hoveredSquare.x, y: hoveredSquare.y };
-        if (this.game.map && typeof this.game.map.setMouseCoordinates === 'function') {
+        if (
+          this.game.map &&
+          typeof this.game.map.setMouseCoordinates === 'function'
+        ) {
           bus.$emit('DRAW:MOUSE', data);
         }
       }
@@ -109,7 +104,9 @@ export default {
   },
   computed: {
     otherPlayers() {
-      return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
+      return this.game.players.filter(
+        p => p.socket_id !== this.game.player.socket_id,
+      );
     },
   },
 };
