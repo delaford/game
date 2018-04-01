@@ -1,10 +1,7 @@
 <template>
   <div id="app">
-    <img class="logo" src="./assets/logo.png" alt="Logo">
-
     <!-- Login screen -->
     <div v-show="!loaded || !game" class="wrapper login__screen">
-
       <div v-if="screen === 'server-down'" class="bg server__down">
         The game server is currently down. Please check the website for more information.
       </div>
@@ -13,16 +10,22 @@
           To register an account, please visit <a href="https://navarra-rpg.com/register">this page</a> to get start and then come back.
         </div>
         <div v-if="screen === 'login'" class="login">
+          <img class="logo" src="./assets/logo.png" alt="Logo">
+
           <Login></Login>
         </div>
-        <div class="button_group"  v-if="screen === 'main'">
-          <button @click="screen = 'login'" class="login">
-            Login
-          </button>
+        <div  v-if="screen === 'main'">
+          <img class="logo" src="./assets/logo.png" alt="Logo">
 
-          <button @click="screen = 'register'" class="register">
-            Register
-          </button>
+          <div class="button_group">
+            <button @click="screen = 'login'" class="login">
+              Login
+            </button>
+
+            <button @click="screen = 'register'" class="register">
+              Register
+            </button>
+          </div>
         </div>
       </div>
 

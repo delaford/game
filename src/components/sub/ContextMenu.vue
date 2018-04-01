@@ -6,13 +6,12 @@
         @blur="closeMenu"
         id="actions"
         tabindex="-1">
-          <li v-if="onMap" class="action" @click="selectAction($event, { action: 'walk-here' })">Walk here</li>
           <li class="action"
             v-for="(item, index) in items"
             :key="index"
             @click="selectAction($event, item)"
             v-html="item.label"></li>
-          <li class="action" @click="selectAction($event, { action: 'cancel' })">Cancel</li>
+          <li class="action" @click="selectAction($event, { action: { name: 'cancel'} })">Cancel</li>
       </ul>
   </div>
 </template>
@@ -72,7 +71,7 @@ export default {
         item: item.id,
         tile: this.tile,
         action: item.action,
-        at: item.at,
+        at: item.at || false,
         coordinate: 2,
       };
 
@@ -110,7 +109,9 @@ export default {
       this.tile.x = data.coordinates.x;
       this.tile.y = data.coordinates.y;
 
-      this.actions = new Actions(this.game, this.tile);
+      const miscData = window._.omit({ ...data }, ['coordinates', 'event', 'target']);
+
+      this.actions = new Actions(this.game, this.tile, data.event, miscData);
       this.items = await this.actions.build();
 
       this.view = true;

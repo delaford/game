@@ -127,11 +127,10 @@ class Player {
           if (!Player.queueEmpty(playerIndex)) {
             const todo = world.players[playerIndex].queue[0];
 
-            if (todo.action === 'Take') {
+            if (todo.action.name === 'Take') {
               // eslint-disable-next-line
-              const itemIndex = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y));
-              const itemToTake = world.items[itemIndex];
-              world.items.splice(itemToTake);
+              const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y));
+              world.items.splice(itemToTake, 1);
 
               Socket.broadcast('item:change', world.items);
 

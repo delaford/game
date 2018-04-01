@@ -9,7 +9,7 @@ module.exports = {
     x: 13,
     y: 110,
   }, {
-    id: 0,
+    id: 1,
     x: 14,
     y: 111,
   }],

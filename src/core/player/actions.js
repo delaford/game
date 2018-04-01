@@ -3,16 +3,12 @@ import bus from '../utilities/bus';
 import UI from '../utilities/ui';
 import { map } from '../config';
 import Socket from '../../core/utilities/socket';
-
-import actions from '../../data/actions';
-
-const config = require('../config');
+import actionList from './data/actions';
 
 class Actions {
-  constructor(data, tile) {
-    console.log(actions);
-
+  constructor(data, tile, event, miscData) {
     this.player = data.player;
+    this.event = event;
     this.background = data.background;
     this.npcs = data.npcs;
     this.droppedItems = data.map.droppedItems;
@@ -22,55 +18,23 @@ class Actions {
       y: tile.y,
     };
 
+    // Data relevant to the context
+    this.miscData = miscData;
+
     // Coordinates on map where clicked
     this.coordinates = {
       x: (this.player.x - map.player.x) + this.clicked.x,
       y: (this.player.y - map.player.y) + this.clicked.y,
     };
 
-    // Looks through NPCs and sets color appropriately
-    for (let i = 0; i < this.npcs.length; i += 1) {
-      if ((this.npcs[i].x === this.coordinates.x) && (this.npcs[i].y === this.coordinates.y)) {
-        this.color = config.map.color.npc;
-      }
-    }
-    for (let i = 0; i < this.droppedItems.length; i += 1) {
-      // eslint-disable-next-line
-      if ((this.droppedItems[i].x === this.coordinates.x) && (this.droppedItems[i].y === this.coordinates.y)) {
-        this.color = config.map.color.item;
-      }
-    }
-
-    this.handler = {
-      get(target, key) {
-        if (key.length === 1) {
-          console.log(target[key]);
-        }
-
-        return target[key];
-      },
-      set(target, key, value) {
-        if (key === 'x' || key === 'y') {
-          if (!Number.isInteger(value)) {
-            throw new TypeError(`${key} coordinate is not an integer`);
-          } else {
-            console.log(key, 'being set to', value);
-          }
-        }
-
-        target[key] = value;
-
-        return true;
-      },
-    };
+    // this.color = config.map.color.item;
 
     this.playerCoordinates = {
       x: this.player.x,
       y: this.player.y,
     };
 
-    // Proxy for custom behavior
-    this.proxy = new Proxy(this.playerCoordinates, this.handler);
+    this.objectId = null;
   }
 
   /**
@@ -80,17 +44,28 @@ class Actions {
    * @param {object} queuedAction The action to take when a player reaches that tile
    */
   do(data, queuedAction = null) {
-    const player = this.player;
-    const board = this.background;
     const item = data.item;
     const clickedTile = data.tile;
-    const doing = item.action.toLowerCase();
+    const doing = item.action.name.toLowerCase();
 
-    const tile = UI.getTileOverMouse(board, player.x, player.y, clickedTile.x, clickedTile.y);
+    const tile = UI.getTileOverMouse(
+      this.background,
+      this.player.x,
+      this.player.y,
+      clickedTile.x,
+      clickedTile.y);
     const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
 
+    // If an action needs to be performed
+    // after a player reaches their destination
     if (queuedAction) {
-      const queuedActionSocket = merge(queuedAction, { player: { socket_id: player.socket_id } });
+      const queuedActionSocket = merge(queuedAction, {
+        player: {
+          socket_id: this.player.socket_id,
+        },
+      });
+
+      // Queue it up and tell the server.
       Socket.emit('player:queueAction', queuedActionSocket);
     }
 
@@ -103,7 +78,7 @@ class Actions {
           const coordinates = { x: clickedTile.x, y: clickedTile.y };
 
           const outgoingData = {
-            id: player.uuid,
+            id: this.player.uuid,
             coordinates,
           };
 
@@ -113,28 +88,19 @@ class Actions {
 
       // eslint-disable-next-line no-case-declarations
       case 'examine':
-        const getData = () => {
-          switch (data.item.type) {
-            default:
-              return null;
+        bus.$emit('CHAT:MESSAGE', { type: 'normal', text: data.item.examine });
 
-            case 'npc':
-              return this.npcs;
+        break;
 
-            case 'item':
-              return this.droppedItems;
-          }
-        };
-
-        const context = getData().find(npc => npc.id === data.item.id);
-        bus.$emit('CHAT:MESSAGE', { type: 'normal', text: context.examine });
+      case 'drop':
+        console.log('Dropping', data.item);
 
         break;
 
       case 'take':
         if (tileWalkable) {
           const outgoingData = {
-            id: player.uuid,
+            id: this.player.uuid,
             coordinates: { x: clickedTile.x, y: clickedTile.y },
           };
 
@@ -156,18 +122,38 @@ class Actions {
 
     return new Promise((resolve) => {
       let list = 0;
-      const allActions = Actions.list();
+      const generateList = this.generateList();
       let actionableItems = [];
       const items = [];
 
       do {
-        const action = allActions[list];
+        const action = generateList[list];
         actionableItems = self.check(action, items);
         list += 1;
-      } while (list < allActions.length);
+      } while (list < generateList.length);
 
       resolve(actionableItems);
     }, this);
+  }
+
+  allow(action) {
+    console.log(action);
+
+    if (action.allow instanceof Boolean) {
+      // Allow on actual context
+      return true;
+    }
+
+    // eslint-disable-next-line
+    const getItems = this.droppedItems.filter(item => item.x === this.coordinates.x && item.y === this.coordinates.y);
+
+    // eslint-disable-next-line
+    const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
+
+    return new Promise((resolve) => {
+      const data = null;
+      resolve(data);
+    });
   }
 
   /**
@@ -175,14 +161,18 @@ class Actions {
    *
    * @param {string} action The item being checked
    */
-  check(action, items) {
+  async check(action, items) {
+    // const itemInView = await this.allow(action);
+    // console.log(itemInView);
+
     // eslint-disable-next-line
     const getItems = this.droppedItems.filter(item => item.x === this.coordinates.x && item.y === this.coordinates.y);
 
     // eslint-disable-next-line
     const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
 
-    switch (action) {
+
+    switch (action.name) {
       default:
         return false;
       // eslint-disable-next-line no-case-declarations
@@ -190,9 +180,9 @@ class Actions {
         getItems.forEach((item) => {
           const itemData = Object.assign(item, UI.getItemData(item.id));
 
-          if (itemData.actions.includes(action.toLowerCase())) {
+          if (itemData.actions.includes(action.name.toLowerCase())) {
             const object = {
-              label: `${action} <span style='color:${this.color}'>${itemData.name}</span>`,
+              label: `Take <span style='color:${this.color}'>${itemData.name}</span>`,
               action,
               type: 'item',
               at: {
@@ -205,63 +195,95 @@ class Actions {
             items.push(object);
           }
         });
-
-        return items;
+        break;
 
       case 'Drop':
-        getItems.forEach((item) => {
-          const itemData = Object.assign(item, UI.getItemData(item.id));
+        if (this.clickedOn('inventorySlot')) {
+          if (Actions.hasProp(this.miscData, 'slot')) {
+            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            this.objectId = itemData;
 
-          if (itemData.actions.includes(action.toLowerCase())) {
-            const object = {
-              label: `${action} <span style='color:${this.color}'>${itemData.name}</span>`,
-              action,
-              type: 'item',
-              at: {
-                x: itemData.x,
-                y: itemData.y,
-              },
-              id: itemData.id,
-            };
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Drop <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                type: 'item',
+                id: itemData.id,
+              };
 
-            items.push(object);
+              items.push(object);
+            }
           }
+        }
+        break;
+
+      case 'Walk here':
+        items.push({
+          action: {
+            name: 'walk-here',
+          },
+          label: 'Walk here',
         });
 
-        return items;
+        break;
 
       // eslint-disable-next-line no-case-declarations
       case 'Examine':
-        getNPCs.forEach((npc) => {
-          if (npc.actions.includes(action.toLowerCase())) {
-            const object = {
-              label: `${action} <span style='color:${this.color}'>${npc.name}</span>`,
-              action,
-              type: 'npc',
-              id: npc.id,
-            };
 
-            items.push(object);
+        if (this.clickedOn('gameMap')) {
+          getNPCs.forEach((npc) => {
+            if (npc.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Examine <span style='color:${this.color}'>${npc.name}</span>`,
+                action,
+                examine: npc.examine,
+                type: 'npc',
+                id: npc.id,
+              };
+
+              items.push(object);
+            }
+          });
+
+          getItems.forEach((item) => {
+            const itemData = Object.assign(item, UI.getItemData(item.id));
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                examine: itemData.examine,
+                type: 'item',
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
+          });
+        }
+
+        if (this.clickedOn('inventorySlot')) {
+          if (Actions.hasProp(this.miscData, 'slot')) {
+            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            this.objectId = itemData;
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                examine: itemData.examine,
+                type: 'item',
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
           }
-        });
-
-        getItems.forEach((item) => {
-          const itemData = Object.assign(item, UI.getItemData(item.id));
-
-          if (itemData.actions.includes(action.toLowerCase())) {
-            const object = {
-              label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
-              action,
-              type: 'item',
-              id: itemData.id,
-            };
-
-            items.push(object);
-          }
-        });
-
-        return items;
+        }
+        break;
     }
+
+    return items;
   }
 
   /**
@@ -269,12 +291,18 @@ class Actions {
    *
    * @returns {array}
    */
-  static list() {
-    return [
-      'Take',
-      'Examine',
-      'Drop',
-    ];
+  generateList() {
+    const list = actionList;
+
+    return list.filter(a => a.context.some(b => [...this.event.target.classList].includes(b)));
+  }
+
+  clickedOn(target) {
+    return this.event.target.className.includes(target);
+  }
+
+  static hasProp(object, name) {
+    return Object.prototype.hasOwnProperty.call(object, name);
   }
 }
 

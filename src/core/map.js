@@ -260,7 +260,7 @@ class Map {
 
       // Get the correct tileset to draw upon
       const itemTileset = () => {
-        switch (info.tileset) {
+        switch (info.graphics.tileset) {
           default:
           case 'weapons':
             return this.images.weaponsImage;
@@ -270,8 +270,8 @@ class Map {
       // Paint the item on map
       this.context.drawImage(
         itemTileset(),
-        (info.column * 32), // Number in Item tileset
-        0, // Y-axis always 0
+        (info.graphics.column * 32), // Number in Item tileset
+        (info.graphics.row * 32), // Y-axis of tileset
         32,
         32,
         viewport.x * 32,
