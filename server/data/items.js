@@ -5,6 +5,7 @@ module.exports = [
     examine: 'A sword made of Bronze.',
     price: 15,
     type: 'weapon',
+    slot: 'right_hand',
     wearable: 'sword',
     attack: 3,
     graphics: {
@@ -16,6 +17,7 @@ module.exports = [
       'take',
       'examine',
       'drop',
+      'equip',
     ],
     stackable: false,
   },
@@ -25,6 +27,7 @@ module.exports = [
     examine: 'An axe made for chopping.',
     price: 11,
     type: 'weapon',
+    slot: 'right_hand',
     wearable: 'sword',
     attack: 4,
     graphics: {
@@ -36,6 +39,7 @@ module.exports = [
       'take',
       'examine',
       'drop',
+      'equip',
     ],
     functions: [
       'chop',

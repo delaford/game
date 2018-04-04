@@ -4,6 +4,8 @@ const world = require('../core/world');
 const Socket = require('../socket');
 const Map = require('./../core/map');
 
+const items = require('../data/items');
+
 const emoji = require('node-emoji');
 
 /**
@@ -75,6 +77,31 @@ const handler = {
     const playerIndex = world.players.findIndex(p => p.socket_id === data.data.player.socket_id);
 
     world.players[playerIndex].queue.push(data.data);
+  },
+
+  'player:inventoryItemDrop': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    world.players[playerIndex].inventory = world.players[playerIndex].inventory
+                                              .filter((_, i) => i !== data.data.slot);
+    Socket.broadcast('player:movement', world.players[playerIndex]);
+
+    world.items.push({
+      id: data.data.droppingItem,
+      x: world.players[playerIndex].x,
+      y: world.players[playerIndex].y,
+    });
+
+    Socket.broadcast('world:itemDropped', world.items);
+  },
+
+  'item:equip': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const getItem = items.find(i => i.id === data.data.item);
+    world.players[playerIndex].wear[getItem.slot] = getItem.id;
+    world.players[playerIndex].inventory.splice(data.data.slot, 1);
+    console.log(world.players[playerIndex]);
+
+    Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
   },
 };
 

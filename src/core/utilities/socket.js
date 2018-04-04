@@ -1,11 +1,9 @@
 class Socket {
   static emit(event, data) {
-    const handledData = {
+    window.ws.send(JSON.stringify({
       event,
       data,
-    };
-
-    window.ws.send(JSON.stringify(handledData));
+    }));
   }
 }
 

@@ -92,8 +92,20 @@ class Actions {
 
         break;
 
+      case 'equip':
+        Socket.emit('item:equip', {
+          id: this.player.uuid,
+          item: data.item.id,
+          slot: this.miscData.slot,
+        });
+        break;
+
       case 'drop':
-        console.log('Dropping', data.item);
+        Socket.emit('player:inventoryItemDrop', {
+          id: this.player.uuid,
+          droppingItem: data.item.id,
+          slot: data.item.miscData.slot,
+        });
 
         break;
 
@@ -208,6 +220,28 @@ class Actions {
                 label: `Drop <span style='color:${this.color}'>${itemData.name}</span>`,
                 action,
                 type: 'item',
+                miscData: this.miscData,
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
+          }
+        }
+        break;
+
+      case 'Equip':
+        if (this.clickedOn('inventorySlot')) {
+          if (Actions.hasProp(this.miscData, 'slot')) {
+            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            this.objectId = itemData;
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Equip <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                type: 'item',
+                miscData: this.miscData,
                 id: itemData.id,
               };
 

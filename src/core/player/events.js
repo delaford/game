@@ -64,6 +64,17 @@ const handler = {
   'item:pickup': (data, context) => {
     context.game.player.inventory = data.data.data;
   },
+
+  'world:itemDropped': (data, context) => {
+    context.game.map.droppedItems = data.data;
+  },
+
+  'player:equippedAnItem': (data, context) => {
+    if (data.data.uuid === context.game.player.uuid) {
+      context.game.player.inventory = data.inventory;
+      context.game.player.wear = data.wear;
+    }
+  },
 };
 
 export default handler;
