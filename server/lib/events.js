@@ -97,11 +97,32 @@ const handler = {
   'item:equip': (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
     const getItem = items.find(i => i.id === data.data.item);
-    world.players[playerIndex].wear[getItem.slot] = getItem.id;
+
+    const item = {
+      stackable: getItem.stackable,
+      graphics: getItem.graphics,
+      itemID: getItem.id,
+    };
+
+    world.players[playerIndex].wear[getItem.slot] = item;
     world.players[playerIndex].inventory.splice(data.data.slot, 1);
-    console.log(world.players[playerIndex]);
 
     Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
+  },
+
+  'item:unequip': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const getItem = items.find(i => i.id === data.data.item);
+
+    const item = {
+      stackable: getItem.stackable,
+      graphics: getItem.graphics,
+      itemID: getItem.id,
+    };
+
+    world.players[playerIndex].wear[getItem.slot] = null;
+    world.players[playerIndex].inventory.push(item);
+    Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
   },
 };
 

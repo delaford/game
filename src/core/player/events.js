@@ -62,17 +62,34 @@ const handler = {
    * A player recieves an item in their inventory
    */
   'item:pickup': (data, context) => {
-    context.game.player.inventory = data.data.data;
+    console.log('player picked up item');
+
+    if (data.data.player.socket_id === context.game.player.socket_id) {
+      context.game.player.inventory = data.data.data;
+    }
   },
 
+  /**
+   * The world receives an updated dropped items list
+   */
   'world:itemDropped': (data, context) => {
     context.game.map.droppedItems = data.data;
   },
 
+  /**
+   * A player eqequips an item
+   */
   'player:equippedAnItem': (data, context) => {
     if (data.data.uuid === context.game.player.uuid) {
-      context.game.player.inventory = data.inventory;
-      context.game.player.wear = data.wear;
+      context.game.player.inventory = data.data.inventory;
+      context.game.player.wear = data.data.wear;
+    }
+  },
+
+  'player:unequippedAnItem': (data, context) => {
+    if (data.data.uuid === context.game.player.uuid) {
+      context.game.player.inventory = data.data.inventory;
+      context.game.player.wear = data.data.wear;
     }
   },
 };

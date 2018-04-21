@@ -34,6 +34,13 @@ const actionList = [
     nearby: false,
     weight: 1,
   },
+  {
+    name: 'Unequip',
+    context: ['swordEquipped'],
+    allow: ['item'],
+    nearby: false,
+    weight: 1,
+  },
 ];
 
 export default actionList;

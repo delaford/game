@@ -20,7 +20,14 @@
       </div>
 
       <div class="third_row row">
-        <div class="slot sword"></div>
+        <div
+          @click.right="rightClick($event, 'right_hand')"
+          class="slot sword"
+          v-bind:class="showBackground('right_hand')"
+          v-bind:style="{
+            backgroundPosition: `left -${(tileOffset('right_hand') * 32)}px top`
+          }">
+        </div>
         <div class="slot torso"></div>
         <div class="slot shield"></div>
       </div>
@@ -35,8 +42,54 @@
 </template>
 
 <script>
+import bus from '../../core/utilities/bus';
+import UI from '../../core/utilities/ui';
+
 export default {
   props: ['game'],
+  methods: {
+    /**
+     * Right-click brings up context-menu
+     *
+     * @param {event} event The mouse-click event
+     */
+    rightClick(event, slot) {
+      const coordinates = UI.getViewportCoordinates(event);
+
+      const data = {
+        event,
+        coordinates,
+        slot,
+        target: event.target,
+      };
+
+      event.preventDefault();
+
+      bus.$emit('PLAYER:MENU', data);
+    },
+    tileOffset(slot) {
+      switch (slot) {
+        default:
+        case 'right_hand':
+          return this.wear.right_hand ? this.wear.right_hand.graphics.column : 0;
+      }
+    },
+    isEmpty(slot) {
+      return slot === null;
+    },
+    showBackground(classImg) {
+      switch (classImg) {
+        default:
+        case 'right_hand':
+          return this.isEmpty(this.wear.right_hand) ? classImg : 'swordEquipped';
+      }
+    },
+  },
+  computed: {
+    wear() {
+      return this.game.player.wear;
+    },
+  },
 };
 </script>
 
@@ -81,12 +134,17 @@ div.wear {
       display: inline-flex;
       margin-bottom: 1em;
 
-      $slots: torso gloves shield head arrows necklace sword ring boots cape;
+      $slots: torso gloves shield head arrows necklace right_hand ring boots cape;
       @each $slot in $slots {
         div.#{$slot} {
           background-image: url(./../../assets/graphics/ui/client/slots/wear/#{$slot}.png);
         }
+
+        div.swordEquipped {
+          background-image: url(./../../assets/graphics/items/weapons.png);
+        }
       }
+
     }
 
     div.first_row {

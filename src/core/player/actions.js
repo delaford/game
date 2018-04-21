@@ -100,6 +100,14 @@ class Actions {
         });
         break;
 
+      case 'unequip':
+        Socket.emit('item:unequip', {
+          id: this.player.uuid,
+          item: data.item.id,
+          slot: this.miscData.slot,
+        });
+        break;
+
       case 'drop':
         Socket.emit('player:inventoryItemDrop', {
           id: this.player.uuid,
@@ -239,6 +247,29 @@ class Actions {
             if (itemData.actions.includes(action.name.toLowerCase())) {
               const object = {
                 label: `Equip <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                type: 'item',
+                miscData: this.miscData,
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
+          }
+        }
+        break;
+
+      case 'Unequip':
+        // TODO
+        // Refactor 'right_hand' to all slots.
+        if (this.clickedOn('slot')) {
+          if (Actions.hasProp(this.miscData, 'slot')) {
+            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].itemID);
+            this.objectId = itemData;
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Unequip <span style='color:${this.color}'>${itemData.name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,

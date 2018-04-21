@@ -18,6 +18,7 @@ module.exports = [
       'examine',
       'drop',
       'equip',
+      'unequip',
     ],
     stackable: false,
   },
@@ -40,6 +41,7 @@ module.exports = [
       'examine',
       'drop',
       'equip',
+      'unequip',
     ],
     functions: [
       'chop',
