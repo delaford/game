@@ -33,8 +33,8 @@ export default {
   },
   data() {
     return {
-      username: 'dan',
-      password: 'soccer',
+      username: '',
+      password: '',
     };
   },
 };

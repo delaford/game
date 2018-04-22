@@ -94,6 +94,9 @@ const handler = {
     Socket.broadcast('world:itemDropped', world.items);
   },
 
+  /**
+   * A player equips an item from their inventory
+   */
   'item:equip': (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
     const getItem = items.find(i => i.id === data.data.item);
@@ -110,6 +113,9 @@ const handler = {
     Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
   },
 
+  /**
+   * A player unequips an item from their wear tab
+   */
   'item:unequip': (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
     const getItem = items.find(i => i.id === data.data.item);

@@ -20,22 +20,10 @@
 import bus from '../../core/utilities/bus';
 import Actions from '../../core/player/actions';
 
-/**
-Get right-click DIV initiator and start from there.
-
-#game-canvas (walk here, cancel)
-#inventory (examine, cancel)
-*/
-
 export default {
   props: ['game'],
   created() {
     bus.$on('PLAYER:MENU', this.openMenu);
-
-    /**
-     * Watch Player X,Y and do actio here...
-     * send to Actions.js
-     */
   },
   data() {
     return {

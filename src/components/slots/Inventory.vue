@@ -39,6 +39,12 @@ export default {
 
       bus.$emit('PLAYER:MENU', data);
     },
+    /**
+     * Get the correct background URL to show in inventory
+     *
+     * @param {string} item The item type in slot
+     * @returns {string}
+     */
     getBgUrl(item) {
       switch (item.graphics.tileset) {
         default:

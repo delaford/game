@@ -12,6 +12,7 @@ class Actions {
     this.background = data.background;
     this.npcs = data.npcs;
     this.droppedItems = data.map.droppedItems;
+
     // Viewport X,Y coordinates
     this.clicked = {
       x: tile.x,
@@ -156,35 +157,13 @@ class Actions {
     }, this);
   }
 
-  allow(action) {
-    console.log(action);
-
-    if (action.allow instanceof Boolean) {
-      // Allow on actual context
-      return true;
-    }
-
-    // eslint-disable-next-line
-    const getItems = this.droppedItems.filter(item => item.x === this.coordinates.x && item.y === this.coordinates.y);
-
-    // eslint-disable-next-line
-    const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
-
-    return new Promise((resolve) => {
-      const data = null;
-      resolve(data);
-    });
-  }
-
   /**
    * Check to see if the list item is needed in list
    *
    * @param {string} action The item being checked
+   * @returns {boolean}
    */
   async check(action, items) {
-    // const itemInView = await this.allow(action);
-    // console.log(itemInView);
-
     // eslint-disable-next-line
     const getItems = this.droppedItems.filter(item => item.x === this.coordinates.x && item.y === this.coordinates.y);
 
@@ -362,10 +341,23 @@ class Actions {
     return list.filter(a => a.context.some(b => [...this.event.target.classList].includes(b)));
   }
 
+  /**
+   * See if the action allows to be clicked on from an appropriate class
+   *
+   * @param {object} target The element we are clicking on
+   * @returns {boolean}
+   */
   clickedOn(target) {
     return this.event.target.className.includes(target);
   }
 
+  /**
+   * See if incoming data has a certain object data
+   *
+   * @param {string} object The payload of the incoming menu item
+   * @param {string} name The name of the objeect property we check for
+   * @returns {boolean}
+   */
   static hasProp(object, name) {
     return Object.prototype.hasOwnProperty.call(object, name);
   }

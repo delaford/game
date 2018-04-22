@@ -77,7 +77,7 @@ const handler = {
   },
 
   /**
-   * A player eqequips an item
+   * A player equips an item
    */
   'player:equippedAnItem': (data, context) => {
     if (data.data.uuid === context.game.player.uuid) {
@@ -86,6 +86,9 @@ const handler = {
     }
   },
 
+  /**
+   * A player unequips an item
+   */
   'player:unequippedAnItem': (data, context) => {
     if (data.data.uuid === context.game.player.uuid) {
       context.game.player.inventory = data.data.inventory;

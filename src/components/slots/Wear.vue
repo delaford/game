@@ -67,6 +67,12 @@ export default {
 
       bus.$emit('PLAYER:MENU', data);
     },
+    /**
+     * Get correct tile on slots
+     *
+     * @param {string} slot The slot tile being checked on
+     * @returns {boolean}
+     */
     tileOffset(slot) {
       switch (slot) {
         default:
@@ -74,9 +80,20 @@ export default {
           return this.wear.right_hand ? this.wear.right_hand.graphics.column : 0;
       }
     },
+    /**
+     * Check to see if the slot is empty
+     *
+     * @returns {boolean}
+     */
     isEmpty(slot) {
       return slot === null;
     },
+    /**
+     * Shows the correct background type in slot
+     *
+     * @param {string} classImg The image being scrutinized
+     * @returns {string}
+     */
     showBackground(classImg) {
       switch (classImg) {
         default:
