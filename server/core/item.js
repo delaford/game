@@ -5,7 +5,7 @@ class Item {
     this.examine = data.examine;
     this.price = data.price;
     this.type = data.type;
-    this.column = data.column;
+    this.graphics = data.graphics;
     this.wearable = data.wearable || false;
 
     this.attack = data.attack;

@@ -1,23 +1,26 @@
+import { merge } from 'lodash';
 import bus from '../utilities/bus';
-
 import UI from '../utilities/ui';
-
 import { map } from '../config';
 import Socket from '../../core/utilities/socket';
-
-const config = require('../config');
+import actionList from './data/actions';
 
 class Actions {
-  constructor(data, tile) {
+  constructor(data, tile, event, miscData) {
     this.player = data.player;
+    this.event = event;
     this.background = data.background;
     this.npcs = data.npcs;
     this.droppedItems = data.map.droppedItems;
+
     // Viewport X,Y coordinates
     this.clicked = {
       x: tile.x,
       y: tile.y,
     };
+
+    // Data relevant to the context
+    this.miscData = miscData;
 
     // Coordinates on map where clicked
     this.coordinates = {
@@ -25,36 +28,47 @@ class Actions {
       y: (this.player.y - map.player.y) + this.clicked.y,
     };
 
-    // Looks through NPCs and sets color appropriately
-    for (let i = 0; i < this.npcs.length; i += 1) {
-      if ((this.npcs[i].x === this.coordinates.x) && (this.npcs[i].y === this.coordinates.y)) {
-        this.color = config.map.color.npc;
-      }
-    }
-    for (let i = 0; i < this.droppedItems.length; i += 1) {
-      // eslint-disable-next-line
-      if ((this.droppedItems[i].x === this.coordinates.x) && (this.droppedItems[i].y === this.coordinates.y)) {
-        this.color = config.map.color.item;
-      }
-    }
+    // this.color = config.map.color.item;
 
-    // Label color
+    this.playerCoordinates = {
+      x: this.player.x,
+      y: this.player.y,
+    };
+
+    this.objectId = null;
   }
 
   /**
    * Execute the certain action by checking (if allowed)
    *
    * @param {object} data Information of tile, Action class and items
+   * @param {object} queuedAction The action to take when a player reaches that tile
    */
-  do(data) {
-    const player = this.player;
-    const board = this.background;
+  do(data, queuedAction = null) {
     const item = data.item;
     const clickedTile = data.tile;
-    const doing = item.action.toLowerCase();
+    const doing = item.action.name.toLowerCase();
 
-    const tile = UI.getTileOverMouse(board, player.x, player.y, clickedTile.x, clickedTile.y);
+    const tile = UI.getTileOverMouse(
+      this.background,
+      this.player.x,
+      this.player.y,
+      clickedTile.x,
+      clickedTile.y);
     const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
+
+    // If an action needs to be performed
+    // after a player reaches their destination
+    if (queuedAction) {
+      const queuedActionSocket = merge(queuedAction, {
+        player: {
+          socket_id: this.player.socket_id,
+        },
+      });
+
+      // Queue it up and tell the server.
+      Socket.emit('player:queueAction', queuedActionSocket);
+    }
 
     switch (doing) {
       // eslint-disable-next-line no-case-declarations
@@ -65,7 +79,7 @@ class Actions {
           const coordinates = { x: clickedTile.x, y: clickedTile.y };
 
           const outgoingData = {
-            id: player.uuid,
+            id: this.player.uuid,
             coordinates,
           };
 
@@ -75,30 +89,43 @@ class Actions {
 
       // eslint-disable-next-line no-case-declarations
       case 'examine':
-        const getData = () => {
-          switch (data.item.type) {
-            default:
-              return null;
+        bus.$emit('CHAT:MESSAGE', { type: 'normal', text: data.item.examine });
 
-            case 'npc':
-              return this.npcs;
+        break;
 
-            case 'item':
-              return this.droppedItems;
-          }
-        };
+      case 'equip':
+        Socket.emit('item:equip', {
+          id: this.player.uuid,
+          item: data.item.id,
+          slot: this.miscData.slot,
+        });
+        break;
 
-        const context = getData().find(npc => npc.id === data.item.id);
-        bus.$emit('CHAT:MESSAGE', { type: 'normal', text: context.examine });
-        // TODO: Add this to the text-box.
+      case 'unequip':
+        Socket.emit('item:unequip', {
+          id: this.player.uuid,
+          item: data.item.id,
+          slot: this.miscData.slot,
+        });
+        break;
+
+      case 'drop':
+        Socket.emit('player:inventoryItemDrop', {
+          id: this.player.uuid,
+          droppingItem: data.item.id,
+          slot: data.item.miscData.slot,
+        });
+
         break;
 
       case 'take':
         if (tileWalkable) {
-          const coordinates = { x: clickedTile.x, y: clickedTile.y };
-          bus.$emit('PLAYER:MOVE', coordinates);
+          const outgoingData = {
+            id: this.player.uuid,
+            coordinates: { x: clickedTile.x, y: clickedTile.y },
+          };
 
-          // TODO .. Actually pick up the item.
+          Socket.emit('player:mouseTo', outgoingData);
         }
 
         break;
@@ -116,15 +143,15 @@ class Actions {
 
     return new Promise((resolve) => {
       let list = 0;
-      const allActions = Actions.list();
+      const generateList = this.generateList();
       let actionableItems = [];
       const items = [];
 
       do {
-        const action = allActions[list];
+        const action = generateList[list];
         actionableItems = self.check(action, items);
         list += 1;
-      } while (list < allActions.length);
+      } while (list < generateList.length);
 
       resolve(actionableItems);
     }, this);
@@ -134,15 +161,17 @@ class Actions {
    * Check to see if the list item is needed in list
    *
    * @param {string} action The item being checked
+   * @returns {boolean}
    */
-  check(action, items) {
+  async check(action, items) {
     // eslint-disable-next-line
     const getItems = this.droppedItems.filter(item => item.x === this.coordinates.x && item.y === this.coordinates.y);
 
     // eslint-disable-next-line
     const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
 
-    switch (action) {
+
+    switch (action.name) {
       default:
         return false;
       // eslint-disable-next-line no-case-declarations
@@ -150,52 +179,155 @@ class Actions {
         getItems.forEach((item) => {
           const itemData = Object.assign(item, UI.getItemData(item.id));
 
-          if (itemData.actions.includes(action.toLowerCase())) {
+          if (itemData.actions.includes(action.name.toLowerCase())) {
             const object = {
-              label: `${action} <span style='color:${this.color}'>${itemData.name}</span>`,
+              label: `Take <span style='color:${this.color}'>${itemData.name}</span>`,
               action,
               type: 'item',
+              at: {
+                x: itemData.x,
+                y: itemData.y,
+              },
               id: itemData.id,
             };
 
             items.push(object);
           }
         });
+        break;
 
-        return items;
+      case 'Drop':
+        if (this.clickedOn('inventorySlot')) {
+          if (Actions.hasProp(this.miscData, 'slot')) {
+            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            this.objectId = itemData;
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Drop <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                type: 'item',
+                miscData: this.miscData,
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
+          }
+        }
+        break;
+
+      case 'Equip':
+        if (this.clickedOn('inventorySlot')) {
+          if (Actions.hasProp(this.miscData, 'slot')) {
+            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            this.objectId = itemData;
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Equip <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                type: 'item',
+                miscData: this.miscData,
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
+          }
+        }
+        break;
+
+      case 'Unequip':
+        // TODO
+        // Refactor 'right_hand' to all slots.
+        if (this.clickedOn('slot')) {
+          if (Actions.hasProp(this.miscData, 'slot')) {
+            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].itemID);
+            this.objectId = itemData;
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Unequip <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                type: 'item',
+                miscData: this.miscData,
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
+          }
+        }
+        break;
+
+      case 'Walk here':
+        items.push({
+          action: {
+            name: 'walk-here',
+          },
+          label: 'Walk here',
+        });
+
+        break;
 
       // eslint-disable-next-line no-case-declarations
       case 'Examine':
-        getNPCs.forEach((npc) => {
-          if (npc.actions.includes(action.toLowerCase())) {
-            const object = {
-              label: `${action} <span style='color:${this.color}'>${npc.name}</span>`,
-              action,
-              type: 'npc',
-              id: npc.id,
-            };
 
-            items.push(object);
+        if (this.clickedOn('gameMap')) {
+          getNPCs.forEach((npc) => {
+            if (npc.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Examine <span style='color:${this.color}'>${npc.name}</span>`,
+                action,
+                examine: npc.examine,
+                type: 'npc',
+                id: npc.id,
+              };
+
+              items.push(object);
+            }
+          });
+
+          getItems.forEach((item) => {
+            const itemData = Object.assign(item, UI.getItemData(item.id));
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                examine: itemData.examine,
+                type: 'item',
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
+          });
+        }
+
+        if (this.clickedOn('inventorySlot')) {
+          if (Actions.hasProp(this.miscData, 'slot')) {
+            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            this.objectId = itemData;
+
+            if (itemData.actions.includes(action.name.toLowerCase())) {
+              const object = {
+                label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
+                action,
+                examine: itemData.examine,
+                type: 'item',
+                id: itemData.id,
+              };
+
+              items.push(object);
+            }
           }
-        });
-
-        getItems.forEach((item) => {
-          const itemData = Object.assign(item, UI.getItemData(item.id));
-
-          if (itemData.actions.includes(action.toLowerCase())) {
-            const object = {
-              label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
-              action,
-              type: 'item',
-              id: itemData.id,
-            };
-
-            items.push(object);
-          }
-        });
-
-        return items;
+        }
+        break;
     }
+
+    return items;
   }
 
   /**
@@ -203,11 +335,31 @@ class Actions {
    *
    * @returns {array}
    */
-  static list() {
-    return [
-      'Take',
-      'Examine',
-    ];
+  generateList() {
+    const list = actionList;
+
+    return list.filter(a => a.context.some(b => [...this.event.target.classList].includes(b)));
+  }
+
+  /**
+   * See if the action allows to be clicked on from an appropriate class
+   *
+   * @param {object} target The element we are clicking on
+   * @returns {boolean}
+   */
+  clickedOn(target) {
+    return this.event.target.className.includes(target);
+  }
+
+  /**
+   * See if incoming data has a certain object data
+   *
+   * @param {string} object The payload of the incoming menu item
+   * @param {string} name The name of the objeect property we check for
+   * @returns {boolean}
+   */
+  static hasProp(object, name) {
+    return Object.prototype.hasOwnProperty.call(object, name);
   }
 }
 

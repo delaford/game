@@ -50,6 +50,51 @@ const handler = {
     const playerIndex = context.game.map.players.findIndex(p => data.data === p.uuid);
     context.game.map.players.splice(playerIndex, 1);
   },
+
+  /**
+   * A player picks up or drops an item
+   */
+  'item:change': (data, context) => {
+    context.game.map.droppedItems = data.data;
+  },
+
+  /**
+   * A player recieves an item in their inventory
+   */
+  'item:pickup': (data, context) => {
+    console.log('player picked up item');
+
+    if (data.data.player.socket_id === context.game.player.socket_id) {
+      context.game.player.inventory = data.data.data;
+    }
+  },
+
+  /**
+   * The world receives an updated dropped items list
+   */
+  'world:itemDropped': (data, context) => {
+    context.game.map.droppedItems = data.data;
+  },
+
+  /**
+   * A player equips an item
+   */
+  'player:equippedAnItem': (data, context) => {
+    if (data.data.uuid === context.game.player.uuid) {
+      context.game.player.inventory = data.data.inventory;
+      context.game.player.wear = data.data.wear;
+    }
+  },
+
+  /**
+   * A player unequips an item
+   */
+  'player:unequippedAnItem': (data, context) => {
+    if (data.data.uuid === context.game.player.uuid) {
+      context.game.player.inventory = data.data.inventory;
+      context.game.player.wear = data.data.wear;
+    }
+  },
 };
 
 export default handler;

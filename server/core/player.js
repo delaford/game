@@ -7,6 +7,12 @@ const UI = require('./utilities/ui');
 const axios = require('axios');
 const Socket = require('../socket');
 
+const itemsDB = require('../data/items');
+
+const database = {
+  items: itemsDB,
+};
+
 class Player {
   constructor(data, token, socketId) {
     // Main statistics
@@ -47,6 +53,12 @@ class Player {
       },
     };
 
+    // Action queue
+    this.queue = [];
+
+    // Player inventory
+    this.inventory = [];
+
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
   }
 
@@ -54,7 +66,6 @@ class Player {
    * Move the player in a direction per a tile
    *
    * @param {string} direction The direction which the player is moving
-   * @param {object} map The map method associated with player
    * @param {boolean} pathfind Whether pathfinding is being used to move player
    */
   move(direction, pathfind = false) {
@@ -111,6 +122,40 @@ class Player {
         // when our pathfinding first started, so we keep going.
 
         if ((path.current.step + 1) === path.current.path.walking.length) {
+          // If they queue is not empty
+          // lets do it after destination is reached
+          if (!Player.queueEmpty(playerIndex)) {
+            const todo = world.players[playerIndex].queue[0];
+
+            if (todo.action.name === 'Take') {
+              // eslint-disable-next-line
+              const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y));
+              world.items.splice(itemToTake, 1);
+
+              Socket.broadcast('item:change', world.items);
+
+              const getItem = database.items.find(e => e.id === todo.item);
+
+              const item = {
+                stackable: getItem.stackable,
+                graphics: getItem.graphics,
+                itemID: getItem.id,
+              };
+
+              world.players[playerIndex].inventory.push(item);
+
+              const data = {
+                player: { socket_id: world.players[playerIndex].socket_id },
+                data: world.players[playerIndex].inventory,
+              };
+
+              // Tell client to update their inventory
+              Socket.emit('item:pickup', data);
+            }
+
+            this.queue.shift();
+          }
+
           this.stopMovement();
         } else {
           const steps = {
@@ -130,10 +175,8 @@ class Player {
 
           const playerChanging = world.players[playerIndex];
           world.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              if (world.bus) {
-                Socket.broadcast('player:movement', playerChanging);
-              }
+            if ((client.readyState === WebSocket.OPEN) && world.bus) {
+              Socket.broadcast('player:movement', playerChanging);
             }
           });
 
@@ -152,7 +195,6 @@ class Player {
    */
   stopMovement() {
     this.moving = false;
-    // bus.$emit('PLAYER:STOP_MOVEMENT');
   }
 
   /**
@@ -202,6 +244,15 @@ class Player {
    */
   do(item) {
     console.log(this.x, this.y, `Doing ${item}`);
+  }
+
+  /**
+   * Checks if player queue is  empty
+   *
+   * @returns {boolean}
+   */
+  static queueEmpty(playerIndex) {
+    return world.players[playerIndex].queue.length === 0;
   }
 
   /**
