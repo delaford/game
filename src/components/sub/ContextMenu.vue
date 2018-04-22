@@ -6,13 +6,12 @@
         @blur="closeMenu"
         id="actions"
         tabindex="-1">
-          <li class="action" @click="selectAction($event, { action: 'walk-here' })">Walk here</li>
           <li class="action"
             v-for="(item, index) in items"
             :key="index"
             @click="selectAction($event, item)"
             v-html="item.label"></li>
-          <li class="action" @click="selectAction($event, { action: 'cancel' })">Cancel</li>
+          <li class="action" @click="selectAction($event, { action: { name: 'cancel'} })">Cancel</li>
       </ul>
   </div>
 </template>
@@ -30,6 +29,7 @@ export default {
     return {
       actions: {},
       view: false,
+      onMap: false,
       tile: {
         x: null,
         y: null,
@@ -47,13 +47,23 @@ export default {
      * @param {event} event The mouse-click event
      * @param {string} item The menu item selected
      */
-    selectAction(event, item) {
+    async selectAction(event, item) {
+      // Data to perform action
       const data = {
         item,
         tile: this.tile,
       };
 
-      this.actions.do(data);
+      // Data for queued action
+      const queueItem = {
+        item: item.id,
+        tile: this.tile,
+        action: item.action,
+        at: item.at || false,
+        coordinate: 2,
+      };
+
+      this.actions.do(data, queueItem);
 
       this.closeMenu();
 
@@ -76,6 +86,7 @@ export default {
      */
     closeMenu() {
       this.view = false;
+      this.onMap = false;
     },
     /**
      * Generates the list of selectable items on context-menu
@@ -86,17 +97,23 @@ export default {
       this.tile.x = data.coordinates.x;
       this.tile.y = data.coordinates.y;
 
-      this.actions = new Actions(this.game, this.tile);
+      const miscData = window._.omit({ ...data }, ['coordinates', 'event', 'target']);
+
+      this.actions = new Actions(this.game, this.tile, data.event, miscData);
       this.items = await this.actions.build();
 
       this.view = true;
 
-      this.$nextTick(
-        () => {
+      const targetElement = data.target.className;
+
+      this.$nextTick(() => {
+        if (targetElement.includes('gameMap')) {
           this.$refs.right.focus();
-          this.setMenu(data.event.x, data.event.y);
-        },
-      );
+          this.onMap = true;
+        }
+
+        this.setMenu(data.event.x, data.event.y);
+      });
     },
     /**
      * Incase we click on the context menu with anything but a left-click
@@ -113,8 +130,10 @@ export default {
 <style lang="scss" scoped>
 $menu_bg_color: #8d8d8d;
 $menu_font_color: #fff;
-$menu_width: 195px;
+$menu_min_width: 100px;
+$menu_max_width: 195px;
 $menu_font_hover_color: #ffd829;
+
 div {
   position: absolute;
   z-index: 99999999;
@@ -128,7 +147,8 @@ div {
     list-style: none;
     margin: 0;
     padding: 0 0 3px 0;
-    width: $menu_width;
+    max-width: $menu_max_width;
+    min-width: $menu_min_width;
     font-size: 12px;
     z-index: 999999;
 

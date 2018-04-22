@@ -3,8 +3,9 @@
     <div class="top_slots">
       <div
         v-for="(slot, i) in slots"
-        class="slot"
+        class="slot inventorySlot"
         v-if="i < 3"
+        :key="i"
         :class="{active: selected === i}"
         @click="setPane($event, i)">
           <img :src="svg[slot.toLowerCase()]" :alt="slot">
@@ -26,8 +27,9 @@
         v-for="(slot, i) in slots"
         class="slot"
         v-if="i > 2"
+        :key="i"
         :class="{active: selected === i}"
-        @click="setPane($event, i)">
+        @click="setPane(i)">
           <img :src="svg[slot.toLowerCase()]" :alt="slot">
       </div>
     </div>
@@ -56,9 +58,20 @@ export default {
     Inventory, Stats, FriendList, Logout, Quests, Settings, Wear,
   },
   methods: {
+    /**
+     * Switch to the correct pane upon mouse-click
+     *
+     * @param {index} index The pane to switch to
+     */
     setPane(event, index) {
       this.selected = index;
     },
+    /**
+     * Get the correct SVG icon to show as the pane header
+     *
+     * @param {string} icon The pane icon name
+     * @returns {string}
+     */
     svgPath(icon) {
       return `./src/assets/graphics/ui/client/slots/${icon}.svg`;
     },

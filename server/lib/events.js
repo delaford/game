@@ -4,6 +4,10 @@ const world = require('../core/world');
 const Socket = require('../socket');
 const Map = require('./../core/map');
 
+const items = require('../data/items');
+
+const emoji = require('node-emoji');
+
 /**
  * A global event handler (RPC)
  *
@@ -33,6 +37,9 @@ const handler = {
   'player:say': (data) => {
     const playerChat = world.players.find(p => p.socket_id === data.data.id);
     data.data.username = playerChat.username;
+
+    console.log(`${emoji.get('speech_balloon')}  ${playerChat.username}: ${data.data.said}`);
+
     Socket.broadcast('player:say', data.data, 10);
   },
 
@@ -61,6 +68,67 @@ const handler = {
     world.players[playerIndexMoveTo].path.current.walkable = true;
 
     Map.findPath(movingData.id, x, y);
+  },
+
+  /**
+   * Queue up an player action to executed they reach their destination
+   */
+  'player:queueAction': (data) => {
+    const playerIndex = world.players.findIndex(p => p.socket_id === data.data.player.socket_id);
+
+    world.players[playerIndex].queue.push(data.data);
+  },
+
+  'player:inventoryItemDrop': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    world.players[playerIndex].inventory = world.players[playerIndex].inventory
+                                              .filter((_, i) => i !== data.data.slot);
+    Socket.broadcast('player:movement', world.players[playerIndex]);
+
+    world.items.push({
+      id: data.data.droppingItem,
+      x: world.players[playerIndex].x,
+      y: world.players[playerIndex].y,
+    });
+
+    Socket.broadcast('world:itemDropped', world.items);
+  },
+
+  /**
+   * A player equips an item from their inventory
+   */
+  'item:equip': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const getItem = items.find(i => i.id === data.data.item);
+
+    const item = {
+      stackable: getItem.stackable,
+      graphics: getItem.graphics,
+      itemID: getItem.id,
+    };
+
+    world.players[playerIndex].wear[getItem.slot] = item;
+    world.players[playerIndex].inventory.splice(data.data.slot, 1);
+
+    Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
+  },
+
+  /**
+   * A player unequips an item from their wear tab
+   */
+  'item:unequip': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const getItem = items.find(i => i.id === data.data.item);
+
+    const item = {
+      stackable: getItem.stackable,
+      graphics: getItem.graphics,
+      itemID: getItem.id,
+    };
+
+    world.players[playerIndex].wear[getItem.slot] = null;
+    world.players[playerIndex].inventory.push(item);
+    Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
   },
 };
 
