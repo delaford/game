@@ -78,25 +78,29 @@ Please check out our [CONTRIBUTING.md](https://github.com/Navarra/game/blob/mast
 
 Here are the types of things I will be adding as a minimum viable product (alpha). Not too over the top but enough to cover the basics until more is added. Each section links to a project which will contain its sub-tasks within.
 
+### What does a checkmark mean?
+
+When an item is checkmarked, it means the basic foundation is in place. Sometimes, however, it is not fully complete. For example, Inventory is checkmarked but the inventory currently only supports weapons. You cna help fix that.
+
 - [Player](https://github.com/Navarra/game/projects/1)
   - [x] Walking / pathfinding
   - [x] Context-menu / Actions
   - [X] Health and stats
-  - [ ] Inventory
+  - [x] Inventory
   - [X] Character wear
   - [ ] Your first quest
 - [User Interface](https://github.com/Navarra/game/projects/2)
   - [x] Inventory tab
   - [ ] Quests tab
   - [x] Chatbox (for players and actions)
-  - [ ] Character wear tab
+  - [x] Character wear tab
   - [x] Overall look &amp; feel
   - [x] Basic view of main player stats
 - [NPC](https://github.com/Navarra/game/projects/3)
   - [ ] Trading
   - [x] Walking around
   - [x] Talking
-  - [ ] Examine
+  - [X] Examine
 - [Monsters](https://github.com/Navarra/game/projects/3)
   - [ ] Battle System
   - [ ] Looting
