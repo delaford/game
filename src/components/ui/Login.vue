@@ -20,11 +20,15 @@ import Socket from '../../core/utilities/socket';
 
 export default {
   methods: {
-    //Cancels login on button click
+    /**
+     * Cancels login and goes back to main
+     */
     cancel() {
       bus.$emit('go:main');
     },
-    // Send login request to server.
+    /**
+     * Send login request to server.
+     */
     login() {
       const data = { username: this.username, password: this.password };
 
