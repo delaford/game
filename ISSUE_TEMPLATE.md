@@ -10,5 +10,3 @@
 **What is the expected behavior?**
 
 **If this is a feature request, what is motivation or use case for changing the behavior?**
-
-**What is your browser and operating system?**
