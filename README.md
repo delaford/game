@@ -19,7 +19,7 @@
 
 ### 1. Website
 
-First, using your terminal or Sequel Pro or PHPMyAdmin (or whatever), create your `MySQL` database.
+First, using your terminal or Sequel Pro or PHPMyAdmin, create your `MySQL` database. Easy peasy.
 
 Secondly, in your terminal, make a new directory called `navarra` and type the following:
 
@@ -110,9 +110,9 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [X] Monsters/NPCs and items register on the map
   - [ ] Minor networking tweaks / alpha-stage
 
-Once all of these items are checked, Navarra will be stable. (hopefully)
+Once all of these items are checked, Navarra will be stable without breaking changes.
 
-## What's this for?
+## Why are you making yet another game?
 
 I've been wanting to make a Medieval-themed game for a while now with a old-school feel. Also, I wanted it to be multiplayer where players can connect and see each other. Maybe you want to train Mining and then maybe later Smithing? Yep. A neat PvE system? Yep.
 
@@ -120,7 +120,7 @@ An open-source environment, I hope, cultivates learning, sharing and developing 
 
 I also hope to learn on topics such as collaboration (in an open-source world) where I develop my own DevOps skills wherein project standards are not only made but kept through the power of CI/CD.
 
-Lastly, this game will give me a great reason to try out `D3` and make cool data viz graphs in the `Navarra/website` section. You want to see cool graphs regarding your player? You're gonna get it. Or, help contribute!
+Lastly, this game will give me a great reason to try out `D3` and make cool data viz graphs in the `Navarra/website` section. You want to see cool graphs regarding your player? You're gonna get it. Or you can help contribute!
 
 ## Notice
 
