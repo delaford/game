@@ -84,10 +84,10 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
 
 - [Player](https://github.com/Navarra/game/projects/1)
   - [x] Walking / pathfinding
-  - [x] Context-menu / Actions
-  - [X] Health and stats
-  - [x] Inventory
-  - [X] Character wear
+  - [ ] Context-menu / Actions*
+  - [ ] Health and stats
+  - [ ] Inventory*
+  - [ ] Character wear*
   - [ ] Your first quest
 - [User Interface](https://github.com/Navarra/game/projects/2)
   - [x] Inventory tab
@@ -95,22 +95,31 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [x] Chatbox (for players and actions)
   - [x] Character wear tab
   - [x] Overall look &amp; feel
-  - [x] Basic view of main player stats
 - [NPC](https://github.com/Navarra/game/projects/3)
   - [ ] Trading
   - [x] Walking around
   - [x] Talking
-  - [X] Examine
+  - [ ] Examine
 - [Monsters](https://github.com/Navarra/game/projects/3)
   - [ ] Battle System
   - [ ] Looting
   - [ ] Spawning
 - [Networking](https://github.com/Navarra/game/projects/5)
-  - [X] Players connect to a game world
-  - [X] Monsters/NPCs and items register on the map
+  - [X] Player connect to server
+  - [X] Non-playable characters
+  - [ ] Monsters
+  - [X] Items
   - [ ] Minor networking tweaks / alpha-stage
+  
+*
 
 Once all of these items are checked, Navarra will be stable without breaking changes.
+
+## Debugging
+
+Learning how to debug in this game is critical in order to interact with the Node.js server and to the client. Your primary source should be the [ndb](https://github.com/GoogleChromeLabs/ndb) tool from Google. It is an improved debugging experience witch __drastically__ improved client-side debugging.
+
+Read more at [DEBUGGING.md](debugging.md).
 
 ## Why are you making yet another game?
 
