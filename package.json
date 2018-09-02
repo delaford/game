@@ -12,7 +12,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js",
     "format": "eslint --fix",
-    "server": "./node_modules/.bin/nodemon start server",
+    "server": "./node_modules/.bin/nodemon server",
     "server_debug": "./node_modules/.bin/ndb server"
   },
   "dependencies": {
