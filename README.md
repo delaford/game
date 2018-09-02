@@ -111,7 +111,7 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [X] Items
   - [ ] Minor networking tweaks / alpha-stage
   
-*
+> Items marked with an asterisk (*) are started but have not been finalized or finished.
 
 Once all of these items are checked, Navarra will be stable without breaking changes.
 
