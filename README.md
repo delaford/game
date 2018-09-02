@@ -64,9 +64,9 @@ You should now have two folders under `navarra`:
 
 Now go to `.env` and fill out the `SITE_URL` with the URL of the website you setup previously. Then make sure to fill the database credentials as well inside `.env`.
 
-Time to start the `Node.js` server -- type: `yarn server`. This starts the server under the `pm2` module which keeps track of logs, monitor and more.
+Time to start the `Node.js` server -- type: `yarn server`. This starts the server under the `nodemon` module which restarts the server upon code changes on the the server.
 
-> You can use `nodemon` instead of `pm2` to restart the server automatically on code changes by doing `yarn dev_server`
+> For debugging, you can do `yarn server_debug` and then run the script 'yarn server' within that.
 
 Now you may visit `http://localhost:8080` to login to the game using your newly-created player.
 
@@ -110,7 +110,7 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [ ] Monsters
   - [X] Items
   - [ ] Minor networking tweaks / alpha-stage
-  
+
 > Items marked with an asterisk (*) are started but have not been finalized or finished.
 
 Once all of these items are checked, Navarra will be stable without breaking changes.
