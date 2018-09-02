@@ -29,7 +29,7 @@
         v-if="i > 2"
         :key="i"
         :class="{active: selected === i}"
-        @click="setPane(i)">
+        @click="setPane($event, i)">
           <img :src="svg[slot.toLowerCase()]" :alt="slot">
       </div>
     </div>

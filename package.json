@@ -17,9 +17,10 @@
   },
   "dependencies": {
     "express": "^4.16.2",
+    "ndb": "^1.0.24",
     "pm2": "^2.10.1",
     "vue": "^2.5.2",
-    "ws": "^4.0.0"
+    "ws": "^6.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.5",
