@@ -10,7 +10,7 @@
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "build": "node build/build.js && npm run server",
+    "build": "node build/build.js && yarn server_dev",
     "format": "eslint --fix",
     "server_dev": "./node_modules/.bin/nodemon server",
     "server_debug": "./node_modules/.bin/ndb server",
