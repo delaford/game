@@ -234,6 +234,7 @@ export default {
     padding: 5px;
     display: grid;
     grid-template-columns: 512px auto;
+    border-radius: 5px;
     div.right {
       display: flex;
       flex-direction: column;

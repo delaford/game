@@ -12,12 +12,15 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js && npm run server",
     "format": "eslint --fix",
-    "server": "./node_modules/.bin/nodemon server",
-    "server_debug": "./node_modules/.bin/ndb server"
+    "server_dev": "./node_modules/.bin/nodemon server",
+    "server_debug": "./node_modules/.bin/ndb server",
+    "server_prod": "./node_modules/.bin/pm2 start server",
+    "server_prod_restart": "./node_modules/.bin/pm2 restart all"
   },
   "dependencies": {
     "express": "^4.16.2",
     "ndb": "^1.0.24",
+    "pm2": "^3.0.4",
     "vue": "^2.5.2",
     "ws": "^6.0.0"
   },

@@ -118,6 +118,7 @@ div.game {
   height: 352px;
   margin-bottom: 5px;
   canvas.main-canvas {
+    border-top-left-radius: 3px;
     height: 352px;
     background: #fff;
     outline: none;
