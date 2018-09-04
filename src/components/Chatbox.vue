@@ -1,7 +1,7 @@
 <template>
     <div class="chatbox">
       <div readonly id="chat">
-        <div v-for="(chat, i) in chatbox" class="message" v-html="showChatMessage(chat)"></div>
+        <div v-for="(chat, i) in chatbox" v-bind:key="i" class="message" v-html="showChatMessage(chat)"></div>
       </div>
 
       <input autocomplete="off" @keydown.enter="sendMessage" maxlength="50" v-model="said" type="text" class="typing">
@@ -182,6 +182,7 @@ $default_color: #383838;
     box-sizing: border-box;
     outline: none;
     font-size: 13px;
+    border-bottom-left-radius: 3px;
   }
 }
 </style>

@@ -118,6 +118,11 @@ div.slots {
   div.bottom_slots {
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
+    background: #ababab;
+
+    div:last-child {
+      border-bottom-right-radius: 3px;
+    }
   }
 
   div.top_slots,
