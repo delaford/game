@@ -101,6 +101,7 @@ export default {
 
       this.actions = new Actions(this.game, this.tile, data.event, miscData);
       this.items = await this.actions.build();
+      this.items = this.items.sort((a, b) => a.action.weight - b.action.weight);
 
       this.view = true;
 
