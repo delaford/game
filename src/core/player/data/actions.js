@@ -18,14 +18,14 @@ const actionList = [
     context: ['gameMap', 'inventorySlot'],
     allow: ['npc', 'item'],
     nearby: false,
-    weight: 10,
+    weight: 5,
   },
   {
     name: 'Drop',
     context: ['inventorySlot'],
     allow: ['item'],
     nearby: false,
-    weight: 5,
+    weight: 99,
   },
   {
     name: 'Equip',
