@@ -38,7 +38,7 @@ export default {
      * Send login request to server.
      */
     login() {
-      this.invalid = true;
+      this.invalid = false;
       const data = { username: this.username, password: this.password };
 
       Socket.emit('player:login', data);
@@ -56,8 +56,8 @@ export default {
   data() {
     return {
       invalid: false,
-      username: 'test',
-      password: 'dsadsa',
+      username: '',
+      password: '',
     };
   },
 };
