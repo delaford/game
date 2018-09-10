@@ -17,6 +17,11 @@ class UI {
     };
   }
 
+  /**
+   * Get the correct color to label the context subject
+   *
+   * @param {string} data Incoming context type
+   */
   static getContextSubjectColor(data) {
     if (data === 'npc') {
       return map.color.npc;
