@@ -20,8 +20,12 @@ const handler = {
    * A player logins into the game
    */
   'player:login': async (data, ws) => {
-    const { player, token } = await Authentication.login(data);
-    Authentication.addPlayer(new Player(player, token, ws.id));
+    try {
+      const { player, token } = await Authentication.login(data);
+      Authentication.addPlayer(new Player(player, token, ws.id));
+    } catch (e) {
+      Socket.emit('player:login-error', e);
+    }
   },
 
   /**

@@ -1,10 +1,14 @@
 <template>
   <div class="form">
     <div class="inputs">
-      <form action="" autocomplete="off">
+      <form action="" autocomplete="off" :class="{ hasErrors: invalid }">
         <input placeholder="Username" type="text" class="username" v-model="username" autocorrect="off" autofocus spellcheck="false" autocomplete="off">
         <input placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
       </form>
+
+      <div v-if="invalid" class="error_message">
+        Incorrect login. Please try again.
+      </div>
     </div>
 
     <div class="action_buttons">
@@ -19,6 +23,10 @@ import bus from '../../core/utilities/bus';
 import Socket from '../../core/utilities/socket';
 
 export default {
+  created() {
+    this.invalid = false;
+    bus.$on('player:login-error', data => this.incorrectLogin(data));
+  },
   methods: {
     /**
      * Cancels login and goes back to main
@@ -30,15 +38,26 @@ export default {
      * Send login request to server.
      */
     login() {
+      this.invalid = true;
       const data = { username: this.username, password: this.password };
 
       Socket.emit('player:login', data);
     },
+    /**
+     * Displays when a user login is invalid
+     *
+     * @param  {object} data The return object with data
+     */
+    incorrectLogin(data) {
+      this.invalid = true;
+      console.log(data);
+    },
   },
   data() {
     return {
-      username: '',
-      password: '',
+      invalid: false,
+      username: 'test',
+      password: 'dsadsa',
     };
   },
 };
@@ -67,15 +86,34 @@ div.form {
       font-family: "ChatFont";
       text-shadow: 1px 1px 0 #000;
 
+      &:last-child {
+        margin-bottom: 0;
+      }
+
       &:focus {
         background: rgba(255, 255, 255, 0.2);
       }
     }
   }
 
+  form.hasErrors {
+    input {
+      background:rgba(255, 0, 0, .5);
+      border-bottom-color: rgba(255, 0, 0, .7);
+    }
+  }
+
+  .error_message {
+    margin-top: 1em;
+    background: #F44336;
+    padding: .25em 0;
+    color: #FAFAFA;
+  }
+
   .action_buttons {
     display: inline-flex;
     width: 100%;
+    margin-top: 1em;
     justify-content: space-between;
 
     button {
