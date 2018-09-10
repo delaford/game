@@ -28,8 +28,6 @@ class Actions {
       y: (this.player.y - map.player.y) + this.clicked.y,
     };
 
-    // this.color = config.map.color.item;
-
     this.playerCoordinates = {
       x: this.player.x,
       y: this.player.y,
@@ -170,7 +168,6 @@ class Actions {
     // eslint-disable-next-line
     const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
 
-
     switch (action.name) {
       default:
         return false;
@@ -178,10 +175,11 @@ class Actions {
       case 'Take':
         getItems.forEach((item) => {
           const itemData = Object.assign(item, UI.getItemData(item.id));
+          const color = UI.getContextSubjectColor('item');
 
           if (itemData.actions.includes(action.name.toLowerCase())) {
             const object = {
-              label: `Take <span style='color:${this.color}'>${itemData.name}</span>`,
+              label: `Take <span style='color:${color}'>${itemData.name}</span>`,
               action,
               type: 'item',
               at: {
@@ -201,10 +199,11 @@ class Actions {
           if (Actions.hasProp(this.miscData, 'slot')) {
             const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
             this.objectId = itemData;
+            const color = UI.getContextSubjectColor('item');
 
             if (itemData.actions.includes(action.name.toLowerCase())) {
               const object = {
-                label: `Drop <span style='color:${this.color}'>${itemData.name}</span>`,
+                label: `Drop <span style='color:${color}'>${itemData.name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,
@@ -222,10 +221,11 @@ class Actions {
           if (Actions.hasProp(this.miscData, 'slot')) {
             const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
             this.objectId = itemData;
+            const color = UI.getContextSubjectColor('item');
 
             if (itemData.actions.includes(action.name.toLowerCase())) {
               const object = {
-                label: `Equip <span style='color:${this.color}'>${itemData.name}</span>`,
+                label: `Equip <span style='color:${color}'>${itemData.name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,
@@ -245,10 +245,11 @@ class Actions {
           if (Actions.hasProp(this.miscData, 'slot')) {
             const itemData = UI.getItemData(this.player.wear[this.miscData.slot].itemID);
             this.objectId = itemData;
+            const color = UI.getContextSubjectColor('item');
 
             if (itemData.actions.includes(action.name.toLowerCase())) {
               const object = {
-                label: `Unequip <span style='color:${this.color}'>${itemData.name}</span>`,
+                label: `Unequip <span style='color:${color}'>${itemData.name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,
@@ -277,8 +278,9 @@ class Actions {
         if (this.clickedOn('gameMap')) {
           getNPCs.forEach((npc) => {
             if (npc.actions.includes(action.name.toLowerCase())) {
+              const color = UI.getContextSubjectColor('npc');
               const object = {
-                label: `Examine <span style='color:${this.color}'>${npc.name}</span>`,
+                label: `Examine <span style='color:${color}'>${npc.name}</span>`,
                 action,
                 examine: npc.examine,
                 type: 'npc',
@@ -291,10 +293,11 @@ class Actions {
 
           getItems.forEach((item) => {
             const itemData = Object.assign(item, UI.getItemData(item.id));
+            const color = UI.getContextSubjectColor('item');
 
             if (itemData.actions.includes(action.name.toLowerCase())) {
               const object = {
-                label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
+                label: `Examine <span style='color:${color}'>${itemData.name}</span>`,
                 action,
                 examine: itemData.examine,
                 type: 'item',
@@ -310,10 +313,11 @@ class Actions {
           if (Actions.hasProp(this.miscData, 'slot')) {
             const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
             this.objectId = itemData;
+            const color = UI.getContextSubjectColor('item');
 
             if (itemData.actions.includes(action.name.toLowerCase())) {
               const object = {
-                label: `Examine <span style='color:${this.color}'>${itemData.name}</span>`,
+                label: `Examine <span style='color:${color}'>${itemData.name}</span>`,
                 action,
                 examine: itemData.examine,
                 type: 'item',
