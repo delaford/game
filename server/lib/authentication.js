@@ -10,8 +10,10 @@ class Authentication {
    * @returns {object} Their player profile and token
    */
   static async login(data) {
-    return new Promise(async (resolve) => {
-      const token = await Authentication.getToken(data.data);
+    return new Promise(async (resolve, reject) => {
+      const token = await Authentication.getToken(data.data).catch((error) => {
+        reject(error);
+      });
       const player = await Authentication.getProfile(token);
 
       resolve({ player, token });
@@ -26,10 +28,18 @@ class Authentication {
   static getToken(data) {
     const url = `${process.env.SITE_URL}/api/auth/login`;
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       axios
         .post(url, data)
-        .then(r => resolve(r.data.access_token));
+        .then((r) => {
+          resolve(r.data.access_token);
+        })
+        .catch(() => {
+          reject({
+            error: 401,
+            message: 'Username and password are incorrect.',
+          });
+        });
     });
   }
 

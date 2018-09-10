@@ -15,6 +15,12 @@ const handler = {
     context.startGame(data.data);
   },
   /**
+   * A player logins into the game
+   */
+  'player:login-error': (data) => {
+    bus.$emit('player:login-error', data.data);
+  },
+  /**
    * When a player moves.
    */
   'player:movement': (data, context) => {

@@ -19,7 +19,14 @@ class Socket {
       data,
     };
 
-    const player = world.clients.find(p => p.id === data.player.socket_id);
+    const player = world.clients.find((p) => {
+      let transitiveID = p.id;
+      if (data.player) {
+        transitiveID = data.player.socket_id;
+      }
+
+      return p.id === transitiveID;
+    });
 
     player.send(JSON.stringify(obj));
   }
