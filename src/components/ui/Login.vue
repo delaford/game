@@ -56,8 +56,8 @@ export default {
   data() {
     return {
       invalid: false,
-      username: '',
-      password: '',
+      username: 'dan',
+      password: 'soccer',
     };
   },
 };

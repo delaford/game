@@ -17,6 +17,15 @@ class UI {
     };
   }
 
+  static getContextSubjectColor(data) {
+    if (data === 'npc') {
+      return map.color.npc;
+    } else if (data === 'item') {
+      return map.color.item;
+    }
+    return 'inherit';
+  }
+
   /**
    * Gets the current tile ID where the mouse is currently hovering over on the canvas
    *
