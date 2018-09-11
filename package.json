@@ -23,7 +23,9 @@
     "ndb": "^1.0.24",
     "pm2": "^3.0.4",
     "vue": "^2.5.2",
-    "ws": "^6.0.0"
+    "ws": "^6.0.0",
+    "node-emoji": "^1.8.1",
+    "node-uuid": "^1.4.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.5",
@@ -56,10 +58,8 @@
     "jest": "^21.2.0",
     "jest-serializer-vue": "^0.3.0",
     "lodash": "^4.17.4",
-    "node-emoji": "^1.8.1",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.7.2",
-    "node-uuid": "^1.4.8",
     "nodemon": "^1.17.1",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
