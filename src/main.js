@@ -13,10 +13,10 @@ if ('WebSocket' in window) {
   const port = hostname.includes('localhost') ? ':9000' : '';
   const base = tls === 'ws' ? `localhost${port}` : (`${wsHost}/ws`);
   const connectionURI = `${tls}://${base}`;
-  if (process.env.NODE_ENV !== 'production') {
-    window.ws = new WebSocket(connectionURI);
+  if (window.location.href.includes('.com')) {
+    window.ws = new WebSocket('wss://play.navarra-rpg.com');
   } else {
-    window.ws = new WebSocket(`${wsHost}/ws`);
+    window.ws = new WebSocket(connectionURI);
   }
 }
 
