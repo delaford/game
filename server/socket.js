@@ -1,9 +1,9 @@
-const WebSocket = require('ws');
+const WebSocket = require('ws').Server;
 const world = require('./core/world');
 
 class Socket {
   constructor(port) {
-    this.ws = new WebSocket('wss://navarra.herokuapp.com');
+    this.ws = new WebSocket({ port });
     this.clients = world.clients;
   }
 
