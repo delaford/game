@@ -20,7 +20,7 @@ const CONSTANTS = {
     socket: onProduction ? 8443 : 9000,
   },
   root: {
-    folder: onProduction ? 'dist' : '/'
+    folder: onProduction ? '/dist' : '/'
   }
 };
 
