@@ -12,6 +12,9 @@ const path = require('path');
 const app = express();
 const onProduction = process.env.PRODUCTION === 'production'; // Accomodate process.env and eqeqeq eslint rule
 
+const host = '0.0.0.0';
+const port = process.env.PORT || 4000;
+
 // Define express and socket port
 const CONSTANTS = {
   port: {
@@ -25,8 +28,8 @@ const CONSTANTS = {
 
 //Start Express and use the correct env.
 app.use('/', express.static(path.join(__dirname, CONSTANTS.root.folder)))
-const server = app.listen(process.env.PORT, 'localhost');
-console.log(`Starting web on port ${process.env.PORT}`);
+const server = app.listen(port, host);
+console.log(`Starting web on port ${port}`);
 
 // Actual game server
 const Navarra = require('./server/Navarra');
