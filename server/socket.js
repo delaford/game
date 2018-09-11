@@ -1,4 +1,4 @@
-const WebSocket = require('ws').Server;
+const WebSocket = require('ws');
 const world = require('./core/world');
 
 class Socket {
