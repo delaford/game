@@ -14,7 +14,7 @@ if ('WebSocket' in window) {
   const base = tls === 'ws' ? `localhost${port}` : (`${wsHost}/ws`);
   const connectionURI = `${tls}://${base}`;
   if (window.location.href.includes('.com')) {
-    window.ws = new WebSocket('wss://navarra.herokuapp.com');
+    window.ws = new WebSocket('wss://navarra.herokuapp.com:8443');
   } else {
     window.ws = new WebSocket(connectionURI);
   }
