@@ -9,7 +9,6 @@
 // Start Express
 const express = require('express');
 const path = require('path');
-require('dotenv').config();
 const app = express();
 const onProduction = process.env.PRODUCTION === 'production'; // Accomodate process.env and eqeqeq eslint rule
 
