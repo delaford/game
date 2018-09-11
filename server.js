@@ -10,7 +10,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const onProduction = process.env.PRODUCTION === 'production'; // Accomodate process.env and eqeqeq eslint rule
+const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
 
 const host = '0.0.0.0';
 const port = process.env.PORT || 4000;
