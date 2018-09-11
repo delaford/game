@@ -1,1 +1,1 @@
-web: ./node_modules/.bin/nodemon server
+web: node server.js
