@@ -3,7 +3,7 @@ const world = require('./core/world');
 
 class Socket {
   constructor(port) {
-    this.ws = new WebSocket();
+    this.ws = new WebSocket({ server: 'wss://navarra.herokuapp.com' });
     this.clients = world.clients;
   }
 
