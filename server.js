@@ -25,7 +25,7 @@ const CONSTANTS = {
 
 //Start Express and use the correct env.
 app.use('/', express.static(path.join(__dirname, CONSTANTS.root.folder)))
-const server = app.listen(CONSTANTS.port.express, '127.0.0.1');
+const server = app.listen(process.env.PORT || 5000, '127.0.0.1');
 console.log(`Starting web on port ${CONSTANTS.port.express}`);
 
 // Actual game server
