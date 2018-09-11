@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "build": "node build/build.js",
     "format": "eslint --fix",
-    "server_dev": "set SITE_URL=http://website.test && ./node_modules/.bin/nodemon server",
+    "server_dev": "./node_modules/.bin/nodemon server",
     "server_debug": "./node_modules/.bin/ndb server",
     "server_prod": "./node_modules/.bin/pm2 start server",
     "server_prod_restart": "./node_modules/.bin/pm2 restart all"
@@ -86,6 +86,11 @@
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
+  },
+  "nodemonConfig": {
+    "env": {
+      "SITE_URL": "http://website.test"
+    }
   },
   "browserslist": [
     "> 1%",
