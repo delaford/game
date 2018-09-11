@@ -29,7 +29,8 @@ const CONSTANTS = {
 //Start Express and use the correct env.
 app.use('/', express.static(path.join(__dirname, CONSTANTS.root.folder)))
 const server = app.listen(port, host);
-console.log(`Starting web on port ${port}`);
+console.log(`ON PROD: ${onProduction} - Starting web on port ${port}`);
+console.log(`PORT: ${CONSTANTS.port.socket}`);
 
 // Actual game server
 const Navarra = require('./server/Navarra');
