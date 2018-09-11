@@ -3,7 +3,7 @@ const world = require('./core/world');
 
 class Socket {
   constructor(port) {
-    this.ws = new WebSocket({ port });
+    this.ws = new WebSocket();
     this.clients = world.clients;
   }
 
