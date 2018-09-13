@@ -9,7 +9,7 @@ Vue.config.productionTip = false;
 if ('WebSocket' in window) {
   // const hostname = window.location.hostname;
   if (window.location.href.includes('.com')) {
-    const url = 'wss://navarra.herokuapp.com';
+    const url = 'wss://play.navarra-rpg.com';
     console.log(`Connected to ${url}`);
 
     window.ws = new WebSocket(url);
