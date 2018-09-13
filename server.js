@@ -9,6 +9,7 @@
 // Start Express
 const express = require('express');
 const path = require('path');
+const http = require('http');
 const app = express();
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
 
