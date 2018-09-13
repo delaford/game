@@ -20,7 +20,7 @@ class Navarra {
     world.socket = new Socket(server);
 
     // Start the game server
-    console.log(`${emoji.get('rocket')}  Starting game server on port ${port}.`);
+    console.log(`${emoji.get('rocket')}  Starting game server...`);
 
     // Load the map and spawn the default entities
     this.constructor.loadMap();
