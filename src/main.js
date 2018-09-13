@@ -7,19 +7,19 @@ Vue.config.productionTip = false;
 
 // Start the websocket server client-side
 if ('WebSocket' in window) {
-  const hostname = window.location.hostname;
-  const wsHost = location.origin.replace(/^http/, 'ws');
-  const tls = hostname.includes('localhost') ? 'ws' : 'wss';
-  const port = hostname.includes('localhost') ? ':9000' : '';
-  const base = tls === 'ws' ? `localhost${port}` : (`${wsHost}/ws`);
-  const connectionURI = `${tls}://${base}`;
+  // const hostname = window.location.hostname;
+  // const wsHost = location.origin.replace(/^http/, 'ws');
+  // const tls = hostname.includes('localhost') ? 'ws' : 'wss';
+  // const port = hostname.includes('localhost') ? '' : '';
+  // const base = tls === 'ws' ? `localhost${port}` : (`${wsHost}/ws`);
+  // const connectionURI = `${tls}://${base}`;
   if (window.location.href.includes('.com')) {
     const url = 'wss://navarra.herokuapp.com';
     console.log(`Connected to ${url}`);
 
     window.ws = new WebSocket(url);
   } else {
-    window.ws = new WebSocket(connectionURI);
+    window.ws = new WebSocket('ws://localhost:4000');
   }
 }
 

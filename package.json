@@ -19,13 +19,14 @@
     "server_prod_restart": "./node_modules/.bin/pm2 restart all"
   },
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "ndb": "^1.0.24",
+    "node-emoji": "^1.8.1",
+    "node-uuid": "^1.4.8",
     "pm2": "^3.0.4",
     "vue": "^2.5.2",
-    "ws": "^6.0.0",
-    "node-emoji": "^1.8.1",
-    "node-uuid": "^1.4.8"
+    "ws": "^6.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.5",

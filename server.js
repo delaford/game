@@ -7,20 +7,23 @@
 ******************************************/
 
 // Start Express
-const express = require('express');
 const path = require('path');
 const http = require('http');
+const express = require('express');
+const cors = require('cors');
 const app = express();
-const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
-
-const host = '0.0.0.0';
 const port = process.env.PORT || 4000;
+
+app.use(cors());
+
+const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
+const host = '0.0.0.0';
 
 // Define express and socket port
 const CONSTANTS = {
   port: {
     express: 4000,
-    socket: onProduction ? 8443 : 9000,
+    socket: 4000,
   },
   root: {
     folder: onProduction ? '/dist' : '/'
@@ -28,17 +31,14 @@ const CONSTANTS = {
 };
 
 //Start Express and use the correct env.
-app.use('/', express.static(path.join(__dirname, CONSTANTS.root.folder)))
-app.listen(port, host);
-console.log(`ON PROD: ${onProduction} - Starting web on port ${port}`);
-console.log(`PORT: ${CONSTANTS.port.socket}`);
+app.use(express.static(path.join(__dirname, CONSTANTS.root.folder)));
 
 // Actual game server
 const Navarra = require('./server/Navarra');
 
 // Create server for websocket to listen on
 const server = http.createServer(app)
-server.listen(CONSTANTS.port.socket)
+server.listen(port)
 
 // Initialize the Game class with port number
 const game = new Navarra(server);
