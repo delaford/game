@@ -19,7 +19,6 @@
     "server_prod_restart": "./node_modules/.bin/pm2 restart all"
   },
   "dependencies": {
-    "cors": "^2.8.4",
     "express": "^4.16.2",
     "ndb": "^1.0.24",
     "node-emoji": "^1.8.1",

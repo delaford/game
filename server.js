@@ -10,14 +10,10 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
-const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(cors());
-
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
-const host = '0.0.0.0';
 
 // Define express and socket port
 const CONSTANTS = {
