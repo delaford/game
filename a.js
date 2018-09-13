@@ -7,7 +7,7 @@ var PORT = process.env.PORT || 3000;
 var app = express();
 var server =  app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-var io = socketIO(server);
+var io = new socketIO(server);
 
 io.on('connection', (socket) => {
     console.log('Client connected');
