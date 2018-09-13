@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "node a.js",
+    "start": "node server.js",
     "postinstall": "npm run build",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",

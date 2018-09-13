@@ -35,8 +35,12 @@ console.log(`PORT: ${CONSTANTS.port.socket}`);
 // Actual game server
 const Navarra = require('./server/Navarra');
 
+// Create server for websocket to listen on
+const server = http.createServer(app)
+server.listen(CONSTANTS.port.socket)
+
 // Initialize the Game class with port number
-const game = new Navarra(CONSTANTS.port.socket);
+const game = new Navarra(server);
 
 // Start the game server.
 game.start();

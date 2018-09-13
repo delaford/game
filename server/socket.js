@@ -2,8 +2,8 @@ const WebSocket = require('ws').Server;
 const world = require('./core/world');
 
 class Socket {
-  constructor(port) {
-    this.ws = new WebSocket({ port });
+  constructor(server) {
+    this.ws = new WebSocket({ server });
     this.clients = world.clients;
   }
 

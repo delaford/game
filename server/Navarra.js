@@ -15,9 +15,9 @@ const Authentication = require('./lib/authentication');
 const Events = require('./lib/events');
 
 class Navarra {
-  constructor(port) {
+  constructor(server) {
     // Port setting
-    world.socket = new Socket(port);
+    world.socket = new Socket(server);
 
     // Start the game server
     console.log(`${emoji.get('rocket')}  Starting game server on port ${port}.`);
