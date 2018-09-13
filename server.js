@@ -28,7 +28,7 @@ const CONSTANTS = {
 
 //Start Express and use the correct env.
 app.use('/', express.static(path.join(__dirname, CONSTANTS.root.folder)))
-const server = app.listen(port, host);
+app.listen(port, host);
 console.log(`ON PROD: ${onProduction} - Starting web on port ${port}`);
 console.log(`PORT: ${CONSTANTS.port.socket}`);
 
