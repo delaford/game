@@ -14,7 +14,7 @@
     "build": "node build/build.js",
     "format": "eslint --fix",
     "server_dev": "./node_modules/.bin/nodemon server",
-    "server_debug": "./node_modules/.bin/ndb server",
+    "start_ndb": "./node_modules/.bin/ndb server",
     "server_prod": "./node_modules/.bin/pm2 start server",
     "server_prod_restart": "./node_modules/.bin/pm2 restart all"
   },

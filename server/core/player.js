@@ -266,10 +266,12 @@ class Player {
       headers: { Authorization: `Bearer ${this.token}` },
     };
 
-    let getPlayer = world.players
+    // Find player on server
+    const getPlayer = world.players
       .find(p => p.token === this.token);
 
-    getPlayer = {
+    // Get player data
+    const playerData = {
       x: getPlayer.x,
       y: getPlayer.y,
       username: getPlayer.username,
@@ -277,7 +279,15 @@ class Player {
       hp_max: getPlayer.hp.max,
     };
 
-    const data = { uuid: this.uuid, data: getPlayer };
+    // Get inventory data
+    const inventoryData = getPlayer.inventory.map(i => ({
+      id: i.itemID,
+    }));
+
+    // Get wearable data
+    const wearData = getPlayer.wear;
+
+    const data = { uuid: this.uuid, playerData, inventoryData, wearData };
 
     return new Promise((resolve) => {
       axios

@@ -62,11 +62,11 @@ You should now have two folders under `navarra`:
     ├── game/
     └── website/
 
-Now go to `.env` and fill out the `SITE_URL` with the URL of the website you setup previously. Then make sure to fill the database credentials as well inside `.env`.
+Now go inside `game`'s `package.json ` file and fill out the `SITE_URL` with the URL of the website you setup previously inside the `nodemonConfig` object near the bottom.
 
-Time to start the `Node.js` server -- type: `yarn server`. This starts the server under the `nodemon` module which restarts the server upon code changes on the the server.
+You can now start the Node.js server simply by typing: `node server.js`.
 
-> For debugging, you can do `yarn server_debug` and then run the script 'yarn server' within that.
+> For debugging, you can do `npm run start_ndb` and then run the script 'server_dev' within that.
 
 Now you may visit `http://localhost:8080` to login to the game using your newly-created player.
 
