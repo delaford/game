@@ -3,7 +3,7 @@
     <div class="inputs">
       <form action="" autocomplete="off" :class="{ hasErrors: invalid }">
         <input placeholder="Username" type="text" class="username" v-model="username" autocorrect="off" autofocus spellcheck="false" autocomplete="off">
-        <input placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
+        <input @keyup.enter='login'  placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
       </form>
 
       <div v-if="invalid" class="error_message">
