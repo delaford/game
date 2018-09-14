@@ -2,8 +2,8 @@
   <div class="form">
     <div class="inputs">
       <form action="" autocomplete="off" :class="{ hasErrors: invalid }">
-        <input placeholder="Username" type="text" class="username" v-model="username" autocorrect="off" autofocus spellcheck="false" autocomplete="off">
-        <input @keyup.enter='login'  placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
+        <input @keyup.enter='login' placeholder="Username" type="text" class="username" v-model="username" autocorrect="off" autofocus spellcheck="false" autocomplete="off">
+        <input @keyup.enter='login' placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
       </form>
 
       <div v-if="invalid" class="error_message">
@@ -26,6 +26,12 @@ export default {
   created() {
     this.invalid = false;
     bus.$on('player:login-error', data => this.incorrectLogin(data));
+
+    if (!window.location.href.includes('.con')) {
+      // Development user
+      this.username = 'Dan';
+      this.password = 'soccer';
+    }
   },
   methods: {
     /**

@@ -137,10 +137,15 @@ class Player {
               const getItem = database.items.find(e => e.id === todo.item);
 
               const item = {
-                stackable: getItem.stackable,
-                graphics: getItem.graphics,
+                slot: UI.getOpenSlot(world.players[playerIndex].inventory),
                 itemID: getItem.id,
               };
+
+              // const item = {
+              //   stackable: getItem.stackable,
+              //   graphics: getItem.graphics,
+              //   itemID: getItem.id,
+              // };
 
               world.players[playerIndex].inventory.push(item);
 

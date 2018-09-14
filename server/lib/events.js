@@ -134,6 +134,16 @@ const handler = {
     world.players[playerIndex].inventory.push(item);
     Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
   },
+
+  'game:fetch:items': () => {
+    console.log('Fetching server items');
+    const itemsToSend = items.map(i => ({
+      stackable: i.stackable,
+      graphics: i.graphics,
+      itemID: i.id,
+    }));
+    Socket.emit('game:receive:items', itemsToSend);
+  },
 };
 
 module.exports = handler;
