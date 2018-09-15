@@ -70,17 +70,16 @@ class UI {
    * @returns {integer}
    */
   static getOpenSlot(inventory) {
-    const inventoryLength = 24;
-    for (let i = 0; i < inventoryLength; i += 1) {
-      if (inventory.length === 0) return 0;
+    if (inventory.length === 0) return 0;
+    let slotPosition = false;
 
-      const nextSlot = inventory[i].slot + 1;
-      if (!inventory.some(e => e.slot === nextSlot)) {
-        return nextSlot;
+    for (let index = 0; index < 23; index += 1) {
+      if (!inventory.find(e => e.slot === index) && slotPosition === false) {
+        slotPosition = index;
       }
     }
 
-    return false;
+    return slotPosition;
   }
 
   /**

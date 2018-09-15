@@ -197,7 +197,8 @@ class Actions {
       case 'Drop':
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
-            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            // eslint-disable-next-line
+            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
@@ -219,7 +220,8 @@ class Actions {
       case 'Equip':
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
-            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            // eslint-disable-next-line
+            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
@@ -243,7 +245,8 @@ class Actions {
         // Refactor 'right_hand' to all slots.
         if (this.clickedOn('slot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
-            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].itemID);
+            // eslint-disable-next-line
+            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
@@ -311,7 +314,8 @@ class Actions {
 
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
-            const itemData = UI.getItemData(this.player.inventory[this.miscData.slot].itemID);
+            // eslint-disable-next-line
+            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 

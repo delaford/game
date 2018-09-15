@@ -48,4 +48,56 @@ module.exports = [
     ],
     stackable: false,
   },
+  {
+    id: 2,
+    name: 'Bronze Dagger',
+    examine: 'An short and sturdy dagger.',
+    price: 9,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    attack: 3,
+    graphics: {
+      tileset: 'weapons',
+      row: 0,
+      column: 2,
+    },
+    actions: [
+      'take',
+      'examine',
+      'drop',
+      'equip',
+      'unequip',
+    ],
+    functions: [
+      //
+    ],
+    stackable: false,
+  },
+  {
+    id: 3,
+    name: 'Bronze Pickaxe',
+    examine: 'A versatile pickaxe for mining.',
+    price: 13,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    attack: 5,
+    graphics: {
+      tileset: 'weapons',
+      row: 0,
+      column: 3,
+    },
+    actions: [
+      'take',
+      'examine',
+      'drop',
+      'equip',
+      'unequip',
+    ],
+    functions: [
+      //
+    ],
+    stackable: false,
+  },
 ];
