@@ -86,7 +86,7 @@ const handler = {
   'player:inventoryItemDrop': (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
     world.players[playerIndex].inventory = world.players[playerIndex].inventory
-                                              .filter((_, i) => i !== data.data.slot);
+                                              .filter(v => v.slot !== data.data.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
 
     world.items.push({
@@ -133,6 +133,16 @@ const handler = {
     world.players[playerIndex].wear[getItem.slot] = null;
     world.players[playerIndex].inventory.push(item);
     Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
+  },
+
+  'game:fetch:items': () => {
+    console.log('Fetching server items');
+    const itemsToSend = items.map(i => ({
+      stackable: i.stackable,
+      graphics: i.graphics,
+      itemID: i.id,
+    }));
+    Socket.emit('game:receive:items', itemsToSend);
   },
 };
 

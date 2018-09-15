@@ -68,8 +68,6 @@ const handler = {
    * A player recieves an item in their inventory
    */
   'item:pickup': (data, context) => {
-    console.log('player picked up item');
-
     if (data.data.player.socket_id === context.game.player.socket_id) {
       context.game.player.inventory = data.data.data;
     }
@@ -100,6 +98,10 @@ const handler = {
       context.game.player.inventory = data.data.inventory;
       context.game.player.wear = data.data.wear;
     }
+  },
+
+  'game:receive:items': (data) => {
+    bus.$emit('client:game:receive:items', data.data);
   },
 };
 

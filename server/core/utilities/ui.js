@@ -64,6 +64,25 @@ class UI {
   }
 
   /**
+   * Find the nearest open slot in your inventory
+   *
+   * @param {array} inventory Your current inventory
+   * @returns {integer}
+   */
+  static getOpenSlot(inventory) {
+    if (inventory.length === 0) return 0;
+    let slotPosition = false;
+
+    for (let index = 0; index < 23; index += 1) {
+      if (!inventory.find(e => e.slot === index) && slotPosition === false) {
+        slotPosition = index;
+      }
+    }
+
+    return slotPosition;
+  }
+
+  /**
    * Calculate the x,y position on the viewport when clicked on canvas
    *
    * @param {event} event The mouse-click on the game viewport
