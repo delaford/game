@@ -60,12 +60,13 @@ class Map {
     const path = await Map.findQuickestPath(x, y, playerIndex);
 
     // Actively set mouse coordinates while walking
+    // (why was this commented out?)
     // this.setMouseCoordinates(this.mouse.x, this.mouse.y);
 
     // If the tile we clicked on
     // can be walked on, continue ->
-    // TODO - actually check
-    if (world.players[playerIndex].path.current.walkable && path.length && path.length > 1) {
+    // TODO - actually check (check what?)
+    if (world.players[playerIndex].path.current.walkable && path.length && path.length >= 1) {
       world.players[playerIndex].path.current.path.walking = path;
       world.players[playerIndex].path.current.step = 0;
 

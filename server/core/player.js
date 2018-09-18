@@ -126,6 +126,9 @@ class Player {
           // let's do it after destination is reached
           if (!Player.queueEmpty(playerIndex)) {
             const todo = world.players[playerIndex].queue[0];
+
+            // TODO
+            // Abstract this to own file of action events in-game
             if (todo.action.name === 'Take') {
               // eslint-disable-next-line
               const itemToTake = world.items.findIndex((e) => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.id === todo.item));
