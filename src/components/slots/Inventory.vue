@@ -49,7 +49,6 @@ export default {
       }
 
       if (itemFound) {
-        console.log(`${slotNumber} -- Item FOUND at slot ${itemFound.slot}`);
         return true;
       }
 

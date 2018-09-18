@@ -5,23 +5,23 @@
 
 module.exports = {
   droppedItems: [{
-    id: 0,
+    id: 'sword',
     x: 19,
     y: 112,
   }, {
-    id: 1,
+    id: 'axe',
     x: 18,
     y: 112,
   }, {
-    id: 2,
+    id: 'dagger',
     x: 20,
     y: 112,
   }, {
-    id: 3,
+    id: 'pickaxe',
     x: 20,
     y: 113,
   }, {
-    id: 3,
+    id: 'pickaxe',
     x: 18,
     y: 113,
   }],

@@ -55,12 +55,15 @@ export default {
       };
 
       // Data for queued action
+      // TODO: generate unique ID
+      // to pick up same item on same tile
       const queueItem = {
         item: item.id,
         tile: this.tile,
         action: item.action,
         at: item.at || false,
         coordinate: 2,
+        queueable: item.action.queueable,
       };
 
       this.actions.do(data, queueItem);

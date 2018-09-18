@@ -3,6 +3,7 @@ const Player = require('./../core/player');
 const world = require('../core/world');
 const Socket = require('../socket');
 const Map = require('./../core/map');
+const UI = require('./../core/utilities/ui');
 
 const items = require('../data/items');
 
@@ -95,6 +96,8 @@ const handler = {
       y: world.players[playerIndex].y,
     });
 
+    console.log(`Dropping: ${data.data.droppingItem}`);
+
     Socket.broadcast('world:itemDropped', world.items);
   },
 
@@ -111,6 +114,8 @@ const handler = {
       itemID: getItem.id,
     };
 
+    console.log(`Equipping: ${getItem.id}`);
+
     world.players[playerIndex].wear[getItem.slot] = item;
     world.players[playerIndex].inventory.splice(data.data.slot, 1);
 
@@ -125,10 +130,11 @@ const handler = {
     const getItem = items.find(i => i.id === data.data.item);
 
     const item = {
-      stackable: getItem.stackable,
-      graphics: getItem.graphics,
+      slot: UI.getOpenSlot(world.players[playerIndex].inventory),
       itemID: getItem.id,
     };
+
+    console.log(`Unequip: ${getItem.id}`);
 
     world.players[playerIndex].wear[getItem.slot] = null;
     world.players[playerIndex].inventory.push(item);

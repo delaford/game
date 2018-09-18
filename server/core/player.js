@@ -123,41 +123,36 @@ class Player {
 
         if ((path.current.step + 1) === path.current.path.walking.length) {
           // If they queue is not empty
-          // lets do it after destination is reached
+          // let's do it after destination is reached
           if (!Player.queueEmpty(playerIndex)) {
             const todo = world.players[playerIndex].queue[0];
-
             if (todo.action.name === 'Take') {
               // eslint-disable-next-line
-              const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y));
+              const itemToTake = world.items.findIndex((e) => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.id === todo.item));
               world.items.splice(itemToTake, 1);
 
               Socket.broadcast('item:change', world.items);
 
               const getItem = database.items.find(e => e.id === todo.item);
 
-              const item = {
+              console.log(`Picking up: ${getItem.id}`);
+
+              world.players[playerIndex].inventory.push({
                 slot: UI.getOpenSlot(world.players[playerIndex].inventory),
                 itemID: getItem.id,
-              };
-
-              // const item = {
-              //   stackable: getItem.stackable,
-              //   graphics: getItem.graphics,
-              //   itemID: getItem.id,
-              // };
-
-              world.players[playerIndex].inventory.push(item);
+              });
 
               const data = {
                 player: { socket_id: world.players[playerIndex].socket_id },
                 data: world.players[playerIndex].inventory,
+                pickingUp: getItem.id,
               };
 
               // Tell client to update their inventory
               Socket.emit('item:pickup', data);
             }
 
+            // Remove action from queue
             this.queue.shift();
           }
 

@@ -57,7 +57,7 @@ class Actions {
 
     // If an action needs to be performed
     // after a player reaches their destination
-    if (queuedAction) {
+    if (queuedAction && queuedAction.queueable) {
       const queuedActionSocket = merge(queuedAction, {
         player: {
           socket_id: this.player.socket_id,
@@ -245,8 +245,7 @@ class Actions {
         // Refactor 'right_hand' to all slots.
         if (this.clickedOn('slot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
-            // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
+            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].itemID);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 

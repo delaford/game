@@ -12,6 +12,7 @@ const actionList = [
     allow: ['item'],
     nearby: 'exact',
     weight: 2,
+    queueable: true,
   },
   {
     name: 'Examine',

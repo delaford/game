@@ -69,6 +69,7 @@ const handler = {
    */
   'item:pickup': (data, context) => {
     if (data.data.player.socket_id === context.game.player.socket_id) {
+      console.log(`Picking up ${data.data.pickingUp}`);
       context.game.player.inventory = data.data.data;
     }
   },
