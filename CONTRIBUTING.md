@@ -10,11 +10,11 @@ Fork, then clone the repo:
 
 Install the dependencies:
 
-    npm install / yarn
+    npm install
 
 Start the development server:
 
-    npm run dev
+    npm run serve
 
 Push to your fork and [submit a pull request][pr].
 

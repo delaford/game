@@ -35,8 +35,8 @@ Now, let's make the website. In your terminal, at `/navarra/website/`, type:
       $ php artisan key:generate
       $ php artisan migrate
       $ php artisan config:cache
-      $ yarn install
-      $ yarn dev
+      $ npm install
+      $ npm dev
 
 Your website's CSS should now be compiled and your database's tables should now be created. Also, your secret JWT authentication key was created along with the Laravel application key.
 
@@ -52,9 +52,8 @@ Go to `/navarra` and now type the following, in your terminal:
 
       $ git clone https://github.com/Navarra/game
       $ cd game
-      $ yarn install
-      $ yarn dev
-      $ cp .env.local .env
+      $ npm install
+      $ npm run dev
 
 You should now have two folders under `navarra`:
 
@@ -64,15 +63,15 @@ You should now have two folders under `navarra`:
 
 Now go inside `game`'s `package.json ` file and fill out the `SITE_URL` with the URL of the website you setup previously inside the `nodemonConfig` object near the bottom.
 
-You can now start the Node.js server simply by typing: `node server.js`.
+Now, you can start the Node.js server by typing `npm run ndb` and then starting the `dev_server` script on the left-hand side.
 
-> For debugging, you can do `npm run start_ndb` and then run the script 'server_dev' within that.
+> This will start the server within ndb and you will have an easy time debugging and seeing everything.
 
 Now you may visit `http://localhost:8080` to login to the game using your newly-created player.
 
 ## Contributing
 
-Please check out our [CONTRIBUTING.md](https://github.com/Navarra/game/blob/master/CONTRIBUTING.md) guide on how you can actively participate in the development of this medieval game. It's pretty easy!
+Please check out our [CONTRIBUTING.md](https://github.com/Navarra/game/blob/master/CONTRIBUTING.md) guide on how you can actively participate in the development of this medieval game. It's pretty easy and fun!
 
 ## Systems and Engines
 
