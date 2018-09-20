@@ -1,7 +1,7 @@
 <template>
   <div class="friend_list">
     <ul class="list">
-      <li class="item" v-for="(friend, i) in sorted_list">
+      <li class="item" v-for="(friend, i) in sorted_list" :key="i">
         <span class="name" v-text="friend.user"></span>
         <span class="status" :class="{ connected: friend.online}"></span>
       </li>
@@ -26,7 +26,7 @@ export default {
         return [];
       }
 
-      return this.friend_list.sort((a, b) => b.online - a.online);
+      return this.friend_list;
     },
   },
 };

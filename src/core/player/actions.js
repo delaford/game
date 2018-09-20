@@ -43,7 +43,7 @@ class Actions {
    * @param {object} queuedAction The action to take when a player reaches that tile
    */
   do(data, queuedAction = null) {
-    const item = data.item;
+    const { item } = data;
     const clickedTile = data.tile;
     const doing = item.action.name.toLowerCase();
 

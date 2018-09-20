@@ -13,9 +13,15 @@
     "format": "eslint --fix"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.3",
+    "lodash": "^4.17.11",
+    "node-emoji": "^1.8.1",
+    "node-uuid": "^1.4.8",
     "pathfinding": "^0.4.18",
     "vue": "^2.5.17",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "ws": "^6.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
@@ -24,13 +30,10 @@
     "@vue/cli-service": "^3.0.3",
     "@vue/eslint-config-airbnb": "^3.0.3",
     "@vue/test-utils": "^1.0.0-beta.20",
-    "axios": "^0.18.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.0.1",
     "lint-staged": "^7.2.2",
-    "node-emoji": "^1.8.1",
     "node-sass": "^4.9.0",
-    "node-uuid": "^1.4.8",
     "nodemon": "^1.18.4",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.17"

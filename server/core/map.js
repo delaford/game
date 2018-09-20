@@ -112,8 +112,7 @@ class Map {
    * @param {object} player The player asking
    */
   static getMatrix(player) {
-    const x = player.x;
-    const y = player.y;
+    const { x, y } = player;
 
     const { size, viewport } = config.map;
 

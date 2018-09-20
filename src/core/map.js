@@ -127,7 +127,7 @@ class Map {
    * Configure the canvas paramters correctly
    */
   configureCanvas() {
-    const tileset = this.config.map.tileset;
+    const { tileset } = this.config.map;
     const canvasWidth = tileset.tile.width * (1 + this.config.map.viewport.x);
     const canvasHeight = tileset.tile.height * (1 + this.config.map.viewport.y);
 
@@ -143,8 +143,7 @@ class Map {
    * Paint the map based on player's position
    */
   drawMap() {
-    const x = this.player.x;
-    const y = this.player.y;
+    const { x, y } = this.player;
 
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     const {
