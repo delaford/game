@@ -7,9 +7,11 @@ https://navarra-rpg.com
 // Start Express
 const path = require('path');
 const http = require('http');
+const compression = require('compression');
 const express = require('express');
 
 const app = express();
+app.use(compression());
 const port = process.env.PORT || 4000;
 
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
