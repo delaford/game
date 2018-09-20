@@ -33,7 +33,6 @@ export default {
     };
   },
   created() {
-    console.clear();
     this.loadItemData();
     bus.$on('client:game:receive:items', data => this.constructItemLibrary(data));
   },

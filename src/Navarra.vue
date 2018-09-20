@@ -57,14 +57,14 @@
 
 <script>
 // Vue components
-import GameCanvas from './components/GameCanvas';
-import Chatbox from './components/Chatbox';
-import Slots from './components/Slots';
-import Info from './components/Info';
+import GameCanvas from './components/GameCanvas.vue';
+import Chatbox from './components/Chatbox.vue';
+import Slots from './components/Slots.vue';
+import Info from './components/Info.vue';
 
 // Sub Vue components
-import ContextMenu from './components/sub/ContextMenu';
-import Login from './components/ui/Login';
+import ContextMenu from './components/sub/ContextMenu.vue';
+import Login from './components/ui/Login.vue';
 
 // Core assets
 import Client from './core/client';
