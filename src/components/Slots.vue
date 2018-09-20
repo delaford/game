@@ -45,13 +45,13 @@ import settings from '@/assets/graphics/ui/client/slots/settings.svg';
 import logout from '@/assets/graphics/ui/client/slots/logout.svg';
 import quests from '@/assets/graphics/ui/client/slots/quests.svg';
 
-import Inventory from './slots/Inventory';
-import Stats from './slots/Stats';
-import FriendList from './slots/FriendList';
-import Logout from './slots/Logout';
-import Quests from './slots/Quests';
-import Settings from './slots/Settings';
-import Wear from './slots/Wear';
+import Inventory from './slots/Inventory.vue';
+import Stats from './slots/Stats.vue';
+import FriendList from './slots/FriendList.vue';
+import Logout from './slots/Logout.vue';
+import Quests from './slots/Quests.vue';
+import Settings from './slots/Settings.vue';
+import Wear from './slots/Wear.vue';
 
 export default {
   components: {

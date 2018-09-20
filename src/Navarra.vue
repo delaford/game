@@ -182,8 +182,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css";
-
 #app {
   font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -1,5 +1,6 @@
 <template>
   <div class="inventory_slot" v-if="library">
+    <!-- eslint-disable max-len -->
     <div
       v-for="(n, i) in (0, 23)"
       :key="i"
@@ -62,8 +63,8 @@ export default {
      * @return {integer|boolean}
      */
     getItem(slotNumber) {
-      const itemID = this.items.find(s => s.slot === slotNumber).itemID;
-      const getItemDetails = this.library.find(i => i.itemID === itemID);
+      const getItemID = this.items.find(s => s.slot === slotNumber).itemID;
+      const getItemDetails = this.library.find(i => i.itemID === getItemID);
 
       if (getItemDetails) {
         return getItemDetails.graphics.column;

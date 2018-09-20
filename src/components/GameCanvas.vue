@@ -88,9 +88,7 @@ export default {
      *
      * @param {event} event
      */
-    movePlayer(event) {
-      const key = event.key;
-
+    movePlayer({ key }) {
       if (UI.userPressToMove(key)) {
         const direction = key.split('Arrow')[1].toLowerCase();
         const data = {
@@ -104,9 +102,7 @@ export default {
   },
   computed: {
     otherPlayers() {
-      return this.game.players.filter(
-        p => p.socket_id !== this.game.player.socket_id,
-      );
+      return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
   },
 };

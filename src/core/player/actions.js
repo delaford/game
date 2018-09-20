@@ -52,7 +52,8 @@ class Actions {
       this.player.x,
       this.player.y,
       clickedTile.x,
-      clickedTile.y);
+      clickedTile.y,
+    );
     const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
 
     // If an action needs to be performed

@@ -89,7 +89,9 @@ class Map {
     const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage] = images;
 
     // Image and data
-    this.images = { playerImage, npcsImage, objectImage, terrainImage, weaponsImage };
+    this.images = {
+      playerImage, npcsImage, objectImage, terrainImage, weaponsImage,
+    };
 
     // Set image and config
     this.build();
@@ -145,7 +147,9 @@ class Map {
     const y = this.player.y;
 
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    const { tileset, size, viewport, objects } = this.config.map;
+    const {
+      tileset, size, viewport, objects,
+    } = this.config.map;
 
     const divider = {
       background: tileset.width / tileset.tile.width,
