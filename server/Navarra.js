@@ -11,8 +11,8 @@ const NPC = require('./core/npc');
 const Map = require('./core/map');
 
 // Tools and utility
-const Authentication = require('./lib/authentication');
-const Events = require('./lib/events');
+const Authentication = require('./player/authentication');
+const Events = require('./player/events');
 
 class Navarra {
   constructor(server) {
