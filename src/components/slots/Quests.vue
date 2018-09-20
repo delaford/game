@@ -1,7 +1,7 @@
 <template>
   <div class="quests">
     <ul class="list">
-      <li class="item" v-for="(quest, i) in quests">
+      <li class="item" v-for="(quest, i) in quests" :key="i">
         <span class="name" v-text="quest.name"></span>
       </li>
     </ul>

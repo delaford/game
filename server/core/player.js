@@ -111,7 +111,7 @@ class Player {
    * @param {object} map The map object associated with player
    */
   walkPath(playerIndex) {
-    const path = world.players[playerIndex].path;
+    const { path } = world.players[playerIndex];
     const speed = 150; // Delay to next step during walk
 
     // Immediately-invoked function expression (IIFE) for the setTimeout
@@ -208,7 +208,9 @@ class Player {
    * @returns {boolean}
    */
   checkCollision(direction) {
-    const { size, viewport, tileset, objects } = config.map;
+    const {
+      size, viewport, tileset, objects,
+    } = config.map;
     const tileCrop = {
       x: this.x - Math.floor(0.5 * viewport.x),
       y: this.y - Math.floor(0.5 * viewport.y),
@@ -290,7 +292,9 @@ class Player {
     // Get wearable data
     const wearData = getPlayer.wear;
 
-    const data = { uuid: this.uuid, playerData, inventoryData, wearData };
+    const data = {
+      uuid: this.uuid, playerData, inventoryData, wearData,
+    };
 
     return new Promise((resolve) => {
       axios

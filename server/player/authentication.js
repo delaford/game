@@ -35,10 +35,10 @@ class Authentication {
           resolve(r.data.access_token);
         })
         .catch(() => {
-          reject({
+          reject(new Error({
             error: 401,
             message: 'Username and password are incorrect.',
-          });
+          }));
         });
     });
   }

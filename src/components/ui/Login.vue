@@ -2,8 +2,24 @@
   <div class="form">
     <div class="inputs">
       <form action="" autocomplete="off" :class="{ hasErrors: invalid }">
-        <input ref="username" @keyup.enter='login' placeholder="Username" type="text" class="username" v-model="username" autocorrect="off" autofocus spellcheck="false" autocomplete="off">
-        <input @keyup.enter='login' placeholder="Password" type="password" class="password" v-model="password" autocomplete="off">
+        <input
+          ref="username"
+          @keyup.enter='login'
+          placeholder="Username"
+          type="text"
+          class="username"
+          v-model="username"
+          autocorrect="off"
+          autofocus
+          spellcheck="false"
+          autocomplete="off">
+        <input
+          @keyup.enter='login'
+          placeholder="Password"
+          type="password"
+          class="password"
+          v-model="password"
+          autocomplete="off">
       </form>
 
       <div v-if="invalid" class="error_message">

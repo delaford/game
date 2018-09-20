@@ -1,5 +1,5 @@
+/* eslint-disable no-param-reassign */
 import bus from './../utilities/bus';
-
 /**
  * A global event handler [CLIENT SIDE] (RPC)
  *

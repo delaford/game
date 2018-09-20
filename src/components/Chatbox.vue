@@ -1,10 +1,18 @@
 <template>
     <div class="chatbox">
       <div readonly id="chat">
-        <div v-for="(chat, i) in chatbox" v-bind:key="i" class="message" v-html="showChatMessage(chat)"></div>
+        <div
+          v-for="(chat, i) in chatbox"
+          :key="i" class="message"
+          v-html="showChatMessage(chat)">
+        </div>
       </div>
 
-      <input autocomplete="off" @keydown.enter="sendMessage" maxlength="50" v-model="said" type="text" class="typing">
+      <input
+        autocomplete="off"
+        @keydown.enter="sendMessage"
+        maxlength="50" v-model="said"
+        type="text" class="typing">
     </div>
 </template>
 
@@ -39,7 +47,6 @@ export default {
       let message = '';
 
       switch (chat.type) {
-
         // Standard game
         default:
         case 'normal':
@@ -97,13 +104,11 @@ export default {
      * Scroll chatbox to bottom on next Vue's life-cycle tick
      */
     scrollToBottom() {
-      this.$nextTick(
-          () => {
-            // Scroll to bottom
-            const container = this.$el.querySelector('div#chat');
-            container.scrollTop = container.scrollHeight;
-          },
-        );
+      this.$nextTick(() => {
+        // Scroll to bottom
+        const container = this.$el.querySelector('div#chat');
+        container.scrollTop = container.scrollHeight;
+      });
     },
     /**
      * Clear user input

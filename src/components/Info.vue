@@ -2,11 +2,11 @@
   <div class="info" v-if="player">
     <span v-text="player.username"></span>
 
-		<div class="health" v-if="hp">
-			<div :style="displayHealthPercentage" class="bar">
+    <div class="health" v-if="hp">
+      <div :style="displayHealthPercentage" class="bar">
         <div>{{ hp.current + ' / ' + hp.max }}</div>
       </div>
-		</div>
+    </div>
 
     <div class="stats">
       <div class="level">

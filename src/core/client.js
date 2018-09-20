@@ -87,8 +87,7 @@ class Client {
     ];
 
     const images = Object.values(assets).map(asset =>
-      this.constructor.uploadImage(asset),
-    );
+      this.constructor.uploadImage(asset));
 
     return images;
   }

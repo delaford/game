@@ -1,7 +1,7 @@
 <template>
   <div class="stats_slot">
     <ul>
-      <li v-for="(stat, i) in skills">
+      <li v-for="(stat, i) in skills" :key="i">
         <span v-text="stat.name" :title="stat.exp + ' experience points'"></span>
         <span class="level">{{ stat.level }} / 99</span>
       </li>

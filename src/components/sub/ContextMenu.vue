@@ -11,7 +11,10 @@
             :key="index"
             @click="selectAction($event, item)"
             v-html="item.label"></li>
-          <li class="action" @click="selectAction($event, { action: { name: 'cancel'} })">Cancel</li>
+          <li
+            class="action"
+            @click="selectAction($event, { action: { name: 'cancel'} })"
+          >Cancel</li>
       </ul>
   </div>
 </template>
