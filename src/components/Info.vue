@@ -13,8 +13,11 @@
         <strong>Lvl:</strong> <span class="integer" v-text="player.level"></span>
       </div>
       <div class="att_def">
-        <strong>ATT:</strong> <span class="integer" v-text="getAttack.level"></span>
-        <strong>DEF:</strong> <span class="integer" v-text="getDefence.level"></span>
+        <strong class="att_label">ATT:</strong>
+        <span class="integer" v-text="getAttack.level"></span>
+
+        <strong class="def_label">DEF:</strong>
+        <span class="integer" v-text="getDefence.level"></span>
       </div>
     </div>
 
@@ -86,10 +89,17 @@ div.info {
   }
 
   .stats {
+    strong {
+      font-weight: bold;
+    }
     .level,
     .att_def {
       margin-top: 0.5em;
       font-size: 12px;
+
+      .def_label {
+        margin-left: .5em;
+      }
     }
     .level {
       float: left;
@@ -99,6 +109,7 @@ div.info {
     }
     span.integer {
       color: lighten($info_text_color, 15%);
+      margin-left: .5em;
     }
   }
 }
