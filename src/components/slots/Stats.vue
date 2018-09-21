@@ -1,8 +1,12 @@
 <template>
   <div class="stats_slot">
     <ul>
-      <li v-for="(stat, i) in skills" :key="i">
-        <span v-text="stat.name" :title="stat.exp + ' experience points'"></span>
+      <li
+        v-for="(stat, i) in skills"
+        :key="i">
+        <span
+          :title="stat.exp + ' experience points'"
+          v-text="stat.name"/>
         <span class="level">{{ stat.level }} / 99</span>
       </li>
     </ul>
@@ -11,7 +15,12 @@
 
 <script>
 export default {
-  props: ['game'],
+  props: {
+    game: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
     skills() {
       return this.game.player.skills;

@@ -1,40 +1,61 @@
 <template>
   <div id="app">
     <!-- Login screen -->
-    <div v-show="!loaded || !game" class="wrapper login__screen">
-      <div v-if="screen === 'server-down'" class="bg server__down">
+    <div
+      v-show="!loaded || !game"
+      class="wrapper login__screen">
+      <div
+        v-if="screen === 'server-down'"
+        class="bg server__down">
         The game server is currently down. Please check the website for more information.
       </div>
-      <div v-else class="bg">
-        <div v-if="screen === 'register'" class="register">
+      <div
+        v-else
+        class="bg">
+        <div
+          v-if="screen === 'register'"
+          class="register">
           To register an account, please visit <a href="https://navarra-rpg.com/register">this page</a> to get start and then come back.
         </div>
-        <div v-if="screen === 'login'" class="login">
-          <img class="logo" src="./assets/logo.png" alt="Logo">
+        <div
+          v-if="screen === 'login'"
+          class="login">
+          <img
+            class="logo"
+            src="./assets/logo.png"
+            alt="Logo">
 
-          <Login></Login>
+          <Login/>
         </div>
-        <div  v-if="screen === 'main'">
-          <img class="logo" src="./assets/logo.png" alt="Logo">
+        <div v-if="screen === 'main'">
+          <img
+            class="logo"
+            src="./assets/logo.png"
+            alt="Logo">
 
           <div class="button_group">
-            <button @click="screen = 'login'" class="login">
+            <button
+              class="login"
+              @click="screen = 'login'">
               Login
             </button>
 
-            <button @click="screen = 'register'" class="register">
+            <button
+              class="register"
+              @click="screen = 'register'">
               Register
             </button>
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- Game wrapper -->
-    <div class="wrapper" @click.right="nothing" v-show="loaded && game">
+    <div
+      v-show="loaded && game"
+      class="wrapper"
+      @click.right="nothing">
       <div class="left">
-
         <!-- Main canvas -->
         <GameCanvas :game="game" />
 
@@ -49,7 +70,7 @@
         <Slots :game="game" />
       </div>
 
-      <context-menu :game="game"></context-menu>
+      <context-menu :game="game"/>
     </div>
     <!-- End Game wrapper -->
   </div>
@@ -74,9 +95,17 @@ import bus from './core/utilities/bus';
 import Event from './core/player/events';
 
 export default {
-  name: 'navarra',
+  name: 'Navarra',
   components: {
     GameCanvas, Chatbox, Info, Slots, ContextMenu, Login,
+  },
+  data() {
+    return {
+      config,
+      loaded: false,
+      game: {},
+      screen: 'login',
+    };
   },
   /**
    * WebSocket event handler
@@ -97,16 +126,7 @@ export default {
 
     // On logout, let's do a few things...
     bus.$on('player:logout', this.logout);
-
     bus.$on('go:main', this.cancelLogin);
-  },
-  data() {
-    return {
-      config,
-      loaded: false,
-      game: false,
-      screen: 'login',
-    };
   },
   methods: {
     /**

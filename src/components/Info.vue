@@ -1,23 +1,35 @@
 <template>
-  <div class="info" v-if="player">
-    <span v-text="player.username"></span>
+  <div
+    v-if="player"
+    class="info">
+    <span v-text="player.username"/>
 
-    <div class="health" v-if="hp">
-      <div :style="displayHealthPercentage" class="bar">
+    <div
+      v-if="hp"
+      class="health">
+      <div
+        :style="displayHealthPercentage"
+        class="bar">
         <div>{{ hp.current + ' / ' + hp.max }}</div>
       </div>
     </div>
 
     <div class="stats">
       <div class="level">
-        <strong>Lvl:</strong> <span class="integer" v-text="player.level"></span>
+        <strong>Lvl:</strong> <span
+          class="integer"
+          v-text="player.level"/>
       </div>
       <div class="att_def">
         <strong class="att_label">ATT:</strong>
-        <span class="integer" v-text="getAttack.level"></span>
+        <span
+          class="integer"
+          v-text="getAttack.level"/>
 
         <strong class="def_label">DEF:</strong>
-        <span class="integer" v-text="getDefence.level"></span>
+        <span
+          class="integer"
+          v-text="getDefence.level"/>
       </div>
     </div>
 
@@ -26,7 +38,12 @@
 
 <script>
 export default {
-  props: ['game'],
+  props: {
+    game: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
     player() {
       return this.game.player;

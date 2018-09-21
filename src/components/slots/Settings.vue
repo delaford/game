@@ -3,7 +3,13 @@
     <div class="section">
       <div class="label">FPS</div>
       <div class="range">
-        <input v-model="selected.fps" type="range" min="1" max="5" steps="1" value="1">
+        <input
+          v-model="selected.fps"
+          type="range"
+          min="1"
+          max="5"
+          steps="1"
+          value="1">
       </div>
 
       <div class="fps-range">
@@ -21,14 +27,6 @@
 import bus from '../../core/utilities/bus';
 
 export default {
-  watch: {
-    'selected.fps': {
-      handler() {
-        bus.$emit('SETTINGS:FPS', this.fpsValue);
-      },
-      deep: true,
-    },
-  },
   data() {
     return {
       selected: {
@@ -40,6 +38,14 @@ export default {
   computed: {
     fpsValue() {
       return this.fps[this.selected.fps];
+    },
+  },
+  watch: {
+    'selected.fps': {
+      handler() {
+        bus.$emit('SETTINGS:FPS', this.fpsValue);
+      },
+      deep: true,
     },
   },
 };

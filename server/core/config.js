@@ -3,7 +3,7 @@ const config = {
    * Game configuration
    */
   name: 'navarra',
-  version: '0.0.1',
+  version: '0.1.0',
   socket: {
     port: 9000,
   },

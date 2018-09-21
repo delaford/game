@@ -1,35 +1,44 @@
 <template>
   <div class="form">
     <div class="inputs">
-      <form action="" autocomplete="off" :class="{ hasErrors: invalid }">
+      <form
+        :class="{ hasErrors: invalid }"
+        action=""
+        autocomplete="off">
         <input
           ref="username"
-          @keyup.enter='login'
+          v-model="username"
           placeholder="Username"
           type="text"
           class="username"
-          v-model="username"
           autocorrect="off"
           autofocus
           spellcheck="false"
-          autocomplete="off">
+          autocomplete="off"
+          @keyup.enter="login">
         <input
-          @keyup.enter='login'
+          v-model="password"
           placeholder="Password"
           type="password"
           class="password"
-          v-model="password"
-          autocomplete="off">
+          autocomplete="off"
+          @keyup.enter="login">
       </form>
 
-      <div v-if="invalid" class="error_message">
+      <div
+        v-if="invalid"
+        class="error_message">
         Incorrect login. Please try again.
       </div>
     </div>
 
     <div class="action_buttons">
-      <button class="button" @click="login">Login</button>
-      <button class="button" @click="cancel">Cancel</button>
+      <button
+        class="button"
+        @click="login">Login</button>
+      <button
+        class="button"
+        @click="cancel">Cancel</button>
     </div>
   </div>
 </template>
@@ -39,6 +48,13 @@ import bus from '../../core/utilities/bus';
 import Socket from '../../core/utilities/socket';
 
 export default {
+  data() {
+    return {
+      invalid: false,
+      username: '',
+      password: '',
+    };
+  },
   created() {
     this.invalid = false;
     this.$nextTick(() => this.$refs.username.focus());
@@ -75,13 +91,6 @@ export default {
       this.invalid = true;
       console.log(data);
     },
-  },
-  data() {
-    return {
-      invalid: false,
-      username: '',
-      password: '',
-    };
   },
 };
 </script>

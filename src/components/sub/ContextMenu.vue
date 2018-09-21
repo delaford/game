@@ -1,21 +1,25 @@
 <template>
-  <div @click.right="contextClick" id="context-menu" v-bind:style="style">
-      <ul
-        v-if="view"
-        ref="right"
-        @blur="closeMenu"
-        id="actions"
-        tabindex="-1">
-          <li class="action"
-            v-for="(item, index) in items"
-            :key="index"
-            @click="selectAction($event, item)"
-            v-html="item.label"></li>
-          <li
-            class="action"
-            @click="selectAction($event, { action: { name: 'cancel'} })"
-          >Cancel</li>
-      </ul>
+  <div
+    id="context-menu"
+    :style="style"
+    @click.right="contextClick">
+    <ul
+      v-if="view"
+      id="actions"
+      ref="right"
+      tabindex="-1"
+      @blur="closeMenu">
+      <li
+        v-for="(item, index) in items"
+        :key="index"
+        class="action"
+        @click="selectAction($event, item)"
+        v-html="item.label"/>
+      <li
+        class="action"
+        @click="selectAction($event, { action: { name: 'cancel'} })"
+      >Cancel</li>
+    </ul>
   </div>
 </template>
 
@@ -24,9 +28,11 @@ import bus from '../../core/utilities/bus';
 import Actions from '../../core/player/actions';
 
 export default {
-  props: ['game'],
-  created() {
-    bus.$on('PLAYER:MENU', this.openMenu);
+  props: {
+    game: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -42,6 +48,9 @@ export default {
         left: '0px',
       },
     };
+  },
+  created() {
+    bus.$on('PLAYER:MENU', this.openMenu);
   },
   methods: {
     /**

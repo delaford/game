@@ -1,19 +1,23 @@
 <template>
-    <div class="chatbox">
-      <div readonly id="chat">
-        <div
-          v-for="(chat, i) in chatbox"
-          :key="i" class="message"
-          v-html="showChatMessage(chat)">
-        </div>
-      </div>
-
-      <input
-        autocomplete="off"
-        @keydown.enter="sendMessage"
-        maxlength="50" v-model="said"
-        type="text" class="typing">
+  <div class="chatbox">
+    <div
+      id="chat"
+      readonly>
+      <div
+        v-for="(chat, i) in chatbox"
+        :key="i"
+        class="message"
+        v-html="showChatMessage(chat)"/>
     </div>
+
+    <input
+      v-model="said"
+      autocomplete="off"
+      maxlength="50"
+      type="text"
+      class="typing"
+      @keydown.enter="sendMessage">
+  </div>
 </template>
 
 <script>
@@ -21,7 +25,31 @@ import Socket from '../core/utilities/socket';
 import bus from '../core/utilities/bus';
 
 export default {
-  props: ['game'],
+  props: {
+    game: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      said: '',
+      chatbox: [
+        {
+          type: 'normal',
+          text: 'Welcome to Navarra.',
+        },
+      ],
+    };
+  },
+  computed: {
+    /**
+     * Compute whether user said something
+     */
+    sayingSomething() {
+      return this.said.length >= 1 && this.said.length <= 50;
+    },
+  },
   created() {
     bus.$on('player:say', data => this.pipeline(data));
   },
@@ -117,25 +145,6 @@ export default {
       // Clear out user input
       this.said = '';
     },
-  },
-  computed: {
-    /**
-     * Compute whether user said something
-     */
-    sayingSomething() {
-      return this.said.length >= 1 && this.said.length <= 50;
-    },
-  },
-  data() {
-    return {
-      said: '',
-      chatbox: [
-        {
-          type: 'normal',
-          text: 'Welcome to Navarra.',
-        },
-      ],
-    };
   },
 };
 </script>

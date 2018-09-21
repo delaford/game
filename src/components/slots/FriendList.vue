@@ -1,9 +1,16 @@
 <template>
   <div class="friend_list">
     <ul class="list">
-      <li class="item" v-for="(friend, i) in sorted_list" :key="i">
-        <span class="name" v-text="friend.user"></span>
-        <span class="status" :class="{ connected: friend.online}"></span>
+      <li
+        v-for="(friend, i) in sorted_list"
+        :key="i"
+        class="item">
+        <span
+          class="name"
+          v-text="friend.user"/>
+        <span
+          :class="{ connected: friend.online}"
+          class="status"/>
       </li>
     </ul>
 
@@ -16,7 +23,12 @@
 
 <script>
 export default {
-  props: ['game'],
+  props: {
+    game: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
     friend_list() {
       return this.game.player.friend_list;

@@ -1,15 +1,15 @@
 <template>
   <div class="game">
-    <canvas tabindex="0"
+    <canvas
       id="game-map"
+      tabindex="0"
       class="main-canvas gameMap"
       height="352"
       width="512"
       @mousemove="mouseSelection"
       @click.left="leftClick"
       @click.right="rightClick"
-      @keyup="movePlayer">
-    </canvas>
+      @keyup="movePlayer"/>
   </div>
 </template>
 
@@ -22,7 +22,17 @@ import Socket from '../core/utilities/socket';
 
 export default {
   name: 'Game',
-  props: ['game'],
+  props: {
+    game: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    otherPlayers() {
+      return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
+    },
+  },
   methods: {
     /**
      * Right-click brings up context-menu
@@ -98,11 +108,6 @@ export default {
 
         Client.move(data);
       }
-    },
-  },
-  computed: {
-    otherPlayers() {
-      return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
   },
 };

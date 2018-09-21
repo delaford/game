@@ -3,34 +3,52 @@
     <div class="top_slots">
       <div
         v-for="(slot, i) in slots"
-        class="slot inventorySlot"
         v-if="i < 3"
         :key="i"
         :class="{active: selected === i}"
+        class="slot inventorySlot"
         @click="setPane($event, i)">
-          <img :src="svg[slot.toLowerCase()]" :alt="slot">
+        <img
+          :src="svg[slot.toLowerCase()]"
+          :alt="slot">
       </div>
     </div>
 
-    <div class="pane" v-if="game.player">
-      <Stats :game="game" v-show="selected === 0" />
-      <Inventory :game="game" v-show="selected === 1" />
-      <Wear :game="game" v-show="selected === 2" />
-      <Friend-List :game="game" v-show="selected === 3" />
+    <div
+      v-if="game.player"
+      class="pane">
+      <Stats
+        v-show="selected === 0"
+        :game="game" />
+      <Inventory
+        v-show="selected === 1"
+        :game="game" />
+      <Wear
+        v-show="selected === 2"
+        :game="game" />
+      <Friend-List
+        v-show="selected === 3"
+        :game="game" />
       <Settings v-show="selected === 4" />
-      <Logout :game="game" v-show="selected === 5" />
-      <Quests :game="game" v-show="selected === 6" />
+      <Logout
+        v-show="selected === 5"
+        :game="game" />
+      <Quests
+        v-show="selected === 6"
+        :game="game" />
     </div>
 
     <div class="bottom_slots">
       <div
         v-for="(slot, i) in slots"
-        class="slot"
         v-if="i > 2"
         :key="i"
         :class="{active: selected === i}"
+        class="slot"
         @click="setPane($event, i)">
-          <img :src="svg[slot.toLowerCase()]" :alt="slot">
+        <img
+          :src="svg[slot.toLowerCase()]"
+          :alt="slot">
       </div>
     </div>
   </div>
@@ -57,26 +75,12 @@ export default {
   components: {
     Inventory, Stats, FriendList, Logout, Quests, Settings, Wear,
   },
-  methods: {
-    /**
-     * Switch to the correct pane upon mouse-click
-     *
-     * @param {index} index The pane to switch to
-     */
-    setPane(event, index) {
-      this.selected = index;
-    },
-    /**
-     * Get the correct SVG icon to show as the pane header
-     *
-     * @param {string} icon The pane icon name
-     * @returns {string}
-     */
-    svgPath(icon) {
-      return `./src/assets/graphics/ui/client/slots/${icon}.svg`;
+  props: {
+    game: {
+      type: Object,
+      required: true,
     },
   },
-  props: ['game'],
   data() {
     return {
       slots: [
@@ -99,6 +103,25 @@ export default {
         quests,
       },
     };
+  },
+  methods: {
+    /**
+     * Switch to the correct pane upon mouse-click
+     *
+     * @param {index} index The pane to switch to
+     */
+    setPane(event, index) {
+      this.selected = index;
+    },
+    /**
+     * Get the correct SVG icon to show as the pane header
+     *
+     * @param {string} icon The pane icon name
+     * @returns {string}
+     */
+    svgPath(icon) {
+      return `./src/assets/graphics/ui/client/slots/${icon}.svg`;
+    },
   },
 };
 </script>

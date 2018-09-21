@@ -1,41 +1,60 @@
 <template>
   <div class="wear">
     <svg>
-      <line x1="77" x2="77" y1="25" y2="190"/>
-      <line x1="25" x2="25" y1="130" y2="190"/>
-      <line x1="130" x2="130" y1="130" y2="190"/>
-      <line x1="137" x2="27" y1="145" y2="145"/>
-      <line x1="132" x2="27" y1="93" y2="93"/>
+      <line
+        x1="77"
+        x2="77"
+        y1="25"
+        y2="190"/>
+      <line
+        x1="25"
+        x2="25"
+        y1="130"
+        y2="190"/>
+      <line
+        x1="130"
+        x2="130"
+        y1="130"
+        y2="190"/>
+      <line
+        x1="137"
+        x2="27"
+        y1="145"
+        y2="145"/>
+      <line
+        x1="132"
+        x2="27"
+        y1="93"
+        y2="93"/>
     </svg>
 
     <div class="wrapper">
       <div class="first_row row">
-        <div class="slot head"></div>
+        <div class="slot head"/>
       </div>
 
       <div class="second_row row">
-        <div class="slot cape"></div>
-        <div class="slot necklace"></div>
-        <div class="slot arrows"></div>
+        <div class="slot cape"/>
+        <div class="slot necklace"/>
+        <div class="slot arrows"/>
       </div>
 
       <div class="third_row row">
         <div
-          @click.right="rightClick($event, 'right_hand')"
-          class="slot sword"
-          v-bind:class="showBackground('right_hand')"
-          v-bind:style="{
+          :class="showBackground('right_hand')"
+          :style="{
             backgroundPosition: `left -${(tileOffset('right_hand') * 32)}px top`
-          }">
-        </div>
-        <div class="slot torso"></div>
-        <div class="slot shield"></div>
+          }"
+          class="slot sword"
+          @click.right="rightClick($event, 'right_hand')"/>
+        <div class="slot torso"/>
+        <div class="slot shield"/>
       </div>
 
       <div class="fourth_row row">
-        <div class="slot gloves"></div>
-        <div class="slot boots"></div>
-        <div class="slot ring"></div>
+        <div class="slot gloves"/>
+        <div class="slot boots"/>
+        <div class="slot ring"/>
       </div>
     </div>
   </div>
@@ -46,7 +65,17 @@ import bus from '../../core/utilities/bus';
 import UI from '../../core/utilities/ui';
 
 export default {
-  props: ['game'],
+  props: {
+    game: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    wear() {
+      return this.game.player.wear;
+    },
+  },
   methods: {
     /**
      * Right-click brings up context-menu
@@ -100,11 +129,6 @@ export default {
         case 'right_hand':
           return this.isEmpty(this.wear.right_hand) ? classImg : 'swordEquipped';
       }
-    },
-  },
-  computed: {
-    wear() {
-      return this.game.player.wear;
     },
   },
 };
