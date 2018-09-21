@@ -1,0 +1,60 @@
+{
+	"x": 20,
+	"y": 112,
+	"username": "dev",
+	"uuid": "83v7c9cec-aae2-4f98-a209-01b0ace5454g",
+	"level": 1,
+	"online": true,
+	"sign_in": 1537526023,
+	"hp": {
+		"current": 10,
+		"max": 10
+	},
+	"skills": [{
+		"level": 1,
+		"exp": 0,
+		"name": "Attack"
+	}, {
+		"level": 1,
+		"exp": 0,
+		"name": "Defence"
+	}, {
+		"level": 1,
+		"exp": 0,
+		"name": "Mining"
+	}, {
+		"level": 1,
+		"exp": 0,
+		"name": "Smithing"
+	}, {
+		"level": 1,
+		"exp": 0,
+		"name": "Fishing"
+	}, {
+		"level": 1,
+		"exp": 0,
+		"name": "Cooking"
+	}],
+	"wear": {
+		"head": null,
+		"back": null,
+		"necklace": null,
+		"arrows": {
+			"quantity": null,
+			"id": null
+		},
+		"right_hand": null,
+		"armor": null,
+		"left_hand": null,
+		"gloves": null,
+		"feet": null,
+		"ring": null
+	},
+	"inventory": {
+		"id": 1,
+		"user_id": 1,
+		"data": [],
+		"created_at": "2018-08-31 03:52:09",
+		"updated_at": "2018-09-21 09:53:09"
+	}
+}

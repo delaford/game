@@ -12,7 +12,7 @@ const Map = require('./core/map');
 
 // Tools and utility
 const Authentication = require('./player/authentication');
-const Events = require('./player/events');
+const Handler = require('./player/handler');
 
 class Navarra {
   constructor(server) {
@@ -105,7 +105,7 @@ class Navarra {
 
       // Client-sent events from WebSocket
       // are processed through this method
-      Events[data.event](data, ws, this);
+      Handler[data.event](data, ws, this);
     });
 
     ws.on('error', e => console.log(e, `${ws.id} has left`));

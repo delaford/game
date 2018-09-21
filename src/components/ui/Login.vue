@@ -60,10 +60,10 @@ export default {
     this.$nextTick(() => this.$refs.username.focus());
     bus.$on('player:login-error', data => this.incorrectLogin(data));
 
-    if (!window.location.href.includes('.con')) {
+    if (!window.location.href.includes('.com')) {
       // Development user
-      this.username = 'Dan';
-      this.password = 'soccer';
+      this.username = 'dev';
+      this.password = 'qwertykeyboard';
     }
   },
   methods: {
@@ -78,7 +78,7 @@ export default {
      */
     login() {
       this.invalid = false;
-      const data = { username: this.username, password: this.password };
+      const data = { username: this.username, password: this.password, url: window.location.href };
 
       Socket.emit('player:login', data);
     },

@@ -4,6 +4,7 @@ const world = require('../core/world');
 const Socket = require('../socket');
 const Map = require('./../core/map');
 const UI = require('./../core/utilities/ui');
+const playerGuest = require('../data/helpers/player.json');
 
 const items = require('../data/items');
 
@@ -22,8 +23,12 @@ const handler = {
    */
   'player:login': async (data, ws) => {
     try {
-      const { player, token } = await Authentication.login(data);
-      Authentication.addPlayer(new Player(player, token, ws.id));
+      if (data.data.url.includes('.com')) {
+        const { player, token } = await Authentication.login(data);
+        Authentication.addPlayer(new Player(player, token, ws.id));
+      } else {
+        Authentication.addPlayer(new Player(playerGuest, 'none', ws.id));
+      }
     } catch (e) {
       Socket.emit('player:login-error', e);
     }
