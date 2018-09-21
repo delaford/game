@@ -4,9 +4,7 @@ We love pull requests from everyone. By participating in this project, you agree
 
 [code of conduct]: https://github.com/Navarra/game/blob/master/CODE_OF_CONDUCT.md
 
-Fork, then clone the repo:
-
-    git clone git@github.com:your-username/game.git
+Fork the repo.
 
 Install the dependencies:
 
@@ -15,6 +13,12 @@ Install the dependencies:
 Start the development server:
 
     npm run serve
+
+In another terminal, start the server:
+
+    node server.js
+
+Make changes.
 
 Push to your fork and [submit a pull request][pr].
 
@@ -36,6 +40,14 @@ Some things that will increase the chance that your pull request is accepted:
 We have ESLint to check for style in the JavaScript and .vue files. Before you commit, please run a check and auto-fix before submitting a pull-request.
 
 We use [AirBnB's JavaScript guide](https://github.com/airbnb/javascript) to keep the codebase all in one cohesive format. Having an editor like Microsoft's [VS Code](https://code.visualstudio.com/) will help check for ESLint mistakes as you write code. It is highly recommended.
+
+## Where is the database? Website?
+
+When you develop locally, a test account is pre-loaded in the game so you do not need to set up the Laravel mumbo-jumbo and database and get off to a quicker start.
+
+Of course, this comes with limitations like no saving a player's save file and only you can be logged in because we are mocking the player object.
+
+You can easily download the `website` repo and make authentic connections to your local database. But the default option is local players are loaded.
 
 ### Contribution Tools
 We are in the process of adding these tools to help make the process of contributing and in general easier in the future.

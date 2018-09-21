@@ -28,17 +28,9 @@ Now, while still inside `game`, you can start the Node.js server by typing `npm 
 
 Or, alternatively, if you want to skip `ndb`, just do `node server.js` from the root and you should be go to go.
 
-> `ndb` is Google Chrome's Node Debugging tool which allows node programs to be easily debugged and see all its context and variables. Highly recommended.
+> `ndb` is Google Chrome's Node Debugging tool which allows node programs to be easily debugged and see all its context and variables. Highly recommended for a much easier time.
 
 Now you may visit `http://localhost:8080` to login and start developing!
-
-## Where is the database? Website?
-
-When you develop locally, a test account is pre-loaded in the game so you do not need to set up the Laravel mumbo-jumbo and database and get off to a quicker start.
-
-Of course, this comes with limitations like no saving a player's save file and only you can be logged in because we are mocking the player object.
-
-You can easily download the `website` repo and make authentic connections to your local database. But the default option is local players are loaded.
 
 ## Contributing
 
