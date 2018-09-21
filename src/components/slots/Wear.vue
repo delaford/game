@@ -41,12 +41,18 @@
 
       <div class="third_row row">
         <div
+          v-tippy
+          v-if="slotFilled('right_hand')"
           :class="showBackground('right_hand')"
           :style="{
             backgroundPosition: `left -${(tileOffset('right_hand') * 32)}px top`
           }"
+          :title="getTooltip('right_hand')"
           class="slot sword"
           @click.right="rightClick($event, 'right_hand')"/>
+        <div
+          v-else
+          class="slot sword right_hand"/>
         <div class="slot torso"/>
         <div class="slot shield"/>
       </div>
@@ -63,6 +69,7 @@
 <script>
 import bus from '../../core/utilities/bus';
 import UI from '../../core/utilities/ui';
+import Socket from '../../core/utilities/socket';
 
 export default {
   props: {
@@ -71,12 +78,56 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      library: false,
+    };
+  },
   computed: {
     wear() {
       return this.game.player.wear;
     },
   },
+  created() {
+    this.loadItemData();
+
+    bus.$on('client:game:receive:items', data => this.constructItemLibrary(data));
+  },
   methods: {
+    /**
+     * Check to see if slot is filled with an item
+     *
+     * @param {string} slot The slot to check
+     * @returns {boolean}
+     */
+    slotFilled(slot) {
+      return this.wear[slot] !== null;
+    },
+    /**
+     * Show tooltip when hovering over equipped slot
+     *
+     * @param {string} slot The slot being shown
+     * @returns {string}
+     */
+    getTooltip(slot) {
+      return `${this.getItem(this.wear[slot].itemID).name}
+            <br>${this.getItem(this.wear[slot].itemID).stats.attack} att &middot;
+            ${this.getItem(this.wear[slot].itemID).stats.defense} def`;
+    },
+    /**
+     * Load the items from the server
+     */
+    constructItemLibrary(data) {
+      // TODO
+      // Abstract this to global methoc
+      this.library = data;
+    },
+    /**
+     * Fetch the items from the server
+     */
+    loadItemData() {
+      Socket.emit('game:fetch:items');
+    },
     /**
      * Right-click brings up context-menu
      *
@@ -109,13 +160,8 @@ export default {
           return this.wear.right_hand ? this.wear.right_hand.graphics.column : 0;
       }
     },
-    /**
-     * Check to see if the slot is empty
-     *
-     * @returns {boolean}
-     */
-    isEmpty(slot) {
-      return slot === null;
+    getItem(id) {
+      return this.library.find(i => i.itemID === id);
     },
     /**
      * Shows the correct background type in slot
@@ -127,12 +173,23 @@ export default {
       switch (classImg) {
         default:
         case 'right_hand':
-          return this.isEmpty(this.wear.right_hand) ? classImg : 'swordEquipped';
+          return this.slotFilled(this.wear.right_hand) ? 'swordEquipped' : classImg;
       }
     },
   },
 };
 </script>
+
+<style lang="scss">
+.tippy-content {
+  text-align-last: left;
+  font-family: "GameFont", sans-serif;
+  text-shadow: 1px 1px 0px black;
+}
+.tippy-tooltip.translucent-theme {
+  border-radius: 0px;
+}
+</style>
 
 <style lang="scss" scoped>
 div.wear {

@@ -23,7 +23,6 @@
 </template>
 
 <script>
-// https://github.com/KABBOUCHI/vue-tippy
 import bus from '../../core/utilities/bus';
 import UI from '../../core/utilities/ui';
 import Socket from '../../core/utilities/socket';

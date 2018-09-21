@@ -142,12 +142,14 @@ const handler = {
   },
 
   'game:fetch:items': () => {
-    console.log('Fetching server items');
     const itemsToSend = items.map(i => ({
+      stats: i.stats,
+      name: i.name,
       stackable: i.stackable,
       graphics: i.graphics,
       itemID: i.id,
     }));
+
     Socket.emit('game:receive:items', itemsToSend);
   },
 };

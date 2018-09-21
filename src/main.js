@@ -1,8 +1,18 @@
 import Vue from 'vue';
+import VueTippy from 'vue-tippy';
+
 import Navarra from './Navarra.vue';
 import store from './store';
 
 Vue.config.productionTip = false;
+Vue.use(VueTippy, {
+  animation: 'fade',
+  inertia: true,
+  size: 'small',
+  theme: 'translucent',
+  arrow: true,
+  followCursor: true,
+});
 
 // Start the websocket server client-side
 if ('WebSocket' in window) {

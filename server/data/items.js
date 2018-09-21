@@ -7,7 +7,10 @@ module.exports = [
     type: 'weapon',
     slot: 'right_hand',
     wearable: 'sword',
-    attack: 3,
+    stats: {
+      attack: 3,
+      defense: 1,
+    },
     graphics: {
       tileset: 'weapons',
       row: 0,
@@ -30,7 +33,10 @@ module.exports = [
     type: 'weapon',
     slot: 'right_hand',
     wearable: 'sword',
-    attack: 4,
+    stats: {
+      attack: 4,
+      defense: 2,
+    },
     graphics: {
       tileset: 'weapons',
       row: 0,
@@ -56,7 +62,10 @@ module.exports = [
     type: 'weapon',
     slot: 'right_hand',
     wearable: 'sword',
-    attack: 3,
+    stats: {
+      attack: 2,
+      defense: 0,
+    },
     graphics: {
       tileset: 'weapons',
       row: 0,
@@ -82,7 +91,10 @@ module.exports = [
     type: 'weapon',
     slot: 'right_hand',
     wearable: 'sword',
-    attack: 5,
+    stats: {
+      attack: 4,
+      defense: 4,
+    },
     graphics: {
       tileset: 'weapons',
       row: 0,
