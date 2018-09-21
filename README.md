@@ -53,7 +53,9 @@ Go to `/navarra` and now type the following, in your terminal:
       $ git clone https://github.com/Navarra/game
       $ cd game
       $ npm install
-      $ npm run dev
+      $ npm run serve
+
+`serve` will start the development server and watch for changes on the client-side code inside the `src` folder and otherwise elsewhere applicable.
 
 You should now have two folders under `navarra`:
 
@@ -63,7 +65,9 @@ You should now have two folders under `navarra`:
 
 Now go inside `game`'s `package.json ` file and fill out the `SITE_URL` with the URL of the website you setup previously inside the `nodemonConfig` object near the bottom.
 
-Now, you can start the Node.js server by typing `npm run ndb` and then starting the `dev_server` script on the left-hand side.
+> We recommend using Laravel Valet to host the website.
+
+Now, while still inside `game`, you can start the Node.js server by typing `npm run ndb` and then starting the `dev_server` script on the left-hand side.
 
 > This will start the server within ndb and you will have an easy time debugging and seeing everything.
 
