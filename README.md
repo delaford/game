@@ -17,36 +17,7 @@
 
 > You can view a video-tutorial of this getting started guide [located here](https://www.youtube.com/watch?v=5a69TEEJ-oY).
 
-### 1. Website
-
-First, using your terminal or Sequel Pro or PHPMyAdmin, create your `MySQL` database. Easy peasy.
-
-Secondly, in your terminal, make a new directory called `navarra` and type the following:
-
-      $ git clone https://github.com/Navarra/website
-      $ cp .env.example .env
-
-Then, let's edit the `.env` file we just created from our last command (`cp`) and put in the database credentials.
-
-Now, let's make the website. In your terminal, at `/navarra/website/`, type:
-
-      $ composer install
-      $ php artisan jwt:secret
-      $ php artisan key:generate
-      $ php artisan migrate
-      $ php artisan config:cache
-      $ npm install
-      $ npm dev
-
-Your website's CSS should now be compiled and your database's tables should now be created. Also, your secret JWT authentication key was created along with the Laravel application key.
-
-Time to make your player! Let's serve up the website:
-
-      $ php artisan serve
-
-Now go to `https://localhost:8000` and register your player account. You are all set!
-
-### 2. Game
+Create a directory called `navarra` in your terminal. Preferrably in `~/code` or some sort.
 
 Go to `/navarra` and now type the following, in your terminal:
 
@@ -55,23 +26,11 @@ Go to `/navarra` and now type the following, in your terminal:
       $ npm install
       $ npm run serve
 
-`serve` will start the development server and watch for changes on the client-side code inside the `src` folder and otherwise elsewhere applicable.
-
-You should now have two folders under `navarra`:
-
-    navarra/
-    ├── game/
-    └── website/
-
-Now go inside `game`'s `package.json ` file and fill out the `SITE_URL` with the URL of the website you setup previously inside the `nodemonConfig` object near the bottom.
-
-> We recommend using Laravel Valet to host the website.
+> `npm run serve` will start the development server and watch for changes on the client-side code inside the `src` folder and otherwise elsewhere applicable.
 
 Now, while still inside `game`, you can start the Node.js server by typing `npm run ndb` and then starting the `dev_server` script on the left-hand side.
 
-> This will start the server within ndb and you will have an easy time debugging and seeing everything.
-
-Now you may visit `http://localhost:8080` to login to the game using your newly-created player.
+Now you may visit `http://localhost:8080` to login and start developing!
 
 ## Contributing
 
