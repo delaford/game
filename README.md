@@ -19,7 +19,7 @@
 
 Create a directory called `navarra` in your terminal. Preferrably in `~/code` or some sort.
 
-Go to `/navarra` and now type the following, in your terminal:
+OK, so now go to `~/code/navarra` and now type the following, in your terminal:
 
       $ git clone https://github.com/Navarra/game
       $ cd game
@@ -31,6 +31,14 @@ Go to `/navarra` and now type the following, in your terminal:
 Now, while still inside `game`, you can start the Node.js server by typing `npm run ndb` and then starting the `dev_server` script on the left-hand side.
 
 Now you may visit `http://localhost:8080` to login and start developing!
+
+## Where is the database? Website?
+
+When you develop locally, a test account is pre-loaded in the game so you do not need to set up the Laravel mumbo-jumbo and database and get off to a quicker start.
+
+Of course, this comes with limitations like no saving a player's save file and only you can be logged in because we are mocking the player object.
+
+You can easily download the `website` repo and make authentic connections to your local database. But the default option is local players are loaded.
 
 ## Contributing
 
