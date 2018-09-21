@@ -17,10 +17,10 @@
 
 Easy peasy. Go to your terminal.
 
-      $ git clone https://github.com/Navarra/game
-      $ cd game
-      $ npm install
-      $ npm run serve
+      git clone https://github.com/Navarra/game
+      cd game
+      npm install
+      npm run serve
 
 > `npm run serve` will start the development server and watch for changes on the client-side code inside the `src` folder and otherwise elsewhere applicable.
 
