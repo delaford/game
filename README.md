@@ -15,11 +15,7 @@
 
 ## Getting Started
 
-> You can view a video-tutorial of this getting started guide [located here](https://www.youtube.com/watch?v=5a69TEEJ-oY).
-
-Create a directory called `navarra` in your terminal. Preferrably in `~/code` or some sort.
-
-OK, so now go to `~/code/navarra` and now type the following, in your terminal:
+Easy peasy. Go to your terminal.
 
       $ git clone https://github.com/Navarra/game
       $ cd game
@@ -29,6 +25,10 @@ OK, so now go to `~/code/navarra` and now type the following, in your terminal:
 > `npm run serve` will start the development server and watch for changes on the client-side code inside the `src` folder and otherwise elsewhere applicable.
 
 Now, while still inside `game`, you can start the Node.js server by typing `npm run ndb` and then starting the `dev_server` script on the left-hand side.
+
+Or, alternatively, if you want to skip `ndb`, just do `node server.js` from the root and you should be go to go.
+
+> `ndb` is Google Chrome's Node Debugging tool which allows node programs to be easily debugged and see all its context and variables. Highly recommended.
 
 Now you may visit `http://localhost:8080` to login and start developing!
 
