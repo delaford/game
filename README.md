@@ -15,10 +15,9 @@
 
 ## Getting Started
 
-Easy peasy. Go to your terminal.
+First, fork the reposiory. Then, go to your terminal.
 
-    Fork repository
-    git clone git@github.com:your_username/game.git
+    git clone git@github.com:YOUR_USERNAME/game.git
     cd game
     npm install
     npm run serve
