@@ -17,7 +17,8 @@
 
 Easy peasy. Go to your terminal.
 
-    git clone https://github.com/Navarra/game
+    Fork repository
+    git clone git@github.com:your_username/game.git
     cd game
     npm install
     npm run serve
