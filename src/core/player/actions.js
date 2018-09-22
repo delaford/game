@@ -1,7 +1,7 @@
 import { merge } from 'lodash';
 import bus from '../utilities/bus';
 import UI from '../utilities/ui';
-import { map } from '../config';
+import { map } from '../../../server/core/config';
 import Socket from '../../core/utilities/socket';
 import actionList from './data/actions';
 

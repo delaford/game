@@ -1,5 +1,5 @@
 import items from './../../../server/data/items';
-import { map } from '../config';
+import { map } from '../../../server/core/config';
 
 class UI {
   /**
