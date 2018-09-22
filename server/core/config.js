@@ -8,6 +8,11 @@ const config = {
     port: 9000,
   },
   map: {
+    color: {
+      item: '#ffaa00',
+      npc: '#f9f920',
+      player: '#ffffff',
+    },
     tileset: { // How big is the tileset?
       width: 0,
       height: 0,
