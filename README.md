@@ -34,7 +34,7 @@ Now you may visit `http://localhost:8080` to login and start developing!
 
 ## Contributing
 
-Please check out our [CONTRIBUTING.md](https://github.com/Navarra/game/blob/master/CONTRIBUTING.md) guide on how you can actively participate in the development of this medieval game. It's pretty easy and fun!
+Please check out our [CONTRIBUTING.md](https://github.com/Navarra/game/blob/master/.github/CONTRIBUTING.md) guide on how you can actively participate in the development of this medieval game. It's pretty easy and fun!
 
 ## Systems and Engines
 
