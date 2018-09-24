@@ -22,14 +22,8 @@ const handler = {
    */
   'player:login': async (data, ws) => {
     try {
-      if (data.data.url.includes('.com')) {
-        console.log('Logging into .com');
-        console.log(data);
-        const { player, token } = await Authentication.login(data);
-        Authentication.addPlayer(new Player(player, token, ws.id));
-      } else {
-        Authentication.addPlayer(new Player(playerGuest, 'none', ws.id));
-      }
+      const { player, token } = await Authentication.login(data);
+      Authentication.addPlayer(new Player(player, token, ws.id));
     } catch (e) {
       console.log(e);
       Socket.emit('player:login-error', e);
