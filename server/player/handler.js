@@ -3,12 +3,11 @@ const Player = require('./../core/player');
 const world = require('../core/world');
 const Socket = require('../socket');
 const Map = require('./../core/map');
-const UI = require('./../core/utilities/ui');
 const playerGuest = require('../data/helpers/player.json');
 
 const items = require('../data/items');
 
-const emoji = require('node-emoji');
+const pipe = require('./pipeline');
 
 /**
  * A global event handler (RPC)
@@ -48,7 +47,8 @@ const handler = {
     const playerChat = world.players.find(p => p.socket_id === data.data.id);
     data.data.username = playerChat.username;
 
-    console.log(`${emoji.get('speech_balloon')}  ${playerChat.username}: ${data.data.said}`);
+    // eslint-disable-next-line
+    console.log(`${playerChat.username}: ${data.data.said}`);
 
     Socket.broadcast('player:say', data.data, 10);
   },
@@ -109,41 +109,31 @@ const handler = {
   /**
    * A player equips an item from their inventory
    */
-  'item:equip': (data) => {
+  'item:equip': async (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
     const getItem = items.find(i => i.id === data.data.item);
+    const alreadyWearing = world.players[playerIndex].wear[getItem.slot];
+    if (alreadyWearing) {
+      await pipe.player.unequipItem({
+        data: {
+          id: data.data.id,
+          item: alreadyWearing.itemID,
+          slot: data.data.slot, // Equipping dagger's slot (1).. getOpenSlot
+          replacing: true,
+        },
+      });
 
-    const item = {
-      stackable: getItem.stackable,
-      graphics: getItem.graphics,
-      itemID: getItem.id,
-    };
-
-    console.log(`Equipping: ${getItem.id}`);
-
-    world.players[playerIndex].wear[getItem.slot] = item;
-    world.players[playerIndex].inventory.splice(data.data.slot, 1);
-
-    Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
+      pipe.player.equippedAnItem(data);
+    } else {
+      pipe.player.equippedAnItem(data);
+    }
   },
 
   /**
    * A player unequips an item from their wear tab
    */
   'item:unequip': (data) => {
-    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
-    const getItem = items.find(i => i.id === data.data.item);
-
-    const item = {
-      slot: UI.getOpenSlot(world.players[playerIndex].inventory),
-      itemID: getItem.id,
-    };
-
-    console.log(`Unequip: ${getItem.id}`);
-
-    world.players[playerIndex].wear[getItem.slot] = null;
-    world.players[playerIndex].inventory.push(item);
-    Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
+    pipe.player.unequipItem(data);
   },
 
   'game:fetch:items': () => {
