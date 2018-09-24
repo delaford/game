@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
-    "start": "node server.js",
+    "start": "node server.js > current.log",
     "postinstall": "npm run build",
     "test:unit": "vue-cli-service test:unit",
     "ndb": "./node_modules/.bin/ndb server",
