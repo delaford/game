@@ -1,3 +1,6 @@
+// TODO
+// Implement UUID
+
 class Item {
   constructor(data) {
     this.id = data.id;
