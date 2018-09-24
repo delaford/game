@@ -53,7 +53,7 @@
 	"inventory": {
 		"id": 1,
 		"user_id": 1,
-		"data": [],
+		"data": [{"slot":0,"itemID":"sword"},{"slot":1,"itemID":"dagger"},{"slot":2,"itemID":"pickaxe"}],
 		"created_at": "2018-08-31 03:52:09",
 		"updated_at": "2018-09-21 09:53:09"
 	}

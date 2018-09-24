@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "start": "node server.js",
-    "postinstall": "npm run build",
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
+    "start": "node server.js",
+    "postinstall": "npm run build",
     "test:unit": "vue-cli-service test:unit",
     "ndb": "./node_modules/.bin/ndb server",
     "dev_server": "./node_modules/.bin/nodemon server",
@@ -41,6 +41,11 @@
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.17"
   },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "nodemonConfig": {
     "env": {
       "SITE_URL": "http://website.test"
@@ -58,10 +63,5 @@
       "vue-cli-service lint",
       "git add"
     ]
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  }
 }

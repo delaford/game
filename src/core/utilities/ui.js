@@ -58,7 +58,7 @@ class UI {
    */
   static tileWalkable(tile, layer = 'background') {
     const certainLayer = layer === 'background' ? map.tileset : map.objects;
-    return certainLayer.blocked.indexOf(tile) === -1;
+    return !certainLayer.blocked.includes(tile);
   }
 
   /**
