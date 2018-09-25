@@ -34,8 +34,7 @@ class Authentication {
         .then((r) => {
           resolve(r.data.access_token);
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
           reject(new Error({
             error: 401,
             message: 'Username and password are incorrect.',
