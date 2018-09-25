@@ -28,13 +28,20 @@ class Authentication {
   static getToken(data) {
     const url = `${process.env.SITE_URL}/api/auth/login`;
 
+    const newData = {
+      username: data.username,
+      password: data.password,
+    };
+
     return new Promise((resolve, reject) => {
       axios
-        .post(url, data)
+        .post(url, newData)
         .then((r) => {
           resolve(r.data.access_token);
         })
-        .catch(() => {
+        .catch((e) => {
+          debugger;
+          console.log(e);
           reject(new Error({
             error: 401,
             message: 'Username and password are incorrect.',
