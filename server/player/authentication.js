@@ -40,7 +40,6 @@ class Authentication {
           resolve(r.data.access_token);
         })
         .catch((e) => {
-          debugger;
           console.log(e);
           reject(new Error({
             error: 401,
