@@ -28,14 +28,9 @@ class Authentication {
   static getToken(data) {
     const url = `${process.env.SITE_URL}/api/auth/login`;
 
-    const newData = {
-      username: data.username,
-      password: data.password,
-    };
-
     return new Promise((resolve, reject) => {
       axios
-        .post(url, newData)
+        .post(url, data)
         .then((r) => {
           resolve(r.data.access_token);
         })

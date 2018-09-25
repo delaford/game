@@ -78,7 +78,7 @@ export default {
      */
     login() {
       this.invalid = false;
-      const data = { username: this.username, password: this.password, url: window.location.href };
+      const data = { username: this.username, password: this.password };
 
       Socket.emit('player:login', data);
     },
