@@ -57,7 +57,7 @@ class Player {
     this.queue = [];
 
     // Player inventory
-    this.inventory = data.inventory.data;
+    this.inventory = [];
 
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
   }
