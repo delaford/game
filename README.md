@@ -3,11 +3,6 @@
 </p>
 
 <p align="center">
-  <a href="https://gitter.im/Delaford/game"><img src="https://badges.gitter.im/Delaford/game.svg" alt="gitter.im"></a>
-  <a href="https://circleci.com/gh/Delaford/game/tree/master"><img src="https://circleci.com/gh/Delaford/game/tree/master.svg?style=svg" alt="circleci"></a>
-</p>
-
-<p align="center">
   <strong>Welcome to Delaford. An online, 2D medieval game using JavaScript and HTML5.</strong>
 
   <img width="704" alt="Game screenshot" src="https://user-images.githubusercontent.com/616320/34860792-9a2c0ee8-f725-11e7-9e60-91b8610926f2.png">
