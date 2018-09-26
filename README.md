@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Delaford/game/raw/master/src/assets/logo.png"/>
+  <img src="https://github.com/Delaford/game/raw/master/src/assets/github/logo.png"/>
 </p>
 
 <p align="center">
