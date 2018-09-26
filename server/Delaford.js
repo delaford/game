@@ -14,7 +14,7 @@ const Map = require('./core/map');
 const Authentication = require('./player/authentication');
 const Handler = require('./player/handler');
 
-class Navarra {
+class Delaford {
   constructor(server) {
     // Port setting
     world.socket = new Socket(server);
@@ -113,4 +113,4 @@ class Navarra {
   }
 }
 
-module.exports = Navarra;
+module.exports = Delaford;

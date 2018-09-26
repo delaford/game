@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueTippy from 'vue-tippy';
 
-import Navarra from './Navarra.vue';
+import Delaford from './Delaford.vue';
 import store from './store';
 
 Vue.config.productionTip = false;
@@ -20,7 +20,7 @@ if ('WebSocket' in window) {
   // Clean this up
   // const hostname = window.location.hostname;
   if (window.location.href.includes('.com')) {
-    window.ws = new WebSocket('wss://play.navarra-rpg.com');
+    window.ws = new WebSocket('wss://play.delaford.com');
   } else {
     window.ws = new WebSocket('ws://localhost:4000');
   }
@@ -38,5 +38,5 @@ window.focusOnGame = () => {
 /* eslint-disable no-new */
 new Vue({
   store,
-  render: h => h(Navarra),
-}).$mount('#navarra');
+  render: h => h(Delaford),
+}).$mount('#delaford');

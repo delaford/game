@@ -15,7 +15,7 @@
         <div
           v-if="screen === 'register'"
           class="register">
-          To register an account, please visit <a href="https://navarra-rpg.com/register">this page</a> to get start and then come back.
+          To register an account, please visit <a href="https://delaford.com/register">this page</a> to get start and then come back.
         </div>
         <div
           v-if="screen === 'login'"
@@ -95,7 +95,7 @@ import bus from './core/utilities/bus';
 import Event from './core/player/events';
 
 export default {
-  name: 'Navarra',
+  name: 'Delaford',
   components: {
     GameCanvas, Chatbox, Info, Slots, ContextMenu, Login,
   },

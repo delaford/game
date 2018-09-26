@@ -37,7 +37,7 @@ export default {
       chatbox: [
         {
           type: 'normal',
-          text: 'Welcome to Navarra.',
+          text: 'Welcome to Delaford.',
         },
       ],
     };
