@@ -1,7 +1,7 @@
 /** ***************************************
-Navarra
+Delaford
 a fun medieval 2d javascript rpg
-https://navarra-rpg.com
+https://delaford.com
 ***************************************** */
 
 // Start Express
@@ -31,14 +31,14 @@ const CONSTANTS = {
 app.use(express.static(path.join(__dirname, CONSTANTS.root.folder)));
 
 // Actual game server
-const Navarra = require('./server/Navarra');
+const Delaford = require('./server/Delaford');
 
 // Create server for websocket to listen on
 const server = http.createServer(app);
 server.listen(port);
 
 // Initialize the Game class with port number
-const game = new Navarra(server);
+const game = new Delaford(server);
 
 // Start the game server.
 game.start();
