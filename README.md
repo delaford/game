@@ -78,16 +78,6 @@ Learning how to debug in this game is critical in order to interact with the Nod
 
 Read more at [DEBUGGING.md](debugging.md).
 
-## Why are you making yet another game?
-
-I've been wanting to make a Medieval-themed game for a while now with a old-school feel. Also, I wanted it to be multiplayer where players can connect and see each other. Maybe you want to train Mining and then maybe later Smithing? Yep. A neat PvE system? Yep.
-
-An open-source environment, I hope, cultivates learning, sharing and developing together the world of Delaford. The lore and history, much of to be written, will drive this game.
-
-I also hope to learn on topics such as collaboration (in an open-source world) where I develop my own DevOps skills wherein project standards are not only made but kept through the power of CI/CD.
-
-Lastly, this game will give me a great reason to try out `D3` and make cool data viz graphs in the `Delaford/website` section. You want to see cool graphs regarding your player? You're gonna get it. Or you can help contribute!
-
 ## Notice
 
 Delaford contains work from multiple sources not organically made by contributions from Delaford directly.
