@@ -1,6 +1,6 @@
 <template>
   <div class="logout">
-    <p>Please logout using this button to safely exit the game and save your progress.</p>
+    <p>Please logout using this button to safely exit the game to save your progress.</p>
     <button
       class="button is-danger is-big"
       @click="logout">Logout</button>
