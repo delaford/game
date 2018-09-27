@@ -5,7 +5,7 @@
 <p align="center">
   <strong>Welcome to Delaford. An online, 2D medieval game using JavaScript and HTML5.</strong>
 
-  <img width="704" alt="Game screenshot" src="https://github.com/Delaford/game/raw/master/src/assets/github/readme_hero.png">
+  <img width="704" alt="Game screenshot" src="https://rawgit.com/delaford/game/master/src/assets/github/readme_hero.png">
 </p>
 
 ## Getting Started
