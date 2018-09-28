@@ -13,8 +13,8 @@
           class="username"
           autocorrect="off"
           spellcheck="false"
+          autofocus
           autocomplete="off"
-          @click="introduceMusic"
           @keyup.enter="login">
         <input
           v-model="password"
