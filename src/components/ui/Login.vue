@@ -12,9 +12,9 @@
           type="text"
           class="username"
           autocorrect="off"
-          autofocus
           spellcheck="false"
           autocomplete="off"
+          @click="introduceMusic"
           @keyup.enter="login">
         <input
           v-model="password"
@@ -53,11 +53,11 @@ export default {
       invalid: false,
       username: '',
       password: '',
+      musicIntroduced: false,
     };
   },
   created() {
     this.invalid = false;
-    this.$nextTick(() => this.$refs.username.focus());
     bus.$on('player:login-error', data => this.incorrectLogin(data));
 
     if (!window.location.href.includes('.com')) {
@@ -67,6 +67,12 @@ export default {
     }
   },
   methods: {
+    /**
+     * Load up the glorious music
+     */
+    introduceMusic() {
+      bus.$emit('music:start');
+    },
     /**
      * Cancels login and goes back to main
      */

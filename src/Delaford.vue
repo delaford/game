@@ -4,6 +4,7 @@
     <div
       v-show="!loaded || !game"
       class="wrapper login__screen">
+      <AudioMainMenu />
       <div
         v-if="screen === 'server-down'"
         class="bg server__down">
@@ -85,6 +86,7 @@ import Info from './components/Info.vue';
 
 // Sub Vue components
 import ContextMenu from './components/sub/ContextMenu.vue';
+import AudioMainMenu from './components/sub/AudioMainMenu.vue';
 import Login from './components/ui/Login.vue';
 
 // Core assets
@@ -97,7 +99,7 @@ import Event from './core/player/events';
 export default {
   name: 'Delaford',
   components: {
-    GameCanvas, Chatbox, Info, Slots, ContextMenu, Login,
+    GameCanvas, Chatbox, Info, Slots, ContextMenu, Login, AudioMainMenu,
   },
   data() {
     return {
@@ -173,6 +175,9 @@ export default {
      * Start the whole game
      */
     async startGame(data) {
+      // Stop the main menu music
+      bus.$emit('music:stop');
+
       // Start the Client
       this.game = new Client(data);
       await this.game.buildMap();
@@ -221,6 +226,7 @@ export default {
   }
   div.login__screen {
     width: 692px;
+    position: relative;
     border: 5px solid #ababab;
     box-sizing: border-box;
     display: flex;
