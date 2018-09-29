@@ -20,7 +20,7 @@ app.use(compression());
 
 // Enforce HTTPS in production
 if (onProduction) {
-  app.use(enforce.HTTPS());
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
 
 // Start Express and use the correct env.
