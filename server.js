@@ -9,26 +9,22 @@ const path = require('path');
 const http = require('http');
 const compression = require('compression');
 const express = require('express');
-
-const app = express();
-app.use(compression());
-const port = process.env.PORT || 4000;
+const enforce = require('express-sslify');
 
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
+const port = process.env.PORT || 4000;
+const app = express();
 
-// Define express and socket port
-const CONSTANTS = {
-  port: {
-    express: 4000,
-    socket: 4000,
-  },
-  root: {
-    folder: onProduction ? '/dist' : '/',
-  },
-};
+// Compress Express server bytes
+app.use(compression());
+
+// Enforce HTTPS in production
+if (onProduction) {
+  app.use(enforce.HTTPS());
+}
 
 // Start Express and use the correct env.
-app.use(express.static(path.join(__dirname, CONSTANTS.root.folder)));
+app.use(express.static(path.join(__dirname, onProduction ? '/dist' : '/')));
 
 // Actual game server
 const Delaford = require('./server/Delaford');

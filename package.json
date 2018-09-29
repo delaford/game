@@ -17,6 +17,7 @@
     "axios": "^0.18.0",
     "compression": "^1.7.3",
     "express": "^4.16.3",
+    "express-sslify": "^1.2.0",
     "lodash": "^4.17.11",
     "node-emoji": "^1.8.1",
     "node-uuid": "^1.4.8",
