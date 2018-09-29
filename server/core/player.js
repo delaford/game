@@ -26,6 +26,12 @@ class Player {
       max: data.hp.max,
     };
 
+    // Worn items statistics
+    this.combat = {
+      attack: data.attack || 0,
+      defense: data.defense || 0,
+    };
+
     // Authentication
     this.moving = false;
     this.token = token;

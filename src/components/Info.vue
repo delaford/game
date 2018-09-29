@@ -24,12 +24,12 @@
         <strong class="att_label">ATT:</strong>
         <span
           class="integer"
-          v-text="getAttack.level"/>
+          v-text="getAttack"/>
 
         <strong class="def_label">DEF:</strong>
         <span
           class="integer"
-          v-text="getDefence.level"/>
+          v-text="getDefence"/>
       </div>
     </div>
 
@@ -58,10 +58,10 @@ export default {
       return (this.hp.current / this.hp.max) * 100;
     },
     getAttack() {
-      return this.game.player.skills.filter(s => s.name === 'Attack')[0];
+      return this.game.player.combat.attack;
     },
     getDefence() {
-      return this.game.player.skills.filter(s => s.name === 'Defence')[0];
+      return this.game.player.combat.defense;
     },
     displayHealthPercentage() {
       return `width:${this.getHealthPercentage}%`;

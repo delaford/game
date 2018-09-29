@@ -87,6 +87,7 @@ const handler = {
     if (data.data.uuid === context.game.player.uuid) {
       context.game.player.inventory = data.data.inventory;
       context.game.player.wear = data.data.wear;
+      context.game.player.combat = data.data.combat;
     }
   },
 
@@ -97,6 +98,7 @@ const handler = {
     if (data.data.uuid === context.game.player.uuid) {
       context.game.player.inventory = data.data.inventory;
       context.game.player.wear = data.data.wear;
+      context.game.player.combat = data.data.combat;
     }
   },
 

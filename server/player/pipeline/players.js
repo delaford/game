@@ -2,6 +2,7 @@ const world = require('../../core/world');
 const Socket = require('../../socket');
 const items = require('../../data/items');
 const UI = require('./../../core/utilities/ui');
+const Wear = require('./../../core/utilities/wear');
 
 module.exports = {
   equippedAnItem(data) {
@@ -14,12 +15,12 @@ module.exports = {
       itemID: getItem.id,
     };
 
-
-    console.log(`Equipping: ${getItem.id}`);
-
     world.players[playerIndex].wear[getItem.slot] = item;
+    // eslint-disable-next-line
     const getRealPlacement = world.players[playerIndex].inventory.findIndex(i => getItem.id === i.itemID);
     world.players[playerIndex].inventory.splice(getRealPlacement, 1);
+
+    Wear.updateAttDef(playerIndex);
 
     Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
   },
@@ -42,6 +43,7 @@ module.exports = {
 
       world.players[playerIndex].wear[getItem.slot] = null;
       world.players[playerIndex].inventory.push(item);
+      Wear.updateAttDef(playerIndex);
       Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
       resolve(200);
     });
