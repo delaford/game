@@ -95,16 +95,22 @@ class Actions {
       case 'equip':
         Socket.emit('item:equip', {
           id: this.player.uuid,
-          item: data.item.id,
-          slot: this.miscData.slot,
+          item: {
+            id: data.item.id,
+            uuid: data.item.uuid,
+            slot: this.miscData.slot,
+          },
         });
         break;
 
       case 'unequip':
         Socket.emit('item:unequip', {
           id: this.player.uuid,
-          item: data.item.id,
-          slot: this.miscData.slot,
+          item: {
+            id: data.item.id,
+            uuid: data.item.uuid,
+            slot: this.miscData.slot,
+          },
         });
         break;
 
@@ -136,6 +142,8 @@ class Actions {
   }
   /**
    * Build the context-menu list items
+   *
+   * @returns {promise}
    */
   build() {
     const self = this;
@@ -169,6 +177,8 @@ class Actions {
     // eslint-disable-next-line
     const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
 
+    // TODO
+    // Abstract to global context-menu item template
     switch (action.name) {
       default:
         return false;
@@ -188,6 +198,7 @@ class Actions {
                 y: itemData.y,
               },
               id: itemData.id,
+              uuid: itemData.uuid,
             };
 
             items.push(object);
@@ -199,7 +210,7 @@ class Actions {
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
+            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
@@ -209,6 +220,7 @@ class Actions {
                 action,
                 type: 'item',
                 miscData: this.miscData,
+                uuid: itemData.uuid,
                 id: itemData.id,
               };
 
@@ -222,20 +234,20 @@ class Actions {
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
+            const equippingItem = this.player.inventory.find(s => s.slot === this.miscData.slot);
+            const itemData = UI.getItemData(equippingItem.id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
             if (itemData.actions.includes(action.name.toLowerCase())) {
-              const object = {
+              items.push({
                 label: `Equip <span style='color:${color}'>${itemData.name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,
-                id: itemData.id,
-              };
-
-              items.push(object);
+                uuid: equippingItem.uuid,
+                id: equippingItem.id,
+              });
             }
           }
         }
@@ -246,7 +258,7 @@ class Actions {
         // Refactor 'right_hand' to all slots.
         if (this.clickedOn('slot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
-            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].itemID);
+            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
@@ -315,7 +327,7 @@ class Actions {
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
+            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 

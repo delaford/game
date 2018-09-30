@@ -111,14 +111,17 @@ const handler = {
    */
   'item:equip': async (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
-    const getItem = items.find(i => i.id === data.data.item);
+    const getItem = items.find(i => i.id === data.data.item.id);
     const alreadyWearing = world.players[playerIndex].wear[getItem.slot];
     if (alreadyWearing) {
       await pipe.player.unequipItem({
         data: {
+          item: {
+            uuid: alreadyWearing.uuid,
+            id: alreadyWearing.id,
+            slot: data.data.item.slot,
+          },
           id: data.data.id,
-          item: alreadyWearing.itemID,
-          slot: data.data.slot, // Equipping dagger's slot (1).. getOpenSlot
           replacing: true,
         },
       });
@@ -142,7 +145,7 @@ const handler = {
       name: i.name,
       stackable: i.stackable,
       graphics: i.graphics,
-      itemID: i.id,
+      id: i.id,
     }));
 
     Socket.emit('game:receive:items', itemsToSend);

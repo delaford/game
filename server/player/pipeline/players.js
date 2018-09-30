@@ -7,17 +7,18 @@ const Wear = require('./../../core/utilities/wear');
 module.exports = {
   equippedAnItem(data) {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
-    const getItem = items.find(i => i.id === data.data.item);
+    const getItem = items.find(i => i.id === data.data.item.id);
 
     const item = {
       stackable: getItem.stackable,
       graphics: getItem.graphics,
-      itemID: getItem.id,
+      id: data.data.item.id,
+      uuid: data.data.item.uuid,
     };
 
     world.players[playerIndex].wear[getItem.slot] = item;
     // eslint-disable-next-line
-    const getRealPlacement = world.players[playerIndex].inventory.findIndex(i => getItem.id === i.itemID);
+    const getRealPlacement = world.players[playerIndex].inventory.findIndex(i => item.uuid === i.uuid);
     world.players[playerIndex].inventory.splice(getRealPlacement, 1);
 
     Wear.updateAttDef(playerIndex);
@@ -27,16 +28,17 @@ module.exports = {
   unequipItem(data) {
     return new Promise((resolve) => {
       const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
-      const getItem = items.find(i => i.id === data.data.item);
+      const getItem = items.find(i => i.id === data.data.item.id);
 
       const item = {
         slot: UI.getOpenSlot(world.players[playerIndex].inventory),
-        itemID: getItem.id,
+        id: getItem.id,
+        uuid: world.players[playerIndex].wear[getItem.slot].uuid,
       };
 
       if (data.data.replacing) {
         // TODO - Make this nicer.
-        item.slot = item.slot <= data.data.slot ? item.slot : data.data.slot;
+        item.slot = item.slot <= data.data.item.slot ? item.slot : data.data.item.slot;
       }
 
       console.log(`Unequip: ${getItem.id}`);

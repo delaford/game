@@ -3,7 +3,7 @@ const Socket = require('./socket');
 const world = require('./core/world');
 
 // Node modules
-const uuid = require('node-uuid');
+const uuid = require('uuid/v4');
 const emoji = require('node-emoji');
 
 // Default entities
@@ -97,7 +97,7 @@ class Delaford {
     console.log(`${emoji.get('computer')}  Someone connected.`);
 
     // Assign UUID to every connection
-    ws.id = uuid.v4();
+    ws.id = uuid();
     world.clients.push(ws);
 
     ws.on('message', async (msg) => {

@@ -7,11 +7,11 @@ const UI = require('./utilities/ui');
 const axios = require('axios');
 const Socket = require('../socket');
 
-const itemsDB = require('../data/items');
+// const itemsDB = require('../data/items');
 
-const database = {
-  items: itemsDB,
-};
+// const database = {
+//   items: itemsDB,
+// };
 
 class Player {
   constructor(data, token, socketId) {
@@ -137,24 +137,23 @@ class Player {
             // Abstract this to own file of action events in-game
             if (todo.action.name === 'Take') {
               // eslint-disable-next-line
-              const itemToTake = world.items.findIndex((e) => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.id === todo.item));
+              const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
+
               world.items.splice(itemToTake, 1);
 
               Socket.broadcast('item:change', world.items);
 
-              const getItem = database.items.find(e => e.id === todo.item);
-
-              console.log(`Picking up: ${getItem.id}`);
+              console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
 
               world.players[playerIndex].inventory.push({
                 slot: UI.getOpenSlot(world.players[playerIndex].inventory),
-                itemID: getItem.id,
+                id: todo.item.id,
+                uuid: todo.item.uuid,
               });
 
               const data = {
                 player: { socket_id: world.players[playerIndex].socket_id },
                 data: world.players[playerIndex].inventory,
-                pickingUp: getItem.id,
               };
 
               // Tell client to update their inventory

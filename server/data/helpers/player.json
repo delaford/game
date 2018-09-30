@@ -6,6 +6,10 @@
 	"level": 1,
 	"online": true,
 	"sign_in": 1537526023,
+	"combat": {
+		"attack": 0,
+		"defense": 0
+	},
 	"hp": {
 		"current": 10,
 		"max": 10

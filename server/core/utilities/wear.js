@@ -9,7 +9,7 @@ class Wear {
    * @returns {integer}
    */
   static getAttack(item) {
-    const fullItem = items.find(i => i.id === item.itemID);
+    const fullItem = items.find(i => i.id === item.id);
     return fullItem.stats.attack;
   }
 
@@ -20,7 +20,7 @@ class Wear {
    * @returns {integer}
    */
   static getDefense(item) {
-    const fullItem = items.find(i => i.id === item.itemID);
+    const fullItem = items.find(i => i.id === item.id);
     return fullItem.stats.defense;
   }
 
@@ -33,9 +33,9 @@ class Wear {
     // Go through each wear item and add up its value
     Object.keys(world.players[playerIndex].wear).forEach((key) => {
       const val = world.players[playerIndex].wear[key];
-      if (val !== null && val.itemID) {
-        stats.att += this.getAttack({ itemID: val.itemID });
-        stats.def += this.getDefense({ itemID: val.itemID });
+      if (val !== null && val.uuid && val.id) {
+        stats.att += this.getAttack({ id: val.id });
+        stats.def += this.getDefense({ id: val.id });
       }
     });
 
