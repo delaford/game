@@ -70,7 +70,10 @@ export default {
       // TODO: generate unique ID
       // to pick up same item on same tile
       const queueItem = {
-        item: item.id,
+        item: {
+          uuid: item.uuid,
+          id: item.id,
+        },
         tile: this.tile,
         action: item.action,
         at: item.at || false,

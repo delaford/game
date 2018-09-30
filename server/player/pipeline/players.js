@@ -9,10 +9,12 @@ module.exports = {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
     const getItem = items.find(i => i.id === data.data.item);
 
+    debugger;
     const item = {
       stackable: getItem.stackable,
       graphics: getItem.graphics,
-      itemID: getItem.id,
+      itemID: data.data.id,
+      uuid: data.data.uuid,
     };
 
     world.players[playerIndex].wear[getItem.slot] = item;

@@ -77,8 +77,8 @@ export default {
      * @return {integer|boolean}
      */
     getItem(slotNumber) {
-      const getItemID = this.items.find(s => s.slot === slotNumber).itemID;
-      const getItemDetails = this.library.find(i => i.itemID === getItemID);
+      const findItem = this.items.find(s => s.slot === slotNumber).id;
+      const getItemDetails = this.library.find(i => i.id === findItem);
 
       if (getItemDetails) {
         return getItemDetails.graphics.column;

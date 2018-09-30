@@ -93,10 +93,14 @@ class Actions {
         break;
 
       case 'equip':
+        debugger;
         Socket.emit('item:equip', {
           id: this.player.uuid,
-          item: data.item.id,
-          slot: this.miscData.slot,
+          item: {
+            id: data.item.id,
+            uuid: data.item.uuid,
+            slot: this.miscData.slot,
+          },
         });
         break;
 
@@ -136,6 +140,8 @@ class Actions {
   }
   /**
    * Build the context-menu list items
+   *
+   * @returns {promise}
    */
   build() {
     const self = this;
@@ -169,6 +175,8 @@ class Actions {
     // eslint-disable-next-line
     const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
 
+    // TODO
+    // Abstract to global context-menu item template
     switch (action.name) {
       default:
         return false;
@@ -188,6 +196,7 @@ class Actions {
                 y: itemData.y,
               },
               id: itemData.id,
+              uuid: itemData.uuid,
             };
 
             items.push(object);
@@ -209,6 +218,7 @@ class Actions {
                 action,
                 type: 'item',
                 miscData: this.miscData,
+                uuid: itemData.uuid,
                 id: itemData.id,
               };
 
@@ -222,16 +232,21 @@ class Actions {
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
+            const xx = this.player.inventory.find(s => s.slot === this.miscData.slot).id;
+            debugger;
+            const itemData = UI.getItemData(xx);
+            debugger;
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
             if (itemData.actions.includes(action.name.toLowerCase())) {
+              debugger;
               const object = {
                 label: `Equip <span style='color:${color}'>${itemData.name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,
+                uuid: itemData.uuid,
                 id: itemData.id,
               };
 

@@ -1,9 +1,9 @@
-// TODO
-// Implement UUID
+const uuid = require('uuid/v4');
 
 class Item {
   constructor(data) {
     this.id = data.id;
+    this.uuid = uuid();
     this.name = data.name;
     this.examine = data.examine;
     this.price = data.price;
