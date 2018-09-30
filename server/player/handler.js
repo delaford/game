@@ -111,10 +111,10 @@ const handler = {
    */
   'item:equip': async (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
-    const getItem = items.find(i => i.id === data.data.id);
+    const getItem = items.find(i => i.id === data.data.item.id);
     const alreadyWearing = world.players[playerIndex].wear[getItem.slot];
-    debugger;
     if (alreadyWearing) {
+      debugger;
       await pipe.player.unequipItem({
         data: {
           uuid: data.data.uuid,

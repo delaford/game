@@ -93,7 +93,6 @@ class Actions {
         break;
 
       case 'equip':
-        debugger;
         Socket.emit('item:equip', {
           id: this.player.uuid,
           item: {
@@ -107,8 +106,11 @@ class Actions {
       case 'unequip':
         Socket.emit('item:unequip', {
           id: this.player.uuid,
-          item: data.item.id,
-          slot: this.miscData.slot,
+          item: {
+            id: data.item.id,
+            uuid: data.item.uuid,
+            slot: this.miscData.slot,
+          },
         });
         break;
 
@@ -208,7 +210,7 @@ class Actions {
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
+            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
@@ -232,25 +234,20 @@ class Actions {
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             // eslint-disable-next-line
-            const xx = this.player.inventory.find(s => s.slot === this.miscData.slot).id;
-            debugger;
-            const itemData = UI.getItemData(xx);
-            debugger;
+            const equippingItem = this.player.inventory.find(s => s.slot === this.miscData.slot);
+            const itemData = UI.getItemData(equippingItem.id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
             if (itemData.actions.includes(action.name.toLowerCase())) {
-              debugger;
-              const object = {
+              items.push({
                 label: `Equip <span style='color:${color}'>${itemData.name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,
-                uuid: itemData.uuid,
-                id: itemData.id,
-              };
-
-              items.push(object);
+                uuid: equippingItem.uuid,
+                id: equippingItem.id,
+              });
             }
           }
         }
@@ -261,7 +258,7 @@ class Actions {
         // Refactor 'right_hand' to all slots.
         if (this.clickedOn('slot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
-            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].itemID);
+            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
@@ -330,7 +327,7 @@ class Actions {
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).itemID);
+            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 

@@ -110,9 +110,9 @@ export default {
      * @returns {string}
      */
     getTooltip(slot) {
-      return `${this.getItem(this.wear[slot].itemID).name}
-            <br>${this.getItem(this.wear[slot].itemID).stats.attack} att &middot;
-            ${this.getItem(this.wear[slot].itemID).stats.defense} def`;
+      return `${this.getItem(this.wear[slot].id).name}
+            <br>${this.getItem(this.wear[slot].id).stats.attack} att &middot;
+            ${this.getItem(this.wear[slot].id).stats.defense} def`;
     },
     /**
      * Load the items from the server
@@ -161,7 +161,7 @@ export default {
       }
     },
     getItem(id) {
-      return this.library.find(i => i.itemID === id);
+      return this.library.find(i => i.id === id);
     },
     /**
      * Shows the correct background type in slot
