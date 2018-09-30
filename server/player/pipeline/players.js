@@ -18,7 +18,7 @@ module.exports = {
 
     world.players[playerIndex].wear[getItem.slot] = item;
     // eslint-disable-next-line
-    const getRealPlacement = world.players[playerIndex].inventory.findIndex(i => getItem.id === i.itemID);
+    const getRealPlacement = world.players[playerIndex].inventory.findIndex(i => item.uuid === i.uuid);
     world.players[playerIndex].inventory.splice(getRealPlacement, 1);
 
     Wear.updateAttDef(playerIndex);
