@@ -117,8 +117,11 @@ class Actions {
       case 'drop':
         Socket.emit('player:inventoryItemDrop', {
           id: this.player.uuid,
-          droppingItem: data.item.id,
-          slot: data.item.miscData.slot,
+          item: {
+            id: data.item.id,
+            slot: data.item.miscData.slot,
+            uuid: data.item.uuid,
+          },
         });
 
         break;
@@ -210,7 +213,8 @@ class Actions {
         if (this.clickedOn('inventorySlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).id);
+            const droppingItem = this.player.inventory.find(s => s.slot === this.miscData.slot);
+            const itemData = UI.getItemData(droppingItem.id);
             this.objectId = itemData;
             const color = UI.getContextSubjectColor('item');
 
@@ -220,8 +224,8 @@ class Actions {
                 action,
                 type: 'item',
                 miscData: this.miscData,
-                uuid: itemData.uuid,
-                id: itemData.id,
+                uuid: droppingItem.uuid,
+                id: droppingItem.id,
               };
 
               items.push(object);

@@ -19,11 +19,8 @@ if ('WebSocket' in window) {
   // TODO
   // Clean this up
   // const hostname = window.location.hostname;
-  if (window.location.href.includes('.com')) {
-    window.ws = new WebSocket('wss://play.delaford.com');
-  } else {
-    window.ws = new WebSocket('ws://localhost:4000');
-  }
+  const url = process.env.NODE_ENV === 'production' ? 'wss://play.delaford.com' : 'ws://localhost:4000';
+  window.ws = new WebSocket(url);
 }
 
 // Add an event listener to close the websocket

@@ -54,10 +54,14 @@ class Authentication {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       axios
         .post(url, null, config)
-        .then(r => resolve(r.data));
+        .then(r => resolve(r.data))
+        .catch((error) => {
+          console.log(error.response);
+          reject(error.response);
+        });
     });
   }
 
