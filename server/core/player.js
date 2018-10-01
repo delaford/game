@@ -7,12 +7,6 @@ const UI = require('./utilities/ui');
 const axios = require('axios');
 const Socket = require('../socket');
 
-// const itemsDB = require('../data/items');
-
-// const database = {
-//   items: itemsDB,
-// };
-
 class Player {
   constructor(data, token, socketId) {
     // Main statistics
@@ -63,7 +57,7 @@ class Player {
     this.queue = [];
 
     // Player inventory
-    this.inventory = [];
+    this.inventory = [...data.inventory];
 
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
   }
@@ -290,9 +284,7 @@ class Player {
     };
 
     // Get inventory data
-    const inventoryData = getPlayer.inventory.map(i => ({
-      id: i.itemID,
-    }));
+    const inventoryData = getPlayer.inventory;
 
     // Get wearable data
     const wearData = getPlayer.wear;

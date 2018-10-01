@@ -36,6 +36,19 @@
       <button
         class="button"
         @click="login">Login</button>
+      <div
+        v-tippy
+        v-if="inDevelopment"
+        title="Load pre-made guest account. No progress will be saved on this account."
+        class="guest_account">
+        <label for="guest_account">
+          <input
+            id="guest_account"
+            v-model="guestAccount"
+            type="checkbox">
+          Guest account?
+        </label>
+      </div>
       <button
         class="button"
         @click="cancel">Cancel</button>
@@ -53,14 +66,38 @@ export default {
       invalid: false,
       username: '',
       password: '',
+      guestAccount: false,
       musicIntroduced: false,
     };
+  },
+  computed: {
+    /**
+     * Show only if on production website
+     */
+    inDevelopment() {
+      return process.env.NODE_ENV !== 'production';
+    },
+  },
+  watch: {
+    guestAccount() {
+      // Set back to guest credentials if false
+      if (this.guestAccount) {
+        this.username = 'dev';
+        this.password = 'qwertykeyboard';
+      } else {
+        this.username = '';
+        this.password = '';
+      }
+    },
   },
   created() {
     this.invalid = false;
     bus.$on('player:login-error', data => this.incorrectLogin(data));
 
-    if (!window.location.href.includes('.com')) {
+    // Allow guest account only in development
+    this.guestAccount = this.inDevelopment;
+
+    if (process.env.NODE_ENV === 'development') {
       // Development user
       this.username = 'dev';
       this.password = 'qwertykeyboard';
@@ -84,7 +121,11 @@ export default {
      */
     login() {
       this.invalid = false;
-      const data = { username: this.username, password: this.password, url: window.location.href };
+      const data = {
+        username: this.username,
+        password: this.password,
+        useGuestAccount: this.guestAccount,
+      };
 
       Socket.emit('player:login', data);
     },
@@ -153,6 +194,16 @@ div.form {
     width: 100%;
     margin-top: 1em;
     justify-content: space-between;
+
+    .guest_account {
+      background: #b93636;
+      border: 2px solid #521414;
+      color: #c0c053;
+      margin-top: .25em;
+      padding: .25em;
+      font-family: "ChatFont";
+      text-shadow: 1px 1px 0 #000;
+    }
 
     button {
       font-size: 1.5em;

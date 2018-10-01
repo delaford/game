@@ -54,11 +54,5 @@
 		"feet": null,
 		"ring": null
 	},
-	"inventory": {
-		"id": 1,
-		"user_id": 1,
-		"data": [{"slot":0,"itemID":"sword"},{"slot":1,"itemID":"dagger"},{"slot":2,"itemID":"pickaxe"}],
-		"created_at": "2018-08-31 03:52:09",
-		"updated_at": "2018-09-21 09:53:09"
-	}
+	"inventory": [{"slot":0,"id":"dagger","uuid":"kkzz20ce-e34c-47b5-a074-40058f864e12"},{"slot":1,"id":"sword","uuid":"8f1f8283-9ca7-4aa4-b984-d0192a2164fc"}]
 }

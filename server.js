@@ -11,6 +11,8 @@ const compression = require('compression');
 const express = require('express');
 const enforce = require('express-sslify');
 
+const world = require('./server/core/world');
+
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
 const port = process.env.PORT || 4000;
 const app = express();
@@ -35,6 +37,11 @@ server.listen(port);
 
 // Initialize the Game class with port number
 const game = new Delaford(server);
+
+if (!onProduction) {
+  app.get('/world/items', (req, res) => res.send(world.items));
+  app.get('/world/players', (req, res) => res.send(world.players));
+}
 
 // Start the game server.
 game.start();

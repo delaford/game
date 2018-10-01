@@ -22,7 +22,7 @@ const handler = {
    */
   'player:login': async (data, ws) => {
     try {
-      if (data.data.url.includes('.com')) {
+      if (!data.data.useGuestAccount) {
         const { player, token } = await Authentication.login(data);
         Authentication.addPlayer(new Player(player, token, ws.id));
       } else {
@@ -92,16 +92,17 @@ const handler = {
   'player:inventoryItemDrop': (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
     world.players[playerIndex].inventory = world.players[playerIndex].inventory
-      .filter(v => v.slot !== data.data.slot);
+      .filter(v => v.slot !== data.data.item.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
 
     world.items.push({
-      id: data.data.droppingItem,
+      id: data.data.item.id,
+      uuid: data.data.item.uuid,
       x: world.players[playerIndex].x,
       y: world.players[playerIndex].y,
     });
 
-    console.log(`Dropping: ${data.data.droppingItem}`);
+    console.log(`Dropping: ${data.data.item.id}`);
 
     Socket.broadcast('world:itemDropped', world.items);
   },
