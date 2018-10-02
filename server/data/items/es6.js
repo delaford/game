@@ -1,7 +1,6 @@
-// import { weapons } from './weapons';
+import weapons from './weapons';
 import armor from './armor';
 
+export const wearableItems = [...armor, ...weapons];
 
-export const wearableItems = [...armor];
-
-export { armor };
+export { armor, weapons };
