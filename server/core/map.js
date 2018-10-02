@@ -3,7 +3,7 @@ const config = require('./../core/config');
 const surfaceMap = require('./../maps/layers/surface.json');
 const world = require('./../core/world');
 const UI = require('./../core/utilities/ui');
-const { droppedItems } = require('./../data/default');
+const { weapons, armor } = require('./../data/respawn');
 
 class Map {
   constructor(level) {
@@ -87,7 +87,7 @@ class Map {
     this.foreground = board[1].data;
 
     // Set items on map
-    world.items = droppedItems;
+    world.items = [...weapons, ...armor];
   }
 
   /**

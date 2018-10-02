@@ -1,4 +1,4 @@
-import items from './../../../server/data/items';
+import { wearableItems } from './../../../server/data/items/es6';
 import { map } from '../../../server/core/config';
 
 class UI {
@@ -127,7 +127,7 @@ class UI {
    * @returns {object}
    */
   static getItemData(id) {
-    return items.find(item => item.id === id);
+    return wearableItems.find(item => item.id === id);
   }
 
   /**

@@ -1,13 +1,13 @@
 const world = require('../../core/world');
 const Socket = require('../../socket');
-const items = require('../../data/items');
+const { wearableItems } = require('../../data/items');
 const UI = require('./../../core/utilities/ui');
 const Wear = require('./../../core/utilities/wear');
 
 module.exports = {
   equippedAnItem(data) {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
-    const getItem = items.find(i => i.id === data.data.item.id);
+    const getItem = wearableItems.find(i => i.id === data.data.item.id);
 
     const item = {
       stackable: getItem.stackable,
@@ -28,7 +28,7 @@ module.exports = {
   unequipItem(data) {
     return new Promise((resolve) => {
       const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
-      const getItem = items.find(i => i.id === data.data.item.id);
+      const getItem = wearableItems.find(i => i.id === data.data.item.id);
 
       const item = {
         slot: UI.getOpenSlot(world.players[playerIndex].inventory),

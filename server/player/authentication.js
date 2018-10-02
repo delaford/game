@@ -98,6 +98,7 @@ class Authentication {
     // Add the player
     world.players.push(player);
 
+    // Send back the updated world
     const block = {
       player,
       map: world.map,

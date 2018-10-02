@@ -1,4 +1,4 @@
-const items = require('./../../../server/data/items');
+const { wearableItems } = require('./../../../server/data/items');
 const { map } = require('../config');
 
 class UI {
@@ -127,7 +127,7 @@ class UI {
    * @returns {object}
    */
   static getItemData(id) {
-    return items.find(item => item.id === id);
+    return wearableItems.find(item => item.id === id);
   }
 
   /**
