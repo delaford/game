@@ -50,7 +50,6 @@ export default {
   },
   created() {
     bus.$on('PLAYER:MENU', this.openMenu);
-    bus.$on('CLOSE:MENU', () => this.closeMenu());
   },
   methods: {
     /**

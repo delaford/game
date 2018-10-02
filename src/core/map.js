@@ -86,11 +86,11 @@ class Map {
    */
   setImages(images) {
     // Define images
-    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage] = images;
+    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage] = images;
 
     // Image and data
     this.images = {
-      playerImage, npcsImage, objectImage, terrainImage, weaponsImage,
+      playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage,
     };
 
     // Set image and config
@@ -264,6 +264,8 @@ class Map {
       // Get the correct tileset to draw upon
       const itemTileset = () => {
         switch (info.graphics.tileset) {
+          case 'armor':
+            return this.images.armorImage;
           default:
           case 'weapons':
             return this.images.weaponsImage;
