@@ -5,7 +5,7 @@ const Socket = require('../socket');
 const Map = require('./../core/map');
 const playerGuest = require('../data/helpers/player.json');
 
-const items = require('../data/items');
+const { wearableItems } = require('../data/items');
 
 const pipe = require('./pipeline');
 
@@ -112,7 +112,7 @@ const handler = {
    */
   'item:equip': async (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
-    const getItem = items.find(i => i.id === data.data.item.id);
+    const getItem = wearableItems.find(i => i.id === data.data.item.id);
     const alreadyWearing = world.players[playerIndex].wear[getItem.slot];
     if (alreadyWearing) {
       await pipe.player.unequipItem({
@@ -141,7 +141,7 @@ const handler = {
   },
 
   'game:fetch:items': () => {
-    const itemsToSend = items.map(i => ({
+    const itemsToSend = wearableItems.map(i => ({
       stats: i.stats,
       name: i.name,
       stackable: i.stackable,

@@ -53,7 +53,19 @@
         <div
           v-else
           class="slot sword right_hand"/>
-        <div class="slot torso"/>
+        <div
+          v-tippy
+          v-if="slotFilled('armor')"
+          :class="showBackground('armor')"
+          :style="{
+            backgroundPosition: `left -${(tileOffset('armor') * 32)}px top`
+          }"
+          :title="getTooltip('armor')"
+          class="slot torso"
+          @click.right="rightClick($event, 'armor')"/>
+        <div
+          v-else
+          class="slot torso armor"/>
         <div class="slot shield"/>
       </div>
 
@@ -155,6 +167,8 @@ export default {
      */
     tileOffset(slot) {
       switch (slot) {
+        case 'armor':
+          return this.wear.armor ? this.wear.armor.graphics.column : 0;
         default:
         case 'right_hand':
           return this.wear.right_hand ? this.wear.right_hand.graphics.column : 0;
@@ -171,6 +185,8 @@ export default {
      */
     showBackground(classImg) {
       switch (classImg) {
+        case 'armor':
+          return this.slotFilled(this.wear.armor) ? 'armorEquipped' : classImg;
         default:
         case 'right_hand':
           return this.slotFilled(this.wear.right_hand) ? 'swordEquipped' : classImg;
@@ -240,6 +256,10 @@ div.wear {
 
         div.swordEquipped {
           background-image: url(./../../assets/graphics/items/weapons.png);
+        }
+
+        div.armorEquipped {
+          background-image: url(./../../assets/graphics/items/armor.png);
         }
       }
 

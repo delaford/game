@@ -47,7 +47,7 @@ export default {
      * Compute whether user said something
      */
     sayingSomething() {
-      return this.said.length >= 1 && this.said.length <= 50;
+      return this.said.length >= 1 && this.said.length <= 75;
     },
   },
   created() {
@@ -105,6 +105,8 @@ export default {
     say(event, type = 'chat', username = null) {
       // Does our message actually have lines?
 
+      // TODO
+      // Do not impose limit on `normal` messages.
       if (this.sayingSomething) {
         // TODO: Transfer to network code
         const typed = [

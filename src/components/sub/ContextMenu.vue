@@ -6,7 +6,6 @@
     <ul
       v-if="view"
       id="actions"
-      ref="right"
       tabindex="-1"
       @blur="closeMenu">
       <li
@@ -67,8 +66,6 @@ export default {
       };
 
       // Data for queued action
-      // TODO: generate unique ID
-      // to pick up same item on same tile
       const queueItem = {
         item: {
           uuid: item.uuid,
@@ -127,7 +124,6 @@ export default {
 
       this.$nextTick(() => {
         if (targetElement.includes('gameMap')) {
-          this.$refs.right.focus();
           this.onMap = true;
         }
 

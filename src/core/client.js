@@ -1,9 +1,10 @@
-import terrainTileset from '@/assets/tiles/terrain.png';
-import objectsTileset from '@/assets/tiles/objects.png';
+import terrainTileset from '../assets/tiles/terrain.png';
+import objectsTileset from '../assets/tiles/objects.png';
 
-import npcImage from '@/assets/graphics/actors/npcs.png';
-import playerImage from '@/assets/graphics/actors/players/human.png';
-import weaponsImage from '@/assets/graphics/items/weapons.png';
+import npcImage from '../assets/graphics/actors/npcs.png';
+import playerImage from '../assets/graphics/actors/players/human.png';
+import weaponsImage from '../assets/graphics/items/weapons.png';
+import armorImage from '../assets/graphics/items/armor.png';
 
 import bus from '../core/utilities/bus';
 
@@ -84,6 +85,7 @@ class Client {
       objectsTileset,
       terrainTileset,
       weaponsImage,
+      armorImage,
     ];
 
     const images = Object.values(assets).map(asset =>

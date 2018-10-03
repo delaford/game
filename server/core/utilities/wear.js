@@ -1,4 +1,4 @@
-const items = require('../../data/items');
+const { wearableItems } = require('../../data/items');
 const world = require('../../core/world');
 
 class Wear {
@@ -9,7 +9,7 @@ class Wear {
    * @returns {integer}
    */
   static getAttack(item) {
-    const fullItem = items.find(i => i.id === item.id);
+    const fullItem = wearableItems.find(i => i.id === item.id);
     return fullItem.stats.attack;
   }
 
@@ -20,7 +20,7 @@ class Wear {
    * @returns {integer}
    */
   static getDefense(item) {
-    const fullItem = items.find(i => i.id === item.id);
+    const fullItem = wearableItems.find(i => i.id === item.id);
     return fullItem.stats.defense;
   }
 
