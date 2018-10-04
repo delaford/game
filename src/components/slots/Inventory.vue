@@ -137,7 +137,7 @@ export default {
     getBgUrl(slotNumber) {
       const getItem = this.getItemFromSlot(slotNumber);
 
-      if (!this.images.weaponsImage.src) {
+      if (!this.images) {
         return false;
       }
 
