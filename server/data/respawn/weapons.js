@@ -15,11 +15,6 @@ module.exports = [{
   y: 112,
 }, {
   id: 'pickaxe',
-  uuid: '8f7cf4dc-0f15-4ad0-a359-ecfe76793046',
-  x: 20,
-  y: 113,
-}, {
-  id: 'pickaxe',
   uuid: '31b8050f-4121-4391-b610-b4960733f0c7',
   x: 18,
   y: 113,

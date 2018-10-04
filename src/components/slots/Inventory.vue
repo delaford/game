@@ -138,8 +138,7 @@ export default {
       const getItem = this.getItemFromSlot(slotNumber);
 
       if (!this.images.weaponsImage.src) {
-        debugger;
-        console.log('error');
+        return false;
       }
 
       switch (getItem.graphics.tileset) {
