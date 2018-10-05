@@ -186,9 +186,6 @@ export default {
       const engine = new Engine(this.game);
       engine.start();
 
-      // TODO
-      // Load blocked tiles/objects from server
-
       // Focus on game.
       setTimeout(() => {
         window.focusOnGame();
