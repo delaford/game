@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "server:dev": "./node_modules/.bin/nodemon server",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
@@ -10,7 +11,6 @@
     "postinstall": "npm run build",
     "test:unit": "vue-cli-service test:unit",
     "ndb": "./node_modules/.bin/ndb server",
-    "dev_server": "./node_modules/.bin/nodemon server",
     "dev:node": "./node_modules/.bin/parcel build server.js -d server_dist/output",
     "format": "eslint --fix"
   },
