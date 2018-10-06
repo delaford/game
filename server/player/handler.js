@@ -29,6 +29,7 @@ const handler = {
         Authentication.addPlayer(new Player(playerGuest, 'none', ws.id));
       }
     } catch (e) {
+      console.log(e.message);
       Socket.emit('player:login-error', e);
     }
   },

@@ -2,7 +2,7 @@
   <div id="app">
     <!-- Login screen -->
     <div
-      v-show="!loaded || !game"
+      v-show="!loaded || game.exit"
       class="wrapper login__screen">
       <AudioMainMenu />
       <div
@@ -53,7 +53,7 @@
 
     <!-- Game wrapper -->
     <div
-      v-show="loaded && game"
+      v-show="loaded && game.map"
       class="wrapper"
       @click.right="nothing">
       <div class="left">
@@ -105,7 +105,7 @@ export default {
     return {
       config,
       loaded: false,
-      game: {},
+      game: { exit: true },
       screen: 'login',
     };
   },
@@ -136,7 +136,7 @@ export default {
      */
     logout() {
       this.screen = 'login';
-      this.game = false;
+      this.game = { exit: true };
     },
 
     /**

@@ -6,6 +6,8 @@ const WebSocket = require('ws');
 const UI = require('./utilities/ui');
 const axios = require('axios');
 const Socket = require('../socket');
+const uuid = require('uuid/v4');
+const { wearableItems } = require('../data/items');
 
 class Player {
   constructor(data, token, socketId) {
@@ -34,7 +36,7 @@ class Player {
 
     // Tabs
     this.friend_list = data.friend_list;
-    this.wear = data.wear;
+    this.wear = Player.constructWear(data.wear);
 
     // Pathfinding
     this.path = {
@@ -60,6 +62,36 @@ class Player {
     this.inventory = [...data.inventory];
 
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
+  }
+
+  /**
+   * Make up correct object format for Vue component
+   * as it is abstracted from the database
+   *
+   * @param {string} data The item ID
+   */
+  static constructWear(data) {
+    const wearData = data;
+    // Do not load arrows for now
+    delete wearData.arrows;
+
+    // Go through every wear slot
+    // and map from database to Vue object
+    Object.keys(wearData).forEach((property) => {
+      if (Object.prototype.hasOwnProperty.call(wearData, property)) {
+        if (wearData[property] !== null) {
+          const id = wearData[property];
+          wearData[property] = {
+            uuid: uuid(),
+            stackable: wearableItems.find(db => db.id === id).stackable,
+            graphics: wearableItems.find(db => db.id === id).graphics,
+            id,
+          };
+        }
+      }
+    });
+
+    return data;
   }
 
   /**
@@ -288,6 +320,16 @@ class Player {
 
     // Get wearable data
     const wearData = getPlayer.wear;
+
+    Object.keys(wearData).forEach((property) => {
+      if (Object.prototype.hasOwnProperty.call(wearData, property)) {
+        wearData[property] = wearData[property] === null ? null : wearData[property].id;
+      }
+    });
+
+    if (Object.prototype.hasOwnProperty.call(wearData, 'arrows')) {
+      delete wearData.arrows;
+    }
 
     const data = {
       uuid: this.uuid, playerData, inventoryData, wearData,

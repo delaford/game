@@ -64,8 +64,8 @@ export default {
   data() {
     return {
       invalid: false,
-      username: '',
-      password: '',
+      username: 'dan',
+      password: 'soccer',
       guestAccount: false,
       musicIntroduced: false,
     };
@@ -85,8 +85,8 @@ export default {
         this.username = 'dev';
         this.password = 'qwertykeyboard';
       } else {
-        this.username = '';
-        this.password = '';
+        this.username = 'dan';
+        this.password = 'soccer';
       }
     },
   },
@@ -95,9 +95,9 @@ export default {
     bus.$on('player:login-error', data => this.incorrectLogin(data));
 
     // Allow guest account only in development
-    this.guestAccount = this.inDevelopment;
+    // this.guestAccount = this.inDevelopment;
 
-    if (process.env.NODE_ENV === 'development') {
+    if (this.guestAccount && process.env.NODE_ENV === 'development') {
       // Development user
       this.username = 'dev';
       this.password = 'qwertykeyboard';
