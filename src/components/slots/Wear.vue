@@ -122,16 +122,21 @@ export default {
      * @returns {string}
      */
     getTooltip(slot) {
-      return `${this.getItem(this.wear[slot].id).name}
-            <br>${this.getItem(this.wear[slot].id).stats.attack} att &middot;
-            ${this.getItem(this.wear[slot].id).stats.defense} def`;
+      const wearItem = this.wear[slot];
+      if (Object.hasOwnProperty.call(wearItem, 'id') && this.library) {
+        return `${this.getItem(wearItem.id).name}
+            <br>${this.getItem(wearItem.id).stats.attack} att &middot;
+            ${this.getItem(wearItem.id).stats.defense} def`;
+      }
+
+      return false;
     },
     /**
      * Load the items from the server
      */
     constructItemLibrary(data) {
       // TODO
-      // Abstract this to global methoc
+      // Abstract this to global method
       this.library = data;
     },
     /**
@@ -175,6 +180,7 @@ export default {
       }
     },
     getItem(id) {
+      if (!this.library) return false;
       return this.library.find(i => i.id === id);
     },
     /**
