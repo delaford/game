@@ -1,5 +1,5 @@
 module.exports = [{
-  id: 'sword',
+  id: 'bronze-sword',
   name: 'Bronze Sword',
   examine: 'A sword made of Bronze.',
   price: 15,
@@ -25,7 +25,7 @@ module.exports = [{
   stackable: false,
 },
 {
-  id: 'axe',
+  id: 'bronze-axe',
   name: 'Bronze Axe',
   examine: 'An axe made for chopping.',
   price: 11,
@@ -54,7 +54,7 @@ module.exports = [{
   stackable: false,
 },
 {
-  id: 'dagger',
+  id: 'bronze-dagger',
   name: 'Bronze Dagger',
   examine: 'An short and sturdy dagger.',
   price: 9,
@@ -83,7 +83,7 @@ module.exports = [{
   stackable: false,
 },
 {
-  id: 'pickaxe',
+  id: 'bronze-pickaxe',
   name: 'Bronze Pickaxe',
   examine: 'A versatile pickaxe for mining.',
   price: 13,
