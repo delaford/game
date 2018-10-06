@@ -38,10 +38,10 @@ server.listen(port);
 // Initialize the Game class with port number
 const game = new Delaford(server);
 
-if (!onProduction) {
-  app.get('/world/items', (req, res) => res.send(world.items));
-  app.get('/world/players', (req, res) => res.send(world.players));
-}
+// if (!onProduction) {
+app.get('/world/items', (req, res) => res.send(world.items));
+app.get('/world/players', (req, res) => res.send(world.players));
+// }
 
 // Start the game server.
 game.start();
