@@ -258,9 +258,7 @@ class Actions {
         break;
 
       case 'Unequip':
-        // TODO
-        // Refactor 'right_hand' to all slots.
-        if (this.clickedOn('slot')) {
+        if (this.clickedOn('wearSlot')) {
           if (Actions.hasProp(this.miscData, 'slot')) {
             const itemData = UI.getItemData(this.player.wear[this.miscData.slot].id);
             this.objectId = itemData;

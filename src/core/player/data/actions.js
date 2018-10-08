@@ -37,7 +37,7 @@ const actionList = [
   },
   {
     name: 'Unequip',
-    context: ['swordEquipped', 'armorEquipped'],
+    context: ['wearSlot'],
     allow: ['item'],
     nearby: false,
     weight: 1,

@@ -34,7 +34,7 @@
       </div>
 
       <div class="second_row row">
-        <div class="slot cape"/>
+        <div class="slot back"/>
         <div class="slot necklace"/>
         <div class="slot arrows"/>
       </div>
@@ -43,26 +43,31 @@
         <div
           v-tippy
           v-if="slotFilled('right_hand')"
-          :class="showBackground('right_hand')"
-          :style="{
-            backgroundPosition: `left -${(tileOffset('right_hand') * 32)}px top`
-          }"
           :title="getTooltip('right_hand')"
-          class="slot sword"
-          @click.right="rightClick($event, 'right_hand')"/>
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'right_hand')">
+          <div
+            :class="showBackground('right_hand')"
+            :style="{
+              backgroundPosition: `left -${(tileOffset('right_hand') * 32)}px top`
+            }"
+            class="sword"/>
+        </div>
         <div
           v-else
           class="slot sword right_hand"/>
         <div
           v-tippy
           v-if="slotFilled('armor')"
-          :class="showBackground('armor')"
-          :style="{
-            backgroundPosition: `left -${(tileOffset('armor') * 32)}px top`
-          }"
           :title="getTooltip('armor')"
-          class="slot torso"
-          @click.right="rightClick($event, 'armor')"/>
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'armor')">
+          <div
+            :class="showBackground('armor')"
+            :style="{
+              backgroundPosition: `left -${(tileOffset('armor') * 32)}px top`
+            }"
+            class="torso"/></div>
         <div
           v-else
           class="slot torso armor"/>
@@ -190,12 +195,13 @@ export default {
      * @returns {string}
      */
     showBackground(classImg) {
+      const wearClass = 'wearSlot';
       switch (classImg) {
         case 'armor':
-          return this.slotFilled(this.wear.armor) ? 'armorEquipped' : classImg;
+          return this.slotFilled(this.wear.armor) ? `${wearClass} armorEquipped` : classImg;
         default:
         case 'right_hand':
-          return this.slotFilled(this.wear.right_hand) ? 'swordEquipped' : classImg;
+          return this.slotFilled(this.wear.right_hand) ? `${wearClass} swordEquipped` : classImg;
       }
     },
   },
@@ -241,6 +247,10 @@ div.wear {
     div.slot {
       height: 35px;
       z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      justify-self: center;
       box-sizing: border-box;
       width: 35px;
       margin: 0;
@@ -254,7 +264,7 @@ div.wear {
       display: inline-flex;
       margin-bottom: 1em;
 
-      $slots: torso gloves shield head arrows necklace right_hand ring boots cape;
+      $slots: torso gloves shield head arrows necklace right_hand ring boots back;
       @each $slot in $slots {
         div.#{$slot} {
           background-image: url(./../../assets/graphics/ui/client/slots/wear/#{$slot}.png);
@@ -262,10 +272,14 @@ div.wear {
 
         div.swordEquipped {
           background-image: url(./../../assets/graphics/items/weapons.png);
+          height: 32px;
+          width: 32px;
         }
 
         div.armorEquipped {
           background-image: url(./../../assets/graphics/items/armor.png);
+          height: 32px;
+          width: 32px;
         }
       }
 
