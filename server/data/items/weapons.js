@@ -1,3 +1,9 @@
+const path = require('path');
+
+const fileName = path.basename(__filename, '.js');
+
+const database = require('../helpers/database');
+
 module.exports = [{
   id: 'bronze-sword',
   name: 'Bronze Sword',
@@ -11,7 +17,7 @@ module.exports = [{
     defense: 1,
   },
   graphics: {
-    tileset: 'weapons',
+    tileset: database.loadTileset(fileName),
     row: 0,
     column: 0,
   },
