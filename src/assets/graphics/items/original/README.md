@@ -2,7 +2,6 @@
 
 These `.xcf` files are opened using GIMP.
 
-
 ### What is GIMP?
 
 https://www.gimp.org/
