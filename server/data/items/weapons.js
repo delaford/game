@@ -1,10 +1,8 @@
-const path = require('path');
+import { presetActions } from '../helpers/database';
+// Jatite
 
-const fileName = path.basename(__filename, '.js');
-
-const database = require('../helpers/database');
-
-module.exports = [{
+// Pavise (sq shield)
+export default [{
   id: 'bronze-sword',
   name: 'Bronze Sword',
   examine: 'A sword made of Bronze.',
@@ -17,17 +15,14 @@ module.exports = [{
     defense: 1,
   },
   graphics: {
-    tileset: database.loadTileset(fileName),
+    tileset: 'weapons',
     row: 0,
     column: 0,
   },
-  actions: [
-    'take',
-    'examine',
-    'drop',
-    'equip',
-    'unequip',
-  ],
+  actions: presetActions([
+    'wearable',
+    'axe',
+  ]),
   stackable: false,
 },
 {

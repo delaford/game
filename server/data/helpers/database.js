@@ -1,58 +1,43 @@
-class Database {
-  /**
-   * Load the correct tileset file via its name
-   *
-   * @param {string} name The filename where tileset loaded from
-   * @returns {string}
-   */
-  static loadTileset(name) {
-    let tileset = '';
-    switch (name) {
+const other = () => false;
+
+/**
+ * Load actions from preset words
+ *
+ * @param {array} items List of presets
+ * @return {array}
+ */
+const presetActions = (items) => {
+  const actions = [];
+  let list = [];
+
+  // Which items have a list of already-needed actions?
+  items.forEach((item) => {
+    switch (item) {
       default:
-      case 'weapons':
-        tileset = 'weapons';
+        break;
+      // Every wearable, you can
+      // drop, examine, take, .etc.
+      case 'wearable':
+        list = [
+          'take',
+          'examine',
+          'drop',
+          'equip',
+          'unequip',
+        ];
+        break;
+      // Axes you can chop with
+      case 'axe':
+        list = [
+          'chop',
+        ];
         break;
     }
 
-    return tileset;
-  }
-  /**
-   * Load actions from preset words
-   *
-   * @param {array} items List of presets
-   * @return {array}
-   */
-  static presetActions(items) {
-    const actions = [];
-    let list = [];
+    actions.push(...list);
+  });
 
-    items.forEach((item) => {
-      switch (item) {
-        default:
-          break;
-        case 'wearable':
-          list = [
-            'take',
-            'examine',
-            'drop',
-            'equip',
-            'unequip',
-          ];
-          break;
-        case 'axe':
-          list = [
-            'chop',
-          ];
-          break;
-      }
+  return actions;
+};
 
-      actions.push(...list);
-    });
-
-
-    return actions;
-  }
-}
-
-module.exports = Database;
-
+export { presetActions, other };

@@ -1,4 +1,5 @@
-const weapons = require('./weapons');
+import weapons from './weapons';
+
 const armor = require('./armor');
 
 // Item and monster database
