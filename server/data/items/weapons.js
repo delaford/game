@@ -11,8 +11,12 @@ export default [{
   slot: 'right_hand',
   wearable: 'sword',
   stats: {
-    attack: 3,
-    defense: 1,
+    attack: {
+      stab: 4, slash: 3, crush: -2, range: 0,
+    },
+    defense: {
+      stab: 0, slash: 2, crush: 1, range: 0,
+    },
   },
   graphics: {
     tileset: 'weapons',
@@ -21,7 +25,6 @@ export default [{
   },
   actions: presetActions([
     'wearable',
-    'axe',
   ]),
   stackable: false,
 },
@@ -29,29 +32,54 @@ export default [{
   id: 'bronze-axe',
   name: 'Bronze Axe',
   examine: 'An axe made for chopping.',
-  price: 11,
+  price: 9,
   type: 'weapon',
   slot: 'right_hand',
   wearable: 'sword',
   stats: {
-    attack: 4,
-    defense: 2,
+    attack: {
+      stab: -2, slash: 4, crush: 2, range: 0,
+    },
+    defense: {
+      stab: 0, slash: 1, crush: 0, range: 0,
+    },
   },
   graphics: {
     tileset: 'weapons',
     row: 0,
     column: 1,
   },
-  actions: [
-    'take',
-    'examine',
-    'drop',
-    'equip',
-    'unequip',
-  ],
-  functions: [
-    'chop',
-  ],
+  actions: presetActions([
+    'wearable',
+    'axe',
+  ]),
+  stackable: false,
+},
+{
+  id: 'bronze-pickaxe',
+  name: 'Bronze Pickaxe',
+  examine: 'A versatile pickaxe for mining.',
+  price: 5,
+  type: 'weapon',
+  slot: 'right_hand',
+  wearable: 'sword',
+  stats: {
+    attack: {
+      stab: 4, slash: -2, crush: 2, range: 0,
+    },
+    defense: {
+      stab: 0, slash: 1, crush: 0, range: 0,
+    },
+  },
+  graphics: {
+    tileset: 'weapons',
+    row: 0,
+    column: 1,
+  },
+  actions: presetActions([
+    'wearable',
+    'pickaxe',
+  ]),
   stackable: false,
 },
 {
@@ -63,53 +91,21 @@ export default [{
   slot: 'right_hand',
   wearable: 'sword',
   stats: {
-    attack: 2,
-    defense: 0,
-  },
-  graphics: {
-    tileset: 'weapons',
-    row: 0,
-    column: 2,
-  },
-  actions: [
-    'take',
-    'examine',
-    'drop',
-    'equip',
-    'unequip',
-  ],
-  functions: [
-    //
-  ],
-  stackable: false,
-},
-{
-  id: 'bronze-pickaxe',
-  name: 'Bronze Pickaxe',
-  examine: 'A versatile pickaxe for mining.',
-  price: 13,
-  type: 'weapon',
-  slot: 'right_hand',
-  wearable: 'sword',
-  stats: {
-    attack: 4,
-    defense: 4,
+    attack: {
+      stab: 4, slash: 2, crush: 4, range: 0,
+    },
+    defense: {
+      stab: 0, slash: 1, crush: 0, range: 1,
+    },
   },
   graphics: {
     tileset: 'weapons',
     row: 0,
     column: 3,
   },
-  actions: [
-    'take',
-    'examine',
-    'drop',
-    'equip',
-    'unequip',
-  ],
-  functions: [
-    //
-  ],
+  actions: presetActions([
+    'wearable',
+  ]),
   stackable: false,
 }];
 
