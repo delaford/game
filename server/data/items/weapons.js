@@ -165,7 +165,7 @@ export default [
   {
     id: 'bronze-halberd',
     name: 'Bronze Halberd',
-    examine: 'It is a halbred made of bronze alloy metal. Ta-dah. Long and sharp.',
+    examine: 'It is a halberd made of bronze alloy metal. Ta-dah. Long and sharp.',
     price: 41,
     type: 'weapon',
     slot: 'right_hand',
