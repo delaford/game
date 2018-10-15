@@ -24,8 +24,12 @@ class Player {
 
     // Worn items statistics
     this.combat = {
-      attack: data.attack || 0,
-      defense: data.defense || 0,
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
     };
 
     // Authentication

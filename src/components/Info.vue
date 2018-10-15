@@ -21,15 +21,7 @@
           v-text="player.level"/>
       </div>
       <div class="att_def">
-        <strong class="att_label">ATT:</strong>
-        <span
-          class="integer"
-          v-text="getAttack"/>
-
-        <strong class="def_label">DEF:</strong>
-        <span
-          class="integer"
-          v-text="getDefence"/>
+        Hmm
       </div>
     </div>
 
