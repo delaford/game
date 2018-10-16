@@ -465,5 +465,236 @@ export default [
     ]),
     twoHanded: true,
   },
+  // Steel weaponry
+  {
+    id: 'steel-sword',
+    name: 'Steel Sword',
+    examine: 'This sword forged from steel is not malleable at all.',
+    price: 130,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 11, slash: 8, crush: 2, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 4, crush: 3, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 0,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'steel-axe',
+    name: 'Steel Axe',
+    examine: 'A steel axe made for chopping.',
+    price: 200,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: -2, slash: 8, crush: 6, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 2, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 1,
+    },
+    actions: presetActions([
+      'wearable',
+      'axe',
+    ]),
+  },
+  {
+    id: 'steel-pickaxe',
+    name: 'Steel Pickaxe',
+    examine: 'A tradesmen pickaxe forged from steel.',
+    price: 200,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 8, slash: -2, crush: 6, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 2, crush: 1, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 1,
+      column: 2,
+    },
+    actions: presetActions([
+      'wearable',
+      'pickaxe',
+    ]),
+  },
+  {
+    id: 'steel-dagger',
+    name: 'Steel Dagger',
+    examine: 'A shorty pointy sword made full of Steel.',
+    price: 75,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 8, slash: 5, crush: -3, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 5,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 3,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'steel-mace',
+    name: 'Steel Mace',
+    examine: 'Used my monks in the Medieval age. Also made of Steel.',
+    price: 90,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 7, slash: -2, crush: 13, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 2,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 4,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'steel-battleaxe',
+    name: 'Steel Battleaxe',
+    examine: 'This steel-made axe was used by barbarians and warriors.',
+    price: 94,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: -2, slash: 19, crush: 13, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 1, crush: 2, range: 2,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 5,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'steel-halberd',
+    name: 'Steel Halberd',
+    examine: 'Used by knights at post and able to poke through things.',
+    price: 105,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 14, slash: 19, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 2, crush: 5, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 6,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'steel-warhammer',
+    name: 'Steel Warhammer',
+    examine: 'Used to smash metal-laden objects and platearmor  -- usually..',
+    price: 92,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: -4, slash: -4, crush: 18, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 2, crush: 2, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 7,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'steel-spear',
+    name: 'Steel Spear',
+    examine: 'Used by fishermen and folks alike as a general utility tool. Made from Steel.',
+    price: 89,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 19, slash: 10, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 5, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 8,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
 ];
 
