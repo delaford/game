@@ -77,7 +77,22 @@
       </div>
 
       <div class="fourth_row row">
-        <div class="slot gloves"/>
+        <div
+          v-tippy
+          v-if="slotFilled('gloves')"
+          :title="getTooltip('gloves')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'gloves')">
+          <div
+            :class="showBackground('gloves')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('gloves').column * 32)}px top -${(tileOffset('gloves').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot gloves"/>
         <div class="slot boots"/>
         <div class="slot ring"/>
       </div>
@@ -199,6 +214,8 @@ export default {
       switch (classImg) {
         case 'armor':
           return this.slotFilled(this.wear.armor) ? `${wearClass} armorEquipped` : classImg;
+        case 'gloves':
+          return this.slotFilled(this.wear.gloves) ? `${wearClass} glovesEquipped` : classImg;
         default:
         case 'right_hand':
           return this.slotFilled(this.wear.right_hand) ? `${wearClass} swordEquipped` : classImg;
@@ -276,7 +293,7 @@ div.wear {
           width: 32px;
         }
 
-        div.armorEquipped {
+        div.armorEquipped, div.glovesEquipped {
           background-image: url(./../../assets/graphics/items/armor.png);
           height: 32px;
           width: 32px;

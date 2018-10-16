@@ -1,14 +1,12 @@
 import weapons from './weapons';
+import armor from './armor';
 
-const armor = require('./armor');
-
-// Item and monster database
 const wearableItems = [
   ...weapons,
   ...armor,
 ];
 
-module.exports = {
+export {
   armor,
   weapons,
   wearableItems,

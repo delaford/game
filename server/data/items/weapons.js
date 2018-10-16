@@ -1,7 +1,5 @@
 import { presetActions } from '../helpers/database';
-// Jatite
 
-// Pavise (sq shield)
 export default [
   // Bronze weaponry
   {
