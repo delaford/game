@@ -278,7 +278,7 @@ export default [
     },
     graphics: {
       tileset: 'weapons',
-      row: 0,
+      row: 1,
       column: 1,
     },
     actions: presetActions([
@@ -431,7 +431,7 @@ export default [
     },
     graphics: {
       tileset: 'weapons',
-      row: 0,
+      row: 1,
       column: 7,
     },
     actions: presetActions([
