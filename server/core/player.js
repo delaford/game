@@ -87,7 +87,6 @@ class Player {
           const id = wearData[property];
           wearData[property] = {
             uuid: uuid(),
-            stackable: wearableItems.find(db => db.id === id).stackable,
             graphics: wearableItems.find(db => db.id === id).graphics,
             id,
           };

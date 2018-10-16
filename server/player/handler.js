@@ -145,7 +145,6 @@ const handler = {
     const itemsToSend = wearableItems.map(i => ({
       stats: i.stats,
       name: i.name,
-      stackable: i.stackable,
       graphics: i.graphics,
       id: i.id,
     }));

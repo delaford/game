@@ -22,7 +22,6 @@ module.exports = [{
     'equip',
     'unequip',
   ],
-  stackable: false,
 }, {
   id: 'studded-leather-body',
   name: 'Studded Leather Body',
@@ -47,6 +46,5 @@ module.exports = [{
     'equip',
     'unequip',
   ],
-  stackable: false,
 },
 ];
