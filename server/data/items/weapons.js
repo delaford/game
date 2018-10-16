@@ -28,7 +28,6 @@ export default [
     actions: presetActions([
       'wearable',
     ]),
-    stackable: false,
   },
   {
     id: 'bronze-axe',
@@ -55,7 +54,6 @@ export default [
       'wearable',
       'axe',
     ]),
-    stackable: false,
   },
   {
     id: 'bronze-pickaxe',
@@ -82,7 +80,6 @@ export default [
       'wearable',
       'pickaxe',
     ]),
-    stackable: false,
   },
   {
     id: 'bronze-dagger',
@@ -108,7 +105,6 @@ export default [
     actions: presetActions([
       'wearable',
     ]),
-    stackable: false,
   },
   {
     id: 'bronze-mace',
@@ -134,7 +130,6 @@ export default [
     actions: presetActions([
       'wearable',
     ]),
-    stackable: false,
   },
   {
     id: 'bronze-battleaxe',
@@ -160,7 +155,6 @@ export default [
     actions: presetActions([
       'wearable',
     ]),
-    stackable: false,
   },
   {
     id: 'bronze-halberd',
@@ -187,7 +181,6 @@ export default [
       'wearable',
     ]),
     twoHanded: true,
-    stackable: false,
   },
   {
     id: 'bronze-warhammer',
@@ -214,7 +207,6 @@ export default [
       'wearable',
     ]),
     twoHanded: true,
-    stackable: false,
   },
   {
     id: 'bronze-spear',
@@ -241,7 +233,6 @@ export default [
       'wearable',
     ]),
     twoHanded: true,
-    stackable: false,
   },
   // Iron weaponry
   {
@@ -268,7 +259,6 @@ export default [
     actions: presetActions([
       'wearable',
     ]),
-    stackable: false,
   },
   {
     id: 'iron-axe',
@@ -295,13 +285,12 @@ export default [
       'wearable',
       'axe',
     ]),
-    stackable: false,
   },
   {
     id: 'iron-pickaxe',
     name: 'Iron Pickaxe',
     examine: 'A pickaxe made to do a miner\'s job.',
-    price: 83,
+    price: 120,
     type: 'weapon',
     slot: 'right_hand',
     wearable: 'sword',
@@ -322,13 +311,12 @@ export default [
       'wearable',
       'pickaxe',
     ]),
-    stackable: false,
   },
   {
     id: 'iron-dagger',
     name: 'Iron Dagger',
     examine: 'Deadly. Short. Concealable.',
-    price: 21,
+    price: 35,
     type: 'weapon',
     slot: 'right_hand',
     wearable: 'sword',
@@ -348,7 +336,134 @@ export default [
     actions: presetActions([
       'wearable',
     ]),
-    stackable: false,
+  },
+  {
+    id: 'iron-mace',
+    name: 'Iron Mace',
+    examine: 'This is mace made out of Iron.',
+    price: 31,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 4, slash: -2, crush: 9, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 1,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 1,
+      column: 4,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'iron-battleaxe',
+    name: 'Iron Battleaxe',
+    examine: 'This a battleaxe forged from iron metal alloys.',
+    price: 30,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: -2, slash: 8, crush: 5, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 1, crush: 0, range: 2,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 1,
+      column: 5,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'iron-halberd',
+    name: 'Iron Halberd',
+    examine: 'It is a halberd intertwined with metal alloys of Iron.',
+    price: 56,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 9, slash: 12, crush: 0, range: 0,
+      },
+      defense: {
+        stab: -1, slash: 1, crush: 2, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 1,
+      column: 6,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'iron-warhammer',
+    name: 'Iron Warhammer',
+    examine: 'A hammer sprinkled with some Iron.',
+    price: 34,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 0, slash: -2, crush: 11, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 1, crush: 1, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 0,
+      column: 7,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'iron-spear',
+    name: 'Iron Spear',
+    examine: 'Spear with Iron-made metals. Simple.',
+    price: 54,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 12, slash: 8, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 2, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 1,
+      column: 8,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
   },
 ];
 
