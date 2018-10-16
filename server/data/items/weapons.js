@@ -535,7 +535,7 @@ export default [
     },
     graphics: {
       tileset: 'weapons',
-      row: 1,
+      row: 2,
       column: 2,
     },
     actions: presetActions([
@@ -690,6 +690,394 @@ export default [
       tileset: 'weapons',
       row: 2,
       column: 8,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  // Jatite weaponry
+  {
+    id: 'jatite-sword',
+    name: 'Jatite Sword',
+    examine: 'Sword forged from this strange, mythical metal alloy called Jatite.',
+    price: 830,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 16, slash: 12, crush: -3, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 4, crush: 3, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 3,
+      column: 0,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'jatite-axe',
+    name: 'Jatite Axe',
+    examine: 'A lumberjack\'s axe but something is strange about it...',
+    price: 900,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: -2, slash: 14, crush: 10, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 3, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 3,
+      column: 1,
+    },
+    actions: presetActions([
+      'wearable',
+      'axe',
+    ]),
+  },
+  {
+    id: 'jatite-pickaxe',
+    name: 'Jatite Pickaxe',
+    examine: 'This miner\'s pickaxe holds a mystical weight to it.',
+    price: 850,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 9, slash: -1, crush: 13, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 3, crush: 2, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 3,
+      column: 2,
+    },
+    actions: presetActions([
+      'wearable',
+      'pickaxe',
+    ]),
+  },
+  {
+    id: 'jatite-dagger',
+    name: 'Jatite Dagger',
+    examine: 'Ethereal powers rests upon this small dagger. Interesting...',
+    price: 505,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 18, slash: 8, crush: -4, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 9,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 3,
+      column: 3,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'jatite-mace',
+    name: 'Jatite Mace',
+    examine: 'This mace is weielded only by the high-ranking monks at the Monastary.',
+    price: 700,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 11, slash: -3, crush: 21, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 4,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 3,
+      column: 4,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'jatite-battleaxe',
+    name: 'Jatite Battleaxe',
+    examine: 'This battleaxe feels like it has multiple layers wrapped in mystical being.',
+    price: 994,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: -1, slash: 28, crush: 18, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 2, crush: 3, range: 5,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 3,
+      column: 5,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+  },
+  {
+    id: 'jatite-halberd',
+    name: 'Jatite Halberd',
+    examine: 'Seems to attract other metals when pointed towards its pointy-side.',
+    price: 822,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 22, slash: 28, crush: 0, range: 0,
+      },
+      defense: {
+        stab: -1, slash: 5, crush: 7, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 3,
+      column: 6,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'jatite-warhammer',
+    name: 'Jatite Warhammer',
+    examine: 'A rare aurora exudes this warhammer when wielded giving way to more strength.',
+    price: 799,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: -1, slash: -3, crush: 27, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 3, crush: 3, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 3,
+      column: 7,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'jatite-spear',
+    name: 'Jatite Spear',
+    examine: 'Used by fishermen and folks alike as a general utility tool. Made from Steel.',
+    price: 89,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 19, slash: 10, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 5, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 8,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  // Bows
+  {
+    id: 'longbow',
+    name: 'Longbow',
+    examine: 'A slower, yet sturdy shot.',
+    price: 22,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 8,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 0,
+      column: 17,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'shortbow',
+    name: 'Shortbow',
+    examine: 'Used by archers and hunters alike.',
+    price: 30,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 8,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 0,
+      column: 18,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'birch-longbow',
+    name: 'Birch Longbow',
+    examine: 'Used by archers and hunters alike but made of Birch.',
+    price: 65,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 15,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 1,
+      column: 17,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'birch-shortbow',
+    name: 'Birch Shortbow',
+    examine: 'Used by archers and hunters alike but made of Birch.',
+    price: 65,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 15,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 1,
+      column: 18,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'pine-longbow',
+    name: 'Pine Longbow',
+    examine: 'Used to accurately maim or kill nefarious dwellers from afar.',
+    price: 201,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 29,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 17,
+    },
+    actions: presetActions([
+      'wearable',
+    ]),
+    twoHanded: true,
+  },
+  {
+    id: 'pine-shortbow',
+    name: 'Pine Shortbow',
+    examine: 'Archers used this baby for miles.',
+    price: 201,
+    type: 'weapon',
+    slot: 'right_hand',
+    wearable: 'sword',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 29,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+    },
+    graphics: {
+      tileset: 'weapons',
+      row: 2,
+      column: 18,
     },
     actions: presetActions([
       'wearable',

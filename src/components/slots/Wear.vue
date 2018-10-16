@@ -49,7 +49,8 @@
           <div
             :class="showBackground('right_hand')"
             :style="{
-              backgroundPosition: `left -${(tileOffset('right_hand') * 32)}px top`
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('right_hand').column * 32)}px top -${(tileOffset('right_hand').row * 32)}px`
             }"
             class="sword"/>
         </div>
@@ -65,7 +66,8 @@
           <div
             :class="showBackground('armor')"
             :style="{
-              backgroundPosition: `left -${(tileOffset('armor') * 32)}px top`
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('armor').column * 32)}px top -${(tileOffset('armor').row * 32)}px`
             }"
             class="torso"/></div>
         <div
@@ -129,9 +131,7 @@ export default {
     getTooltip(slot) {
       const wearItem = this.wear[slot];
       if (Object.hasOwnProperty.call(wearItem, 'id') && this.library) {
-        return `${this.getItem(wearItem.id).name}
-            <br>${this.getItem(wearItem.id).stats.attack} att &middot;
-            ${this.getItem(wearItem.id).stats.defense} def`;
+        return `${this.getItem(wearItem.id).name}`;
       }
 
       return false;
@@ -176,13 +176,13 @@ export default {
      * @returns {boolean}
      */
     tileOffset(slot) {
-      switch (slot) {
-        case 'armor':
-          return this.wear.armor ? this.wear.armor.graphics.column : 0;
-        default:
-        case 'right_hand':
-          return this.wear.right_hand ? this.wear.right_hand.graphics.column : 0;
-      }
+      const column = this.wear[slot] ? this.wear[slot].graphics.column : 0;
+      const row = this.wear[slot] ? this.wear[slot].graphics.row : 0;
+
+      return {
+        column,
+        row,
+      };
     },
     getItem(id) {
       if (!this.library) return false;

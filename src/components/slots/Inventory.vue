@@ -9,7 +9,7 @@
       :key="i"
       :style="{
         backgroundImage: 'url(' + getBgUrl(i) + ')',
-        backgroundPosition: `right ${(getItem(i) * 32) + 32}px top 0`
+        backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
       }"
       class="slot inventorySlot"
       @click.right="rightClick($event, i)"
@@ -80,7 +80,10 @@ export default {
       const getItem = this.getItemFromSlot(slotNumber);
 
       if (getItem) {
-        return getItem.graphics.column;
+        return {
+          column: getItem.graphics.column,
+          row: getItem.graphics.row,
+        };
       }
 
       return false;
