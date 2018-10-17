@@ -1,7 +1,5 @@
 import { presetActions } from '../helpers/database';
 
-// // Pavise (sq shield)
-
 export default [
   // Capes
   {
@@ -72,8 +70,8 @@ export default [
   },
   // Bronze
   {
-    id: 'bronze-helmet',
-    name: 'Bronze Helmet',
+    id: 'bronze-med-helm',
+    name: 'Bronze Med Helm',
     examine: 'Small covering that protects your head made of Bronze.',
     price: 12,
     type: 'armor',
@@ -89,7 +87,7 @@ export default [
     graphics: {
       tileset: 'armor',
       row: 1,
-      column: 2,
+      column: 0,
     },
     actions: presetActions(['wearable']),
   },
@@ -119,7 +117,7 @@ export default [
     id: 'bronze-gloves',
     name: 'Bronze Gloves',
     examine: 'Protects your hands from projectiles and combat. Seems weak, though.',
-    price: 34,
+    price: 40,
     type: 'armor',
     slot: 'gloves',
     stats: {
@@ -127,7 +125,7 @@ export default [
         stab: 2, slash: 2, crush: 2, range: 2,
       },
       defense: {
-        stab: 2, slash: 2, crush: 3, range: 2,
+        stab: 2, slash: 2, crush: 2, range: 2,
       },
     },
     graphics: {
@@ -155,6 +153,50 @@ export default [
     graphics: {
       tileset: 'armor',
       row: 4,
+      column: 2,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'bronze-pavise',
+    name: 'Bronze Pavise',
+    examine: 'Small yet rectangle shield helped to cover your body..',
+    price: 21,
+    type: 'armor',
+    slot: 'shield',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 5, slash: 6, crush: 4, range: 8,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 5,
+      column: 2,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'bronze-shield',
+    name: 'Bronze Shield',
+    examine: 'Reliable shield for all-around combat made of Bronze.',
+    price: 41,
+    type: 'armor',
+    slot: 'shield',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 3, slash: 5, crush: 10, range: 6,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 5,
       column: 2,
     },
     actions: presetActions(['wearable']),
