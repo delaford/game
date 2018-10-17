@@ -3,6 +3,7 @@ const config = require('./../core/config');
 const surfaceMap = require('./../maps/layers/surface.json');
 const world = require('./../core/world');
 const UI = require('./../core/utilities/ui');
+const uuid = require('uuid/v4');
 const { weapons, armor } = require('./../data/respawn');
 
 class Map {
@@ -44,12 +45,12 @@ class Map {
   /**
    * Find a path and set that path in motion
    *
-   * @param {string} uuid The unique user-id indentifying who is moving
+   * @param {string} uuidPath The unique user-id indentifying who is moving
    * @param {integer} x The x-axis coord on where user clicked on game-gap
    * @param {integer} y The y-axis coord on where user clicked on game-gap
    */
-  static async findPath(uuid, x, y) {
-    const playerIndex = world.players.findIndex(p => p.uuid === uuid);
+  static async findPath(uuidPath, x, y) {
+    const playerIndex = world.players.findIndex(p => p.uuid === uuidPath);
 
     if (world.players[playerIndex].moving) {
       world.players[playerIndex].path.current.interrupted = true;
@@ -87,7 +88,23 @@ class Map {
     this.foreground = board[1].data;
 
     // Set items on map
-    world.items = [...weapons, ...armor];
+    world.items = Map.addUUIDs([
+      ...weapons,
+      ...armor,
+    ]);
+  }
+
+  /**
+   * Add a UUID to all respawned items
+   *
+   * @param {array} items List of respawned items
+   * @returns {array}
+   */
+  static addUUIDs(items) {
+    return items.map((i) => {
+      i.uuid = uuid();
+      return i;
+    });
   }
 
   /**
