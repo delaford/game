@@ -30,7 +30,22 @@
 
     <div class="wrapper">
       <div class="first_row row">
-        <div class="slot head"/>
+        <div
+          v-tippy
+          v-if="slotFilled('head')"
+          :title="getTooltip('head')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'head')">
+          <div
+            :class="showBackground('head')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('head').column * 32)}px top -${(tileOffset('head').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot head"/>
       </div>
 
       <div class="second_row row">
@@ -213,9 +228,9 @@ export default {
       const wearClass = 'wearSlot';
       switch (classImg) {
         case 'armor':
-          return this.slotFilled(this.wear.armor) ? `${wearClass} armorEquipped` : classImg;
         case 'gloves':
-          return this.slotFilled(this.wear.gloves) ? `${wearClass} glovesEquipped` : classImg;
+        case 'head':
+          return this.slotFilled(this.wear[classImg]) ? `${wearClass} armorEquipped` : classImg;
         default:
         case 'right_hand':
           return this.slotFilled(this.wear.right_hand) ? `${wearClass} swordEquipped` : classImg;
@@ -293,7 +308,7 @@ div.wear {
           width: 32px;
         }
 
-        div.armorEquipped, div.glovesEquipped {
+        div.armorEquipped, div.glovesEquipped, div.headEquipped {
           background-image: url(./../../assets/graphics/items/armor.png);
           height: 32px;
           width: 32px;
