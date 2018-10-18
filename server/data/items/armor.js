@@ -68,7 +68,7 @@ export default [
     },
     actions: presetActions(['wearable']),
   },
-  // Bronze
+  // Bronze (set)
   {
     id: 'bronze-med-helm',
     name: 'Bronze Med Helm',
@@ -109,7 +109,7 @@ export default [
     graphics: {
       tileset: 'armor',
       row: 2,
-      column: 2,
+      column: 0,
     },
     actions: presetActions(['wearable']),
   },
@@ -131,7 +131,7 @@ export default [
     graphics: {
       tileset: 'armor',
       row: 3,
-      column: 2,
+      column: 0,
     },
     actions: presetActions(['wearable']),
   },
@@ -153,7 +153,7 @@ export default [
     graphics: {
       tileset: 'armor',
       row: 4,
-      column: 2,
+      column: 0,
     },
     actions: presetActions(['wearable']),
   },
@@ -175,7 +175,7 @@ export default [
     graphics: {
       tileset: 'armor',
       row: 5,
-      column: 2,
+      column: 0,
     },
     actions: presetActions(['wearable']),
   },
@@ -196,12 +196,56 @@ export default [
     },
     graphics: {
       tileset: 'armor',
-      row: 5,
-      column: 2,
+      row: 6,
+      column: 0,
     },
     actions: presetActions(['wearable']),
   },
-  // Leather
+  {
+    id: 'bronze-armor',
+    name: 'Bronze Armor',
+    examine: 'A nice, hard chestplate..',
+    price: 96,
+    type: 'armor',
+    slot: 'shield',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: -10,
+      },
+      defense: {
+        stab: 15, slash: 14, crush: 9, range: 25,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 7,
+      column: 0,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'bronze-helm',
+    name: 'Bronze Helm',
+    examine: 'A bronze helmet with proper protection.',
+    price: 30,
+    type: 'armor',
+    slot: 'shield',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 4, slash: 5, crush: 3, range: 4,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 8,
+      column: 0,
+    },
+    actions: presetActions(['wearable']),
+  },
+  // Leather (set)
   {
     id: 'studded-leather-body',
     name: 'Studded Leather Body',
@@ -209,21 +253,66 @@ export default [
     price: 17,
     type: 'armor',
     slot: 'armor',
-    stats: {
-      attack: 2,
-      defense: 6,
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: -10,
+    },
+    defense: {
+      stab: 5, slash: 4, crush: 9, range: 10,
     },
     graphics: {
       tileset: 'armor',
-      row: 0,
-      column: 1,
+      row: 4,
+      column: 7,
     },
-    actions: [
-      'take',
-      'examine',
-      'drop',
-      'equip',
-      'unequip',
-    ],
+    actions: presetActions(['wearable']),
+  },
+  // Range
+
+  // Magic
+  // 1. Robes
+  {
+    id: 'robe',
+    name: 'Robe of Fire',
+    examine: 'A robe that imbues the Fire diety.',
+    price: 35000,
+    type: 'armor',
+    slot: 'armor',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: -10,
+      },
+      defense: {
+        stab: 20, slash: 15, crush: 29, range: 10,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 15,
+      column: 0,
+    },
+    actions: presetActions(['wearable']),
+  },
+  // 2. Hats
+  {
+    id: 'robe',
+    name: 'Heiyah\'s Hat',
+    examine: 'The hat worn by Heiyah when he roamed the lands.',
+    price: 45000,
+    type: 'armor',
+    slot: 'armor',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 20, slash: 15, crush: 29, range: 10,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 15,
+      column: 0,
+    },
+    actions: presetActions(['wearable']),
   },
 ];

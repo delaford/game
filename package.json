@@ -13,7 +13,10 @@
     "dev": "./node_modules/.bin/concurrently \"npm:serve\" \"npm:dev:node\"",
     "ndb": "./node_modules/.bin/ndb server_dist",
     "dev:node": "./node_modules/.bin/nodemon --exec babel-node --presets env,stage-2 server.js",
-    "format": "eslint --fix"
+    "format": "eslint --fix",
+    "clean-server": "rm -rf build && mkdir build",
+    "transpile-server": "babel -d ./build server.js -s",
+    "build-server": "npm run clean-server && npm run transpile-server"
   },
   "dependencies": {
     "axios": "^0.18.0",
