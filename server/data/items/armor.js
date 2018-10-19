@@ -245,6 +245,183 @@ export default [
     },
     actions: presetActions(['wearable']),
   },
+  // Iron (set)
+  {
+    id: 'iron-med-helm',
+    name: 'Iron Med Helm',
+    examine: 'Small covering that protects your head made of Iron.',
+    price: 142,
+    type: 'armor',
+    slot: 'head',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: -2,
+      },
+      defense: {
+        stab: 13, slash: 14, crush: 12, range: 14,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 1,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'iron-boots',
+    name: 'Iron Boots',
+    examine: 'Seems to be good at covering your toes and blending into the dirt.',
+    price: 144,
+    type: 'armor',
+    slot: 'head',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: -2,
+      },
+      defense: {
+        stab: 11, slash: 12, crush: 13, range: 15,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 2,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'iron-gloves',
+    name: 'Iron Gloves',
+    examine: 'Protects your hands from projectiles and combat. Seems weak, though.',
+    price: 140,
+    type: 'armor',
+    slot: 'gloves',
+    stats: {
+      attack: {
+        stab: 2, slash: 2, crush: 2, range: 2,
+      },
+      defense: {
+        stab: 12, slash: 12, crush: 12, range: 12,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 3,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'iron-chainmail',
+    name: 'Iron Chainmail',
+    examine: 'Small metal rings formed to a mesh made of Iron.',
+    price: 142,
+    type: 'armor',
+    slot: 'armor',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 17, slash: 21, crush: 23, range: 12,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 4,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'iron-pavise',
+    name: 'Iron Pavise',
+    examine: 'Small yet rectangle shield helped to cover your body..',
+    price: 141,
+    type: 'armor',
+    slot: 'shield',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 15, slash: 16, crush: 14, range: 18,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 5,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'iron-shield',
+    name: 'Iron Shield',
+    examine: 'Reliable shield for all-around combat made of Iron.',
+    price: 141,
+    type: 'armor',
+    slot: 'shield',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 13, slash: 15, crush: 20, range: 16,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 6,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'iron-armor',
+    name: 'Iron Armor',
+    examine: 'A nice, hard chestplate..',
+    price: 126,
+    type: 'armor',
+    slot: 'shield',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: -10,
+      },
+      defense: {
+        stab: 25, slash: 24, crush: 19, range: 35,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 7,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'iron-helm',
+    name: 'Iron Helm',
+    examine: 'A bronze helmet with proper protection.',
+    price: 130,
+    type: 'armor',
+    slot: 'shield',
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 14, slash: 15, crush: 13, range: 14,
+      },
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 8,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
   // Leather (set)
   {
     id: 'leather-cowl',
