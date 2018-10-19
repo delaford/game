@@ -664,6 +664,47 @@ export default [
     },
     actions: presetActions(['wearable']),
   },
+  // Training
+  {
+    id: 'wooden-shield',
+    name: 'Wooden Shield',
+    examine: 'A starter shield made of wood.',
+    price: 8,
+    type: 'armor',
+    slot: 'armor',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 2,
+    },
+    defense: {
+      stab: 4, slash: 5, crush: 3, range: 4,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 11,
+      column: 0,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'training-shield',
+    name: 'Training Shield',
+    examine: 'Good shield to use once you have ground footing',
+    price: 13,
+    type: 'armor',
+    slot: 'armor',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 2,
+    },
+    defense: {
+      stab: 7, slash: 9, crush: 7, range: 6,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 11,
+      column: 1,
+    },
+    actions: presetActions(['wearable']),
+  },
   // Magic
   // 1. Robes
   {
