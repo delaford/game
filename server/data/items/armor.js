@@ -247,17 +247,77 @@ export default [
   },
   // Leather (set)
   {
-    id: 'studded-leather-body',
-    name: 'Studded Leather Body',
-    examine: 'Leather body made of studs. Seems sturdy.',
+    id: 'leather-cowl',
+    name: 'Leather Cowl',
+    examine: 'Keeps your noggin warm and a bit stiff..',
+    price: 14,
+    type: 'armor',
+    slot: 'head',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 2,
+    },
+    defense: {
+      stab: 2, slash: 3, crush: 4, range: 3,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 1,
+      column: 7,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'leather-boots',
+    name: 'Leather Boots',
+    examine: 'Your feet are warm when you put these on. Not bad.',
+    price: 14,
+    type: 'armor',
+    slot: 'boots',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 1,
+    },
+    defense: {
+      stab: 0, slash: 2, crush: 1, range: 2,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 2,
+      column: 7,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'leather-gloves',
+    name: 'Leather Gloves',
+    examine: 'Warm gloves for your hands in the winter or anywhere really.',
+    price: 5,
+    type: 'armor',
+    slot: 'gloves',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 1,
+    },
+    defense: {
+      stab: 0, slash: 1, crush: 3, range: 1,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 3,
+      column: 7,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'leather-body',
+    name: 'Leather Body',
+    examine: 'Leather body made for combat.',
     price: 17,
     type: 'armor',
     slot: 'armor',
     attack: {
-      stab: 0, slash: 0, crush: 0, range: -10,
+      stab: 0, slash: 0, crush: 0, range: 2,
     },
     defense: {
-      stab: 5, slash: 4, crush: 9, range: 10,
+      stab: 8, slash: 9, crush: 10, range: 10,
     },
     graphics: {
       tileset: 'armor',
@@ -266,8 +326,167 @@ export default [
     },
     actions: presetActions(['wearable']),
   },
+  {
+    id: 'hard-leather-cowl',
+    name: 'Hard Leather Cowl',
+    examine: 'Your head seems more covered with harder leather to boot.',
+    price: 35,
+    type: 'armor',
+    slot: 'head',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 2,
+    },
+    defense: {
+      stab: 12, slash: 13, crush: 14, range: 13,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 1,
+      column: 8,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'hard-leather-boots',
+    name: 'Hard Leather Boots',
+    examine: 'Made for rougher-wear combat and agile movements.',
+    price: 34,
+    type: 'armor',
+    slot: 'boots',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 1,
+    },
+    defense: {
+      stab: 10, slash: 12, crush: 11, range: 12,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 2,
+      column: 8,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'hard-leather-gloves',
+    name: 'Hard Leather Gloves',
+    examine: 'Used by rangers alike who wage war upon their enemies.',
+    price: 25,
+    type: 'armor',
+    slot: 'gloves',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 1,
+    },
+    defense: {
+      stab: 10, slash: 11, crush: 13, range: 11,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 3,
+      column: 8,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'hard-leather-body',
+    name: 'Hard Leather Body',
+    examine: 'Seems like it could block almost anywhere. Very stiff and hard.',
+    price: 37,
+    type: 'armor',
+    slot: 'armor',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 2,
+    },
+    defense: {
+      stab: 18, slash: 19, crush: 20, range: 23,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 4,
+      column: 8,
+    },
+    actions: presetActions(['wearable']),
+  },
   // Range
-
+  {
+    id: 'ranger-hat',
+    name: 'Ranger Hat',
+    examine: 'Used by the toughest of rangers.',
+    price: 125,
+    type: 'armor',
+    slot: 'head',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 2,
+    },
+    defense: {
+      stab: 32, slash: 40, crush: 44, range: 43,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 1,
+      column: 13,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'ranger-boots',
+    name: 'Ranger Boots',
+    examine: 'These boots are made for killing with bows.',
+    price: 134,
+    type: 'armor',
+    slot: 'boots',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 1,
+    },
+    defense: {
+      stab: 30, slash: 32, crush: 31, range: 32,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 2,
+      column: 13,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'ranger-gloves',
+    name: 'Ranger Gloves',
+    examine: 'Worn by archers and rangers whose accuracy kills without fail.',
+    price: 125,
+    type: 'armor',
+    slot: 'gloves',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 1,
+    },
+    defense: {
+      stab: 30, slash: 31, crush: 33, range: 31,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 3,
+      column: 13,
+    },
+    actions: presetActions(['wearable']),
+  },
+  {
+    id: 'ranger-body',
+    name: 'Ranger Body',
+    examine: 'This was said to be worn by the legendary Robin Hood.',
+    price: 137,
+    type: 'armor',
+    slot: 'armor',
+    attack: {
+      stab: 0, slash: 0, crush: 0, range: 2,
+    },
+    defense: {
+      stab: 38, slash: 39, crush: 30, range: 43,
+    },
+    graphics: {
+      tileset: 'armor',
+      row: 4,
+      column: 13,
+    },
+    actions: presetActions(['wearable']),
+  },
   // Magic
   // 1. Robes
   {
