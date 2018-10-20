@@ -1,4 +1,4 @@
-import { wearableItems } from './../../../server/data/items/es6';
+import { wearableItems } from './../../../server/data/items';
 import { map } from '../../../server/core/config';
 
 class UI {

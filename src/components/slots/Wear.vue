@@ -88,7 +88,22 @@
         <div
           v-else
           class="slot torso armor"/>
-        <div class="slot shield"/>
+        <div
+          v-tippy
+          v-if="slotFilled('left_hand')"
+          :title="getTooltip('left_hand')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'left_hand')">
+          <div
+            :class="showBackground('left_hand')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('left_hand').column * 32)}px top -${(tileOffset('left_hand').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot left_hand"/>
       </div>
 
       <div class="fourth_row row">
@@ -108,7 +123,22 @@
         <div
           v-else
           class="slot gloves"/>
-        <div class="slot boots"/>
+        <div
+          v-tippy
+          v-if="slotFilled('feet')"
+          :title="getTooltip('feet')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'feet')">
+          <div
+            :class="showBackground('feet')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('feet').column * 32)}px top -${(tileOffset('feet').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot feet"/>
         <div class="slot ring"/>
       </div>
     </div>
@@ -228,6 +258,8 @@ export default {
       const wearClass = 'wearSlot';
       switch (classImg) {
         case 'armor':
+        case 'feet':
+        case 'left_hand':
         case 'gloves':
         case 'head':
           return this.slotFilled(this.wear[classImg]) ? `${wearClass} armorEquipped` : classImg;
@@ -296,7 +328,7 @@ div.wear {
       display: inline-flex;
       margin-bottom: 1em;
 
-      $slots: torso gloves shield head arrows necklace right_hand ring boots back;
+      $slots: torso gloves left_hand head arrows necklace right_hand ring feet back;
       @each $slot in $slots {
         div.#{$slot} {
           background-image: url(./../../assets/graphics/ui/client/slots/wear/#{$slot}.png);

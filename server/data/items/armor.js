@@ -97,7 +97,7 @@ export default [
     examine: 'Seems to be good at covering your toes and blending into the dirt.',
     price: 14,
     type: 'armor',
-    slot: 'boots',
+    slot: 'feet',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: -2,
@@ -163,7 +163,7 @@ export default [
     examine: 'Small yet rectangle shield helped to cover your body..',
     price: 21,
     type: 'armor',
-    slot: 'shield',
+    slot: 'left_hand',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: 0,
@@ -185,7 +185,7 @@ export default [
     examine: 'Reliable shield for all-around combat made of Bronze.',
     price: 41,
     type: 'armor',
-    slot: 'shield',
+    slot: 'left_hand',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: 0,
@@ -229,7 +229,7 @@ export default [
     examine: 'A bronze helmet with proper protection.',
     price: 30,
     type: 'armor',
-    slot: 'shield',
+    slot: 'left_hand',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: 0,
@@ -274,7 +274,7 @@ export default [
     examine: 'Seems to be good at covering your toes and blending into the dirt.',
     price: 144,
     type: 'armor',
-    slot: 'boots',
+    slot: 'feet',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: -2,
@@ -340,7 +340,7 @@ export default [
     examine: 'Small yet rectangle shield helped to cover your body..',
     price: 141,
     type: 'armor',
-    slot: 'shield',
+    slot: 'left_hand',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: 0,
@@ -362,7 +362,7 @@ export default [
     examine: 'Reliable shield for all-around combat made of Iron.',
     price: 141,
     type: 'armor',
-    slot: 'shield',
+    slot: 'left_hand',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: 0,
@@ -406,7 +406,7 @@ export default [
     examine: 'A bronze helmet with proper protection.',
     price: 130,
     type: 'armor',
-    slot: 'shield',
+    slot: 'left_hand',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: 0,
@@ -449,7 +449,7 @@ export default [
     examine: 'Your feet are warm when you put these on. Not bad.',
     price: 14,
     type: 'armor',
-    slot: 'boots',
+    slot: 'feet',
     attack: {
       stab: 0, slash: 0, crush: 0, range: 1,
     },
@@ -529,7 +529,7 @@ export default [
     examine: 'Made for rougher-wear combat and agile movements.',
     price: 34,
     type: 'armor',
-    slot: 'boots',
+    slot: 'feet',
     attack: {
       stab: 0, slash: 0, crush: 0, range: 1,
     },
@@ -610,7 +610,7 @@ export default [
     examine: 'These boots are made for killing with bows.',
     price: 134,
     type: 'armor',
-    slot: 'boots',
+    slot: 'feet',
     attack: {
       stab: 0, slash: 0, crush: 0, range: 1,
     },
@@ -671,7 +671,7 @@ export default [
     examine: 'A starter shield made of wood.',
     price: 8,
     type: 'armor',
-    slot: 'shield',
+    slot: 'left_hand',
     attack: {
       stab: 0, slash: 0, crush: 0, range: 2,
     },
