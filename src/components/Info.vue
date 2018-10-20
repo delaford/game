@@ -21,7 +21,7 @@
           v-text="player.level"/>
       </div>
       <div class="att_def">
-        Hmm
+        <!-- Should anything go here? -->
       </div>
     </div>
 
