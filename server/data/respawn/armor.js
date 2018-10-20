@@ -18,5 +18,9 @@ module.exports = [{
   id: 'bronze-gloves',
   x: 19,
   y: 113,
+}, {
+  id: 'cape',
+  x: 20,
+  y: 114,
 }];
 

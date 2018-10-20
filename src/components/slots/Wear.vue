@@ -49,7 +49,23 @@
       </div>
 
       <div class="second_row row">
-        <div class="slot back"/>
+        <div
+          v-tippy
+          v-if="slotFilled('back')"
+          :title="getTooltip('back')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'back')">
+          <div
+            :class="showBackground('back')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('back').column * 32)}px top -${(tileOffset('back').row * 32)}px`
+            }"
+            class="sword"/>
+        </div>
+        <div
+          v-else
+          class="slot sword back"/>
         <div class="slot necklace"/>
         <div class="slot arrows"/>
       </div>
@@ -260,6 +276,7 @@ export default {
         case 'armor':
         case 'feet':
         case 'left_hand':
+        case 'back':
         case 'gloves':
         case 'head':
           return this.slotFilled(this.wear[classImg]) ? `${wearClass} armorEquipped` : classImg;

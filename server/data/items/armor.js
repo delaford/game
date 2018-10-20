@@ -8,13 +8,13 @@ export default [
     examine: 'A regular cape.',
     price: 5,
     type: 'armor',
-    slot: 'cape',
+    slot: 'back',
     stats: {
       attack: {
-        stab: 0, slash: 0, crush: 0, range: 0,
+        stab: 1, slash: 1, crush: 1, range: 1,
       },
       defense: {
-        stab: 0, slash: 0, crush: 0, range: 3,
+        stab: 3, slash: 3, crush: 3, range: 3,
       },
     },
     graphics: {
