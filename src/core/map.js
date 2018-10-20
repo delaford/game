@@ -86,11 +86,12 @@ class Map {
    */
   setImages(images) {
     // Define images
-    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage] = images;
+    // eslint-disable-next-line
+    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage, jewelryImage] = images;
 
     // Image and data
     this.images = {
-      playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage,
+      playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage, jewelryImage,
     };
 
     // Set image and config
@@ -264,6 +265,8 @@ class Map {
       // Get the correct tileset to draw upon
       const itemTileset = () => {
         switch (info.graphics.tileset) {
+          case 'jewelry':
+            return this.images.jewelryImage;
           case 'armor':
             return this.images.armorImage;
           default:

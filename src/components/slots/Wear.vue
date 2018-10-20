@@ -66,7 +66,22 @@
         <div
           v-else
           class="slot sword back"/>
-        <div class="slot necklace"/>
+        <div
+          v-tippy
+          v-if="slotFilled('necklace')"
+          :title="getTooltip('necklace')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'necklace')">
+          <div
+            :class="showBackground('necklace')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('necklace').column * 32)}px top -${(tileOffset('necklace').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot necklace"/>
         <div class="slot arrows"/>
       </div>
 
@@ -155,7 +170,22 @@
         <div
           v-else
           class="slot feet"/>
-        <div class="slot ring"/>
+        <div
+          v-tippy
+          v-if="slotFilled('ring')"
+          :title="getTooltip('ring')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'ring')">
+          <div
+            :class="showBackground('ring')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('ring').column * 32)}px top -${(tileOffset('ring').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot ring"/>
       </div>
     </div>
   </div>
@@ -273,6 +303,9 @@ export default {
     showBackground(classImg) {
       const wearClass = 'wearSlot';
       switch (classImg) {
+        case 'necklace':
+        case 'ring':
+          return this.slotFilled(this.wear[classImg]) ? `${wearClass} jewelryEquipped` : classImg;
         case 'armor':
         case 'feet':
         case 'left_hand':
@@ -349,6 +382,12 @@ div.wear {
       @each $slot in $slots {
         div.#{$slot} {
           background-image: url(./../../assets/graphics/ui/client/slots/wear/#{$slot}.png);
+        }
+
+        div.jewelryEquipped {
+          background-image: url(./../../assets/graphics/items/jewelry.png);
+          height: 32px;
+          width: 32px;
         }
 
         div.swordEquipped {

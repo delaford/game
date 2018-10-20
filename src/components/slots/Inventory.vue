@@ -145,6 +145,8 @@ export default {
       }
 
       switch (getItem.graphics.tileset) {
+        case 'jewelry':
+          return this.images.jewelryImage.src;
         case 'armor':
           return this.images.armorImage.src;
         default:

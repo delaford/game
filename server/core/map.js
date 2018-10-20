@@ -4,7 +4,7 @@ const surfaceMap = require('./../maps/layers/surface.json');
 const world = require('./../core/world');
 const UI = require('./../core/utilities/ui');
 const uuid = require('uuid/v4');
-const { weapons, armor } = require('./../data/respawn');
+const { weapons, armor, jewelry } = require('./../data/respawn');
 
 class Map {
   constructor(level) {
@@ -91,6 +91,7 @@ class Map {
     world.items = Map.addUUIDs([
       ...weapons,
       ...armor,
+      ...jewelry,
     ]);
   }
 
