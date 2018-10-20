@@ -1,4 +1,4 @@
-const { wearableItems } = require('./../../../server/data/items');
+const { wearableItems } = require('./../data/items');
 const { map } = require('../config');
 
 class UI {

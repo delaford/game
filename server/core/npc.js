@@ -3,7 +3,7 @@ const emoji = require('node-emoji');
 const Socket = require('./../socket');
 const UI = require('./utilities/ui');
 const world = require('./world');
-const npcs = require('./../data/npcs');
+const npcs = require('./data/npcs');
 
 
 class NPC {

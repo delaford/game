@@ -3,9 +3,9 @@ const Player = require('./../core/player');
 const world = require('../core/world');
 const Socket = require('../socket');
 const Map = require('./../core/map');
-const playerGuest = require('../data/helpers/player.json');
+const playerGuest = require('../core/data/helpers/player.json');
 
-const { wearableItems } = require('../data/items');
+const { wearableItems } = require('../core/data/items');
 
 const pipe = require('./pipeline');
 

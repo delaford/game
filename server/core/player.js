@@ -7,7 +7,7 @@ const UI = require('./utilities/ui');
 const axios = require('axios');
 const Socket = require('../socket');
 const uuid = require('uuid/v4');
-const { wearableItems } = require('../data/items');
+const { wearableItems } = require('./data/items');
 
 class Player {
   constructor(data, token, socketId) {

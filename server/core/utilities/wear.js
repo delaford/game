@@ -1,4 +1,4 @@
-const { wearableItems } = require('../../data/items');
+const { wearableItems } = require('./../data/items');
 const world = require('../../core/world');
 
 class Wear {

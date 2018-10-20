@@ -1,6 +1,6 @@
 const world = require('../../core/world');
 const Socket = require('../../socket');
-const { wearableItems } = require('../../data/items');
+const { wearableItems } = require('./../../core/data/items');
 const UI = require('./../../core/utilities/ui');
 const Wear = require('./../../core/utilities/wear');
 
