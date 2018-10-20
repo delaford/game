@@ -97,7 +97,7 @@ export default [
     examine: 'Seems to be good at covering your toes and blending into the dirt.',
     price: 14,
     type: 'armor',
-    slot: 'head',
+    slot: 'boots',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: -2,
@@ -207,7 +207,7 @@ export default [
     examine: 'A nice, hard chestplate..',
     price: 96,
     type: 'armor',
-    slot: 'shield',
+    slot: 'armor',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: -10,
@@ -274,7 +274,7 @@ export default [
     examine: 'Seems to be good at covering your toes and blending into the dirt.',
     price: 144,
     type: 'armor',
-    slot: 'head',
+    slot: 'boots',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: -2,
@@ -384,7 +384,7 @@ export default [
     examine: 'A nice, hard chestplate..',
     price: 126,
     type: 'armor',
-    slot: 'shield',
+    slot: 'armor',
     stats: {
       attack: {
         stab: 0, slash: 0, crush: 0, range: -10,
@@ -671,7 +671,7 @@ export default [
     examine: 'A starter shield made of wood.',
     price: 8,
     type: 'armor',
-    slot: 'armor',
+    slot: 'shield',
     attack: {
       stab: 0, slash: 0, crush: 0, range: 2,
     },
