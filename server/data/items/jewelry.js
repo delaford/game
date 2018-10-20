@@ -135,5 +135,27 @@ export default [
     },
     actions: presetActions(['wearable']),
   },
+  {
+    id: 'tanzanite-ring',
+    name: 'Tanzanite Ring',
+    examine: 'This shiny, blue ring yields a certin aurora of accuracy.',
+    price: 2000,
+    type: 'armor',
+    slot: 'ring',
+    stats: {
+      attack: {
+        stab: 5, slash: 5, crush: 5, range: 5,
+      },
+      defense: {
+        stab: 5, slash: 5, crush: 5, range: 5,
+      },
+    },
+    graphics: {
+      tileset: 'jewelry',
+      row: 5,
+      column: 2,
+    },
+    actions: presetActions(['wearable']),
+  },
 ];
 
