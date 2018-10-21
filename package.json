@@ -8,7 +8,7 @@
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
     "start": "npm run server:dev",
-    "postinstall": "npm run build",
+    "postinstall": "npm run build-server && npm run build",
     "test:unit": "vue-cli-service test:unit",
     "ndb": "./node_modules/.bin/ndb build",
     "dev:node": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node --no-babelrc server.js --presets @babel/preset-env",
