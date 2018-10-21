@@ -10,8 +10,6 @@
 
 ## Getting Started
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/delaford/game.svg)](https://greenkeeper.io/)
-
 First, fork the repository. Then, go into your favorite terminal.
 
     git clone git@github.com:YOUR_USERNAME/game.git

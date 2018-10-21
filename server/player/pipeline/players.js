@@ -1,6 +1,6 @@
 const world = require('../../core/world');
 const Socket = require('../../socket');
-const { wearableItems } = require('../../data/items');
+const { wearableItems } = require('./../../core/data/items');
 const UI = require('./../../core/utilities/ui');
 const Wear = require('./../../core/utilities/wear');
 
@@ -10,7 +10,6 @@ module.exports = {
     const getItem = wearableItems.find(i => i.id === data.data.item.id);
 
     const item = {
-      stackable: getItem.stackable,
       graphics: getItem.graphics,
       id: data.data.item.id,
       uuid: data.data.item.uuid,

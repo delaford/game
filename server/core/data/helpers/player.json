@@ -54,5 +54,5 @@
 		"feet": null,
 		"ring": null
 	},
-	"inventory": [{"slot":5,"id":"dagger","uuid":"kkzz20ce-e34c-47b5-a074-40058f864e12"},{"slot":1,"id":"bronze-chainmail","uuid":"q51f8283-9ca7-4aa4-b984-d0192a2164fc"}]
+	"inventory": [{"slot":5,"id":"bronze-dagger","uuid":"kkzz20ce-e34c-47b5-a074-40058f864e12"},{"slot":1,"id":"bronze-chainmail","uuid":"q51f8283-9ca7-4aa4-b984-d0192a2164fc"}]
 }

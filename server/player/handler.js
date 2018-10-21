@@ -3,9 +3,9 @@ const Player = require('./../core/player');
 const world = require('../core/world');
 const Socket = require('../socket');
 const Map = require('./../core/map');
-const playerGuest = require('../data/helpers/player.json');
+const playerGuest = require('../core/data/helpers/player.json');
 
-const { wearableItems } = require('../data/items');
+const { wearableItems } = require('../core/data/items');
 
 const pipe = require('./pipeline');
 
@@ -17,6 +17,9 @@ const pipe = require('./pipeline');
  * @param {object} context The server context
  */
 const handler = {
+  'fetch:items': () => {
+    Socket.emit('server:send:items', wearableItems);
+  },
   /**
    * A player logins into the game
    */
@@ -145,7 +148,6 @@ const handler = {
     const itemsToSend = wearableItems.map(i => ({
       stats: i.stats,
       name: i.name,
-      stackable: i.stackable,
       graphics: i.graphics,
       id: i.id,
     }));

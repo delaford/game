@@ -1,5 +1,4 @@
-import { wearableItems } from './../../../server/data/items/es6';
-import { map } from '../../../server/core/config';
+import config from '../../core/config';
 
 class UI {
   /**
@@ -24,9 +23,9 @@ class UI {
    */
   static getContextSubjectColor(data) {
     if (data === 'npc') {
-      return map.color.npc;
+      return config.map.color.npc;
     } else if (data === 'item') {
-      return map.color.item;
+      return config.map.color.item;
     }
     return 'inherit';
   }
@@ -41,7 +40,7 @@ class UI {
    * @param {integer} mouseY The current y-axis of the mouse on the viewport
    */
   static getTileOverMouse(board, playerX, playerY, mouseX, mouseY) {
-    const tile = (((mouseY + (playerY - 5)) * map.size.x) + mouseX) + (playerX - 7);
+    const tile = (((mouseY + (playerY - 5)) * config.map.size.x) + mouseX) + (playerX - 7);
     if (board !== undefined) {
       return board[tile] - 1;
     }
@@ -57,7 +56,7 @@ class UI {
    * @returns {boolean}
    */
   static tileWalkable(tile, layer = 'background') {
-    const certainLayer = layer === 'background' ? map.tileset : map.objects;
+    const certainLayer = layer === 'background' ? config.map.tileset : config.map.objects;
     return !certainLayer.blocked.includes(tile);
   }
 
@@ -89,7 +88,7 @@ class UI {
    * @returns {object}
    */
   static getViewportCoordinates(event) {
-    const { tile } = map.tileset;
+    const { tile } = config.map.tileset;
 
     const coordinates = {
       x: Math.floor(this.getMousePos(event).x / tile.width),
@@ -127,7 +126,7 @@ class UI {
    * @returns {object}
    */
   static getItemData(id) {
-    return wearableItems.find(item => item.id === id);
+    return window.allItems.find(item => item.id === id);
   }
 
   /**
@@ -150,7 +149,8 @@ class UI {
       return dirMove === 'left' ? -1 : 1;
     };
 
-    return board[((map.size.y * (y + getY(direction))) - (map.size.x - (x + getX(direction))))] - 1;
+    // eslint-disable-next-line
+    return board[((config.map.size.y * (y + getY(direction))) - (config.map.size.x - (x + getX(direction))))] - 1;
   }
 }
 

@@ -11,9 +11,7 @@ class Item {
     this.graphics = data.graphics;
     this.wearable = data.wearable || false;
 
-    this.attack = data.attack;
-    this.defence = data.defence;
-
+    // (Load up new weapons constructor)
     this.user = data.user;
     this.carried = data.carried;
     this.slot = data.slot;

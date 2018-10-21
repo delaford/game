@@ -1,4 +1,4 @@
-const { wearableItems } = require('../../data/items');
+const { wearableItems } = require('./../data/items');
 const world = require('../../core/world');
 
 class Wear {
@@ -40,10 +40,10 @@ class Wear {
     });
 
     // Set new updated attack and defense values
-    world.players[playerIndex].combat = {
-      attack: stats.att,
-      defense: stats.def,
-    };
+    // world.players[playerIndex].combat = {
+    //   attack: stats.att,
+    //   defense: stats.def,
+    // };
   }
 }
 

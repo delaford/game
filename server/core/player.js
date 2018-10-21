@@ -7,7 +7,7 @@ const UI = require('./utilities/ui');
 const axios = require('axios');
 const Socket = require('../socket');
 const uuid = require('uuid/v4');
-const { wearableItems } = require('../data/items');
+const { wearableItems } = require('./data/items');
 
 class Player {
   constructor(data, token, socketId) {
@@ -24,8 +24,12 @@ class Player {
 
     // Worn items statistics
     this.combat = {
-      attack: data.attack || 0,
-      defense: data.defense || 0,
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
+      defense: {
+        stab: 0, slash: 0, crush: 0, range: 0,
+      },
     };
 
     // Authentication
@@ -83,7 +87,6 @@ class Player {
           const id = wearData[property];
           wearData[property] = {
             uuid: uuid(),
-            stackable: wearableItems.find(db => db.id === id).stackable,
             graphics: wearableItems.find(db => db.id === id).graphics,
             id,
           };

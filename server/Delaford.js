@@ -1,5 +1,6 @@
 // Main modules
-const Socket = require('./socket');
+import Socket from './socket';
+
 const world = require('./core/world');
 
 // Node modules

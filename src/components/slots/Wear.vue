@@ -30,12 +30,58 @@
 
     <div class="wrapper">
       <div class="first_row row">
-        <div class="slot head"/>
+        <div
+          v-tippy
+          v-if="slotFilled('head')"
+          :title="getTooltip('head')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'head')">
+          <div
+            :class="showBackground('head')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('head').column * 32)}px top -${(tileOffset('head').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot head"/>
       </div>
 
       <div class="second_row row">
-        <div class="slot cape"/>
-        <div class="slot necklace"/>
+        <div
+          v-tippy
+          v-if="slotFilled('back')"
+          :title="getTooltip('back')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'back')">
+          <div
+            :class="showBackground('back')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('back').column * 32)}px top -${(tileOffset('back').row * 32)}px`
+            }"
+            class="sword"/>
+        </div>
+        <div
+          v-else
+          class="slot sword back"/>
+        <div
+          v-tippy
+          v-if="slotFilled('necklace')"
+          :title="getTooltip('necklace')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'necklace')">
+          <div
+            :class="showBackground('necklace')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('necklace').column * 32)}px top -${(tileOffset('necklace').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot necklace"/>
         <div class="slot arrows"/>
       </div>
 
@@ -43,36 +89,103 @@
         <div
           v-tippy
           v-if="slotFilled('right_hand')"
-          :class="showBackground('right_hand')"
-          :style="{
-            backgroundPosition: `left -${(tileOffset('right_hand') * 32)}px top`
-          }"
           :title="getTooltip('right_hand')"
-          class="slot sword"
-          @click.right="rightClick($event, 'right_hand')"/>
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'right_hand')">
+          <div
+            :class="showBackground('right_hand')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('right_hand').column * 32)}px top -${(tileOffset('right_hand').row * 32)}px`
+            }"
+            class="sword"/>
+        </div>
         <div
           v-else
           class="slot sword right_hand"/>
         <div
           v-tippy
           v-if="slotFilled('armor')"
-          :class="showBackground('armor')"
-          :style="{
-            backgroundPosition: `left -${(tileOffset('armor') * 32)}px top`
-          }"
           :title="getTooltip('armor')"
-          class="slot torso"
-          @click.right="rightClick($event, 'armor')"/>
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'armor')">
+          <div
+            :class="showBackground('armor')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('armor').column * 32)}px top -${(tileOffset('armor').row * 32)}px`
+            }"
+            class="torso"/></div>
         <div
           v-else
           class="slot torso armor"/>
-        <div class="slot shield"/>
+        <div
+          v-tippy
+          v-if="slotFilled('left_hand')"
+          :title="getTooltip('left_hand')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'left_hand')">
+          <div
+            :class="showBackground('left_hand')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('left_hand').column * 32)}px top -${(tileOffset('left_hand').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot left_hand"/>
       </div>
 
       <div class="fourth_row row">
-        <div class="slot gloves"/>
-        <div class="slot boots"/>
-        <div class="slot ring"/>
+        <div
+          v-tippy
+          v-if="slotFilled('gloves')"
+          :title="getTooltip('gloves')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'gloves')">
+          <div
+            :class="showBackground('gloves')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('gloves').column * 32)}px top -${(tileOffset('gloves').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot gloves"/>
+        <div
+          v-tippy
+          v-if="slotFilled('feet')"
+          :title="getTooltip('feet')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'feet')">
+          <div
+            :class="showBackground('feet')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('feet').column * 32)}px top -${(tileOffset('feet').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot feet"/>
+        <div
+          v-tippy
+          v-if="slotFilled('ring')"
+          :title="getTooltip('ring')"
+          class="slot wearSlot"
+          @click.right="rightClick($event, 'ring')">
+          <div
+            :class="showBackground('ring')"
+            :style="{
+              // eslint-disable-next-line
+              backgroundPosition: `left -${(tileOffset('ring').column * 32)}px top -${(tileOffset('ring').row * 32)}px`
+          }"/>
+        </div>
+        <div
+          v-else
+          class="slot ring"/>
       </div>
     </div>
   </div>
@@ -124,9 +237,7 @@ export default {
     getTooltip(slot) {
       const wearItem = this.wear[slot];
       if (Object.hasOwnProperty.call(wearItem, 'id') && this.library) {
-        return `${this.getItem(wearItem.id).name}
-            <br>${this.getItem(wearItem.id).stats.attack} att &middot;
-            ${this.getItem(wearItem.id).stats.defense} def`;
+        return `${this.getItem(wearItem.id).name}`;
       }
 
       return false;
@@ -171,13 +282,13 @@ export default {
      * @returns {boolean}
      */
     tileOffset(slot) {
-      switch (slot) {
-        case 'armor':
-          return this.wear.armor ? this.wear.armor.graphics.column : 0;
-        default:
-        case 'right_hand':
-          return this.wear.right_hand ? this.wear.right_hand.graphics.column : 0;
-      }
+      const column = this.wear[slot] ? this.wear[slot].graphics.column : 0;
+      const row = this.wear[slot] ? this.wear[slot].graphics.row : 0;
+
+      return {
+        column,
+        row,
+      };
     },
     getItem(id) {
       if (!this.library) return false;
@@ -190,12 +301,21 @@ export default {
      * @returns {string}
      */
     showBackground(classImg) {
+      const wearClass = 'wearSlot';
       switch (classImg) {
+        case 'necklace':
+        case 'ring':
+          return this.slotFilled(this.wear[classImg]) ? `${wearClass} jewelryEquipped` : classImg;
         case 'armor':
-          return this.slotFilled(this.wear.armor) ? 'armorEquipped' : classImg;
+        case 'feet':
+        case 'left_hand':
+        case 'back':
+        case 'gloves':
+        case 'head':
+          return this.slotFilled(this.wear[classImg]) ? `${wearClass} armorEquipped` : classImg;
         default:
         case 'right_hand':
-          return this.slotFilled(this.wear.right_hand) ? 'swordEquipped' : classImg;
+          return this.slotFilled(this.wear.right_hand) ? `${wearClass} swordEquipped` : classImg;
       }
     },
   },
@@ -241,6 +361,10 @@ div.wear {
     div.slot {
       height: 35px;
       z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      justify-self: center;
       box-sizing: border-box;
       width: 35px;
       margin: 0;
@@ -254,18 +378,28 @@ div.wear {
       display: inline-flex;
       margin-bottom: 1em;
 
-      $slots: torso gloves shield head arrows necklace right_hand ring boots cape;
+      $slots: torso gloves left_hand head arrows necklace right_hand ring feet back;
       @each $slot in $slots {
         div.#{$slot} {
           background-image: url(./../../assets/graphics/ui/client/slots/wear/#{$slot}.png);
         }
 
-        div.swordEquipped {
-          background-image: url(./../../assets/graphics/items/weapons.png);
+        div.jewelryEquipped {
+          background-image: url(./../../assets/graphics/items/jewelry.png);
+          height: 32px;
+          width: 32px;
         }
 
-        div.armorEquipped {
+        div.swordEquipped {
+          background-image: url(./../../assets/graphics/items/weapons.png);
+          height: 32px;
+          width: 32px;
+        }
+
+        div.armorEquipped, div.glovesEquipped, div.headEquipped {
           background-image: url(./../../assets/graphics/items/armor.png);
+          height: 32px;
+          width: 32px;
         }
       }
 
