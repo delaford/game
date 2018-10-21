@@ -18,6 +18,7 @@ const pipe = require('./pipeline');
  */
 const handler = {
   'fetch:items': () => {
+    console.log('Fetching items for player... ', wearableItems.length);
     Socket.emit('server:send:items', wearableItems);
   },
   /**

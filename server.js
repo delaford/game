@@ -32,7 +32,7 @@ if (onProduction) {
 app.use(express.static(path.join(__dirname, onProduction ? '/dist' : '/')));
 
 // Actual game server
-console.log(`ENVIRONMENT: ${process.env.NODE_ENV} and ${serverFolder}`);
+console.log(`ENVIRONMENT: ${process.env.NODE_ENV} and PORT ${port}`);
 // eslint-disable-next-line
 const Delaford = require(`./${serverFolder}/Delaford`);
 

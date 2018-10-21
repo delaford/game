@@ -107,6 +107,7 @@ const handler = {
   },
 
   'server:send:items': (data) => {
+    console.log(data.data);
     window.allItems = data.data;
   },
 };

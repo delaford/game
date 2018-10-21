@@ -129,12 +129,6 @@ export default {
 
     // Load items
     setTimeout(() => Socket.emit('fetch:items'), 1000);
-    // bus.$on('client:send:item', (data) => {
-    //   console.log(data);
-    //   console.log(window);
-
-    //   debugger;
-    // });
 
     // On logout, let's do a few things...
     bus.$on('player:logout', this.logout);
