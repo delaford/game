@@ -8,7 +8,7 @@
       <div
         v-if="screen === 'server-down'"
         class="bg server__down">
-        The game server is currently down. Please check the website for more information.
+        The game server is down. Please check the website for more information.
       </div>
       <div
         v-else
@@ -222,9 +222,11 @@ export default {
   align-items: center;
   height: 100%;
   flex-direction: column;
+
   img.logo {
     margin-bottom: 1em;
   }
+
   div.login__screen {
     width: 692px;
     position: relative;
@@ -235,9 +237,11 @@ export default {
     align-content: center;
     justify-content: center;
     background-image: url("./assets/bg-screen.png");
+
     div.server__down {
       font-size: 0.85em;
     }
+
     div.bg {
       background-color: rgba(0, 0, 0, 0.5);
       padding: 1em 0;
@@ -245,10 +249,12 @@ export default {
       display: inline-flex;
       justify-content: space-around;
     }
+
     div.button_group {
       width: 100%;
       display: inline-flex;
       justify-content: space-around;
+
       button {
         background: #dedede;
         border: 2px solid darken(#dedede, 10%);
@@ -257,17 +263,20 @@ export default {
       }
     }
   }
+
   div.wrapper {
     background-color: #ababab;
     padding: 5px;
     display: grid;
     grid-template-columns: 512px auto;
     border-radius: 5px;
+
     div.right {
       display: flex;
       flex-direction: column;
       position: relative;
       justify-content: flex-end;
+
       div.content {
         background-color: #c7c7c7;
         height: 100px;

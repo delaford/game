@@ -155,7 +155,7 @@ div {
 
   ul#actions {
     font-family: "GameFont", sans-serif;
-    box-shadow: 2.5px 2.5px 0px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 2.5px 2.5px 0 0 rgba(0, 0, 0, 0.75);
     outline: none;
     background: $menu_bg_color;
     display: block;
@@ -172,7 +172,7 @@ div {
       color: $menu_font_color;
       text-align: left;
       padding: 2px 5px;
-      text-shadow: 1px 1px 0px #000;
+      text-shadow: 1px 1px 0 #000;
       margin: 0;
 
       &:hover {

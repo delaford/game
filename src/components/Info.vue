@@ -83,6 +83,7 @@ div.info {
     border: 2px solid #525252;
     background: #e43a3a;
     height: 20px;
+
     .bar {
       width: 50%;
       height: 100%;
@@ -101,6 +102,7 @@ div.info {
     strong {
       font-weight: bold;
     }
+
     .level,
     .att_def {
       margin-top: 0.5em;
@@ -110,12 +112,15 @@ div.info {
         margin-left: .5em;
       }
     }
+
     .level {
       float: left;
     }
+
     .att_def {
       float: right;
     }
+
     span.integer {
       color: lighten($info_text_color, 15%);
       margin-left: .5em;

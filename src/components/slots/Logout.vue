@@ -31,7 +31,7 @@ export default {
 @import "./src/assets/scss/main";
 
 div.logout {
-  font-family: "UIFont";
+  font-family: "UIFont", sans-serif;
   height: 100%;
   display: flex;
   justify-content: space-evenly;

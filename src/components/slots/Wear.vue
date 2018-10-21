@@ -326,10 +326,11 @@ export default {
 .tippy-content {
   text-align-last: left;
   font-family: "GameFont", sans-serif;
-  text-shadow: 1px 1px 0px black;
+  text-shadow: 1px 1px 0 black;
 }
+
 .tippy-tooltip.translucent-theme {
-  border-radius: 0px;
+  border-radius: 0;
 }
 </style>
 
@@ -379,6 +380,7 @@ div.wear {
       margin-bottom: 1em;
 
       $slots: torso gloves left_hand head arrows necklace right_hand ring feet back;
+
       @each $slot in $slots {
         div.#{$slot} {
           background-image: url(./../../assets/graphics/ui/client/slots/wear/#{$slot}.png);
@@ -396,13 +398,14 @@ div.wear {
           width: 32px;
         }
 
-        div.armorEquipped, div.glovesEquipped, div.headEquipped {
+        div.armorEquipped,
+        div.glovesEquipped,
+        div.headEquipped {
           background-image: url(./../../assets/graphics/items/armor.png);
           height: 32px;
           width: 32px;
         }
       }
-
     }
 
     div.first_row {

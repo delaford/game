@@ -59,7 +59,6 @@ div.friend_list {
   }
 
   ul.list {
-    padding: 5px;
     border: 4px solid darken(grey, 10%);
     background-color: lighten(grey, 8%);
     box-sizing: border-box;
@@ -71,23 +70,25 @@ div.friend_list {
     font-size: 14px;
     line-height: 1.5em;
 
-    li.item:nth-child(odd) {
-      background-color: lighten(grey, 15%);
-    }
-
-    li.item:nth-child(even) {
-      background-color: darken(grey, 5%);
-    }
-
     li.item {
       padding: 0 3px;
+
+      &:nth-child(odd) {
+        background-color: lighten(grey, 15%);
+      }
+
+      &:nth-child(even) {
+        background-color: darken(grey, 5%);
+      }
+
       span.name {
-        text-shadow: 1px 1px 0px black;
+        text-shadow: 1px 1px 0 black;
         font-family: "ChatFont", sans-serif;
       }
 
       span.status {
         float: right;
+
         &::after {
           margin-right: auto;
           background: rgb(190, 50, 50);
@@ -99,10 +100,9 @@ div.friend_list {
           width: 7px;
         }
       }
-      span.connected {
-        &::after {
-          background-color: rgb(45, 214, 45);
-        }
+
+      span.connected::after {
+        background-color: rgb(45, 214, 45);
       }
     }
   }

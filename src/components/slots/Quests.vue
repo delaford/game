@@ -40,32 +40,32 @@ div.quests {
 
   ul.list {
     height: 100%;
-    padding: 5px;
+    padding: 0;
     border: 4px solid darken(grey, 10%);
     background-color: lighten(grey, 8%);
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
     width: 100%;
     list-style: none;
     text-align: left;
     font-size: 14px;
     line-height: 1.5em;
 
-    li.item:nth-child(odd) {
-      background-color: lighten(grey, 15%);
-    }
-
-    li.item:nth-child(even) {
-      background-color: darken(grey, 5%);
-    }
-
     li.item {
       padding: 0 3px;
       cursor: pointer;
       color: rgb(255, 0, 0);
+
+      &:nth-child(odd) {
+        background-color: lighten(grey, 15%);
+      }
+
+      &:nth-child(even) {
+        background-color: darken(grey, 5%);
+      }
+
       span.name {
-        text-shadow: 1px 1px 0px black;
+        text-shadow: 1px 1px 0 black;
         font-family: "ChatFont", sans-serif;
       }
     }

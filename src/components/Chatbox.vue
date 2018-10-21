@@ -158,9 +158,10 @@ $default_color: #383838;
 .chatbox {
   display: flex;
   flex-direction: column;
+
   div#chat {
     overflow-y: auto;
-    font-family: "ChatFont";
+    font-family: "ChatFont", sans-serif;
     background-color: $background_color;
     color: $default_color;
     padding: 5px;
@@ -188,7 +189,7 @@ $default_color: #383838;
 
   input.typing {
     text-indent: 1px;
-    font-family: "ChatFont";
+    font-family: "ChatFont", sans-serif;
     background-color: #ededed;
     color: #383838;
     padding: 5px;

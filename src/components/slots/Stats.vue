@@ -34,7 +34,7 @@ div.stats_slot {
   height: 100%;
   font-family: "GameFont", sans-serif;
   text-align: left;
-  text-shadow: 1px 1px 0px black;
+  text-shadow: 1px 1px 0 black;
   font-size: 12px;
 
   ul {

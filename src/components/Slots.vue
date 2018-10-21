@@ -130,7 +130,7 @@ export default {
 $main_bg_color: grey;
 
 div.slots {
-  margin: 0px 0 0px 5px;
+  margin: 0 0 0 5px;
   background: white;
 
   div.top_slots {
@@ -173,6 +173,7 @@ div.slots {
       background-color: lighten($main_bg_color, 5%);
     }
   }
+
   div.pane {
     background: $main_bg_color;
     height: 235px;

@@ -15,7 +15,8 @@
     "format": "eslint --fix",
     "clean-server": "rm -rf build && mkdir build",
     "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps --presets @babel/preset-env --plugins @babel/plugin-transform-runtime",
-    "build-server": "npm run clean-server && npm run transpile-server"
+    "build-server": "npm run clean-server && npm run transpile-server",
+    "lint:css": "stylelint '**/*.vue' --syntax scss"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -46,6 +47,9 @@
     "node-sass": "^4.9.0",
     "nodemon": "^1.18.4",
     "sass-loader": "^7.0.1",
+    "stylelint": "^9.6.0",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-processor-html": "^1.0.0",
     "vue-template-compiler": "^2.5.17"
   },
   "browserslist": [
@@ -68,6 +72,7 @@
     ],
     "*.vue": [
       "vue-cli-service lint",
+      "npm run lint:css",
       "git add"
     ]
   }

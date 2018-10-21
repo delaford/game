@@ -1,0 +1,11 @@
+{
+  "processors": ["stylelint-processor-html"],
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "color-hex-case": null,
+    "number-leading-zero": null,
+    "at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
+    }]
+  }
+}

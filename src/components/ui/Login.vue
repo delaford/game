@@ -159,7 +159,7 @@ div.form {
       border-color: white;
       border-width: 0 0 2px 0;
       margin-bottom: 1em;
-      font-family: "ChatFont";
+      font-family: "ChatFont", sans-serif;
       text-shadow: 1px 1px 0 #000;
 
       &:last-child {
@@ -174,15 +174,15 @@ div.form {
 
   form.hasErrors {
     input {
-      background:rgba(255, 0, 0, .5);
-      border-bottom-color: rgba(255, 0, 0, .7);
+      background: rgba(255, 0, 0, 0.5);
+      border-bottom-color: rgba(255, 0, 0, 0.7);
     }
   }
 
   .error_message {
     margin-top: 1em;
     background: #F44336;
-    padding: .25em 0;
+    padding: 0.25em 0;
     color: #FAFAFA;
   }
 
@@ -196,9 +196,9 @@ div.form {
       background: #b93636;
       border: 2px solid #521414;
       color: #c0c053;
-      margin-top: .25em;
-      padding: .25em;
-      font-family: "ChatFont";
+      margin-top: 0.25em;
+      padding: 0.25em;
+      font-family: "ChatFont", sans-serif;
       text-shadow: 1px 1px 0 #000;
     }
 
