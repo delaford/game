@@ -19,9 +19,9 @@ First, fork the repository. Then, go into your favorite terminal.
 
 > `npm run serve` will start the development server and watch for changes on the client-side code inside the `src` folder and otherwise elsewhere applicable.
 
-Now, while still inside `game`, you can start the Node.js server by typing `npm run ndb` and then starting the `dev_server` script on the left-hand side.
+Now, while still inside `game`, you can start the Node.js server by typing `npm run ndb` and then starting the `dev:node` script on the left-hand side.
 
-Or, alternatively, if you want to skip `ndb`, just do `node server.js` from the root and you should be go to go.
+Or, alternatively, if you want to skip `ndb`, just do `npm run dev:node` from the root and you should be go to go.
 
 > `ndb` is Google Chrome's Node Debugging tool which allows node programs to be easily debugged and see all its context and variables. Highly recommended for a much easier time.
 
