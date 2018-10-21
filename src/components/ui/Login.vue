@@ -131,12 +131,9 @@ export default {
     },
     /**
      * Displays when a user login is invalid
-     *
-     * @param  {object} data The return object with data
      */
-    incorrectLogin(data) {
+    incorrectLogin() {
       this.invalid = true;
-      console.log(data);
     },
   },
 };
