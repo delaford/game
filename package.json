@@ -14,7 +14,7 @@
     "dev:node": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node --no-babelrc server.js --presets @babel/preset-env",
     "format": "eslint --fix",
     "clean-server": "rm -rf build && mkdir build",
-    "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps inline --presets @babel/preset-env --plugins @babel/plugin-transform-runtime",
+    "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps --presets @babel/preset-env --plugins @babel/plugin-transform-runtime",
     "build-server": "npm run clean-server && npm run transpile-server"
   },
   "dependencies": {
