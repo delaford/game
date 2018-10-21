@@ -14,7 +14,7 @@ Start the development server:
 
 In another terminal, start the server:
 
-    node server.js
+    npm run dev:node
 
 Make changes.
 
@@ -38,6 +38,8 @@ Some things that will increase the chance that your pull request is accepted:
 We have ESLint to check for style in the JavaScript and .vue files. Before you commit, please run a check and auto-fix before submitting a pull-request.
 
 We use [AirBnB's JavaScript guide](https://github.com/airbnb/javascript) to keep the codebase all in one cohesive format. Having an editor like Microsoft's [VS Code](https://code.visualstudio.com/) will help check for ESLint mistakes as you write code. It is highly recommended.
+
+We also use stylelint to lint the Sass code inside the `.vue` components, so please make sure to check the Git log for any Git failures.
 
 ## Where is the database? Website?
 
