@@ -708,7 +708,7 @@ export default [
   // Magic
   // 1. Robes
   {
-    id: 'robe',
+    id: 'robe-of-fire',
     name: 'Robe of Fire',
     examine: 'A robe that imbues the Fire diety.',
     price: 35000,
@@ -731,7 +731,7 @@ export default [
   },
   // 2. Hats
   {
-    id: 'robe',
+    id: 'heiyah-hat',
     name: 'Heiyah\'s Hat',
     examine: 'The hat worn by Heiyah when he roamed the lands.',
     price: 45000,

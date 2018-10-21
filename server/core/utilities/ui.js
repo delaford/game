@@ -121,7 +121,7 @@ class UI {
   }
 
   /**
-   * Obtain the full information of an item by its ID
+   * Obtain the full information of an item by its ID from the socket event
    *
    * @param {integer} id The ID of the item
    * @returns {object}

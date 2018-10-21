@@ -1,7 +1,7 @@
 import { merge } from 'lodash';
 import bus from '../utilities/bus';
 import UI from '../utilities/ui';
-import { map } from '../../../server/core/config';
+import config from '../../core/config';
 import Socket from '../../core/utilities/socket';
 import actionList from './data/actions';
 
@@ -24,8 +24,8 @@ class Actions {
 
     // Coordinates on map where clicked
     this.coordinates = {
-      x: (this.player.x - map.player.x) + this.clicked.x,
-      y: (this.player.y - map.player.y) + this.clicked.y,
+      x: (this.player.x - config.map.player.x) + this.clicked.x,
+      y: (this.player.y - config.map.player.y) + this.clicked.y,
     };
 
     this.playerCoordinates = {

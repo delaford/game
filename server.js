@@ -11,9 +11,12 @@ const compression = require('compression');
 const express = require('express');
 const enforce = require('express-sslify');
 
-const world = require('./server/core/world');
 
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
+const serverFolder = onProduction ? 'build' : 'server';
+// eslint-disable-next-line
+const world = require(`./${serverFolder}/core/world`);
+
 const port = process.env.PORT || 4000;
 const app = express();
 
@@ -29,11 +32,14 @@ if (onProduction) {
 app.use(express.static(path.join(__dirname, onProduction ? '/dist' : '/')));
 
 // Actual game server
-const Delaford = require('./server/Delaford');
+console.log(`ENVIRONMENT: ${process.env.NODE_ENV} and ${serverFolder}`);
+// eslint-disable-next-line
+const Delaford = require(`./${serverFolder}/Delaford`);
 
 // Create server for websocket to listen on
 const server = http.createServer(app);
 server.listen(port);
+
 
 // Initialize the Game class with port number
 const game = new Delaford(server);

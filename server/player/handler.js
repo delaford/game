@@ -17,6 +17,9 @@ const pipe = require('./pipeline');
  * @param {object} context The server context
  */
 const handler = {
+  'fetch:items': () => {
+    Socket.emit('server:send:items', wearableItems);
+  },
   /**
    * A player logins into the game
    */

@@ -114,7 +114,7 @@ export default [
     actions: presetActions(['wearable']),
   },
   {
-    id: 'ring',
+    id: 'gold-ring',
     name: 'Gold Ring',
     examine: 'Shiny gold ring. Fetches a pretty dollar, I hear.',
     price: 20,

@@ -105,6 +105,10 @@ const handler = {
   'game:receive:items': (data) => {
     bus.$emit('client:game:receive:items', data.data);
   },
+
+  'server:send:items': (data) => {
+    window.allItems = data.data;
+  },
 };
 
 export default handler;

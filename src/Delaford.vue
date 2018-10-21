@@ -92,9 +92,10 @@ import Login from './components/ui/Login.vue';
 // Core assets
 import Client from './core/client';
 import Engine from './core/engine';
-import config from './../server/core/config';
+import config from './core/config';
 import bus from './core/utilities/bus';
 import Event from './core/player/events';
+import Socket from './core/utilities/socket';
 
 export default {
   name: 'Delaford',
@@ -125,6 +126,15 @@ export default {
     window.ws.onerror = () => {
       this.screen = 'server-down';
     };
+
+    // Load items
+    setTimeout(() => Socket.emit('fetch:items'), 1000);
+    // bus.$on('client:send:item', (data) => {
+    //   console.log(data);
+    //   console.log(window);
+
+    //   debugger;
+    // });
 
     // On logout, let's do a few things...
     bus.$on('player:logout', this.logout);

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "server:dev": "node build/server.js",
+    "server:dev": "NODE_ENV=production node server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
@@ -11,10 +11,10 @@
     "postinstall": "npm run build",
     "test:unit": "vue-cli-service test:unit",
     "ndb": "./node_modules/.bin/ndb build",
-    "dev:node": "./node_modules/.bin/nodemon --exec babel-node --presets env,stage-2 server.js",
+    "dev:node": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node --no-babelrc server.js --presets @babel/preset-env",
     "format": "eslint --fix",
     "clean-server": "rm -rf build && mkdir build",
-    "transpile-server": "babel -d ./build server.js -s",
+    "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps inline --presets @babel/preset-env --plugins @babel/plugin-transform-runtime",
     "build-server": "npm run clean-server && npm run transpile-server"
   },
   "dependencies": {
@@ -32,17 +32,16 @@
     "ws": "^6.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
     "@vue/cli-plugin-unit-jest": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
     "@vue/eslint-config-airbnb": "^3.0.4",
     "@vue/test-utils": "^1.0.0-beta.20",
-    "babel-cli": "^6.26.0",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.0.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
     "lint-staged": "^7.3.0",
     "node-sass": "^4.9.0",
     "nodemon": "^1.18.4",
