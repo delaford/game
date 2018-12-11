@@ -202,6 +202,7 @@ class Actions {
               },
               id: itemData.id,
               uuid: itemData.uuid,
+              timestamp: itemData.timestamp,
             };
 
             items.push(object);
@@ -319,6 +320,7 @@ class Actions {
                 examine: itemData.examine,
                 type: 'item',
                 id: itemData.id,
+                timestamp: itemData.timestamp,
               };
 
               items.push(object);

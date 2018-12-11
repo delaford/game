@@ -93,6 +93,12 @@ class Map {
       ...armor,
       ...jewelry,
     ]);
+
+    // Add a timestamp to all dropped items
+    world.items = world.items.map((i) => {
+      i.timestamp = Date.now();
+      return i;
+    });
   }
 
   /**

@@ -35,9 +35,9 @@ export default {
   },
   data() {
     return {
+      items: false,
       actions: {},
       view: false,
-      onMap: false,
       tile: {
         x: null,
         y: null,
@@ -101,7 +101,6 @@ export default {
      */
     closeMenu() {
       this.view = false;
-      this.onMap = false;
     },
     /**
      * Generates the list of selectable items on context-menu
@@ -114,19 +113,21 @@ export default {
 
       const miscData = window._.omit({ ...data }, ['coordinates', 'event', 'target']);
 
+      // Create list
       this.actions = new Actions(this.game, this.tile, data.event, miscData);
       this.items = await this.actions.build();
-      this.items = this.items.sort((a, b) => a.action.weight - b.action.weight);
 
+      // Sort items in list
+      this.items = this.items
+        .sort((a, b) => b.timestamp - a.timestamp) // Sort by when item appeared
+        .sort((a, b) => a.action.weight - b.action.weight); // then by action weight
+
+      // Ready to show
       this.view = true;
 
-      const targetElement = data.target.className;
-
+      // On next vue tick, show map
       this.$nextTick(() => {
-        if (targetElement.includes('gameMap')) {
-          this.onMap = true;
-        }
-
+        // Set context menu on map
         this.setMenu(data.event.x, data.event.y);
       });
     },

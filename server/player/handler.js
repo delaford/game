@@ -100,14 +100,17 @@ const handler = {
       .filter(v => v.slot !== data.data.item.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
 
+    // Add item back to the world
+    // from the grasp of the player!
     world.items.push({
       id: data.data.item.id,
       uuid: data.data.item.uuid,
       x: world.players[playerIndex].x,
       y: world.players[playerIndex].y,
+      timestamp: Date.now(),
     });
 
-    console.log(`Dropping: ${data.data.item.id}`);
+    console.log(`Dropping: ${data.data.item.id} at ${world.players[playerIndex].x}, ${world.players[playerIndex].x}`);
 
     Socket.broadcast('world:itemDropped', world.items);
   },
