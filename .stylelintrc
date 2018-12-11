@@ -1,6 +1,7 @@
 {
   "processors": ["stylelint-processor-html"],
   "extends": "stylelint-config-standard",
+  "ignoreFiles": ["**/*.js"],
   "rules": {
     "color-hex-case": null,
     "number-leading-zero": null,
