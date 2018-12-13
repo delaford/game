@@ -18,6 +18,7 @@ const serverFolder = onProduction ? 'build' : 'server';
 const world = require(`./${serverFolder}/core/world`);
 
 const port = process.env.PORT || 4000;
+const env = process.env.NODE_ENV || 'production';
 const app = express();
 
 // Compress Express server bytes
@@ -32,7 +33,7 @@ if (onProduction) {
 app.use(express.static(path.join(__dirname, onProduction ? '/dist' : '/')));
 
 // Actual game server
-console.log(`ENVIRONMENT: ${process.env.NODE_ENV} and PORT ${port}`);
+console.log(`ENVIRONMENT: ${env} and PORT ${port}`);
 // eslint-disable-next-line
 const Delaford = require(`./${serverFolder}/Delaford`);
 
