@@ -17,9 +17,18 @@ const pipe = require('./pipeline');
  * @param {object} context The server context
  */
 const handler = {
-  'fetch:items': () => {
-    console.log('Fetching items for player... ', wearableItems.length);
-    Socket.emit('server:send:items', wearableItems);
+  /**
+   * Fetch for the client the data upon arrival
+   */
+  'fetch:items': (data) => {
+    console.log(`Fetching ${wearableItems.length} items for player ${data.data.substring(0, 5)}... `);
+
+    const objData = {
+      player: { socket_id: data.data },
+      wearableItems,
+    };
+
+    Socket.emit('server:send:items', objData);
   },
   /**
    * A player logins into the game
@@ -157,6 +166,17 @@ const handler = {
     }));
 
     Socket.emit('game:receive:items', itemsToSend);
+  },
+
+  /**
+   * Send the client their socket ID upon arrival
+   */
+  'player:welcome': (_, ws) => {
+    Socket.emit('player:welcome', {
+      player: {
+        socket_id: ws.id,
+      },
+    });
   },
 };
 

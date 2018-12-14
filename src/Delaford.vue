@@ -117,7 +117,6 @@ export default {
     const context = this;
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-
       Event[data.event](data, context);
     };
 
@@ -127,14 +126,18 @@ export default {
       this.screen = 'server-down';
     };
 
-    // Load items
-    setTimeout(() => Socket.emit('fetch:items'), 1000);
-
     // On logout, let's do a few things...
     bus.$on('player:logout', this.logout);
     bus.$on('go:main', this.cancelLogin);
+    bus.$on('fetch:items', this.fetchItems);
   },
   methods: {
+    /**
+     * Fetch client items
+     */
+    fetchItems(data) {
+      Socket.emit('fetch:items', data);
+    },
     /**
      * Logout player
      */

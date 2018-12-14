@@ -107,8 +107,12 @@ const handler = {
   },
 
   'server:send:items': (data) => {
-    console.log(data.data);
-    window.allItems = data.data;
+    console.log(data.data.wearableItems);
+    window.allItems = data.data.wearableItems;
+  },
+
+  'player:welcome': (data) => {
+    bus.$emit('fetch:items', data.data.player.socket_id);
   },
 };
 

@@ -95,11 +95,12 @@ class Delaford {
    * @param {WebSocket} ws The websocket connection
    */
   connection(ws) {
-    console.log(`${emoji.get('computer')}  Someone connected.`);
-
     // Assign UUID to every connection
     ws.id = uuid();
+
+    console.log(`${emoji.get('computer')}  Someone (${ws.id.substring(0, 5)}...) connected.`);
     world.clients.push(ws);
+    Handler['player:welcome'](false, ws, this);
 
     ws.on('message', async (msg) => {
       const data = JSON.parse(msg);
