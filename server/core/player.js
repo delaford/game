@@ -231,6 +231,7 @@ class Player {
    * When player stops moving during pathfinding walking
    */
   stopMovement() {
+    Socket.emit('player:stopped', 'Update mouse');
     this.moving = false;
   }
 

@@ -28,10 +28,18 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      mouse: false,
+    };
+  },
   computed: {
     otherPlayers() {
       return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
+  },
+  created() {
+    bus.$on('canvas:getMouse', () => this.mouseSelection());
   },
   methods: {
     /**
@@ -66,20 +74,33 @@ export default {
         coordinates,
       };
 
+      // Save latest mouse data
+      this.mouse = event;
+
       Socket.emit('player:mouseTo', data);
     },
 
     /**
      * Player hovering over game-map
      *
-     * @param {event} event
+     * @param {MouseEvent} event
      */
     mouseSelection(event) {
+      let fromRobot = false;
+      if (!event) {
+        fromRobot = true;
+        console.log('No move...');
+      }
+      const mouseEvent = event || this.mouse;
+
       const { tile } = config.map.tileset;
 
+      // Save latest mouse data
+      this.mouse = mouseEvent;
+
       const hoveredSquare = {
-        x: Math.floor(UI.getMousePos(event).x / tile.width),
-        y: Math.floor(UI.getMousePos(event).y / tile.height),
+        x: Math.floor(UI.getMousePos(mouseEvent, fromRobot).x / tile.width),
+        y: Math.floor(UI.getMousePos(mouseEvent, fromRobot).y / tile.height),
       };
 
       if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {

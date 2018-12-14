@@ -74,6 +74,14 @@ const handler = {
   },
 
   /**
+   * The player stopped moving
+   */
+  'player:stopped': (data) => {
+    console.log(data);
+    bus.$emit('canvas:getMouse');
+  },
+
+  /**
    * The world receives an updated dropped items list
    */
   'world:itemDropped': (data, context) => {
