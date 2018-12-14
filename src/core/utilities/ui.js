@@ -7,12 +7,8 @@ class UI {
    * @param {*} event The event dispatched when a mouseover fires
    * @return {object} The x,y coordinates of the mouse on the canvas viewport
    */
-  static getMousePos(event, robot = false) {
+  static getMousePos(event) {
     const eventTarget = event.currentTarget || document.querySelector('#game-map');
-    if (robot) {
-      console.log('From a robot...', eventTarget);
-    }
-
     const rect = eventTarget.getBoundingClientRect();
 
     return {

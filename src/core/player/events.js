@@ -76,8 +76,7 @@ const handler = {
   /**
    * The player stopped moving
    */
-  'player:stopped': (data) => {
-    console.log(data);
+  'player:stopped': () => {
     bus.$emit('canvas:getMouse');
   },
 
@@ -115,7 +114,6 @@ const handler = {
   },
 
   'server:send:items': (data) => {
-    console.log(data.data.wearableItems);
     window.allItems = data.data.wearableItems;
   },
 
