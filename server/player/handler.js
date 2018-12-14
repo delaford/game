@@ -41,9 +41,13 @@ const handler = {
       } else {
         Authentication.addPlayer(new Player(playerGuest, 'none', ws.id));
       }
-    } catch (e) {
-      console.log(e.message);
-      Socket.emit('player:login-error', e);
+    } catch (error) {
+      console.log(`${data.data.username} logged in with a bad password.`);
+
+      Socket.emit('player:login-error', {
+        data: error,
+        player: { socket_id: ws.id },
+      });
     }
   },
 
