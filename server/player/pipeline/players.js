@@ -22,6 +22,8 @@ module.exports = {
 
     Wear.updateAttDef(playerIndex);
 
+    console.log(`Equip: ${getItem.id}`);
+
     Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
   },
   unequipItem(data) {
@@ -38,9 +40,9 @@ module.exports = {
       if (data.data.replacing) {
         // TODO - Make this nicer.
         item.slot = item.slot <= data.data.item.slot ? item.slot : data.data.item.slot;
+      } else {
+        console.log(`Unequip: ${getItem.id}`);
       }
-
-      console.log(`Unequip: ${getItem.id}`);
 
       world.players[playerIndex].wear[getItem.slot] = null;
       world.players[playerIndex].inventory.push(item);

@@ -41,14 +41,13 @@ const Delaford = require(`./${serverFolder}/Delaford`);
 const server = http.createServer(app);
 server.listen(port);
 
-
 // Initialize the Game class with port number
 const game = new Delaford(server);
 
-// if (!onProduction) {
+// Live update of world items and players
 app.get('/world/items', (req, res) => res.send(world.items));
 app.get('/world/players', (req, res) => res.send(world.players));
-// }
+/** ************************************** */
 
 // Start the game server.
 game.start();

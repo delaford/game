@@ -109,16 +109,24 @@ const handler = {
     }
   },
 
+  /**
+   * Tell server that client is ready to receive server data
+   */
   'game:receive:items': (data) => {
     bus.$emit('client:game:receive:items', data.data);
   },
 
+  /**
+   * Receive the data from the client upon browser open
+   */
   'server:send:items': (data) => {
     window.allItems = data.data.wearableItems;
   },
 
+  /**
+   * Set the global WS ID upon arrival for global use
+   */
   'player:welcome': (data) => {
-    // Set WS ID upon arrival for global use
     window.wsId = data.data.player.socket_id;
     bus.$emit('fetch:items', data.data.player.socket_id);
   },

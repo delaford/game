@@ -98,8 +98,12 @@ class Delaford {
     // Assign UUID to every connection
     ws.id = uuid();
 
-    console.log(`${emoji.get('computer')}  Someone (${ws.id.substring(0, 5)}...) connected.`);
+    // Add player to server's player list
+    console.log(`${emoji.get('computer')}  A client (${ws.id.substring(0, 5)}...) connected.`);
     world.clients.push(ws);
+
+    // Upon connection, greet player with
+    // their new socket ID
     Handler['player:welcome'](false, ws, this);
 
     ws.on('message', async (msg) => {
@@ -109,6 +113,8 @@ class Delaford {
       // are processed through this method
       Handler[data.event](data, ws, this);
     });
+
+    ws.send(JSON.stringify({ something: 'hello' }));
 
     ws.on('error', e => console.log(e, `${ws.id} has left`));
     ws.on('close', () => this.constructor.close(ws));

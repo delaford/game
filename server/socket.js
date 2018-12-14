@@ -14,21 +14,18 @@ class Socket {
    * @param {object} data The data associated with the event
    */
   static emit(event, data) {
-    const obj = {
+    if (!data.player.socket_id) {
+      console.log(event, 'No player socket ID connected.');
+    }
+
+    // Find player wanting the emit request
+    const player = world.clients.find(p => p.id === data.player.socket_id);
+
+    // Send the player back their needed data
+    player.send(JSON.stringify({
       event,
       data,
-    };
-
-    const player = world.clients.find((p) => {
-      let transitiveID = p.id;
-      if (data.player) {
-        transitiveID = data.player.socket_id;
-      }
-
-      return p.id === transitiveID;
-    });
-
-    player.send(JSON.stringify(obj));
+    }));
   }
 
   /**

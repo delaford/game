@@ -193,7 +193,7 @@ class Player {
             this.queue.shift();
           }
 
-          this.stopMovement();
+          this.stopMovement({ player: { socket_id: world.players[playerIndex].socket_id } });
         } else {
           const steps = {
             current: {
@@ -229,9 +229,11 @@ class Player {
 
   /**
    * When player stops moving during pathfinding walking
+   *
+   * @param {object} data The player object
    */
-  stopMovement() {
-    Socket.emit('player:stopped', 'Update mouse');
+  stopMovement(data) {
+    Socket.emit('player:stopped', { player: data.player });
     this.moving = false;
   }
 

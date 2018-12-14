@@ -28,6 +28,7 @@ class Actions {
       y: (this.player.y - config.map.player.y) + this.clicked.y,
     };
 
+    // Player coordinates
     this.playerCoordinates = {
       x: this.player.x,
       y: this.player.y,

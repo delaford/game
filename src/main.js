@@ -1,10 +1,15 @@
+// Core libraries
 import Vue from 'vue';
+
+// 3rd-party libraries
 import VueTippy from 'vue-tippy';
 
+// Import Delaford
 import Delaford from './Delaford.vue';
 import store from './store';
 
 Vue.config.productionTip = false;
+
 Vue.use(VueTippy, {
   animation: 'fade',
   inertia: true,
@@ -16,10 +21,7 @@ Vue.use(VueTippy, {
 
 // Start the websocket server client-side
 if ('WebSocket' in window) {
-  // TODO
-  // Clean this up
-  // const hostname = window.location.hostname;
-  const url = process.env.NODE_ENV === 'production' ? 'wss://play.delaford.com' : 'ws://localhost:4000';
+  const url = process.env.NODE_ENV === 'production' ? 'wss://play.delaford.com' : `ws://${window.location.hostname}:4000`;
   window.ws = new WebSocket(url);
 }
 

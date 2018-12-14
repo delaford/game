@@ -117,7 +117,11 @@ export default {
     const context = this;
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      Event[data.event](data, context);
+      if (data.event !== undefined) {
+        Event[data.event](data, context);
+      } else {
+        console.log(data);
+      }
     };
 
     // On server connection error,
@@ -203,6 +207,8 @@ export default {
     },
     /**
      * A click-handler event that does nothing, really.
+     *
+     * @param {MouseEvent} event The mouse event
      */
     nothing(event) {
       // Make right-click system for
