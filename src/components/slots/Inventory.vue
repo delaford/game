@@ -94,13 +94,17 @@ export default {
      * @param {object} data Incoming server data
      */
     constructItemLibrary(data) {
-      this.library = data;
+      this.library = data.data;
     },
     /**
      * Fetch the items from the server
      */
     loadItemData() {
-      Socket.emit('game:fetch:items');
+      Socket.emit('game:fetch:items', {
+        player: {
+          socket_id: window.wsId,
+        },
+      });
     },
     /**
      * Right-click brings up context-menu

@@ -248,7 +248,7 @@ export default {
     constructItemLibrary(data) {
       // TODO
       // Abstract this to global method
-      this.library = data;
+      this.library = data.data;
     },
     /**
      * Fetch the items from the server

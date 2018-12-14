@@ -157,7 +157,10 @@ const handler = {
     pipe.player.unequipItem(data);
   },
 
-  'game:fetch:items': () => {
+  /**
+   * Fetch the items to send back to client
+   */
+  'game:fetch:items': (_, ws) => {
     const itemsToSend = wearableItems.map(i => ({
       stats: i.stats,
       name: i.name,
@@ -165,7 +168,14 @@ const handler = {
       id: i.id,
     }));
 
-    Socket.emit('game:receive:items', itemsToSend);
+    const data = {
+      data: itemsToSend,
+      player: {
+        socket_id: ws.id,
+      },
+    };
+
+    Socket.emit('game:receive:items', data);
   },
 
   /**

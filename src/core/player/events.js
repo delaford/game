@@ -118,6 +118,8 @@ const handler = {
   },
 
   'player:welcome': (data) => {
+    // Set WS ID upon arrival for global use
+    window.wsId = data.data.player.socket_id;
     bus.$emit('fetch:items', data.data.player.socket_id);
   },
 };
