@@ -21,8 +21,6 @@ const handler = {
    * Fetch for the client the data upon arrival
    */
   'fetch:items': (data) => {
-    console.log(`Fetching ${wearableItems.length} items for player ${data.data.substring(0, 5)}... `);
-
     const objData = {
       player: { socket_id: data.data },
       wearableItems,

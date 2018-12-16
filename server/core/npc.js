@@ -46,6 +46,7 @@ class NPC {
     npcs.forEach((npc) => {
       world.npcs.push(new NPC(npc));
     }, context);
+
     console.log(`${emoji.get('walking')}  Loading NPCs...`);
   }
 
