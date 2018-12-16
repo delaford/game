@@ -87,12 +87,11 @@ div.info {
     .bar {
       width: 50%;
       height: 100%;
-      background: #3ae43a;
+      background: #7cb342;
 
       div {
         font-size: 10px;
         color: white;
-        text-shadow: 1px 1px 0 #000;
         padding: 2px 0 0 4px;
       }
     }
