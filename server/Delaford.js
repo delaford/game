@@ -114,8 +114,6 @@ class Delaford {
       Handler[data.event](data, ws, this);
     });
 
-    ws.send(JSON.stringify({ something: 'hello' }));
-
     ws.on('error', e => console.log(e, `${ws.id} has left`));
     ws.on('close', () => this.constructor.close(ws));
   }
