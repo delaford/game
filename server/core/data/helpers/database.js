@@ -32,6 +32,10 @@ const presetActions = (items) => {
           'chop',
         ];
         break;
+      case 'pickaxe':
+        list = [
+          'mine',
+        ];
     }
 
     actions.push(...list);

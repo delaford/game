@@ -10,6 +10,7 @@ class Actions {
     this.player = data.player;
     this.event = event;
     this.background = data.background;
+    this.foreground = data.foreground;
     this.npcs = data.npcs;
     this.droppedItems = data.map.droppedItems;
 
@@ -34,7 +35,21 @@ class Actions {
       y: this.player.y,
     };
 
+    this.foregroundObjects = this.getForegroundObjects();
+
+    console.log(this.playerCoordinates);
+
     this.objectId = null;
+  }
+
+  /**
+   * Look into the foreground for objects
+   */
+  getForegroundObjects() {
+    const obj = this.foreground
+      .filter(t => t > 0)
+      .map(t => t - 252 - (1));
+    console.log(obj);
   }
 
   /**
@@ -128,14 +143,24 @@ class Actions {
 
         break;
 
+      case 'mine':
+        const outgoingData = {
+          id: this.player.uuid,
+          location: 'nearby',
+          coordinates: { x: clickedTile.x, y: clickedTile.y },
+        };
+
+        Socket.emit('player:mouseTo', outgoingData);
+        break;
+
       case 'take':
         if (tileWalkable) {
-          const outgoingData = {
+          const outgoingDataT = {
             id: this.player.uuid,
             coordinates: { x: clickedTile.x, y: clickedTile.y },
           };
 
-          Socket.emit('player:mouseTo', outgoingData);
+          Socket.emit('player:mouseTo', outgoingDataT);
         }
 
         break;
@@ -182,9 +207,46 @@ class Actions {
     // eslint-disable-next-line
     const getNPCs = this.npcs.filter(npc => npc.x === this.coordinates.x && npc.y === this.coordinates.y);
 
+    // const tile = UI.getTileOverMouse(
+    //   this.background,
+    //   this.player.x,
+    //   this.player.y,
+    //   this.clicked.x,
+    //   this.clicked.y,
+    // );
+
+    const ftile = UI.getTileOverMouse(
+      this.foreground,
+      this.player.x,
+      this.player.y,
+      this.clicked.x,
+      this.clicked.y,
+      'foreground',
+    );
+
     // TODO
     // Abstract to global context-menu item template
     switch (action.name) {
+      case 'Mine':
+        const itemDataM = UI.getItemData(ftile);
+        const colorM = UI.getContextSubjectColor('action');
+        // See if ftile (foreground) is part of the mining rock IDs
+        if (ftile > 279 && ftile < 285 && itemDataM.actions.includes(action.name.toLowerCase())) {
+          items.push({
+            label: `Mine <span style='color:${colorM}'>${itemDataM.name}</span>`,
+            action,
+            type: 'mine',
+            at: {
+              x: this.clicked.x,
+              y: this.clicked.y,
+            },
+            id: itemDataM.id,
+          });
+        }
+        // Get Ore from server data (from id)
+        // Add action to list
+
+        break;
       default:
         return false;
       // eslint-disable-next-line no-case-declarations

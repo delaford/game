@@ -6,6 +6,7 @@ const Map = require('./../core/map');
 const playerGuest = require('../core/data/helpers/player.json');
 
 const { wearableItems } = require('../core/data/items');
+const { foregroundObjects } = require('../core/data/foreground');
 
 const pipe = require('./pipeline');
 
@@ -24,6 +25,7 @@ const handler = {
     const objData = {
       player: { socket_id: data.data },
       wearableItems,
+      foregroundObjects,
     };
 
     Socket.emit('server:send:items', objData);
@@ -93,7 +95,9 @@ const handler = {
     world.players[playerIndexMoveTo].path.grid = matrix;
     world.players[playerIndexMoveTo].path.current.walkable = true;
 
-    Map.findPath(movingData.id, x, y);
+    const location = movingData.location || null;
+
+    Map.findPath(movingData.id, x, y, location);
   },
 
   /**

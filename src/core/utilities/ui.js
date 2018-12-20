@@ -27,6 +27,8 @@ class UI {
       return config.map.color.npc;
     } else if (data === 'item') {
       return config.map.color.item;
+    } else if (data === 'action') {
+      return config.map.color.action;
     }
     return 'inherit';
   }
@@ -39,11 +41,14 @@ class UI {
    * @param {integer} playerY The current y-axis of the player
    * @param {integer} mouseX The current x-axis of the mouse on the viewport
    * @param {integer} mouseY The current y-axis of the mouse on the viewport
+   * @param {string} layer The layer of our tile
    */
-  static getTileOverMouse(board, playerX, playerY, mouseX, mouseY) {
+  static getTileOverMouse(board, playerX, playerY, mouseX, mouseY, layer = 'background') {
     const tile = (((mouseY + (playerY - 5)) * config.map.size.x) + mouseX) + (playerX - 7);
+
     if (board !== undefined) {
-      return board[tile] - 1;
+      const specialEquation = layer === 'foreground' ? 253 : 1;
+      return board[tile] - specialEquation;
     }
 
     return -1;
@@ -127,7 +132,8 @@ class UI {
    * @returns {object}
    */
   static getItemData(id) {
-    return window.allItems.find(item => item.id === id);
+    return window.allItems.find(item => item.id === id)
+      || window.foregroundObjects.find(item => item.id === id);
   }
 
   /**

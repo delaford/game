@@ -35,10 +35,18 @@ class Map {
    * @param {integer} x The x-axis coord on where user clicked on game-gap
    * @param {integer} y The y-axis coord on where user clicked on game-gap
    */
-  static findQuickestPath(x, y, playerIndex) {
+  static findQuickestPath(x, y, playerIndex, location = 'exact') {
     const player = world.players[playerIndex];
     return new Promise((resolve) => {
-      resolve(player.path.finder.findPath(7, 5, x, y, player.path.grid));
+      /**
+       * Get location of all 4 spots, check tile if blocked
+       * Get direction based off player and where to check first
+       */
+
+      const path = player.path.finder.findPath(7, 5, x, y, player.path.grid);
+      debugger;
+      if (location === 'nearby') path.pop();
+      resolve(path);
     });
   }
 
@@ -49,7 +57,7 @@ class Map {
    * @param {integer} x The x-axis coord on where user clicked on game-gap
    * @param {integer} y The y-axis coord on where user clicked on game-gap
    */
-  static async findPath(uuidPath, x, y) {
+  static async findPath(uuidPath, x, y, location) {
     const playerIndex = world.players.findIndex(p => p.uuid === uuidPath);
 
     if (world.players[playerIndex].moving) {
@@ -58,15 +66,10 @@ class Map {
 
     // The player's x-y on map (always 7,5)
     // to where they clicked on the map
-    const path = await Map.findQuickestPath(x, y, playerIndex);
-
-    // Actively set mouse coordinates while walking
-    // (why was this commented out?)
-    // this.setMouseCoordinates(this.mouse.x, this.mouse.y);
+    const path = await Map.findQuickestPath(x, y, playerIndex, location);
 
     // If the tile we clicked on
     // can be walked on, continue ->
-    // TODO - actually check (check what?)
     if (world.players[playerIndex].path.current.walkable && path.length && path.length >= 1) {
       world.players[playerIndex].path.current.path.walking = path;
       world.players[playerIndex].path.current.step = 0;

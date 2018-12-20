@@ -42,6 +42,14 @@ const actionList = [
     nearby: false,
     weight: 1,
   },
+  {
+    name: 'Mine',
+    context: ['gameMap'],
+    allow: ['foreground'],
+    nearby: 'edge',
+    weight: 1,
+    queueable: true,
+  },
 ];
 
 export default actionList;
