@@ -152,6 +152,22 @@ class UI {
 
     return board[((map.size.y * (y + getY(direction))) - (map.size.x - (x + getX(direction))))] - 1;
   }
+
+  /**
+   * Get the correct color to label the context subject
+   *
+   * @param {string} data Incoming context type
+   */
+  static getContextSubjectColor(data) {
+    if (data === 'npc') {
+      return map.color.npc;
+    } else if (data === 'item') {
+      return map.color.item;
+    } else if (data === 'action') {
+      return map.color.action;
+    }
+    return 'inherit';
+  }
 }
 
 module.exports = UI;

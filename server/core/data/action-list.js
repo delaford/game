@@ -1,4 +1,4 @@
-const actionList = [
+export default [
   {
     name: 'Walk here',
     context: ['gameMap'],
@@ -51,5 +51,3 @@ const actionList = [
     queueable: true,
   },
 ];
-
-export default actionList;

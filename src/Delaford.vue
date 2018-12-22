@@ -118,7 +118,11 @@ export default {
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
       if (data.event !== undefined) {
-        Event[data.event](data, context);
+        if (!Event[data.event]) {
+          bus.$emit(data.event, data);
+        } else {
+          Event[data.event](data, context);
+        }
       } else {
         console.log(data);
       }

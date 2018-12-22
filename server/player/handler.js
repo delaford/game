@@ -1,3 +1,5 @@
+import ContextMenu from './../core/context-menu';
+
 const Authentication = require('./authentication');
 const Player = require('./../core/player');
 const world = require('../core/world');
@@ -192,6 +194,24 @@ const handler = {
       player: {
         socket_id: ws.id,
       },
+    });
+  },
+
+  /**
+   * Start building the menu for the player
+   */
+  'game:menu:build': async (incomingData) => {
+    const contextMenu = new ContextMenu(
+      incomingData.data.player,
+      incomingData.data.tile,
+      incomingData.data.miscData,
+    );
+
+    const items = await contextMenu.build();
+
+    Socket.emit('game:context-menu:items', {
+      data: items,
+      player: incomingData.data.player,
     });
   },
 };

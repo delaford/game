@@ -44,7 +44,6 @@ class Map {
        */
 
       const path = player.path.finder.findPath(7, 5, x, y, player.path.grid);
-      debugger;
       if (location === 'nearby') path.pop();
       resolve(path);
     });

@@ -78,6 +78,7 @@ export default {
       this.mouse = event;
 
       Socket.emit('player:mouseTo', data);
+      bus.$emit('contextmenu:close');
     },
 
     /**

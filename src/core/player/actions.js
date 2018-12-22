@@ -37,8 +37,6 @@ class Actions {
 
     this.foregroundObjects = this.getForegroundObjects();
 
-    console.log(this.playerCoordinates);
-
     this.objectId = null;
   }
 
@@ -348,6 +346,7 @@ class Actions {
         items.push({
           action: {
             name: 'walk-here',
+            weight: 2,
           },
           label: 'Walk here',
         });
