@@ -12,6 +12,7 @@ const config = {
       item: '#ffaa00',
       npc: '#f9f920',
       player: '#ffffff',
+      action: '#1ffe8c',
     },
     tileset: { // How big is the tileset?
       width: 0,

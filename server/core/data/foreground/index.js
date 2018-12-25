@@ -1,9 +1,9 @@
 import resources from './resources';
-import randoms from './randoms';
+import miscellaneous from './miscellaneous';
 
 const foregroundObjects = [
   ...resources,
-  ...randoms,
+  ...miscellaneous,
 ];
 
-export { foregroundObjects, resources, randoms };
+export { foregroundObjects, resources, miscellaneous };

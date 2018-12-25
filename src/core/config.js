@@ -12,7 +12,7 @@ export default {
       item: '#ffaa00',
       npc: '#f9f920',
       player: '#ffffff',
-      action: 'orange',
+      action: '#A8FFDF',
     },
     tileset: { // How big is the tileset?
       width: 0,

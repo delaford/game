@@ -11,7 +11,7 @@ export default [
     context: ['gameMap'],
     allow: ['item'],
     nearby: 'exact',
-    weight: 2,
+    weight: 1,
     queueable: true,
   },
   {

@@ -1,4 +1,5 @@
 const { wearableItems } = require('./../data/items');
+const { foregroundObjects } = require('../data/foreground');
 const { map } = require('../config');
 
 class UI {
@@ -25,9 +26,19 @@ class UI {
    * @param {integer} playerY The current y-axis of the player
    * @param {integer} mouseX The current x-axis of the mouse on the viewport
    * @param {integer} mouseY The current y-axis of the mouse on the viewport
+   * @param {string} layer The layer of our tile
+   *
+   * @returns {integer}
    */
-  static getTileOverMouse(board, playerX, playerY, mouseX, mouseY) {
-    return board[(((mouseY + (playerY - 5)) * map.size.x) + mouseX) + (playerX - 7)] - 1;
+  static getTileOverMouse(board, playerX, playerY, mouseX, mouseY, layer = 'background') {
+    const tile = (((mouseY + (playerY - 5)) * map.size.x) + mouseX) + (playerX - 7);
+
+    if (board !== undefined) {
+      const specialEquation = layer === 'foreground' ? 253 : 1;
+      return board[tile] - specialEquation;
+    }
+
+    return -1;
   }
 
   /**
@@ -127,7 +138,23 @@ class UI {
    * @returns {object}
    */
   static getItemData(id) {
-    return wearableItems.find(item => item.id === id);
+    return wearableItems.map((t) => {
+      t.context = 'item';
+      return t;
+    }).find(item => item.id === id);
+  }
+
+  /**
+   * Obtains the full information of a foreground object by its ID
+   *
+   * @param {integer} id The ID of the foreground item
+   * @returns {object}
+   */
+  static getForegroundData(id) {
+    return foregroundObjects.map((t) => {
+      t.context = 'action';
+      return t;
+    }).find(item => item.id === id);
   }
 
   /**

@@ -198,7 +198,7 @@ class Actions {
    * @param {string} action The item being checked
    * @returns {boolean}
    */
-  async check(action, items) {
+  async check(action) {
     // eslint-disable-next-line
     const getItems = this.droppedItems.filter(item => item.x === this.coordinates.x && item.y === this.coordinates.y);
 
@@ -213,208 +213,14 @@ class Actions {
     //   this.clicked.y,
     // );
 
-    const ftile = UI.getTileOverMouse(
-      this.foreground,
-      this.player.x,
-      this.player.y,
-      this.clicked.x,
-      this.clicked.y,
-      'foreground',
-    );
 
     // TODO
     // Abstract to global context-menu item template
     switch (action.name) {
-      case 'Mine':
-        const itemDataM = UI.getItemData(ftile);
-        const colorM = UI.getContextSubjectColor('action');
-        // See if ftile (foreground) is part of the mining rock IDs
-        if (ftile > 279 && ftile < 285 && itemDataM.actions.includes(action.name.toLowerCase())) {
-          items.push({
-            label: `Mine <span style='color:${colorM}'>${itemDataM.name}</span>`,
-            action,
-            type: 'mine',
-            at: {
-              x: this.clicked.x,
-              y: this.clicked.y,
-            },
-            id: itemDataM.id,
-          });
-        }
-        // Get Ore from server data (from id)
-        // Add action to list
-
-        break;
       default:
         return false;
       // eslint-disable-next-line no-case-declarations
-      case 'Take':
-        getItems.forEach((item) => {
-          const itemData = Object.assign(item, UI.getItemData(item.id));
-          const color = UI.getContextSubjectColor('item');
-
-          if (itemData.actions.includes(action.name.toLowerCase())) {
-            const object = {
-              label: `Take <span style='color:${color}'>${itemData.name}</span>`,
-              action,
-              type: 'item',
-              at: {
-                x: itemData.x,
-                y: itemData.y,
-              },
-              id: itemData.id,
-              uuid: itemData.uuid,
-              timestamp: itemData.timestamp,
-            };
-
-            items.push(object);
-          }
-        });
-        break;
-
-      case 'Drop':
-        if (this.clickedOn('inventorySlot')) {
-          if (Actions.hasProp(this.miscData, 'slot')) {
-            // eslint-disable-next-line
-            const droppingItem = this.player.inventory.find(s => s.slot === this.miscData.slot);
-            const itemData = UI.getItemData(droppingItem.id);
-            this.objectId = itemData;
-            const color = UI.getContextSubjectColor('item');
-
-            if (itemData.actions.includes(action.name.toLowerCase())) {
-              const object = {
-                label: `Drop <span style='color:${color}'>${itemData.name}</span>`,
-                action,
-                type: 'item',
-                miscData: this.miscData,
-                uuid: droppingItem.uuid,
-                id: droppingItem.id,
-              };
-
-              items.push(object);
-            }
-          }
-        }
-        break;
-
-      case 'Equip':
-        if (this.clickedOn('inventorySlot')) {
-          if (Actions.hasProp(this.miscData, 'slot')) {
-            // eslint-disable-next-line
-            const equippingItem = this.player.inventory.find(s => s.slot === this.miscData.slot);
-            const itemData = UI.getItemData(equippingItem.id);
-            this.objectId = itemData;
-            const color = UI.getContextSubjectColor('item');
-
-            if (itemData.actions.includes(action.name.toLowerCase())) {
-              items.push({
-                label: `Equip <span style='color:${color}'>${itemData.name}</span>`,
-                action,
-                type: 'item',
-                miscData: this.miscData,
-                uuid: equippingItem.uuid,
-                id: equippingItem.id,
-              });
-            }
-          }
-        }
-        break;
-
-      case 'Unequip':
-        if (this.clickedOn('wearSlot')) {
-          if (Actions.hasProp(this.miscData, 'slot')) {
-            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].id);
-            this.objectId = itemData;
-            const color = UI.getContextSubjectColor('item');
-
-            if (itemData.actions.includes(action.name.toLowerCase())) {
-              const object = {
-                label: `Unequip <span style='color:${color}'>${itemData.name}</span>`,
-                action,
-                type: 'item',
-                miscData: this.miscData,
-                id: itemData.id,
-              };
-
-              items.push(object);
-            }
-          }
-        }
-        break;
-
-      case 'Walk here':
-        items.push({
-          action: {
-            name: 'walk-here',
-            weight: 2,
-          },
-          label: 'Walk here',
-        });
-
-        break;
-
-      // eslint-disable-next-line no-case-declarations
-      case 'Examine':
-
-        if (this.clickedOn('gameMap')) {
-          getNPCs.forEach((npc) => {
-            if (npc.actions.includes(action.name.toLowerCase())) {
-              const color = UI.getContextSubjectColor('npc');
-              const object = {
-                label: `Examine <span style='color:${color}'>${npc.name}</span>`,
-                action,
-                examine: npc.examine,
-                type: 'npc',
-                id: npc.id,
-              };
-
-              items.push(object);
-            }
-          });
-
-          getItems.forEach((item) => {
-            const itemData = Object.assign(item, UI.getItemData(item.id));
-            const color = UI.getContextSubjectColor('item');
-
-            if (itemData.actions.includes(action.name.toLowerCase())) {
-              const object = {
-                label: `Examine <span style='color:${color}'>${itemData.name}</span>`,
-                action,
-                examine: itemData.examine,
-                type: 'item',
-                id: itemData.id,
-                timestamp: itemData.timestamp,
-              };
-
-              items.push(object);
-            }
-          });
-        }
-
-        if (this.clickedOn('inventorySlot')) {
-          if (Actions.hasProp(this.miscData, 'slot')) {
-            // eslint-disable-next-line
-            const itemData = UI.getItemData(this.player.inventory.find(s => s.slot === this.miscData.slot).id);
-            this.objectId = itemData;
-            const color = UI.getContextSubjectColor('item');
-
-            if (itemData.actions.includes(action.name.toLowerCase())) {
-              const object = {
-                label: `Examine <span style='color:${color}'>${itemData.name}</span>`,
-                action,
-                examine: itemData.examine,
-                type: 'item',
-                id: itemData.id,
-              };
-
-              items.push(object);
-            }
-          }
-        }
-        break;
     }
-
-    return items;
   }
 
   /**
