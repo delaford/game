@@ -105,6 +105,8 @@ class ContextMenu {
     switch (action.name) {
       default:
         return items;
+
+      // Walk player to this location
       case 'Walk here':
         items.push({
           action: {
@@ -116,122 +118,132 @@ class ContextMenu {
 
         break;
 
+      // Drop item from inventory
       case 'Drop':
         if (this.clickedOn('inventorySlot')) {
           if (this.isFromInventory()) {
-            const itemData = UI.getItemData(itemActedOn);
-            const color = UI.getContextSubjectColor(itemData.context);
+            const {
+              actions, name, context, uuid, id,
+            } = UI.getItemData(itemActedOn.id);
 
-            if (itemData.actions.includes(action.name.toLowerCase())) {
-              const object = {
-                label: `Drop <span style='color:${color}'>${itemData.name}</span>`,
-                action,
-                type: 'item',
-                miscData: this.miscData,
-                uuid: itemData.uuid,
-                id: itemData.id,
-              };
+            const color = UI.getContextSubjectColor(context);
 
-              items.push(object);
-            }
-          }
-        }
-        break;
-
-      case 'Take':
-        getItems.forEach((item) => {
-          const itemData = Object.assign(item, UI.getItemData(item.id));
-          const color = UI.getContextSubjectColor(item.context);
-
-          if (itemData.actions.includes(action.name.toLowerCase())) {
-            const object = {
-              label: `Take <span style='color:${color}'>${itemData.name}</span>`,
-              action,
-              type: 'item',
-              at: {
-                x: itemData.x,
-                y: itemData.y,
-              },
-              id: itemData.id,
-              uuid: itemData.uuid,
-              timestamp: itemData.timestamp,
-            };
-
-            items.push(object);
-          }
-        });
-        break;
-
-      case 'Equip':
-        if (this.clickedOn('inventorySlot')) {
-          if (ContextMenu.isFromInventory()) {
-            const itemData = UI.getItemData(itemActedOn.id);
-            const color = UI.getContextSubjectColor(itemData.context);
-
-            if (itemData.actions.includes(action.name.toLowerCase())) {
+            if (ContextMenu.canDoAction(actions, action)) {
               items.push({
-                label: `Equip <span style='color:${color}'>${itemData.name}</span>`,
+                label: `Drop <span style='color:${color}'>${name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,
-                uuid: itemData.uuid,
-                id: itemData.id,
+                uuid,
+                id,
               });
             }
           }
         }
         break;
 
-      case 'Unequip':
-        if (this.clickedOn('wearSlot')) {
-          if (ContextMenu.isFromInventory()) {
-            const itemData = UI.getItemData(this.player.wear[this.miscData.slot].id);
-            const color = UI.getContextSubjectColor(itemData.context);
+      // Take item from floor
+      case 'Take':
+        getItems.forEach((item) => {
+          const {
+            actions, name, x, y, id, uuid, timestamp,
+          } = Object.assign(item, UI.getItemData(item.id));
 
-            if (itemData.actions.includes(action.name.toLowerCase())) {
-              const object = {
-                label: `Unequip <span style='color:${color}'>${itemData.name}</span>`,
-                action,
-                type: 'item',
-                miscData: this.miscData,
-                id: itemData.id,
-              };
+          const color = UI.getContextSubjectColor(item.context);
 
-              items.push(object);
-            }
+          if (ContextMenu.canDoAction(actions, action)) {
+            items.push({
+              label: `Take <span style='color:${color}'>${name}</span>`,
+              action,
+              type: 'item',
+              at: {
+                x,
+                y,
+              },
+              id,
+              uuid,
+              timestamp,
+            });
+          }
+        });
+        break;
+
+      // Equip item from inventory
+      case 'Equip':
+        if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
+          const {
+            actions, context, name, uuid, id,
+          } = UI.getItemData(itemActedOn.id);
+
+          const color = UI.getContextSubjectColor(context);
+
+          if (ContextMenu.canDoAction(actions, action)) {
+            items.push({
+              label: `Equip <span style='color:${color}'>${name}</span>`,
+              action,
+              type: 'item',
+              miscData: this.miscData,
+              uuid,
+              id,
+            });
           }
         }
         break;
 
+      // Unequip item from the equipment screen
+      case 'Unequip':
+        if (this.clickedOn('wearSlot') && this.isFromInventory()) {
+          const {
+            name, actions, context, id,
+          } = UI.getItemData(this.player.wear[this.miscData.slot].id);
+
+          const color = UI.getContextSubjectColor(context);
+
+          if (ContextMenu.canDoAction(actions, action)) {
+            items.push({
+              label: `Unequip <span style='color:${color}'>${name}</span>`,
+              action,
+              type: 'item',
+              miscData: this.miscData,
+              id,
+            });
+          }
+        }
+        break;
+
+      // Examine item/object/npc from where possible
       case 'Examine':
         if (this.isFromGameCanvas()) {
-          getNPCs.forEach((npc) => {
-            if (npc.actions.includes(action.name.toLowerCase())) {
-              const color = UI.getContextSubjectColor(npc.context);
-              const object = {
-                label: `Examine <span style='color:${color}'>${npc.name}</span>`,
+          getNPCs.forEach(({
+            actions, name, context, examine, id,
+          }) => {
+            if (ContextMenu.canDoAction(actions, action)) {
+              const color = UI.getContextSubjectColor(context);
+              items.push({
+                label: `Examine <span style='color:${color}'>${name}</span>`,
                 action,
-                examine: npc.examine,
+                examine,
                 type: 'npc',
-                id: npc.id,
-              };
-
-              items.push(object);
+                id,
+              });
             }
           });
 
           getItems.forEach((item) => {
-            const itemData = Object.assign(item, UI.getItemData(item.id));
+            const {
+              name, examine, id, actions, timestamp,
+            } = Object.assign(item, UI.getItemData(item.id));
+
             const color = UI.getContextSubjectColor(item.context);
 
-            if (itemData.actions.includes(action.name.toLowerCase())) {
+            if (ContextMenu.canDoAction(actions, action)) {
               const object = {
-                label: `Examine <span style='color:${color}'>${itemData.name}</span>`,
+                label: `Examine <span style='color:${color}'>${name}</span>`,
                 action,
-                examine: itemData.examine,
+                examine,
                 type: 'item',
-                id: itemData.id,
-                timestamp: itemData.timestamp,
+                id,
+                timestamp,
               };
 
               items.push(object);
@@ -240,31 +252,31 @@ class ContextMenu {
         }
 
         if (this.isFromInventory()) {
-          if (ContextMenu.hasProp(this.miscData, 'slot')) {
-            const itemData = UI.getItemData(itemActedOn);
-            const color = UI.getContextSubjectColor(itemData.context);
+          const {
+            name, examine, id, context, actions,
+          } = UI.getItemData(itemActedOn.id);
 
-            if (itemData.actions.includes(action.name.toLowerCase())) {
-              const object = {
-                label: `Examine <span style='color:${color}'>${itemData.name}</span>`,
-                action,
-                examine: itemData.examine,
-                type: 'item',
-                id: itemData.id,
-              };
+          const color = UI.getContextSubjectColor(context);
 
-              items.push(object);
-            }
+          if (ContextMenu.canDoAction(actions, action)) {
+            const object = {
+              label: `Examine <span style='color:${color}'>${name}</span>`,
+              action,
+              examine,
+              type: 'item',
+              id,
+            };
+
+            items.push(object);
           }
         }
         break;
 
+      // Mine rocks
       case 'Mine':
         const color = UI.getContextSubjectColor(foregroundData.context);
 
-        // TODO
-        // Make method to cheeck if these actions are equal
-        if (foregroundData.actions.includes(action.name.toLowerCase())) {
+        if (ContextMenu.canDoAction(foregroundData, action)) {
           items.push({
             label: `Mine <span style='color:${color}'>${foregroundData.name}</span>`,
             action,
@@ -331,6 +343,22 @@ class ContextMenu {
    */
   isFromGameCanvas() {
     return this.clickedOn('gameMap');
+  }
+
+  /**
+   * Checks to see if an action can be acted upon with the item or subject
+   *
+   * @example 'Does a pickaxe include an action of "Mine"?'
+   * @param {object} item The item being checked
+   * @param {object} action The action being checked
+   * @returns {boolean}
+   */
+  static canDoAction(item, action) {
+    if (item instanceof Array) {
+      return item.includes(action.name.toLowerCase());
+    }
+
+    return item.actions.includes(action.name.toLowerCase());
   }
 }
 
