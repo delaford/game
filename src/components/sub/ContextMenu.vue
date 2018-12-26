@@ -112,12 +112,12 @@ export default {
      * @param {object} data The coordinates of the player and MouseEvent
      */
     buildMenu(data) {
+      // Tile coordinates and mouse event
       this.mouseEvent = data.event;
       this.tile.x = data.coordinates.x;
       this.tile.y = data.coordinates.y;
 
       // Remove misc info
-      // and add clickedOn target element
       const miscData = omit({ ...data, clickedOn: data.event.target.classList }, ['coordinates', 'event', 'target']);
 
       // Tell server to start building context menu

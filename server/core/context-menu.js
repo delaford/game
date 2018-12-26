@@ -237,16 +237,14 @@ class ContextMenu {
             const color = UI.getContextSubjectColor(item.context);
 
             if (ContextMenu.canDoAction(actions, action)) {
-              const object = {
+              items.push({
                 label: `Examine <span style='color:${color}'>${name}</span>`,
                 action,
                 examine,
                 type: 'item',
                 id,
                 timestamp,
-              };
-
-              items.push(object);
+              });
             }
           });
         }
@@ -259,15 +257,13 @@ class ContextMenu {
           const color = UI.getContextSubjectColor(context);
 
           if (ContextMenu.canDoAction(actions, action)) {
-            const object = {
+            items.push({
               label: `Examine <span style='color:${color}'>${name}</span>`,
               action,
               examine,
               type: 'item',
               id,
-            };
-
-            items.push(object);
+            });
           }
         }
         break;
