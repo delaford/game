@@ -1,7 +1,7 @@
 import PF from 'pathfinding';
 import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
 import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
-import UI from './utilities/ui';
+import UI from 'shared/ui';
 import config from '../../config';
 
 class Map {

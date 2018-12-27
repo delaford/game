@@ -1,7 +1,7 @@
+import UI from 'shared/ui';
 import config from '../../config';
 import actionList from './data/action-list';
 import world from './world';
-import UI from '../core/utilities/ui';
 
 class ContextMenu {
   constructor(player, tile, miscData) {

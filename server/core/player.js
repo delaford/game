@@ -1,9 +1,10 @@
+import UI from 'shared/ui';
+
 const config = require('./../../config');
 const PF = require('pathfinding');
 const emoji = require('node-emoji');
 const world = require('./world');
 const WebSocket = require('ws');
-const UI = require('./utilities/ui');
 const axios = require('axios');
 const Socket = require('../socket');
 const uuid = require('uuid/v4');

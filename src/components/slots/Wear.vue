@@ -192,8 +192,8 @@
 </template>
 
 <script>
+import UI from 'shared/ui';
 import bus from '../../core/utilities/bus';
-import UI from '../../core/utilities/ui';
 import Socket from '../../core/utilities/socket';
 
 export default {

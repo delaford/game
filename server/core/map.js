@@ -1,8 +1,9 @@
+import UI from 'shared/ui';
+
 const PF = require('pathfinding');
 const config = require('./../../config');
 const surfaceMap = require('./../maps/layers/surface.json');
 const world = require('./../core/world');
-const UI = require('./../core/utilities/ui');
 const uuid = require('uuid/v4');
 const { weapons, armor, jewelry } = require('./data/respawn');
 

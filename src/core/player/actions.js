@@ -1,6 +1,6 @@
+import UI from 'shared/ui';
 import { merge } from 'lodash';
 import bus from '../utilities/bus';
-import UI from '../utilities/ui';
 import config from '../../../config';
 import Socket from '../../core/utilities/socket';
 import actionList from './data/actions';

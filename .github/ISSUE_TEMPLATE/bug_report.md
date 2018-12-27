@@ -12,7 +12,5 @@ about: Create a report to help us improve
 
 **What is the expected behavior?**
 
-**Browser, OS, and Node version**
-
 **Additional context**
 Add any other context about the problem here.
