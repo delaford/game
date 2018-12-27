@@ -2,7 +2,7 @@ import PF from 'pathfinding';
 import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
 import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
 import UI from './utilities/ui';
-import config from '../core/config';
+import config from '../../config';
 
 class Map {
   constructor(data, images) {

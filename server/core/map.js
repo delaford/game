@@ -1,5 +1,5 @@
 const PF = require('pathfinding');
-const config = require('./../core/config');
+const config = require('./../../config');
 const surfaceMap = require('./../maps/layers/surface.json');
 const world = require('./../core/world');
 const UI = require('./../core/utilities/ui');

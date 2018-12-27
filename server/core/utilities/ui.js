@@ -1,6 +1,6 @@
 const { wearableItems } = require('./../data/items');
 const { foregroundObjects } = require('../data/foreground');
-const { map } = require('../config');
+const { map } = require('../../../config');
 
 class UI {
   /**

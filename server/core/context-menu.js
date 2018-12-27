@@ -1,4 +1,4 @@
-import config from '../core/config';
+import config from '../../config';
 import actionList from './data/action-list';
 import world from './world';
 import UI from '../core/utilities/ui';
@@ -270,9 +270,8 @@ class ContextMenu {
 
       // Mine rocks
       case 'Mine':
-        const color = UI.getContextSubjectColor(foregroundData.context);
-
-        if (ContextMenu.canDoAction(foregroundData, action)) {
+        if (ContextMenu.canDoAction(foregroundData, action) && foregroundData) {
+          const color = UI.getContextSubjectColor(foregroundData.context);
           items.push({
             label: `Mine <span style='color:${color}'>${foregroundData.name}</span>`,
             action,
