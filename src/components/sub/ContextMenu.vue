@@ -82,7 +82,16 @@ export default {
         queueable: item.action.queueable,
       };
 
-      this.actions.do(data, queueItem);
+      const obj = {
+        data,
+        queueItem,
+        player: {
+          socket_id: window.wsId,
+        },
+      };
+
+      // this.actions.do(data, queueItem);
+      Socket.emit('player:do', obj);
 
       this.closeMenu();
 

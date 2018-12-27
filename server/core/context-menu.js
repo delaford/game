@@ -270,7 +270,7 @@ class ContextMenu {
 
       // Mine rocks
       case 'Mine':
-        if (ContextMenu.canDoAction(foregroundData, action) && foregroundData) {
+        if (foregroundData && ContextMenu.canDoAction(foregroundData, action)) {
           const color = UI.getContextSubjectColor(foregroundData.context);
           items.push({
             label: `Mine <span style='color:${color}'>${foregroundData.name}</span>`,

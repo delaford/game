@@ -214,6 +214,13 @@ const handler = {
       player: incomingData.data.player,
     });
   },
+
+  /**
+   * Player performs an action
+   */
+  'player:do': (incoming) => {
+    console.log(incoming);
+  },
 };
 
 module.exports = handler;
