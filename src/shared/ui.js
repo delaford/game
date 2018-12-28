@@ -10,7 +10,8 @@ export default class UI {
    * @return {object} The x,y coordinates of the mouse on the canvas viewport
    */
   static getMousePos(event) {
-    const rect = event.currentTarget.getBoundingClientRect();
+    const eventTarget = event.currentTarget || document.querySelector('#game-map');
+    const rect = eventTarget.getBoundingClientRect();
 
     return {
       x: event.clientX - rect.left,
