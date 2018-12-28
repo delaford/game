@@ -1,3 +1,4 @@
+import Action from '../core/action';
 import ContextMenu from './../core/context-menu';
 
 const Authentication = require('./authentication');
@@ -219,7 +220,9 @@ const handler = {
    * Player performs an action
    */
   'player:do': (incoming) => {
-    console.log(incoming);
+    const action = new Action();
+    debugger;
+    action.do(incoming.data.data, incoming.data.queueItem);
   },
 };
 
