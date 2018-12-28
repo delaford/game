@@ -2,11 +2,12 @@ import UI from 'shared/ui';
 import { merge } from 'lodash';
 import Socket from '../socket';
 import world from './world';
+import Handler from '../player/handler';
 
 class Action {
   constructor(player) {
     // Player
-    this.player = world.players.find(p => p.socket_id === player.socket_id);
+    this.player = world.players.find(p => p.socket_id === player);
 
     // Map layers
     this.background = world.map.background;
@@ -24,7 +25,6 @@ class Action {
    * @param {object} queuedAction The action to take when a player reaches that tile
    */
   do(data, queuedAction = null) {
-    debugger;
     const { item } = data;
     const clickedTile = data.tile;
     const doing = item.action.name.toLowerCase();
@@ -55,25 +55,33 @@ class Action {
     switch (doing) {
       // eslint-disable-next-line no-case-declarations
       case 'walk-here':
-        debugger;
         // eslint-disable-next-line
 
         if (tileWalkable) {
           const coordinates = { x: clickedTile.x, y: clickedTile.y };
 
           const outgoingData = {
-            id: this.player.uuid,
-            coordinates,
+            data: {
+              id: this.player.uuid,
+              coordinates,
+            },
+            player: {
+              socket_id: this.player.uuid,
+            },
           };
 
-          Socket.emit('player:mouseTo', outgoingData);
+          Handler['player:mouseTo'](outgoingData);
         }
         break;
 
       // eslint-disable-next-line no-case-declarations
       case 'examine':
-        // bus.$emit('CHAT:MESSAGE', { type: 'normal', text: data.item.examine });
-
+        Socket.emit('CHAT:MESSAGE', {
+          data: { type: 'normal', text: data.item.examine },
+          player: {
+            socket_id: this.player.socket_id,
+          },
+        });
         break;
 
       case 'equip':

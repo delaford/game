@@ -20,7 +20,7 @@ const pipe = require('./pipeline');
  * @param {object} ws The Socket connection to incoming client
  * @param {object} context The server context
  */
-const handler = {
+const Handler = {
   /**
    * Fetch for the client the data upon arrival
    */
@@ -65,13 +65,17 @@ const handler = {
    * A player sends a chat message to everyone
    */
   'player:say': (data) => {
+    // TODO
+    // Only broadcast to players who are in a 7x5 tile radius
+    // of where the message was originally sent from
     const playerChat = world.players.find(p => p.socket_id === data.data.id);
     data.data.username = playerChat.username;
+    data.data.type = 'chat';
 
     // eslint-disable-next-line
     console.log(`${playerChat.username}: ${data.data.said}`);
 
-    Socket.broadcast('player:say', data.data, 10);
+    Socket.broadcast('player:say', data, 10);
   },
 
   /**
@@ -220,10 +224,13 @@ const handler = {
    * Player performs an action
    */
   'player:do': (incoming) => {
-    const action = new Action();
-    debugger;
+    const action = new Action(incoming.data.player.socket_id);
     action.do(incoming.data.data, incoming.data.queueItem);
+  },
+
+  dan: (incoming) => {
+    console.log(incoming);
   },
 };
 
-module.exports = handler;
+export default Handler;

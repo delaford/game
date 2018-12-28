@@ -62,9 +62,12 @@ export default {
      *
      * @param {object} data The message to add
      */
-    pipeline(data) {
-      this.said = data.said || data.text;
-      this.say(null, data.type, data.username);
+    pipeline(incoming) {
+      const {
+        said, text, type, username,
+      } = incoming.data.data || incoming.data;
+      this.said = said || text;
+      this.say(null, type, username);
     },
     /**
      * Displays the chat box
