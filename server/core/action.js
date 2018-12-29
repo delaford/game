@@ -5,7 +5,7 @@ import world from './world';
 import Handler from '../player/handler';
 
 class Action {
-  constructor(player) {
+  constructor(player, miscData) {
     // Player
     this.player = world.players.find(p => p.socket_id === player);
 
@@ -16,6 +16,9 @@ class Action {
     // Moving map objects (npcs, items, etc.)
     this.npcs = world.npcs;
     this.droppedItems = world.items;
+
+    // Misc data (slots, etc)
+    this.miscData = miscData;
   }
 
   /**
@@ -85,23 +88,29 @@ class Action {
         break;
 
       case 'equip':
-        Socket.emit('item:equip', {
+        const itemEquipping = this.player.inventory.find(s => s.slot === this.miscData.slot);
+        Handler['item:equip']({
           id: this.player.uuid,
-          item: {
-            id: data.item.id,
-            uuid: data.item.uuid,
-            slot: this.miscData.slot,
+          data: {
+            item: {
+              id: itemEquipping.id,
+              uuid: itemEquipping.uuid,
+              slot: this.miscData.slot,
+            },
           },
         });
         break;
 
       case 'unequip':
-        Socket.emit('item:unequip', {
+        const itemUnequipping = this.player.wear[this.miscData.slot];
+        Handler['item:unequip']({
           id: this.player.uuid,
-          item: {
-            id: data.item.id,
-            uuid: data.item.uuid,
-            slot: this.miscData.slot,
+          data: {
+            item: {
+              id: itemUnequipping.id,
+              uuid: itemUnequipping.uuid,
+              slot: this.miscData.slot,
+            },
           },
         });
         break;

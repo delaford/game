@@ -3,11 +3,10 @@ import UI from 'shared/ui';
 const world = require('../../core/world');
 const Socket = require('../../socket');
 const { wearableItems } = require('./../../core/data/items');
-const Wear = require('./../../core/utilities/wear');
 
 module.exports = {
   equippedAnItem(data) {
-    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const getItem = wearableItems.find(i => i.id === data.data.item.id);
 
     const item = {
@@ -21,15 +20,13 @@ module.exports = {
     const getRealPlacement = world.players[playerIndex].inventory.findIndex(i => item.uuid === i.uuid);
     world.players[playerIndex].inventory.splice(getRealPlacement, 1);
 
-    Wear.updateAttDef(playerIndex);
-
     console.log(`Equip: ${getItem.id}`);
 
     Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
   },
   unequipItem(data) {
     return new Promise((resolve) => {
-      const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+      const playerIndex = world.players.findIndex(p => p.uuid === data.id);
       const getItem = wearableItems.find(i => i.id === data.data.item.id);
 
       const item = {
@@ -47,7 +44,7 @@ module.exports = {
 
       world.players[playerIndex].wear[getItem.slot] = null;
       world.players[playerIndex].inventory.push(item);
-      Wear.updateAttDef(playerIndex);
+
       Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
       resolve(200);
     });

@@ -194,7 +194,7 @@ class ContextMenu {
       case 'Unequip':
         if (this.clickedOn('wearSlot') && this.isFromInventory()) {
           const {
-            name, actions, context, id,
+            name, actions, context, id, uuid,
           } = UI.getItemData(this.player.wear[this.miscData.slot].id);
 
           const color = UI.getContextSubjectColor(context);
@@ -206,6 +206,7 @@ class ContextMenu {
               type: 'item',
               miscData: this.miscData,
               id,
+              uuid,
             });
           }
         }

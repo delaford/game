@@ -90,7 +90,6 @@ export default {
         },
       };
 
-      // this.actions.do(data, queueItem);
       Socket.emit('player:do', obj);
 
       this.closeMenu();

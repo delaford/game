@@ -22,6 +22,15 @@ const pipe = require('./pipeline');
  */
 const Handler = {
   /**
+   * Initalizing the handler.
+   * Every request comes through here.
+   */
+  'player:do': (incoming) => {
+    const miscData = incoming.data.data.item.miscData || false;
+    const action = new Action(incoming.data.player.socket_id, miscData);
+    action.do(incoming.data.data, incoming.data.queueItem);
+  },
+  /**
    * Fetch for the client the data upon arrival
    */
   'fetch:items': (data) => {
@@ -141,7 +150,7 @@ const Handler = {
    * A player equips an item from their inventory
    */
   'item:equip': async (data) => {
-    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const getItem = wearableItems.find(i => i.id === data.data.item.id);
     const alreadyWearing = world.players[playerIndex].wear[getItem.slot];
     if (alreadyWearing) {
@@ -152,9 +161,9 @@ const Handler = {
             id: alreadyWearing.id,
             slot: data.data.item.slot,
           },
-          id: data.data.id,
           replacing: true,
         },
+        id: data.id,
       });
 
       pipe.player.equippedAnItem(data);
@@ -218,18 +227,6 @@ const Handler = {
       data: items,
       player: incomingData.data.player,
     });
-  },
-
-  /**
-   * Player performs an action
-   */
-  'player:do': (incoming) => {
-    const action = new Action(incoming.data.player.socket_id);
-    action.do(incoming.data.data, incoming.data.queueItem);
-  },
-
-  dan: (incoming) => {
-    console.log(incoming);
   },
 };
 
