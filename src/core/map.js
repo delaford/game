@@ -260,9 +260,7 @@ class Map {
       };
 
       // Get item information
-      debugger;
       const info = UI.getItemData(item.id);
-      debugger;
 
       // Get the correct tileset to draw upon
       const itemTileset = () => {
