@@ -116,12 +116,15 @@ class Action {
         break;
 
       case 'drop':
-        Socket.emit('player:inventoryItemDrop', {
+        const itemDropping = this.player.inventory.find(s => s.slot === this.miscData.slot);
+        Handler['player:inventoryItemDrop']({
           id: this.player.uuid,
-          item: {
-            id: data.item.id,
-            slot: data.item.miscData.slot,
-            uuid: data.item.uuid,
+          data: {
+            item: {
+              id: data.item.id,
+              slot: data.item.miscData.slot,
+              uuid: itemDropping.uuid,
+            },
           },
         });
 

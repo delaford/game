@@ -126,7 +126,7 @@ const Handler = {
   },
 
   'player:inventoryItemDrop': (data) => {
-    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     world.players[playerIndex].inventory = world.players[playerIndex].inventory
       .filter(v => v.slot !== data.data.item.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
