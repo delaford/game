@@ -192,8 +192,8 @@
 </template>
 
 <script>
+import UI from 'shared/ui';
 import bus from '../../core/utilities/bus';
-import UI from '../../core/utilities/ui';
 import Socket from '../../core/utilities/socket';
 
 export default {
@@ -290,6 +290,12 @@ export default {
         row,
       };
     },
+    /**
+     * Gets item from ID
+     *
+     * @param {integer} id The ID of the item
+     * @returns {object}
+     */
     getItem(id) {
       if (!this.library) return false;
       return this.library.find(i => i.id === id);

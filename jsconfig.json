@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "shared/*": ["src/shared/*"],
+      "@shared/*": ["src/shared/*"],
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

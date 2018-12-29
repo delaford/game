@@ -23,8 +23,9 @@
 </template>
 
 <script>
+import { omit } from 'lodash';
 import bus from '../../core/utilities/bus';
-import Actions from '../../core/player/actions';
+import Socket from '../../core/utilities/socket';
 
 export default {
   props: {
@@ -36,6 +37,7 @@ export default {
   data() {
     return {
       items: false,
+      mouseEvent: false,
       actions: {},
       view: false,
       tile: {
@@ -49,7 +51,9 @@ export default {
     };
   },
   created() {
-    bus.$on('PLAYER:MENU', this.openMenu);
+    bus.$on('PLAYER:MENU', this.buildMenu);
+    bus.$on('game:context-menu:items', this.createMenu);
+    bus.$on('contextmenu:close', this.closeMenu);
   },
   methods: {
     /**
@@ -78,10 +82,17 @@ export default {
         queueable: item.action.queueable,
       };
 
-      this.actions.do(data, queueItem);
+      // Tell server to do action
+      Socket.emit('player:do', {
+        data,
+        queueItem,
+        player: {
+          socket_id: window.wsId,
+        },
+      });
 
+      // Close menu and focus back on game
       this.closeMenu();
-
       window.focusOnGame();
     },
 
@@ -102,23 +113,38 @@ export default {
     closeMenu() {
       this.view = false;
     },
+
     /**
-     * Generates the list of selectable items on context-menu
-     *
-     * @param {object} data The coordinates clicked on
+     * Tell server to start building the menu
+     * @param {object} data The coordinates of the player and MouseEvent
      */
-    async openMenu(data) {
+    buildMenu(data) {
+      // Tile coordinates and mouse event
+      this.mouseEvent = data.event;
       this.tile.x = data.coordinates.x;
       this.tile.y = data.coordinates.y;
 
-      const miscData = window._.omit({ ...data }, ['coordinates', 'event', 'target']);
+      // Remove misc info
+      const miscData = omit({ ...data, clickedOn: data.event.target.classList }, ['coordinates', 'event', 'target']);
 
-      // Create list
-      this.actions = new Actions(this.game, this.tile, data.event, miscData);
-      this.items = await this.actions.build();
+      // Tell server to start building context menu
+      Socket.emit('game:menu:build', {
+        miscData,
+        tile: this.tile,
+        player: {
+          socket_id: window.wsId,
+        },
+      });
+    },
 
-      // Sort items in list
-      this.items = this.items
+    /**
+     * Generates the list of selectable items on context-menu
+     *
+     * @param {object} data The list of items for the context menu
+     */
+    createMenu(data) {
+      // List has been generated from server
+      this.items = data.data.data
         .sort((a, b) => b.timestamp - a.timestamp) // Sort by when item appeared
         .sort((a, b) => a.action.weight - b.action.weight); // then by action weight
 
@@ -128,9 +154,10 @@ export default {
       // On next vue tick, show map
       this.$nextTick(() => {
         // Set context menu on map
-        this.setMenu(data.event.x, data.event.y);
+        this.setMenu(this.mouseEvent.x, this.mouseEvent.y);
       });
     },
+
     /**
      * Incase we click on the context menu with anything but a left-click
      *

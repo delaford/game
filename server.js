@@ -4,13 +4,17 @@ a fun medieval 2d javascript rpg
 https://delaford.com
 ***************************************** */
 
-// Start Express
-const path = require('path');
-const http = require('http');
-const compression = require('compression');
-const express = require('express');
-const enforce = require('express-sslify');
+// Webpack aliases
+import * as moduleAlias from 'module-alias';
 
+// Start Express
+import http from 'http';
+import path from 'path';
+import compression from 'compression';
+import express from 'express';
+import enforce from 'express-sslify';
+
+moduleAlias.addAlias('shared', `${__dirname}/src/shared`);
 
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
 const serverFolder = onProduction ? 'build' : 'server';

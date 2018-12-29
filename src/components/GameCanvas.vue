@@ -14,9 +14,9 @@
 </template>
 
 <script>
+import UI from 'shared/ui';
 import Client from '../core/client';
-import config from '../core/config';
-import UI from '../core/utilities/ui';
+import config from '../../config';
 import bus from '../core/utilities/bus';
 import Socket from '../core/utilities/socket';
 
@@ -78,6 +78,7 @@ export default {
       this.mouse = event;
 
       Socket.emit('player:mouseTo', data);
+      bus.$emit('contextmenu:close');
     },
 
     /**

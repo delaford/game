@@ -1,3 +1,6 @@
+import Action from '../core/action';
+import ContextMenu from './../core/context-menu';
+
 const Authentication = require('./authentication');
 const Player = require('./../core/player');
 const world = require('../core/world');
@@ -6,6 +9,7 @@ const Map = require('./../core/map');
 const playerGuest = require('../core/data/helpers/player.json');
 
 const { wearableItems } = require('../core/data/items');
+const { foregroundObjects } = require('../core/data/foreground');
 
 const pipe = require('./pipeline');
 
@@ -16,7 +20,16 @@ const pipe = require('./pipeline');
  * @param {object} ws The Socket connection to incoming client
  * @param {object} context The server context
  */
-const handler = {
+const Handler = {
+  /**
+   * Initalizing the handler.
+   * Every request comes through here.
+   */
+  'player:do': (incoming) => {
+    const miscData = incoming.data.data.item.miscData || false;
+    const action = new Action(incoming.data.player.socket_id, miscData);
+    action.do(incoming.data.data, incoming.data.queueItem);
+  },
   /**
    * Fetch for the client the data upon arrival
    */
@@ -24,6 +37,7 @@ const handler = {
     const objData = {
       player: { socket_id: data.data },
       wearableItems,
+      foregroundObjects,
     };
 
     Socket.emit('server:send:items', objData);
@@ -60,13 +74,17 @@ const handler = {
    * A player sends a chat message to everyone
    */
   'player:say': (data) => {
+    // TODO
+    // Only broadcast to players who are in a 7x5 tile radius
+    // of where the message was originally sent from
     const playerChat = world.players.find(p => p.socket_id === data.data.id);
     data.data.username = playerChat.username;
+    data.data.type = 'chat';
 
     // eslint-disable-next-line
     console.log(`${playerChat.username}: ${data.data.said}`);
 
-    Socket.broadcast('player:say', data.data, 10);
+    Socket.broadcast('player:say', data, 10);
   },
 
   /**
@@ -93,20 +111,22 @@ const handler = {
     world.players[playerIndexMoveTo].path.grid = matrix;
     world.players[playerIndexMoveTo].path.current.walkable = true;
 
-    Map.findPath(movingData.id, x, y);
+    const location = movingData.location || null;
+
+    Map.findPath(movingData.id, x, y, location);
   },
 
   /**
    * Queue up an player action to executed they reach their destination
    */
   'player:queueAction': (data) => {
-    const playerIndex = world.players.findIndex(p => p.socket_id === data.data.player.socket_id);
+    const playerIndex = world.players.findIndex(p => p.socket_id === data.player.socket_id);
 
-    world.players[playerIndex].queue.push(data.data);
+    world.players[playerIndex].queue.push(data);
   },
 
   'player:inventoryItemDrop': (data) => {
-    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     world.players[playerIndex].inventory = world.players[playerIndex].inventory
       .filter(v => v.slot !== data.data.item.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
@@ -130,7 +150,7 @@ const handler = {
    * A player equips an item from their inventory
    */
   'item:equip': async (data) => {
-    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const getItem = wearableItems.find(i => i.id === data.data.item.id);
     const alreadyWearing = world.players[playerIndex].wear[getItem.slot];
     if (alreadyWearing) {
@@ -141,9 +161,9 @@ const handler = {
             id: alreadyWearing.id,
             slot: data.data.item.slot,
           },
-          id: data.data.id,
           replacing: true,
         },
+        id: data.id,
       });
 
       pipe.player.equippedAnItem(data);
@@ -190,6 +210,24 @@ const handler = {
       },
     });
   },
+
+  /**
+   * Start building the menu for the player
+   */
+  'game:menu:build': async (incomingData) => {
+    const contextMenu = new ContextMenu(
+      incomingData.data.player,
+      incomingData.data.tile,
+      incomingData.data.miscData,
+    );
+
+    const items = await contextMenu.build();
+
+    Socket.emit('game:context-menu:items', {
+      data: items,
+      player: incomingData.data.player,
+    });
+  },
 };
 
-module.exports = handler;
+export default Handler;

@@ -1,6 +1,8 @@
-import config from '../../core/config';
+import { map } from './../../config';
+import { wearableItems } from './../../server/core/data/items';
+import { foregroundObjects } from './../../server/core/data/foreground';
 
-class UI {
+export default class UI {
   /**
    * Calculates the current mouse position in pixels from the canvas
    *
@@ -24,9 +26,11 @@ class UI {
    */
   static getContextSubjectColor(data) {
     if (data === 'npc') {
-      return config.map.color.npc;
+      return map.color.npc;
     } else if (data === 'item') {
-      return config.map.color.item;
+      return map.color.item;
+    } else if (data === 'action') {
+      return map.color.action;
     }
     return 'inherit';
   }
@@ -39,11 +43,16 @@ class UI {
    * @param {integer} playerY The current y-axis of the player
    * @param {integer} mouseX The current x-axis of the mouse on the viewport
    * @param {integer} mouseY The current y-axis of the mouse on the viewport
+   * @param {string} layer The layer of our tile
+   *
+   * @returns {integer}
    */
-  static getTileOverMouse(board, playerX, playerY, mouseX, mouseY) {
-    const tile = (((mouseY + (playerY - 5)) * config.map.size.x) + mouseX) + (playerX - 7);
+  static getTileOverMouse(board, playerX, playerY, mouseX, mouseY, layer = 'background') {
+    const tile = (((mouseY + (playerY - 5)) * map.size.x) + mouseX) + (playerX - 7);
+
     if (board !== undefined) {
-      return board[tile] - 1;
+      const specialEquation = layer === 'foreground' ? 253 : 1;
+      return board[tile] - specialEquation;
     }
 
     return -1;
@@ -57,8 +66,8 @@ class UI {
    * @returns {boolean}
    */
   static tileWalkable(tile, layer = 'background') {
-    const certainLayer = layer === 'background' ? config.map.tileset : config.map.objects;
-    return !certainLayer.blocked.includes(tile);
+    const certainLayer = layer === 'background' ? map.tileset : map.objects;
+    return certainLayer.blocked.indexOf(tile) === -1;
   }
 
   /**
@@ -83,13 +92,32 @@ class UI {
   }
 
   /**
+   * Find the nearest open slot in your inventory
+   *
+   * @param {array} inventory Your current inventory
+   * @returns {integer}
+   */
+  static getOpenSlot(inventory) {
+    if (inventory.length === 0) return 0;
+    let slotPosition = false;
+
+    for (let index = 0; index < 23; index += 1) {
+      if (!inventory.find(e => e.slot === index) && slotPosition === false) {
+        slotPosition = index;
+      }
+    }
+
+    return slotPosition;
+  }
+
+  /**
    * Calculate the x,y position on the viewport when clicked on canvas
    *
    * @param {event} event The mouse-click on the game viewport
    * @returns {object}
    */
   static getViewportCoordinates(event) {
-    const { tile } = config.map.tileset;
+    const { tile } = map.tileset;
 
     const coordinates = {
       x: Math.floor(this.getMousePos(event).x / tile.width),
@@ -121,13 +149,29 @@ class UI {
   }
 
   /**
-   * Obtain the full information of an item by its ID
+   * Obtain the full information of an item by its ID from the socket event
    *
    * @param {integer} id The ID of the item
    * @returns {object}
    */
   static getItemData(id) {
-    return window.allItems.find(item => item.id === id);
+    return wearableItems.map((t) => {
+      t.context = 'item';
+      return t;
+    }).find(item => item.id === id);
+  }
+
+  /**
+   * Obtains the full information of a foreground object by its ID
+   *
+   * @param {integer} id The ID of the foreground item
+   * @returns {object}
+   */
+  static getForegroundData(id) {
+    return foregroundObjects.map((t) => {
+      t.context = 'action';
+      return t;
+    }).find(item => item.id === id);
   }
 
   /**
@@ -150,9 +194,6 @@ class UI {
       return dirMove === 'left' ? -1 : 1;
     };
 
-    // eslint-disable-next-line
-    return board[((config.map.size.y * (y + getY(direction))) - (config.map.size.x - (x + getX(direction))))] - 1;
+    return board[((map.size.y * (y + getY(direction))) - (map.size.x - (x + getX(direction))))] - 1;
   }
 }
-
-export default UI;

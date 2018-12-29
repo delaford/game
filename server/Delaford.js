@@ -1,5 +1,6 @@
 // Main modules
 import Socket from './socket';
+import Handler from './player/handler';
 
 const world = require('./core/world');
 
@@ -13,7 +14,6 @@ const Map = require('./core/map');
 
 // Tools and utility
 const Authentication = require('./player/authentication');
-const Handler = require('./player/handler');
 
 class Delaford {
   constructor(server) {
@@ -26,6 +26,8 @@ class Delaford {
     // Load the map and spawn the default entities
     this.constructor.loadMap();
     this.loadEntities();
+
+    // Webpack aliases
   }
 
   /**

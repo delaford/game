@@ -1,4 +1,4 @@
-const actionList = [
+export default [
   {
     name: 'Walk here',
     context: ['gameMap'],
@@ -11,7 +11,7 @@ const actionList = [
     context: ['gameMap'],
     allow: ['item'],
     nearby: 'exact',
-    weight: 2,
+    weight: 1,
     queueable: true,
   },
   {
@@ -51,5 +51,3 @@ const actionList = [
     queueable: true,
   },
 ];
-
-export default actionList;

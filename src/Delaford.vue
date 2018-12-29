@@ -92,7 +92,7 @@ import Login from './components/ui/Login.vue';
 // Core assets
 import Client from './core/client';
 import Engine from './core/engine';
-import config from './core/config';
+import config from './../config';
 import bus from './core/utilities/bus';
 import Event from './core/player/events';
 import Socket from './core/utilities/socket';
@@ -118,7 +118,11 @@ export default {
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
       if (data.event !== undefined) {
-        Event[data.event](data, context);
+        if (!Event[data.event]) {
+          bus.$emit(data.event, data);
+        } else {
+          Event[data.event](data, context);
+        }
       } else {
         console.log(data);
       }
