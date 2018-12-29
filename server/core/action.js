@@ -52,7 +52,7 @@ class Action {
       });
 
       // Queue it up and tell the server.
-      Socket.emit('player:queueAction', queuedActionSocket);
+      Handler['player:queueAction'](queuedActionSocket);
     }
 
     switch (doing) {
@@ -61,19 +61,15 @@ class Action {
         // eslint-disable-next-line
 
         if (tileWalkable) {
-          const coordinates = { x: clickedTile.x, y: clickedTile.y };
-
-          const outgoingData = {
+          Handler['player:mouseTo']({
             data: {
               id: this.player.uuid,
-              coordinates,
+              coordinates: { x: clickedTile.x, y: clickedTile.y },
             },
             player: {
               socket_id: this.player.uuid,
             },
-          };
-
-          Handler['player:mouseTo'](outgoingData);
+          });
         }
         break;
 
@@ -132,12 +128,15 @@ class Action {
 
       case 'take':
         if (tileWalkable) {
-          const outgoingDataT = {
-            id: this.player.uuid,
-            coordinates: { x: clickedTile.x, y: clickedTile.y },
-          };
-
-          Socket.emit('player:mouseTo', outgoingDataT);
+          Handler['player:mouseTo']({
+            data: {
+              id: this.player.uuid,
+              coordinates: { x: clickedTile.x, y: clickedTile.y },
+            },
+            player: {
+              socket_id: this.player.uuid,
+            },
+          });
         }
 
         break;

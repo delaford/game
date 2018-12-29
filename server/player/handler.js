@@ -120,9 +120,9 @@ const Handler = {
    * Queue up an player action to executed they reach their destination
    */
   'player:queueAction': (data) => {
-    const playerIndex = world.players.findIndex(p => p.socket_id === data.data.player.socket_id);
+    const playerIndex = world.players.findIndex(p => p.socket_id === data.player.socket_id);
 
-    world.players[playerIndex].queue.push(data.data);
+    world.players[playerIndex].queue.push(data);
   },
 
   'player:inventoryItemDrop': (data) => {
