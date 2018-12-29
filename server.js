@@ -5,14 +5,14 @@ https://delaford.com
 ***************************************** */
 
 // Webpack aliases
-import moduleAlias from 'module-alias';
+const moduleAlias = require('module-alias');
 
 // Start Express
-import http from 'http';
-import path from 'path';
-import compression from 'compression';
-import express from 'express';
-import enforce from 'express-sslify';
+const path = require('path');
+const http = require('http');
+const compression = require('compression');
+const express = require('express');
+const enforce = require('express-sslify');
 
 moduleAlias.addAlias('shared', `${__dirname}/src/shared`);
 
