@@ -82,18 +82,17 @@ export default {
         queueable: item.action.queueable,
       };
 
-      const obj = {
+      // Tell server to do action
+      Socket.emit('player:do', {
         data,
         queueItem,
         player: {
           socket_id: window.wsId,
         },
-      };
+      });
 
-      Socket.emit('player:do', obj);
-
+      // Close menu and focus back on game
       this.closeMenu();
-
       window.focusOnGame();
     },
 

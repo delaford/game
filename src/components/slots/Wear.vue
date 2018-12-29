@@ -290,6 +290,12 @@ export default {
         row,
       };
     },
+    /**
+     * Gets item from ID
+     *
+     * @param {integer} id The ID of the item
+     * @returns {object}
+     */
     getItem(id) {
       if (!this.library) return false;
       return this.library.find(i => i.id === id);
