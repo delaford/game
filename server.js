@@ -12,7 +12,6 @@ const path = require('path');
 const http = require('http');
 const compression = require('compression');
 const express = require('express');
-const enforce = require('express-sslify');
 
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
 const serverFolder = onProduction ? 'build' : 'server';
@@ -27,11 +26,6 @@ const app = express();
 
 // Compress Express server bytes
 app.use(compression());
-
-// Enforce HTTPS in production
-if (onProduction) {
-  app.use(enforce.HTTPS({ trustProtoHeader: true }));
-}
 
 // Start Express and use the correct env.
 app.use(express.static(path.join(__dirname, onProduction ? '/dist' : '/')));

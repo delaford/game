@@ -6,7 +6,7 @@
     "node": "10.3.0"
   },
   "scripts": {
-    "dev:node": "set NODE_ENV=development && ./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node --no-babelrc server.js --presets @babel/preset-env",
+    "dev:node": "set NODE_ENV=development && ./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node --no-babelrc server.js --presets @babel/preset-env --plugins @babel/plugin-transform-modules-commonjs",
     "server:dev": "NODE_ENV=production node server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
@@ -17,7 +17,7 @@
     "ndb": "./node_modules/.bin/ndb build",
     "format": "eslint --fix",
     "clean-server": "rm -rf build && mkdir build",
-    "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps --presets @babel/preset-env --plugins @babel/plugin-transform-runtime",
+    "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps --presets @babel/preset-env --plugins @babel/plugin-transform-runtime,@babel/plugin-transform-modules-commonjs",
     "build-server": "npm run clean-server && npm run transpile-server",
     "lint:css": "stylelint '**/*.vue' --syntax scss"
   },
@@ -40,6 +40,8 @@
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/node": "^7.0.0",
+    "@babel/plugin-transform-modules-amd": "^7.2.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "@babel/preset-env": "^7.1.0",
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
