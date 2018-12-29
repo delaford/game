@@ -56,10 +56,7 @@ class Action {
     }
 
     switch (doing) {
-      // eslint-disable-next-line no-case-declarations
       case 'walk-here':
-        // eslint-disable-next-line
-
         if (tileWalkable) {
           Handler['player:mouseTo']({
             data: {
@@ -73,7 +70,6 @@ class Action {
         }
         break;
 
-      // eslint-disable-next-line no-case-declarations
       case 'examine':
         Socket.emit('CHAT:MESSAGE', {
           data: { type: 'normal', text: data.item.examine },
@@ -85,6 +81,7 @@ class Action {
 
       case 'equip':
         const itemEquipping = this.player.inventory.find(s => s.slot === this.miscData.slot);
+
         Handler['item:equip']({
           id: this.player.uuid,
           data: {
@@ -99,6 +96,7 @@ class Action {
 
       case 'unequip':
         const itemUnequipping = this.player.wear[this.miscData.slot];
+
         Handler['item:unequip']({
           id: this.player.uuid,
           data: {
@@ -113,6 +111,7 @@ class Action {
 
       case 'drop':
         const itemDropping = this.player.inventory.find(s => s.slot === this.miscData.slot);
+
         Handler['player:inventoryItemDrop']({
           id: this.player.uuid,
           data: {
