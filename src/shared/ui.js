@@ -1,8 +1,8 @@
-import { map } from './../../config';
-import { wearableItems } from './../../server/core/data/items';
-import { foregroundObjects } from './../../server/core/data/foreground';
+const { map } = require('./../../config');
+const { wearableItems } = require('./../../server/core/data/items');
+const { foregroundObjects } = require('./../../server/core/data/foreground');
 
-export default class UI {
+class UI {
   /**
    * Calculates the current mouse position in pixels from the canvas
    *
@@ -197,3 +197,5 @@ export default class UI {
     return board[((map.size.y * (y + getY(direction))) - (map.size.x - (x + getX(direction))))] - 1;
   }
 }
+
+module.exports = UI;
