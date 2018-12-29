@@ -5,7 +5,7 @@ https://delaford.com
 ***************************************** */
 
 // Webpack aliases
-import * as moduleAlias from 'module-alias';
+import moduleAlias from 'module-alias';
 
 // Start Express
 import http from 'http';
