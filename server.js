@@ -14,12 +14,12 @@ const compression = require('compression');
 const express = require('express');
 const enforce = require('express-sslify');
 
-moduleAlias.addAlias('shared', `${__dirname}/src/shared`);
-
 const onProduction = process.env.NODE_ENV === 'production'; // Accomodate process.env and eqeqeq eslint rule
 const serverFolder = onProduction ? 'build' : 'server';
 // eslint-disable-next-line
 const world = require(`./${serverFolder}/core/world`);
+moduleAlias.addAlias('shared', `${__dirname}/${serverFolder}/shared`);
+moduleAlias.addAlias('root', `${__dirname}/${serverFolder}`);
 
 const port = process.env.PORT || 4000;
 const env = process.env.NODE_ENV || 'production';

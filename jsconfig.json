@@ -4,8 +4,8 @@
     "allowSyntheticDefaultImports": false,
     "baseUrl": "./",
     "paths": {
-      "shared/*": ["src/shared/*"],
-      "@shared/*": ["src/shared/*"],
+      "shared/*": ["server/shared/*"],
+      "@shared/*": ["server/shared/*"],
     }
   },
   "exclude": ["node_modules", "dist"]

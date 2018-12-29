@@ -1,6 +1,6 @@
-const { map } = require('./../../config');
-const { wearableItems } = require('./../../server/core/data/items');
-const { foregroundObjects } = require('./../../server/core/data/foreground');
+import { wearableItems } from 'root/core/data/items';
+import { foregroundObjects } from 'root/core/data/foreground';
+import { map } from '../../config';
 
 class UI {
   /**
@@ -198,4 +198,4 @@ class UI {
   }
 }
 
-module.exports = UI;
+export default UI;
