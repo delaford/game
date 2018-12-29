@@ -15,8 +15,8 @@
 
 <script>
 import UI from 'shared/ui';
+import config from 'root/config';
 import Client from '../core/client';
-import config from '../../config';
 import bus from '../core/utilities/bus';
 import Socket from '../core/utilities/socket';
 

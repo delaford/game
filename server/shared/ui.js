@@ -1,6 +1,4 @@
-import { wearableItems } from 'root/core/data/items';
-import { foregroundObjects } from 'root/core/data/foreground';
-import { map } from '../../config';
+import { map } from 'root/config';
 
 class UI {
   /**
@@ -149,32 +147,6 @@ class UI {
   }
 
   /**
-   * Obtain the full information of an item by its ID from the socket event
-   *
-   * @param {integer} id The ID of the item
-   * @returns {object}
-   */
-  static getItemData(id) {
-    return wearableItems.map((t) => {
-      t.context = 'item';
-      return t;
-    }).find(item => item.id === id);
-  }
-
-  /**
-   * Obtains the full information of a foreground object by its ID
-   *
-   * @param {integer} id The ID of the foreground item
-   * @returns {object}
-   */
-  static getForegroundData(id) {
-    return foregroundObjects.map((t) => {
-      t.context = 'action';
-      return t;
-    }).find(item => item.id === id);
-  }
-
-  /**
    * Checks the tile 1 square in that direction
    *
    * @param {array} board The main board map
@@ -195,6 +167,19 @@ class UI {
     };
 
     return board[((map.size.y * (y + getY(direction))) - (map.size.x - (x + getX(direction))))] - 1;
+  }
+
+  /**
+   * Obtain the full information of an item by its ID
+   *
+   * @param {integer} id The ID of the item
+   * @returns {object}
+   */
+  static getItemData(id) {
+    return window.allItems.map((t) => {
+      t.context = 'item';
+      return t;
+    }).find(item => item.id === id);
   }
 }
 

@@ -17,7 +17,7 @@
     "ndb": "./node_modules/.bin/ndb build",
     "format": "eslint --fix",
     "clean-server": "rm -rf build && mkdir build",
-    "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps --presets @babel/preset-env --plugins @babel/plugin-transform-runtime,@babel/plugin-transform-modules-commonjs",
+    "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps --presets @babel/preset-env --plugins @babel/plugin-transform-runtime",
     "build-server": "npm run clean-server && npm run transpile-server",
     "lint:css": "stylelint '**/*.vue' --syntax scss"
   },
@@ -42,6 +42,8 @@
     "@babel/node": "^7.0.0",
     "@babel/plugin-transform-modules-amd": "^7.2.0",
     "@babel/plugin-transform-modules-commonjs": "^7.2.0",
+    "@babel/plugin-transform-modules-systemjs": "^7.2.0",
+    "@babel/plugin-transform-modules-umd": "^7.2.0",
     "@babel/preset-env": "^7.1.0",
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",

@@ -1,6 +1,6 @@
 import UI from 'shared/ui';
 
-const config = require('./../../config');
+const config = require('../config');
 const PF = require('pathfinding');
 const emoji = require('node-emoji');
 const world = require('./world');

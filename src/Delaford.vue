@@ -90,9 +90,9 @@ import AudioMainMenu from './components/sub/AudioMainMenu.vue';
 import Login from './components/ui/Login.vue';
 
 // Core assets
+import config from 'root/config';
 import Client from './core/client';
 import Engine from './core/engine';
-import config from './../config';
 import bus from './core/utilities/bus';
 import Event from './core/player/events';
 import Socket from './core/utilities/socket';

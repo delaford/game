@@ -1,5 +1,6 @@
 import UI from 'shared/ui';
-import config from '../../config';
+import Query from './data/query';
+import config from '../config';
 import actionList from './data/action-list';
 import world from './world';
 
@@ -96,7 +97,7 @@ class ContextMenu {
       'foreground',
     );
 
-    const foregroundData = UI.getForegroundData(foregroundTile);
+    const foregroundData = Query.getForegroundData(foregroundTile);
 
     // Action on item (Equip, Drop, Unequip, etc.)
     const itemActedOn = this.player.inventory.find(s => s.slot === this.miscData.slot);
@@ -124,7 +125,7 @@ class ContextMenu {
           if (this.isFromInventory()) {
             const {
               actions, name, context, uuid, id,
-            } = UI.getItemData(itemActedOn.id);
+            } = Query.getItemData(itemActedOn.id);
 
             const color = UI.getContextSubjectColor(context);
 
@@ -147,7 +148,7 @@ class ContextMenu {
         getItems.forEach((item) => {
           const {
             actions, name, x, y, id, uuid, timestamp,
-          } = Object.assign(item, UI.getItemData(item.id));
+          } = Object.assign(item, Query.getItemData(item.id));
 
           const color = UI.getContextSubjectColor(item.context);
 
@@ -173,7 +174,7 @@ class ContextMenu {
         if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
           const {
             actions, context, name, uuid, id,
-          } = UI.getItemData(itemActedOn.id);
+          } = Query.getItemData(itemActedOn.id);
 
           const color = UI.getContextSubjectColor(context);
 
@@ -195,7 +196,7 @@ class ContextMenu {
         if (this.clickedOn('wearSlot') && this.isFromInventory()) {
           const {
             name, actions, context, id, uuid,
-          } = UI.getItemData(this.player.wear[this.miscData.slot].id);
+          } = Query.getItemData(this.player.wear[this.miscData.slot].id);
 
           const color = UI.getContextSubjectColor(context);
 
@@ -233,7 +234,7 @@ class ContextMenu {
           getItems.forEach((item) => {
             const {
               name, examine, id, actions, timestamp,
-            } = Object.assign(item, UI.getItemData(item.id));
+            } = Object.assign(item, Query.getItemData(item.id));
 
             const color = UI.getContextSubjectColor(item.context);
 
@@ -253,7 +254,7 @@ class ContextMenu {
         if (this.isFromInventory()) {
           const {
             name, examine, id, context, actions,
-          } = UI.getItemData(itemActedOn.id);
+          } = Query.getItemData(itemActedOn.id);
 
           const color = UI.getContextSubjectColor(context);
 

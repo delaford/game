@@ -1,7 +1,7 @@
 import UI from 'shared/ui';
 
 const PF = require('pathfinding');
-const config = require('./../../config');
+const config = require('../config');
 const surfaceMap = require('./../maps/layers/surface.json');
 const world = require('./../core/world');
 const uuid = require('uuid/v4');
