@@ -278,7 +278,9 @@ class Player {
       foreground: objects.blocked.includes((steppedOn.foreground - 252)),
     };
 
-    if (!blocked.foreground && steppedOn.foreground > -1) {
+    if (blocked.foreground === true) {
+      return true;
+    } else if (!blocked.foreground && steppedOn.foreground > -1) {
       return false;
     } else if (!blocked.background) {
       return blocked.background;
