@@ -172,10 +172,17 @@ class Map {
         const foregroundTile = (this.foreground[tileToFind] - 1) - 252;
         // 252 because of the gid problem in Tiled
 
-        // Is the background walkable?
-        let walkable = UI.tileWalkable(backgroundTile) ? 0 : 1;
-        // If it is not, is the foreground walkable?
-        if (walkable === 0) walkable = UI.tileWalkable(foregroundTile, 'foreground') ? 0 : 1;
+        let walkable = 0;
+
+        if (foregroundTile > -1) {
+          // Is the foreground walkable?
+          walkable = UI.tileWalkable(foregroundTile, 'foreground') ? 0 : 1;
+        }
+
+        // If it is (or doesn't exist), is the foreground walkable?
+        if (walkable) {
+          walkable = UI.tileWalkable(backgroundTile) ? 0 : 1;
+        }
 
         // Push the block/non-blocked tile to the
         // grid so that the pathfinder can use it
@@ -408,7 +415,9 @@ class Map {
     };
 
     let isWalkable = UI.tileWalkable(tile.background);
-    if (isWalkable && tile.foreground > -1) isWalkable = UI.tileWalkable(tile.foreground, 'foreground');
+    if (tile.foreground > -1) {
+      isWalkable = UI.tileWalkable(tile.foreground, 'foreground');
+    }
 
     this.path.current.walkable = isWalkable;
 
