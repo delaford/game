@@ -249,6 +249,7 @@ class Player {
     const {
       size, viewport, tileset, objects,
     } = config.map;
+
     const tileCrop = {
       x: this.x - Math.floor(0.5 * viewport.x),
       y: this.y - Math.floor(0.5 * viewport.y),
@@ -277,7 +278,13 @@ class Player {
       foreground: objects.blocked.includes((steppedOn.foreground - 252)),
     };
 
-    return blocked.background || blocked.foreground;
+    if (!blocked.foreground && steppedOn.foreground > -1) {
+      return false;
+    } else if (!blocked.background) {
+      return blocked.background;
+    }
+
+    return true;
   }
 
   /**
