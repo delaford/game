@@ -26,8 +26,6 @@ class Delaford {
     // Load the map and spawn the default entities
     this.constructor.loadMap();
     this.loadEntities();
-
-    // Webpack aliases
   }
 
   /**
