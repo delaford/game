@@ -60,6 +60,12 @@ class Player {
       },
     };
 
+    // Pathway blocked
+    this.blocked = {
+      foreground: null,
+      background: null,
+    };
+
     // Action queue
     this.queue = [];
 
@@ -115,25 +121,25 @@ class Player {
         break;
 
       case 'right':
-        if (!this.checkCollision(direction)) {
+        if (!this.isBlocked(direction)) {
           this.x += 1;
         }
         break;
 
       case 'left':
-        if (!this.checkCollision(direction)) {
+        if (!this.isBlocked(direction)) {
           this.x -= 1;
         }
         break;
 
       case 'up':
-        if (!this.checkCollision(direction)) {
+        if (!this.isBlocked(direction)) {
           this.y -= 1;
         }
         break;
 
       case 'down':
-        if (!this.checkCollision(direction)) {
+        if (!this.isBlocked(direction)) {
           this.y += 1;
         }
         break;
@@ -245,9 +251,9 @@ class Player {
    * @param direction {string} The direction player is going
    * @returns {boolean}
    */
-  checkCollision(direction) {
+  isBlocked(direction) {
     const {
-      size, viewport, tileset, objects,
+      size, viewport,
     } = config.map;
 
     const tileCrop = {
@@ -272,21 +278,54 @@ class Player {
       foreground: world.map.foreground[(((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x] - 1,
     };
 
-    // eslint-disable-next-line
-    const blocked = {
-      background: tileset.blocked.includes(steppedOn.background),
-      foreground: objects.blocked.includes((steppedOn.foreground - 252)),
+    const tiles = {
+      foreground: steppedOn.foreground - 252,
+      background: steppedOn.background,
     };
 
-    if (blocked.foreground === true) {
+    const walkable = {
+      fg: UI.tileWalkable(tiles.foreground, 'foreground'),
+      bg: UI.tileWalkable(tiles.background),
+    };
+
+    if (!walkable.fg) {
       return true;
-    } else if (!blocked.foreground && steppedOn.foreground > -1) {
-      return false;
-    } else if (!blocked.background) {
-      return blocked.background;
     }
 
-    return true;
+    if (walkable.fg && walkable.bg) {
+      return false;
+    }
+
+    if (!walkable.fg && walkable.bg) {
+      return true;
+    }
+
+    if (walkable.fg && !walkable.bg) {
+      if (steppedOn.foreground === -1) {
+        return true;
+      }
+      return false;
+    }
+
+    return false;
+  }
+
+  /**
+   * Is the background layer blocked?
+   *
+   * @returns {boolean}
+   */
+  backgroundBlocked() {
+    return this.blocked.background === true;
+  }
+
+  /**
+   * Is the foreground layer blocked?
+   *
+   * @returns {boolean}
+   */
+  foregroundBlocked() {
+    return this.blocked.foreground === true;
   }
 
   /**

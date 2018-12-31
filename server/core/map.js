@@ -160,26 +160,46 @@ class Map {
           const foregroundTile = (world.map.foreground[tileToFind] - 1) - 252;
           // 252 because of the gid problem in Tiled
 
-          let walkable = true;
+          let walkableTile = 0;
 
-          // Do we have a foreground tile?
-          if (foregroundTile > -1) {
-            // Is the foreground walkable?
-            walkable = UI.tileWalkable(foregroundTile, 'foreground') ? 0 : 1;
+          // TODO - Refactor
+          // Cover your eyes, probably the ugliest code
+          // I have written in my life. I am so sorry.
+          // What's going on here? FG & BG collision
+          const walkable = {
+            fg: UI.tileWalkable(foregroundTile, 'foreground'),
+            bg: UI.tileWalkable(backgroundTile),
+          };
+
+          if (!walkable.fg) {
+            walkableTile = 1;
           }
 
-          // If it is (or doesn't exist), is the background tile walkable?
-          if (walkable) {
-            walkable = UI.tileWalkable(backgroundTile) ? 0 : 1;
+          if (walkable.fg && walkable.bg) {
+            walkableTile = 0;
+          }
+
+          if (!walkable.fg && walkable.bg) {
+            walkableTile = 1;
+          }
+
+          if (walkable.fg && !walkable.bg) {
+            if (foregroundTile === -253) {
+              walkableTile = 1;
+            } else {
+              walkableTile = 0;
+            }
           }
 
           // Push the block/non-blocked tile to the
           // grid so that the pathfinder can use it
           // 0 - walkable; 1 - blocked
-          grid.push(walkable);
+          grid.push(walkableTile);
         }
 
         // Push blocked/non-blocked array for pathfinding
+        console.log(grid);
+
         matrix.push(grid);
       }
 
