@@ -22,6 +22,54 @@ class Action {
   }
 
   /**
+   * Get the walkable tile status of all 4 corners of an action
+   *
+   * @param {object} action The action being pursued
+   * @param {integer} xy The x,y coordinates of action taking place
+   * @returns {object}
+   */
+  getEdgeTiles(action, { x, y }) {
+    if (action.nearby === 'edge') {
+      const tiles = {
+        up: UI.getTileOverMouse(
+          this.background,
+          this.player.x,
+          this.player.y,
+          x,
+          y - 1,
+        ),
+        right: UI.getTileOverMouse(
+          this.background,
+          this.player.x,
+          this.player.y,
+          x + 1,
+          y,
+        ),
+        down: UI.getTileOverMouse(
+          this.background,
+          this.player.x,
+          this.player.y,
+          x,
+          y + 1,
+        ),
+        left: UI.getTileOverMouse(
+          this.background,
+          this.player.x,
+          this.player.y,
+          x - 1,
+          y,
+        ),
+      };
+
+      // How ugly is this? Stupid object iteration...
+      // eslint-disable-next-line
+      return Object.assign(...Object.entries(tiles).map(([key, value]) => ({ [key]: UI.tileWalkable(value) })));
+    }
+
+    return false;
+  }
+
+  /**
    * Execute the certain action by checking (if allowed)
    *
    * @param {object} data Information of tile, Action class and items
@@ -39,6 +87,8 @@ class Action {
       clickedTile.x,
       clickedTile.y,
     );
+
+    const edgeTiles = this.getEdgeTiles(data.item.action, clickedTile);
 
     const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
 
@@ -137,6 +187,29 @@ class Action {
             },
           });
         }
+
+        break;
+
+      case 'push':
+        this.player.action = {
+          ...data.item.action,
+          edgeTiles,
+          coordinates: { x: clickedTile.x, y: clickedTile.y },
+        };
+
+        Handler['player:mouseTo']({
+          data: {
+            coordinates: { x: clickedTile.x, y: clickedTile.y },
+            id: this.player.uuid,
+            location: data.item.action.nearby,
+            edgeTiles,
+            dan: true,
+          },
+          player: {
+            socket_id: this.player.uuid,
+          },
+        });
+
 
         break;
 

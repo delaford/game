@@ -50,4 +50,13 @@ export default [
     weight: 1,
     queueable: true,
   },
+  {
+    name: 'Push',
+    context: ['gameMap'],
+    allow: ['foreground'],
+    nearby: 'edge',
+    weight: 1,
+    queueable: true,
+  },
+
 ];

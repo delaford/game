@@ -36,7 +36,7 @@ class Map {
    * @param {integer} x The x-axis coord on where user clicked on game-gap
    * @param {integer} y The y-axis coord on where user clicked on game-gap
    */
-  static findQuickestPath(x, y, playerIndex, location = 'exact') {
+  static findQuickestPath(x, y, playerIndex) {
     const player = world.players[playerIndex];
     return new Promise((resolve) => {
       /**
@@ -45,7 +45,6 @@ class Map {
        */
 
       const path = player.path.finder.findPath(7, 5, x, y, player.path.grid);
-      if (location === 'nearby') path.pop();
       resolve(path);
     });
   }
@@ -66,7 +65,14 @@ class Map {
 
     // The player's x-y on map (always 7,5)
     // to where they clicked on the map
-    const path = await Map.findQuickestPath(x, y, playerIndex, location);
+    const path = await Map.findQuickestPath(x, y, playerIndex);
+
+    // Since we are performing an action on a resource or tile,
+    // let's end the path one step so we don't step on it.
+    // (For example, mining block, tree, door, etc.)
+    if (location === 'edge') {
+      path.pop();
+    }
 
     // If the tile we clicked on
     // can be walked on, continue ->
@@ -191,6 +197,14 @@ class Map {
             }
           }
 
+          // If the action requires us to be on the "edge" of a tile
+          // (eg: resource gathering, action tile, door push, etc.)
+          // then let us temporarily make it 'walkable' so the pathfinding does its job
+          // and then we will simply snip of the last step of the path so we are right next ot it.
+          if (player.action && player.action.nearby === 'edge' && player.action.coordinates.x === row && player.action.coordinates.y === column) {
+            walkableTile = 0;
+          }
+
           // Push the block/non-blocked tile to the
           // grid so that the pathfinder can use it
           // 0 - walkable; 1 - blocked
@@ -198,8 +212,6 @@ class Map {
         }
 
         // Push blocked/non-blocked array for pathfinding
-        console.log(grid);
-
         matrix.push(grid);
       }
 

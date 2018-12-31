@@ -109,6 +109,7 @@ class ContextMenu {
 
       // Walk player to this location
       case 'Walk here':
+        // Do not add WALK HERE if foreground tile is blocked
         items.push({
           action: {
             name: 'walk-here',
@@ -287,6 +288,25 @@ class ContextMenu {
         }
 
         break;
+
+      // Push
+      case 'Push':
+        if (foregroundData && ContextMenu.canDoAction(foregroundData, action)) {
+          const color = UI.getContextSubjectColor(foregroundData.context);
+          items.push({
+            label: `Push <span style='color:${color}'>${foregroundData.name}</span>`,
+            action,
+            type: 'object',
+            at: {
+              x: this.coordinates.viewport.x,
+              y: this.coordinates.viewport.y,
+            },
+            id: foregroundData.id,
+            tile: this.tile,
+          });
+        }
+
+        break;
     }
 
     return items;
@@ -351,11 +371,15 @@ class ContextMenu {
    * @returns {boolean}
    */
   static canDoAction(item, action) {
+    const name = action.name.toLowerCase();
+
+    // If we have a list of actions
     if (item instanceof Array) {
-      return item.includes(action.name.toLowerCase());
+      return item.includes(name);
     }
 
-    return item.actions.includes(action.name.toLowerCase());
+    // If we have just one resource that has actions
+    return item.actions.includes(name);
   }
 }
 

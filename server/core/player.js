@@ -60,6 +60,9 @@ class Player {
       },
     };
 
+    // What action are they performing at the moment?
+    this.action = false;
+
     // Pathway blocked
     this.blocked = {
       foreground: null,
@@ -171,6 +174,20 @@ class Player {
 
             // TODO
             // Abstract this to own file of action events in-game
+            if (todo.action.name === 'Push') {
+              const { id } = UI.randomElementFromArray(wearableItems);
+
+              world.items.push({
+                id,
+                uuid: uuid(),
+                x: 20,
+                y: 108,
+                timestamp: Date.now(),
+              });
+
+              Socket.broadcast('world:itemDropped', world.items);
+            }
+
             if (todo.action.name === 'Take') {
               // eslint-disable-next-line
               const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));

@@ -196,6 +196,16 @@ class UI {
       return t;
     }).find(item => item.id === id);
   }
+
+  /**
+   * Select a random element from an array
+   *
+   * @param {array} array The array we are working on
+   * @returns {object|integer}
+   */
+  static randomElementFromArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
 }
 
 export default UI;
