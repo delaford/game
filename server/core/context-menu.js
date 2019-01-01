@@ -73,6 +73,8 @@ class ContextMenu {
    * @returns {boolean}
    */
   async check(action, items) {
+    // TODO
+    // Only get the objects in the viewport of the player
     const getItems = this.droppedItems
       .filter(item => item.x === this.coordinates.map.x && item.y === this.coordinates.map.y)
       .map((i) => {
@@ -217,6 +219,17 @@ class ContextMenu {
       // Examine item/object/npc from where possible
       case 'Examine':
         if (this.isFromGameCanvas()) {
+          if (foregroundData && ContextMenu.canDoAction(foregroundData.actions, action)) {
+            const fgColor = UI.getContextSubjectColor(foregroundData.context);
+            items.push({
+              label: `Examine <span style='color:${fgColor}'>${foregroundData.name}</span>`,
+              action,
+              examine: foregroundData.examine,
+              type: 'foreground',
+              id: foregroundData.id,
+            });
+          }
+
           getNPCs.forEach(({
             actions, name, context, examine, id,
           }) => {

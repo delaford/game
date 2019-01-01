@@ -22,7 +22,7 @@ class Action {
   }
 
   /**
-   * Get the walkable tile status of all 4 corners of an action
+   * Get the walkable tile status of all 4 corners of an action's tile
    *
    * @param {object} action The action being pursued
    * @param {integer} xy The x,y coordinates of action taking place
@@ -87,8 +87,6 @@ class Action {
       clickedTile.x,
       clickedTile.y,
     );
-
-    const edgeTiles = this.getEdgeTiles(data.item.action, clickedTile);
 
     const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
 
@@ -193,7 +191,6 @@ class Action {
       case 'push':
         this.player.action = {
           ...data.item.action,
-          edgeTiles,
           coordinates: { x: clickedTile.x, y: clickedTile.y },
         };
 
@@ -202,8 +199,6 @@ class Action {
             coordinates: { x: clickedTile.x, y: clickedTile.y },
             id: this.player.uuid,
             location: data.item.action.nearby,
-            edgeTiles,
-            dan: true,
           },
           player: {
             socket_id: this.player.uuid,

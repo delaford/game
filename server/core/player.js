@@ -186,6 +186,11 @@ class Player {
               });
 
               Socket.broadcast('world:itemDropped', world.items);
+
+              Socket.emit('item:goldenplaque:action', {
+                player: { socket_id: world.players[playerIndex].socket_id },
+                data: 'You feel a magical aurora as an item starts to appear from the ground...',
+              });
             }
 
             if (todo.action.name === 'Take') {

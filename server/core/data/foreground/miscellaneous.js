@@ -7,5 +7,5 @@ export default [{
   name: 'Golden Plaque',
   examine: 'Scripture written from the Gods years and years ago. Feels interesting.',
   experience: 0,
-  actions: ['push'],
+  actions: ['push', 'examine'],
 }];

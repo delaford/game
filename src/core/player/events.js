@@ -7,6 +7,10 @@ import bus from './../utilities/bus';
  * @param {object} ws The Socket connection to incoming client
  * @param {object} context The server context
  */
+
+// TODO
+// Break this file into separate folders/files so all
+// of the events are not in one giant mega file.
 const handler = {
   /**
    * A player logins into the game
@@ -130,6 +134,13 @@ const handler = {
   'player:welcome': (data) => {
     window.wsId = data.data.player.socket_id;
     bus.$emit('fetch:items', data.data.player.socket_id);
+  },
+
+  /**
+   * Golden Plaque action result
+   */
+  'item:goldenplaque:action': (data) => {
+    bus.$emit('player:say', { data: { type: 'normal', text: data.data.data } });
   },
 };
 
