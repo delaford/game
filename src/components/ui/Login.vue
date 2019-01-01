@@ -34,7 +34,7 @@
 
     <div class="action_buttons">
       <button
-        class="button"
+        class="button login"
         @click="login">Login</button>
       <div
         v-tippy
@@ -64,8 +64,8 @@ export default {
   data() {
     return {
       invalid: false,
-      username: 'dan',
-      password: 'soccer',
+      username: '',
+      password: '',
       guestAccount: false,
       musicIntroduced: false,
     };
@@ -85,8 +85,8 @@ export default {
         this.username = 'dev';
         this.password = 'qwertykeyboard';
       } else {
-        this.username = 'dan';
-        this.password = 'soccer';
+        this.username = '';
+        this.password = '';
       }
     },
   },
@@ -101,6 +101,13 @@ export default {
       // Development user
       this.username = 'dev';
       this.password = 'qwertykeyboard';
+    }
+
+    // Change to your own user for faster login.
+    if (window.location.href.includes('#autologin')) {
+      this.username = 'dan';
+      this.password = 'soccer';
+      setTimeout(() => document.querySelector('button.login').click(), 250);
     }
   },
   methods: {
