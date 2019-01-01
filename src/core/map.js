@@ -161,32 +161,12 @@ class Map {
       y: y - Math.floor(0.5 * viewport.y),
     };
 
-    const matrix = [];
-
     // Drawing the map row by column.
     for (let column = 0; column <= viewport.y; column += 1) {
-      const grid = [];
       for (let row = 0; row <= viewport.x; row += 1) {
         const tileToFind = (((column + tileCrop.y) * size.x) + row) + tileCrop.x;
         const backgroundTile = this.background[tileToFind] - 1;
         const foregroundTile = (this.foreground[tileToFind] - 1) - 252;
-        // 252 because of the gid problem in Tiled
-
-        let walkable = 0;
-
-        if (foregroundTile > -1) {
-          // Is the foreground walkable?
-          walkable = UI.tileWalkable(foregroundTile, 'foreground') ? 0 : 1;
-        }
-
-        // If it is (or doesn't exist), is the foreground walkable?
-        if (walkable) {
-          walkable = UI.tileWalkable(backgroundTile) ? 0 : 1;
-        }
-
-        // Push the block/non-blocked tile to the
-        // grid so that the pathfinder can use it
-        grid.push(walkable);
 
         // Get the correct tile to draw
         const tile = {
@@ -236,13 +216,7 @@ class Map {
           );
         }
       }
-
-      // Push blocked/non-blocked array for pathfinding
-      matrix.push(grid);
     }
-
-    // The new walkable/non-walkable grid
-    this.path.grid = new PF.Grid(matrix);
   }
 
   /**

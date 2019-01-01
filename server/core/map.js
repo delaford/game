@@ -1,4 +1,4 @@
-import UI from 'shared/ui';
+import MapUtils from 'shared/map-utils';
 
 const PF = require('pathfinding');
 const config = require('../config');
@@ -161,54 +161,22 @@ class Map {
       for (let column = 0; column <= viewport.y; column += 1) {
         const grid = [];
         for (let row = 0; row <= viewport.x; row += 1) {
-          const tileToFind = (((column + tileCrop.y) * size.x) + row) + tileCrop.x;
-          const backgroundTile = world.map.background[tileToFind] - 1;
-          const foregroundTile = (world.map.foreground[tileToFind] - 1) - 252;
-          // 252 because of the gid problem in Tiled
-
-          let walkableTile = 0;
-
-          // TODO - Refactor
-          // Cover your eyes, probably the ugliest code
-          // I have written in my life. I am so sorry.
-          // What's going on here? FG & BG collision
-          const walkable = {
-            fg: UI.tileWalkable(foregroundTile, 'foreground'),
-            bg: UI.tileWalkable(backgroundTile),
+          const onTile = (((column + tileCrop.y) * size.x) + row) + tileCrop.x;
+          const tiles = {
+            background: world.map.background[onTile] - 1,
+            foreground: (world.map.foreground[onTile] - 1) - 252,
           };
-
-          if (!walkable.fg) {
-            walkableTile = 1;
-          }
-
-          if (walkable.fg && walkable.bg) {
-            walkableTile = 0;
-          }
-
-          if (!walkable.fg && walkable.bg) {
-            walkableTile = 1;
-          }
-
-          if (walkable.fg && !walkable.bg) {
-            if (foregroundTile === -253) {
-              walkableTile = 1;
-            } else {
-              walkableTile = 0;
-            }
-          }
-
-          // If the action requires us to be on the "edge" of a tile
-          // (eg: resource gathering, action tile, door push, etc.)
-          // then let us temporarily make it 'walkable' so the pathfinding does its job
-          // and then we will simply snip of the last step of the path so we are right next ot it.
-          if (player.action && player.action.nearby === 'edge' && player.action.coordinates.x === row && player.action.coordinates.y === column) {
-            walkableTile = 0;
-          }
 
           // Push the block/non-blocked tile to the
           // grid so that the pathfinder can use it
           // 0 - walkable; 1 - blocked
-          grid.push(walkableTile);
+          grid.push(MapUtils.gridWalkable(
+            tiles,
+            player,
+            onTile,
+            row,
+            column,
+          ));
         }
 
         // Push blocked/non-blocked array for pathfinding

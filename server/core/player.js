@@ -1,4 +1,5 @@
 import UI from 'shared/ui';
+import MapUtils from 'shared/map-utils';
 
 const config = require('../config');
 const PF = require('pathfinding');
@@ -293,11 +294,13 @@ class Player {
       return dirMove === 'left' ? 6 : 8;
     };
 
+    const onTile = ((((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x);
+
     const steppedOn = {
       // eslint-disable-next-line
-      background: world.map.background[(((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x] - 1,
+      background: world.map.background[onTile] - 1,
       // eslint-disable-next-line
-      foreground: world.map.foreground[(((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x] - 1,
+      foreground: world.map.foreground[onTile] - 1,
     };
 
     const tiles = {
@@ -305,31 +308,7 @@ class Player {
       background: steppedOn.background,
     };
 
-    const walkable = {
-      fg: UI.tileWalkable(tiles.foreground, 'foreground'),
-      bg: UI.tileWalkable(tiles.background),
-    };
-
-    if (!walkable.fg) {
-      return true;
-    }
-
-    if (walkable.fg && walkable.bg) {
-      return false;
-    }
-
-    if (!walkable.fg && walkable.bg) {
-      return true;
-    }
-
-    if (walkable.fg && !walkable.bg) {
-      if (steppedOn.foreground === -1) {
-        return true;
-      }
-      return false;
-    }
-
-    return false;
+    return MapUtils.gridWalkable(tiles, this, onTile);
   }
 
   /**
