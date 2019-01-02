@@ -73,18 +73,25 @@ const Handler = {
   /**
    * A player sends a chat message to everyone
    */
-  'player:say': (data) => {
+  'player:say': ({ data }) => {
     // TODO
     // Only broadcast to players who are in a 7x5 tile radius
     // of where the message was originally sent from
-    const playerChat = world.players.find(p => p.socket_id === data.data.id);
-    data.data.username = playerChat.username;
-    data.data.type = 'chat';
+    const { id, said } = data;
+    const { username } = world.players.find(p => p.socket_id === id);
 
-    // eslint-disable-next-line
-    console.log(`${playerChat.username}: ${data.data.said}`);
+    // Put a limit on the length of a player message to 50 characters.
+    const text = said.length > 50 ? said.substring(0, 50) : said;
 
-    Socket.broadcast('player:say', data, 10);
+    const obj = {
+      username,
+      type: 'chat',
+      text,
+    };
+
+    console.log(`${obj.username}: ${obj.text}`);
+
+    Socket.broadcast('player:say', obj);
   },
 
   /**

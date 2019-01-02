@@ -42,19 +42,11 @@ export default {
       ],
     };
   },
-  computed: {
-    /**
-     * Compute whether user said something
-     */
-    sayingSomething() {
-      return this.said.length >= 1 && this.said.length <= 75;
-    },
-  },
   created() {
     bus.$on('player:say', data => this.pipeline(data));
   },
   mounted() {
-    bus.$on('CHAT:MESSAGE', this.pipeline);
+    bus.$on('item:examine', data => this.pipeline(data));
   },
   methods: {
     /**
@@ -63,11 +55,18 @@ export default {
      * @param {object} data The message to add
      */
     pipeline(incoming) {
+      // If the incoming object has a data key, it came
+      // from examining an object or action reply.
+      // (Because we need the socket.id of where to send it back too)
+      // If not, we just needed to send a chat message to everyone (so the socket.id is not needed)
       const {
-        said, text, type, username,
-      } = incoming.data.data || incoming.data;
-      this.said = said || text;
-      this.say(null, type, username);
+        text, type, username,
+      } = (incoming.data && incoming.data.data) || incoming;
+
+      // What we'll be appending to chat
+      this.said = text;
+
+      this.appendChat(type, username);
     },
     /**
      * Displays the chat box
@@ -90,48 +89,39 @@ export default {
           break;
       }
 
-      // AFTER EXAMINE TEXT
-      // DO SAY SO THE VUE ARRAY OF CHATBOX
-      // GETS UPDATED
-
       return message;
     },
+    /**
+     * Send text message to server to send to other players in-game
+     */
     sendMessage() {
-      Socket.emit('player:say', { said: this.said, id: this.game.player.socket_id });
+      Socket.emit('player:say', { said: this.said, id: window.wsId });
     },
     /**
      * Add message to chatbox
      *
-     * @param {event} event The event code
      * @param {string} type The type of message we are adding
+     * @param {string} username The user sending the message
      */
-    say(event, type = 'chat', username = null) {
-      // Does our message actually have lines?
+    appendChat(type = 'chat', username = null) {
+      const typed = [
+        ...this.chatbox,
+        {
+          type,
+          color: '#1D56F2',
+          text: this.said,
+          username,
+        },
+      ];
 
-      // TODO
-      // Do not impose limit on `normal` messages.
-      if (this.sayingSomething) {
-        // TODO: Transfer to network code
-        const typed = [
-          ...this.chatbox,
-          {
-            type,
-            color: '#1D56F2',
-            text: this.said,
-            username,
-          },
+      // Copy new messages to original object
+      Object.assign(this.chatbox, typed);
 
-        ];
+      // Clear user input
+      this.clearInput();
 
-        // Copy new messages to original object
-        Object.assign(this.chatbox, typed);
-
-        // Clear user input
-        this.clearInput();
-
-        // Scroll chatbox to bottom
-        this.scrollToBottom();
-      }
+      // Scroll chatbox to bottom
+      this.scrollToBottom();
     },
     /**
      * Scroll chatbox to bottom on next Vue's life-cycle tick
