@@ -9,27 +9,34 @@ class MapUtils {
     // What's going on here? FG & BG collision
     let walkableTile = 0;
 
+    // Get walkable status of both foreground and background tiles
     const walkable = {
       fg: UI.tileWalkable(tiles.foreground, 'foreground'),
       bg: UI.tileWalkable(tiles.background),
     };
 
+    // Is the foreground not walkable?
     if (!walkable.fg) {
-      walkableTile = 1;
+      walkableTile = 1; // Nope
     }
 
+    // Is the foreground AND background walkable?
     if (walkable.fg && walkable.bg) {
-      walkableTile = 0;
+      walkableTile = 0; // Yep.
     }
 
+    // Is the foreground NOT walkable BUT the background is?
     if (!walkable.fg && walkable.bg) {
       walkableTile = 1;
     }
 
+    // Is the foreground walkable BUT the background is not?
     if (walkable.fg && !walkable.bg) {
+      // Is there no foreground tile?
       if ((world.map.foreground[onTile] - 1) === -1) {
         walkableTile = 1;
       } else {
+        // If there is, then it is (because the BG is not walkable).
         walkableTile = 0;
       }
     }
