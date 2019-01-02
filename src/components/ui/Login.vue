@@ -1,5 +1,19 @@
 <template>
   <div class="form">
+    <div
+      v-tippy
+      v-if="inDevelopment"
+      title="Load pre-made guest account. No progress will be saved on this account."
+      class="checkbox guest_account">
+      <label for="guest_account">
+        <input
+          id="guest_account"
+          v-model="guestAccount"
+          type="checkbox"
+          @change="toggleGuestAccount">
+        Guest account?
+      </label>
+    </div>
     <div class="inputs">
       <form
         :class="{ hasErrors: invalid }"
@@ -39,14 +53,15 @@
       <div
         v-tippy
         v-if="inDevelopment"
-        title="Load pre-made guest account. No progress will be saved on this account."
-        class="guest_account">
-        <label for="guest_account">
+        title="Dev account details will be saved and auto-logged in upon code changes."
+        class="checkbox">
+        <label for="rememberMe">
           <input
-            id="guest_account"
-            v-model="guestAccount"
-            type="checkbox">
-          Guest account?
+            id="rememberMe"
+            v-model="rememberMe"
+            type="checkbox"
+            @change="toggleRememberMe">
+          Remember me?
         </label>
       </div>
       <button
@@ -68,6 +83,7 @@ export default {
       password: '',
       guestAccount: false,
       musicIntroduced: false,
+      rememberMe: false,
     };
   },
   computed: {
@@ -92,10 +108,10 @@ export default {
   },
   created() {
     this.invalid = false;
-    bus.$on('player:login-error', data => this.incorrectLogin(data));
 
-    // Allow guest account only in development
-    // this.guestAccount = this.inDevelopment;
+    this.rememberMe = this.$store.getters.rememberMe;
+
+    bus.$on('player:login-error', data => this.incorrectLogin(data));
 
     if (this.guestAccount && process.env.NODE_ENV === 'development') {
       // Development user
@@ -103,14 +119,31 @@ export default {
       this.password = 'qwertykeyboard';
     }
 
-    // Change to your own user for faster login.
-    if (window.location.href.includes('#autologin')) {
-      this.username = 'dan';
-      this.password = 'soccer';
-      setTimeout(() => document.querySelector('button.login').click(), 250);
+    if (this.$store.getters.account.username) {
+      const { username, password } = this.$store.getters.account;
+      this.username = username;
+      this.password = password;
+      if (window.location.href.includes('#autologin')) {
+        this.username = username;
+        this.password = password;
+        setTimeout(() => document.querySelector('button.login').click(), 250);
+      }
     }
   },
   methods: {
+    toggleGuestAccount() {
+      // this.$store.dispatch('setGuestAccount', this.guestAccount);
+    },
+    /**
+     * Save the state between remember me checkbox
+     */
+    toggleRememberMe() {
+      this.$store.dispatch('setRememberMe', this.rememberMe);
+
+      const url = this.rememberMe ? `${window.location.origin}/?#autologin` : window.location.origin;
+
+      window.history.pushState('Page', 'Title', url);
+    },
     /**
      * Load up the glorious music
      */
@@ -133,6 +166,8 @@ export default {
         password: this.password,
         useGuestAccount: this.guestAccount,
       };
+
+      this.$store.dispatch('rememberDevAccount', { username: this.username, password: this.password });
 
       Socket.emit('player:login', data);
     },
@@ -199,19 +234,25 @@ div.form {
     margin-top: 1em;
     justify-content: space-between;
 
-    .guest_account {
-      background: #b93636;
-      border: 2px solid #521414;
-      color: #c0c053;
-      margin-top: 0.25em;
-      padding: 0.25em;
-      font-family: "ChatFont", sans-serif;
-      text-shadow: 1px 1px 0 #000;
-    }
-
     button {
       font-size: 1.5em;
     }
+  }
+
+  .checkbox {
+    background: #b93636;
+    border: 2px solid #521414;
+    color: #c0c053;
+    margin-top: 0.25em;
+    padding: 0.25em;
+    font-family: "ChatFont", sans-serif;
+    text-shadow: 1px 1px 0 #000;
+  }
+
+  .guest_account {
+    position: absolute;
+    left: 1em;
+    bottom: 1em;
   }
 }
 </style>

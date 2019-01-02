@@ -9,6 +9,7 @@ import Delaford from './Delaford.vue';
 import store from './store';
 
 Vue.config.productionTip = false;
+Vue.config.devtools = process.env.NODE_ENV !== 'production';
 
 Vue.use(VueTippy, {
   animation: 'fade',
