@@ -32,8 +32,14 @@ export default new Vuex.Store({
     SET_REMEMBER_ME: (state, payload) => {
       state.rememberMe = payload;
     },
+    SET_GUEST_ACCOUNT: (state, payload) => {
+      state.guestAccount = payload;
+    },
   },
   actions: {
+    setGuestAccount: (context, payload) => {
+      context.commit('SET_GUEST_ACCOUNT', payload);
+    },
     setRememberMe: (context, payload) => {
       context.commit('SET_REMEMBER_ME', payload);
     },

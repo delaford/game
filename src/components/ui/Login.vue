@@ -110,6 +110,7 @@ export default {
     this.invalid = false;
 
     this.rememberMe = this.$store.getters.rememberMe;
+    this.guestAccount = this.$store.getters.guestAccount;
 
     bus.$on('player:login-error', data => this.incorrectLogin(data));
 
@@ -132,7 +133,7 @@ export default {
   },
   methods: {
     toggleGuestAccount() {
-      // this.$store.dispatch('setGuestAccount', this.guestAccount);
+      this.$store.dispatch('setGuestAccount', this.guestAccount);
     },
     /**
      * Save the state between remember me checkbox
