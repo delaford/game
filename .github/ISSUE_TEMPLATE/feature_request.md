@@ -4,14 +4,9 @@ about: Suggest an idea for this project
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**What mechanics does this feature affect?**
+<!-- Player, Web-sockets, Items, UI, Map, Database -->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**How hard would it be to implement this feature on a scale of 1-10 (10 = hardest)?**
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**What is the feature request?**
