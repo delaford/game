@@ -71,10 +71,8 @@ const handler = {
   /**
    * A player recieves an item in their inventory
    */
-  'item:pickup': (data, context) => {
-    if (data.data.player.socket_id === context.game.player.socket_id) {
-      context.game.player.inventory = data.data.data;
-    }
+  'item:pickup': (incoming, context) => {
+    context.game.player.inventory = incoming.data.data;
   },
 
   /**
@@ -140,7 +138,7 @@ const handler = {
    * Golden Plaque action result
    */
   'item:goldenplaque:action': (data) => {
-    bus.$emit('item:examine', { data: { type: 'normal', text: data.data.data } });
+    bus.$emit('item:examine', { data: { type: 'normal', text: data.data.text } });
   },
 };
 

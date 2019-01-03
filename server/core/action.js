@@ -1,6 +1,5 @@
 import UI from 'shared/ui';
 import { merge } from 'lodash';
-import Socket from '../socket';
 import world from './world';
 import Handler from '../player/handler';
 
@@ -119,12 +118,7 @@ class Action {
         break;
 
       case 'examine':
-        Socket.emit('item:examine', {
-          data: { type: 'normal', text: data.item.examine },
-          player: {
-            socket_id: this.player.socket_id,
-          },
-        });
+        this.player.socket.emit('item:examine', { type: 'normal', text: data.item.examine });
         break;
 
       case 'equip':

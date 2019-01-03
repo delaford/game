@@ -1,5 +1,6 @@
 import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
+import PlayerSocket from '../player/player-socket';
 
 const config = require('../config');
 const PF = require('pathfinding');
@@ -63,6 +64,9 @@ class Player {
 
     // What action are they performing at the moment?
     this.action = false;
+
+    // Socket for Player
+    this.socket = new PlayerSocket(this.socket_id);
 
     // Pathway blocked
     this.blocked = {
@@ -188,9 +192,8 @@ class Player {
 
               Socket.broadcast('world:itemDropped', world.items);
 
-              Socket.emit('item:goldenplaque:action', {
-                player: { socket_id: world.players[playerIndex].socket_id },
-                data: 'You feel a magical aurora as an item starts to appear from the ground...',
+              this.socket.emit('item:goldenplaque:action', {
+                text: 'You feel a magical aurora as an item starts to appear from the ground...',
               });
             }
 
@@ -206,17 +209,14 @@ class Player {
 
               world.players[playerIndex].inventory.push({
                 slot: UI.getOpenSlot(world.players[playerIndex].inventory),
-                id: todo.item.id,
                 uuid: todo.item.uuid,
+                id: todo.item.id,
               });
 
-              const data = {
-                player: { socket_id: world.players[playerIndex].socket_id },
-                data: world.players[playerIndex].inventory,
-              };
-
               // Tell client to update their inventory
-              Socket.emit('item:pickup', data);
+              this.socket.emit('item:pickup', {
+                data: world.players[playerIndex].inventory,
+              });
             }
 
             // Remove action from queue
@@ -263,7 +263,7 @@ class Player {
    * @param {object} data The player object
    */
   stopMovement(data) {
-    Socket.emit('player:stopped', { player: data.player });
+    this.socket.emit('player:stopped', { player: data.player });
     this.moving = false;
   }
 

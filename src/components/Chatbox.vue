@@ -61,7 +61,7 @@ export default {
       // 3. Examing text from server - incoming.data.data (from server)
       const {
         text, type, username,
-      } = Object.hasOwnProperty.call(incoming, 'text') ? incoming : (incoming.data.data || incoming.data);
+      } = Object.hasOwnProperty.call(incoming, 'text') ? incoming : incoming.data;
 
       // What we'll be appending to chat
       this.said = text;
