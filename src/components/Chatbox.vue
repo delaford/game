@@ -61,7 +61,7 @@ export default {
       // If not, we just needed to send a chat message to everyone (so the socket.id is not needed)
       const {
         text, type, username,
-      } = incoming.data || incoming;
+      } = incoming.data.data || incoming.data || incoming;
 
       // What we'll be appending to chat
       this.said = text;
