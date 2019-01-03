@@ -1,6 +1,11 @@
 const WebSocketServer = require('ws').Server;
 const world = require('./core/world');
 
+/**
+ * IDEA: Create seperate socket classes,
+ * one for server and one for player???
+ */
+
 class Socket {
   constructor(server) {
     this.ws = new WebSocketServer({ server });

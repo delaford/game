@@ -140,7 +140,7 @@ const handler = {
    * Golden Plaque action result
    */
   'item:goldenplaque:action': (data) => {
-    bus.$emit('player:say', { data: { type: 'normal', text: data.data.data } });
+    bus.$emit('item:examine', { data: { type: 'normal', text: data.data.data } });
   },
 };
 
