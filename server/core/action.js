@@ -165,8 +165,8 @@ class Action {
           data: {
             item: {
               id: data.item.id,
-              slot: data.item.miscData.slot,
               uuid: itemDropping.uuid,
+              slot: data.item.miscData.slot,
             },
           },
         });
