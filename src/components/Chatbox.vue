@@ -55,17 +55,18 @@ export default {
      * @param {object} data The message to add
      */
     pipeline(incoming) {
-      // If the incoming object has a data key, it came
-      // from examining an object or action reply.
-      // (Because we need the socket.id of where to send it back too)
-      // If not, we just needed to send a chat message to everyone (so the socket.id is not needed)
+      // We have three different types of messages.
+      // 1. Chat message - it has `text` key/value (from server)
+      // 2. Chat message from action - incoming.data (from client)
+      // 3. Examing text from server - incoming.data.data (from server)
       const {
         text, type, username,
-      } = incoming.data.data || incoming.data || incoming;
+      } = Object.hasOwnProperty.call(incoming, 'text') ? incoming : (incoming.data.data || incoming.data);
 
       // What we'll be appending to chat
       this.said = text;
 
+      // Append to chat
       this.appendChat(type, username);
     },
     /**
