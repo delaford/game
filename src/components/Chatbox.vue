@@ -96,7 +96,7 @@ export default {
      * Send text message to server to send to other players in-game
      */
     sendMessage() {
-      Socket.emit('player:say', { said: this.said, id: window.wsId });
+      Socket.emit('player:say', { said: this.said, id: this.game.player.socket_id });
     },
     /**
      * Add message to chatbox

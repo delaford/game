@@ -87,7 +87,7 @@ export default {
         data,
         queueItem,
         player: {
-          socket_id: window.wsId,
+          socket_id: this.game.player.socket_id,
         },
       });
 
@@ -132,7 +132,7 @@ export default {
         miscData,
         tile: this.tile,
         player: {
-          socket_id: window.wsId,
+          socket_id: this.game.player.socket_id,
         },
       });
     },

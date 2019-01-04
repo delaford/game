@@ -24,7 +24,6 @@
 <script>
 import UI from 'shared/ui';
 import bus from '../../core/utilities/bus';
-import Socket from '../../core/utilities/socket';
 
 export default {
   props: {
@@ -78,16 +77,7 @@ export default {
 
       return false;
     },
-    /**
-     * Fetch the items from the server
-     */
-    loadItemData() {
-      Socket.emit('game:fetch:items', {
-        player: {
-          socket_id: window.wsId,
-        },
-      });
-    },
+
     /**
      * Right-click brings up context-menu
      *

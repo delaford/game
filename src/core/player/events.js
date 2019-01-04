@@ -120,14 +120,6 @@ const handler = {
   },
 
   /**
-   * Set the global WS ID upon arrival for global use
-   */
-  'player:welcome': (data) => {
-    window.wsId = data.data.player.socket_id;
-    bus.$emit('fetch:items', data.data.player.socket_id);
-  },
-
-  /**
    * Golden Plaque action result
    */
   'item:goldenplaque:action': (data) => {

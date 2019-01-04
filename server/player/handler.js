@@ -9,7 +9,6 @@ const Map = require('./../core/map');
 const playerGuest = require('../core/data/helpers/player.json');
 
 const { wearableItems } = require('../core/data/items');
-const { foregroundObjects } = require('../core/data/foreground');
 
 const pipe = require('./pipeline');
 
@@ -30,18 +29,7 @@ const Handler = {
     const action = new Action(incoming.data.player.socket_id, miscData);
     action.do(incoming.data.data, incoming.data.queueItem);
   },
-  /**
-   * Fetch for the client the data upon arrival
-   */
-  'fetch:items': (data) => {
-    const objData = {
-      player: { socket_id: data.data },
-      wearableItems,
-      foregroundObjects,
-    };
 
-    Socket.emit('server:send:items', objData);
-  },
   /**
    * A player logins into the game
    */
@@ -183,18 +171,7 @@ const Handler = {
   },
 
   /**
-   * Send the client their socket ID upon arrival
-   */
-  'player:welcome': (_, ws) => {
-    Socket.emit('player:welcome', {
-      player: {
-        socket_id: ws.id,
-      },
-    });
-  },
-
-  /**
-   * Start building the menu for the player
+   * Start building the context menu for the player
    */
   'game:menu:build': async (incomingData) => {
     const contextMenu = new ContextMenu(

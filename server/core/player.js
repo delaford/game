@@ -224,11 +224,13 @@ class Player {
               Socket.broadcast('item:change', world.items);
 
               console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
+              const { id, graphics } = Query.getItemData(todo.item.id);
 
               world.players[playerIndex].inventory.push({
                 slot: UI.getOpenSlot(world.players[playerIndex].inventory),
                 uuid: todo.item.uuid,
-                id: todo.item.id,
+                graphics,
+                id,
               });
 
               // Tell client to update their inventory
