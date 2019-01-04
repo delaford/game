@@ -1,6 +1,6 @@
 import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
-import PlayerSocket from '../player/player-socket';
+// import PlayerSocket from '../player/player-socket';
 import Query from './data/query';
 
 const config = require('../config');
@@ -67,7 +67,7 @@ class Player {
     this.action = false;
 
     // Socket for Player
-    this.socket = new PlayerSocket(this.socket_id);
+    // this.socket = new PlayerSocket(this.socket_id);
 
     // Pathway blocked
     this.blocked = {
@@ -209,7 +209,7 @@ class Player {
 
               Socket.broadcast('world:itemDropped', world.items);
 
-              this.socket.emit('item:goldenplaque:action', {
+              Socket.emit('item:goldenplaque:action', {
                 text: 'You feel a magical aurora as an item starts to appear from the ground...',
               });
             }
@@ -233,7 +233,7 @@ class Player {
               });
 
               // Tell client to update their inventory
-              this.socket.emit('item:pickup', {
+              Socket.emit('item:pickup', {
                 data: world.players[playerIndex].inventory,
               });
             }
@@ -282,7 +282,7 @@ class Player {
    * @param {object} data The player object
    */
   stopMovement(data) {
-    this.socket.emit('player:stopped', { player: data.player });
+    Socket.emit('player:stopped', { player: data.player });
     this.moving = false;
   }
 
