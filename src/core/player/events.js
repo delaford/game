@@ -116,7 +116,6 @@ const handler = {
    */
   'server:send:items': (data) => {
     window.allItems = data.data.wearableItems;
-    window.foregroundObjects = data.data.foregroundObjects;
   },
 
   /**

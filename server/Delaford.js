@@ -2,6 +2,8 @@
 import Socket from './socket';
 import Handler from './player/handler';
 
+const { wearableItems } = require('./core/data/items');
+
 const world = require('./core/world');
 
 // Node modules
@@ -101,6 +103,12 @@ class Delaford {
     // Add player to server's player list
     console.log(`${emoji.get('computer')}  A client (${ws.id.substring(0, 5)}...) connected.`);
     world.clients.push(ws);
+
+    // Send player server items
+    Socket.emit('server:send:items', {
+      player: { socket_id: ws.id },
+      wearableItems,
+    });
 
     ws.on('message', async (msg) => {
       const data = JSON.parse(msg);
