@@ -226,7 +226,7 @@ export default {
     getTooltip(slot) {
       const wearItem = this.wear[slot];
       if (Object.hasOwnProperty.call(wearItem, 'id')) {
-        return `${this.getItem(wearItem.id).name}`;
+        return `${wearItem.name}`;
       }
 
       return false;
@@ -264,15 +264,6 @@ export default {
         column,
         row,
       };
-    },
-    /**
-     * Gets item from ID
-     *
-     * @param {integer} id The ID of the item
-     * @returns {object}
-     */
-    getItem(id) {
-      return window.allItems.find(i => i.id === id);
     },
     /**
      * Shows the correct background type in slot
