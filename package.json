@@ -11,7 +11,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
-    "start": "npm run server:prod",
+    "start": "",
     "postinstall": "npm run build-server && npm run build",
     "test:unit": "vue-cli-service test:unit",
     "ndb": "./node_modules/.bin/ndb",
