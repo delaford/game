@@ -8,9 +8,11 @@ import VueTippy from 'vue-tippy';
 import Delaford from './Delaford.vue';
 import store from './store';
 
+// Vue configuration
 Vue.config.productionTip = false;
 Vue.config.devtools = process.env.NODE_ENV !== 'production';
 
+// Vue plugins
 Vue.use(VueTippy, {
   animation: 'fade',
   inertia: true,
