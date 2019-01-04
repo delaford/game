@@ -1,5 +1,7 @@
 import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
+import PlayerSocket from '../player/player-socket';
+import Query from './data/query';
 
 const config = require('../config');
 const PF = require('pathfinding');
@@ -64,6 +66,10 @@ class Player {
     // What action are they performing at the moment?
     this.action = false;
 
+    // Socket for Player
+    this.socket = new PlayerSocket(this.socket_id);
+    // this.handler = new Handler(world.players.length, this.socket_id);
+
     // Pathway blocked
     this.blocked = {
       foreground: null,
@@ -74,16 +80,30 @@ class Player {
     this.queue = [];
 
     // Player inventory
-    this.inventory = [...data.inventory];
+    this.inventory = Player.constructInventory(data.inventory);
 
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
   }
 
   /**
-   * Make up correct object format for Vue component
+   * Make up correct object format for Vue component INVENTORY
    * as it is abstracted from the database
    *
-   * @param {string} data The item ID
+   * @param {string} data The array of Inventory items
+   */
+  static constructInventory(data) {
+    return data.map((item) => {
+      const { graphics } = Query.getItemData(item.id);
+      item.graphics = graphics;
+      return item;
+    });
+  }
+
+  /**
+   * Make up correct object format for Vue component WEAR
+   * as it is abstracted from the database
+   *
+   * @param {string} data The array of wear objects
    */
   static constructWear(data) {
     const wearData = data;
@@ -96,9 +116,11 @@ class Player {
       if (Object.prototype.hasOwnProperty.call(wearData, property)) {
         if (wearData[property] !== null) {
           const id = wearData[property];
+          const { name, graphics } = wearableItems.find(db => db.id === id);
           wearData[property] = {
             uuid: uuid(),
-            graphics: wearableItems.find(db => db.id === id).graphics,
+            graphics,
+            name,
             id,
           };
         }
@@ -188,9 +210,8 @@ class Player {
 
               Socket.broadcast('world:itemDropped', world.items);
 
-              Socket.emit('item:goldenplaque:action', {
-                player: { socket_id: world.players[playerIndex].socket_id },
-                data: 'You feel a magical aurora as an item starts to appear from the ground...',
+              this.socket.emit('item:goldenplaque:action', {
+                text: 'You feel a magical aurora as an item starts to appear from the ground...',
               });
             }
 
@@ -203,20 +224,19 @@ class Player {
               Socket.broadcast('item:change', world.items);
 
               console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
+              const { id, graphics } = Query.getItemData(todo.item.id);
 
               world.players[playerIndex].inventory.push({
                 slot: UI.getOpenSlot(world.players[playerIndex].inventory),
-                id: todo.item.id,
                 uuid: todo.item.uuid,
+                graphics,
+                id,
               });
 
-              const data = {
-                player: { socket_id: world.players[playerIndex].socket_id },
-                data: world.players[playerIndex].inventory,
-              };
-
               // Tell client to update their inventory
-              Socket.emit('item:pickup', data);
+              this.socket.emit('item:pickup', {
+                data: world.players[playerIndex].inventory,
+              });
             }
 
             // Remove action from queue
@@ -263,7 +283,7 @@ class Player {
    * @param {object} data The player object
    */
   stopMovement(data) {
-    Socket.emit('player:stopped', { player: data.player });
+    this.socket.emit('player:stopped', { player: data.player });
     this.moving = false;
   }
 

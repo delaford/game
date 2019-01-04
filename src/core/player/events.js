@@ -71,10 +71,8 @@ const handler = {
   /**
    * A player recieves an item in their inventory
    */
-  'item:pickup': (data, context) => {
-    if (data.data.player.socket_id === context.game.player.socket_id) {
-      context.game.player.inventory = data.data.data;
-    }
+  'item:pickup': (incoming, context) => {
+    context.game.player.inventory = incoming.data.data;
   },
 
   /**
@@ -114,13 +112,6 @@ const handler = {
   },
 
   /**
-   * Tell server that client is ready to receive server data
-   */
-  'game:receive:items': (data) => {
-    bus.$emit('client:game:receive:items', data.data);
-  },
-
-  /**
    * Receive the data from the client upon browser open
    */
   'server:send:items': (data) => {
@@ -129,18 +120,10 @@ const handler = {
   },
 
   /**
-   * Set the global WS ID upon arrival for global use
-   */
-  'player:welcome': (data) => {
-    window.wsId = data.data.player.socket_id;
-    bus.$emit('fetch:items', data.data.player.socket_id);
-  },
-
-  /**
    * Golden Plaque action result
    */
   'item:goldenplaque:action': (data) => {
-    bus.$emit('player:say', { data: { type: 'normal', text: data.data.data } });
+    bus.$emit('item:examine', { data: { type: 'normal', text: data.data.text } });
   },
 };
 

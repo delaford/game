@@ -3,6 +3,7 @@ import PF from 'pathfinding';
 import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
 import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
 import UI from 'shared/ui';
+import Query from '../../server/core/data/query';
 
 class Map {
   constructor(data, images) {
@@ -241,7 +242,7 @@ class Map {
       };
 
       // Get item information
-      const info = UI.getItemData(item.id);
+      const info = Query.getItemData(item.id);
 
       // Get the correct tileset to draw upon
       const itemTileset = () => {

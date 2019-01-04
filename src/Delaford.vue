@@ -95,7 +95,6 @@ import Client from './core/client';
 import Engine from './core/engine';
 import bus from './core/utilities/bus';
 import Event from './core/player/events';
-import Socket from './core/utilities/socket';
 
 export default {
   name: 'Delaford',
@@ -115,8 +114,10 @@ export default {
    */
   created() {
     const context = this;
+
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
+
       if (data.event !== undefined) {
         if (!Event[data.event]) {
           bus.$emit(data.event, data);
@@ -137,15 +138,8 @@ export default {
     // On logout, let's do a few things...
     bus.$on('player:logout', this.logout);
     bus.$on('go:main', this.cancelLogin);
-    bus.$on('fetch:items', this.fetchItems);
   },
   methods: {
-    /**
-     * Fetch client items
-     */
-    fetchItems(data) {
-      Socket.emit('fetch:items', data);
-    },
     /**
      * Logout player
      */

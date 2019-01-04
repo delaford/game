@@ -107,7 +107,7 @@ class Authentication {
     };
 
     // Tell the client they are logging in
-    Socket.emit('player:login', block);
+    player.socket.emit('player:login', block);
 
     // Tell the world someone logged in
     Socket.broadcast('player:joined', world.players);

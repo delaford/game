@@ -194,7 +194,6 @@
 <script>
 import UI from 'shared/ui';
 import bus from '../../core/utilities/bus';
-import Socket from '../../core/utilities/socket';
 
 export default {
   props: {
@@ -203,20 +202,10 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      library: false,
-    };
-  },
   computed: {
     wear() {
       return this.game.player.wear;
     },
-  },
-  created() {
-    this.loadItemData();
-
-    bus.$on('client:game:receive:items', data => this.constructItemLibrary(data));
   },
   methods: {
     /**
@@ -236,25 +225,11 @@ export default {
      */
     getTooltip(slot) {
       const wearItem = this.wear[slot];
-      if (Object.hasOwnProperty.call(wearItem, 'id') && this.library) {
-        return `${this.getItem(wearItem.id).name}`;
+      if (Object.hasOwnProperty.call(wearItem, 'id')) {
+        return wearItem.name;
       }
 
       return false;
-    },
-    /**
-     * Load the items from the server
-     */
-    constructItemLibrary(data) {
-      // TODO
-      // Abstract this to global method
-      this.library = data.data;
-    },
-    /**
-     * Fetch the items from the server
-     */
-    loadItemData() {
-      Socket.emit('game:fetch:items');
     },
     /**
      * Right-click brings up context-menu

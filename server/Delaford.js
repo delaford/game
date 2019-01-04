@@ -102,10 +102,6 @@ class Delaford {
     console.log(`${emoji.get('computer')}  A client (${ws.id.substring(0, 5)}...) connected.`);
     world.clients.push(ws);
 
-    // Upon connection, greet player with
-    // their new socket ID
-    Handler['player:welcome'](false, ws, this);
-
     ws.on('message', async (msg) => {
       const data = JSON.parse(msg);
 
