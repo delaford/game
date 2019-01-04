@@ -211,7 +211,7 @@ class Player {
 
               Socket.emit('item:goldenplaque:action', {
                 player: { socket_id: world.players[playerIndex].socket_id },
-                data: 'You feel a magical aurora as an item starts to appear from the ground...',
+                text: 'You feel a magical aurora as an item starts to appear from the ground...',
               });
             }
 
