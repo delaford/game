@@ -83,15 +83,11 @@ const Handler = {
     // Put a limit on the length of a player message to 50 characters.
     const text = said.length > 50 ? said.substring(0, 50) : said;
 
-    const obj = {
+    Socket.broadcast('player:say', {
       username,
       type: 'chat',
       text,
-    };
-
-    console.log(`${obj.username}: ${obj.text}`);
-
-    Socket.broadcast('player:say', obj);
+    });
   },
 
   /**
@@ -184,27 +180,6 @@ const Handler = {
    */
   'item:unequip': (data) => {
     pipe.player.unequipItem(data);
-  },
-
-  /**
-   * Fetch the items to send back to client
-   */
-  'game:fetch:items': (_, ws) => {
-    const itemsToSend = wearableItems.map(i => ({
-      stats: i.stats,
-      name: i.name,
-      graphics: i.graphics,
-      id: i.id,
-    }));
-
-    const data = {
-      data: itemsToSend,
-      player: {
-        socket_id: ws.id,
-      },
-    };
-
-    Socket.emit('game:receive:items', data);
   },
 
   /**

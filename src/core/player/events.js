@@ -112,13 +112,6 @@ const handler = {
   },
 
   /**
-   * Tell server that client is ready to receive server data
-   */
-  'game:receive:items': (data) => {
-    bus.$emit('client:game:receive:items', data.data);
-  },
-
-  /**
    * Receive the data from the client upon browser open
    */
   'server:send:items': (data) => {

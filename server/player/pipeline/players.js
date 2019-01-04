@@ -32,6 +32,7 @@ module.exports = {
       const item = {
         slot: UI.getOpenSlot(world.players[playerIndex].inventory),
         id: getItem.id,
+        graphics: getItem.graphics,
         uuid: world.players[playerIndex].wear[getItem.slot].uuid,
       };
 

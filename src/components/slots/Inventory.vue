@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="library"
     class="inventory_slot">
     <!-- eslint-disable max-len -->
     <div
@@ -34,11 +33,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      library: false,
-    };
-  },
   computed: {
     images() {
       return this.game.map.images;
@@ -46,10 +40,6 @@ export default {
     items() {
       return this.game.player.inventory;
     },
-  },
-  created() {
-    this.loadItemData();
-    bus.$on('client:game:receive:items', data => this.constructItemLibrary(data));
   },
   methods: {
     /**
@@ -89,14 +79,6 @@ export default {
       return false;
     },
     /**
-     * Load the items from the server
-     *
-     * @param {object} data Incoming server data
-     */
-    constructItemLibrary(data) {
-      this.library = data.data;
-    },
-    /**
      * Fetch the items from the server
      */
     loadItemData() {
@@ -132,8 +114,7 @@ export default {
      * @returns {object}
      */
     getItemFromSlot(slotNumber) {
-      const findItem = this.items.find(s => s.slot === slotNumber).id;
-      return this.library.find(i => i.id === findItem);
+      return this.items.find(s => s.slot === slotNumber);
     },
     /**
      * Get the correct background URL to show in inventory
