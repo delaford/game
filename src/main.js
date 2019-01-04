@@ -24,7 +24,12 @@ Vue.use(VueTippy, {
 
 // Start the websocket server client-side
 if ('WebSocket' in window) {
-  const url = process.env.NODE_ENV === 'production' ? 'wss://play.delaford.com' : `ws://${window.location.hostname}:4000`;
+  const wsurl = {
+    prod: 'wss://play.delaford.com',
+    dev: `ws://${window.location.hostname}:4000`,
+  };
+
+  const url = process.env.NODE_ENV === 'production' ? wsurl.prod : wsurl.dev;
   window.ws = new WebSocket(url);
 }
 

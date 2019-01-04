@@ -68,7 +68,6 @@ class Player {
 
     // Socket for Player
     this.socket = new PlayerSocket(this.socket_id);
-    // this.handler = new Handler(world.players.length, this.socket_id);
 
     // Pathway blocked
     this.blocked = {

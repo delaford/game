@@ -226,7 +226,7 @@ export default {
     getTooltip(slot) {
       const wearItem = this.wear[slot];
       if (Object.hasOwnProperty.call(wearItem, 'id')) {
-        return wearItem.name;
+        return `${this.getItem(wearItem.id).name}`;
       }
 
       return false;
@@ -272,8 +272,7 @@ export default {
      * @returns {object}
      */
     getItem(id) {
-      if (!this.library) return false;
-      return this.library.find(i => i.id === id);
+      return window.allItems.find(i => i.id === id);
     },
     /**
      * Shows the correct background type in slot

@@ -104,7 +104,8 @@ export default {
      * @returns {object}
      */
     getItemFromSlot(slotNumber) {
-      return this.items.find(s => s.slot === slotNumber);
+      const findItem = this.items.find(s => s.slot === slotNumber).id;
+      return window.allItems.find(i => i.id === findItem);
     },
     /**
      * Get the correct background URL to show in inventory
