@@ -1,5 +1,9 @@
-/* eslint-disable no-param-reassign */
-import bus from './../utilities/bus';
+import playerEvents from './events/player';
+import itemEvents from './events/item';
+import resourceEvents from './events/resource';
+import npcEvents from './events/npc';
+import worldEvents from './events/world';
+
 /**
  * A global event handler [CLIENT SIDE] (RPC)
  *
@@ -12,117 +16,17 @@ import bus from './../utilities/bus';
 // Break this file into separate folders/files so all
 // of the events are not in one giant mega file.
 const handler = {
-  /**
-   * A player logins into the game
-   */
-  'player:login': async (data, context) => {
-    context.startGame(data.data);
-  },
-  /**
-   * A player logins into the game
-   */
-  'player:login-error': (data) => {
-    bus.$emit('player:login-error', data.data);
-  },
-  /**
-   * When a player moves.
-   */
-  'player:movement': (data, context) => {
-    context.playerMovement(data.data);
-  },
-  /**
-   * A player saying something
-   */
-  'player:say': (data) => {
-    bus.$emit('player:say', data.data);
-  },
-  /**
-   * A player receives NPC movements
-   */
-  'npc:movement': (data, context) => {
-    context.npcMovement(data.data);
-  },
-  /**
-   * A player recieves new players
-   */
-  'player:joined': (data, context) => {
-    setTimeout(() => {
-      if (context.game.player) {
-        context.game.map.players = data.data
-          .filter(p => p.socket_id !== context.game.player.socket_id);
-      }
-    }, 1000);
-  },
-  /**
-   * A player leaves the game
-   */
-  'player:left': (data, context) => {
-    const playerIndex = context.game.map.players.findIndex(p => data.data === p.uuid);
-    context.game.map.players.splice(playerIndex, 1);
-  },
-
-  /**
-   * A player picks up or drops an item
-   */
-  'item:change': (data, context) => {
-    context.game.map.droppedItems = data.data;
-  },
-
-  /**
-   * A player recieves an item in their inventory
-   */
-  'item:pickup': (incoming, context) => {
-    context.game.player.inventory = incoming.data.data;
-  },
-
-  /**
-   * The player stopped moving
-   */
-  'player:stopped': () => {
-    bus.$emit('canvas:getMouse');
-  },
-
-  /**
-   * The world receives an updated dropped items list
-   */
-  'world:itemDropped': (data, context) => {
-    context.game.map.droppedItems = data.data;
-  },
-
-  /**
-   * A player equips an item
-   */
-  'player:equippedAnItem': (data, context) => {
-    if (data.data.uuid === context.game.player.uuid) {
-      context.game.player.inventory = data.data.inventory;
-      context.game.player.wear = data.data.wear;
-      context.game.player.combat = data.data.combat;
-    }
-  },
-
-  /**
-   * A player unequips an item
-   */
-  'player:unequippedAnItem': (data, context) => {
-    if (data.data.uuid === context.game.player.uuid) {
-      context.game.player.inventory = data.data.inventory;
-      context.game.player.wear = data.data.wear;
-      context.game.player.combat = data.data.combat;
-    }
-  },
+  ...playerEvents,
+  ...itemEvents,
+  ...resourceEvents,
+  ...npcEvents,
+  ...worldEvents,
 
   /**
    * Receive the data from the client upon browser open
    */
   'server:send:items': (data) => {
     window.allItems = data.data.wearableItems;
-  },
-
-  /**
-   * Golden Plaque action result
-   */
-  'item:goldenplaque:action': (data) => {
-    bus.$emit('item:examine', { data: { type: 'normal', text: data.data.text } });
   },
 };
 

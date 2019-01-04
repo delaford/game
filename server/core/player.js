@@ -209,7 +209,7 @@ class Player {
 
               Socket.broadcast('world:itemDropped', world.items);
 
-              Socket.emit('item:goldenplaque:action', {
+              Socket.emit('resource:push:goldenplaque', {
                 player: { socket_id: world.players[playerIndex].socket_id },
                 text: 'You feel a magical aurora as an item starts to appear from the ground...',
               });
