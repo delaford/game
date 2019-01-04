@@ -46,7 +46,7 @@ const Handler = {
       console.log(`${data.data.username} logged in with a bad password.`);
 
       Socket.emit('player:login-error', {
-        data: error,
+        data: JSON.stringify(error),
         player: { socket_id: ws.id },
       });
     }
