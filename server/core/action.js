@@ -2,6 +2,7 @@ import UI from 'shared/ui';
 import { merge } from 'lodash';
 import world from './world';
 import Handler from '../player/handler';
+import Socket from '../socket';
 
 class Action {
   constructor(player, miscData) {
@@ -118,7 +119,7 @@ class Action {
         break;
 
       case 'examine':
-        this.player.socket.emit('item:examine', { type: 'normal', text: data.item.examine });
+        Socket.emit('item:examine', { type: 'normal', text: data.item.examine });
         break;
 
       case 'equip':
