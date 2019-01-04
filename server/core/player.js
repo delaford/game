@@ -210,7 +210,8 @@ class Player {
               Socket.broadcast('world:itemDropped', world.items);
 
               Socket.emit('item:goldenplaque:action', {
-                text: 'You feel a magical aurora as an item starts to appear from the ground...',
+                player: { socket_id: world.players[playerIndex].socket_id },
+                data: 'You feel a magical aurora as an item starts to appear from the ground...',
               });
             }
 
@@ -234,6 +235,7 @@ class Player {
 
               // Tell client to update their inventory
               Socket.emit('item:pickup', {
+                player: { socket_id: world.players[playerIndex].socket_id },
                 data: world.players[playerIndex].inventory,
               });
             }

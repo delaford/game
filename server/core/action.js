@@ -119,7 +119,12 @@ class Action {
         break;
 
       case 'examine':
-        Socket.emit('item:examine', { type: 'normal', text: data.item.examine });
+        Socket.emit('item:examine', {
+          data: { type: 'normal', text: data.item.examine },
+          player: {
+            socket_id: this.player.socket_id,
+          },
+        });
         break;
 
       case 'equip':
