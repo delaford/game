@@ -12,9 +12,8 @@ import worldEvents from './events/world';
  * @param {object} context The server context
  */
 
-// TODO
-// Break this file into separate folders/files so all
-// of the events are not in one giant mega file.
+// These are events that come from the server that
+// will manipulate and change the client accordingly.
 const handler = {
   ...playerEvents,
   ...itemEvents,

@@ -3,6 +3,7 @@ import { merge } from 'lodash';
 import world from './world';
 import Handler from '../player/handler';
 import Socket from '../socket';
+import Query from '../core/data/query';
 
 class Action {
   constructor(player, miscData) {
@@ -129,11 +130,12 @@ class Action {
 
       case 'equip':
         const itemEquipping = this.player.inventory.find(s => s.slot === this.miscData.slot);
-
+        const getItem = Query.getItemData(itemEquipping.id);
         Handler['item:equip']({
           id: this.player.uuid,
           data: {
             item: {
+              name: getItem.name,
               id: itemEquipping.id,
               uuid: itemEquipping.uuid,
               slot: this.miscData.slot,

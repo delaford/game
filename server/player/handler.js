@@ -149,6 +149,7 @@ const Handler = {
       await pipe.player.unequipItem({
         data: {
           item: {
+            name: data.data.item.name,
             uuid: alreadyWearing.uuid,
             id: alreadyWearing.id,
             slot: data.data.item.slot,
