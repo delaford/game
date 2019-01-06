@@ -1,6 +1,5 @@
 import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
-// import PlayerSocket from '../player/player-socket';
 import Query from './data/query';
 
 const config = require('../config');

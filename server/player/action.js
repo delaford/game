@@ -1,9 +1,9 @@
 import UI from 'shared/ui';
 import { merge } from 'lodash';
-import world from './world';
-import Handler from '../player/handler';
-import Socket from '../socket';
-import Query from '../core/data/query';
+import world from '../core/world';
+import Handler from './handler';
+
+import playerEvent from './handlers/actions';
 
 class Action {
   constructor(player, miscData) {
@@ -77,102 +77,61 @@ class Action {
    * @param {object} queuedAction The action to take when a player reaches that tile
    */
   do(data, queuedAction = null) {
-    const { item } = data;
     const clickedTile = data.tile;
-    const doing = item.action.name.toLowerCase();
+    const doing = data.item.action.name.toLowerCase();
 
-    const tile = UI.getTileOverMouse(
+    const tileWalkable = UI.tileWalkable(UI.getTileOverMouse(
       this.background,
       this.player.x,
       this.player.y,
       clickedTile.x,
       clickedTile.y,
-    );
-
-    const tileWalkable = UI.tileWalkable(tile); // TODO: Add foreground.
+    )); // TODO: Add foreground.
 
     // If an action needs to be performed
     // after a player reaches their destination
     if (queuedAction && queuedAction.queueable) {
-      const queuedActionSocket = merge(queuedAction, {
+      // Queue it up and tell the server.
+      Handler['player:queueAction'](merge(queuedAction, {
         player: {
           socket_id: this.player.socket_id,
         },
-      });
-
-      // Queue it up and tell the server.
-      Handler['player:queueAction'](queuedActionSocket);
+      }));
     }
+
+    const dataObject = {
+      clickedTile: data.tile,
+      doing,
+      tileWalkable,
+      item: data.item || false,
+      player: this.player,
+      id: this.player.uuid,
+      data: {
+        miscData: this.miscData,
+      },
+      location: data.item.action.nearby,
+      coordinates: { x: clickedTile.x, y: clickedTile.y },
+    };
 
     switch (doing) {
       case 'walk-here':
-        if (tileWalkable) {
-          Handler['player:mouseTo']({
-            data: {
-              id: this.player.uuid,
-              coordinates: { x: clickedTile.x, y: clickedTile.y },
-            },
-            player: {
-              socket_id: this.player.uuid,
-            },
-          });
-        }
+        playerEvent['player:walk-here'](dataObject);
         break;
 
       case 'examine':
-        Socket.emit('item:examine', {
-          data: { type: 'normal', text: data.item.examine },
-          player: {
-            socket_id: this.player.socket_id,
-          },
-        });
+        playerEvent['player:examine'](dataObject);
         break;
 
       case 'equip':
-        const itemEquipping = this.player.inventory.find(s => s.slot === this.miscData.slot);
-        const getItem = Query.getItemData(itemEquipping.id);
-        Handler['item:equip']({
-          id: this.player.uuid,
-          data: {
-            item: {
-              name: getItem.name,
-              id: itemEquipping.id,
-              uuid: itemEquipping.uuid,
-              slot: this.miscData.slot,
-            },
-          },
-        });
+        playerEvent['item:equip'](dataObject);
         break;
 
       case 'unequip':
-        const itemUnequipping = this.player.wear[this.miscData.slot];
-
-        Handler['item:unequip']({
-          id: this.player.uuid,
-          data: {
-            item: {
-              id: itemUnequipping.id,
-              uuid: itemUnequipping.uuid,
-              slot: this.miscData.slot,
-            },
-          },
-        });
+        playerEvent['item:unequip'](dataObject);
         break;
 
       case 'drop':
-        const itemDropping = this.player.inventory.find(s => s.slot === this.miscData.slot);
-
-        Handler['player:inventoryItemDrop']({
-          id: this.player.uuid,
-          data: {
-            item: {
-              id: data.item.id,
-              uuid: itemDropping.uuid,
-              slot: data.item.miscData.slot,
-            },
-          },
-        });
-
+        playerEvent['player:inventory-drop'](dataObject);
         break;
 
       case 'take':

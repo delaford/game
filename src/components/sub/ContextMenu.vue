@@ -83,7 +83,7 @@ export default {
       };
 
       // Tell server to do action
-      Socket.emit('player:do', {
+      Socket.emit('player:context-menu:action', {
         data,
         queueItem,
         player: {
@@ -128,7 +128,7 @@ export default {
       const miscData = omit({ ...data, clickedOn: data.event.target.classList }, ['coordinates', 'event', 'target']);
 
       // Tell server to start building context menu
-      Socket.emit('game:menu:build', {
+      Socket.emit('player:context-menu:build', {
         miscData,
         tile: this.tile,
         player: {
