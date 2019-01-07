@@ -46,7 +46,7 @@ export default {
    * A player leaves the game
    */
   'player:left': (data, context) => {
-    const playerIndex = context.game.map.players.findIndex(p => data.data === p.uuid);
+    const playerIndex = context.game.map.players.findIndex(p => data.data === p.socket_id);
     context.game.map.players.splice(playerIndex, 1);
   },
 
