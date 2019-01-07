@@ -113,11 +113,8 @@ class ContextMenu {
       case 'Walk here':
         // Do not add WALK HERE if foreground tile is blocked
         items.push({
-          action: {
-            name: 'walk-here',
-            weight: 2,
-          },
-          label: 'Walk here',
+          action,
+          label: action.name,
         });
 
         break;
@@ -134,7 +131,7 @@ class ContextMenu {
 
             if (ContextMenu.canDoAction(actions, action)) {
               items.push({
-                label: `Drop <span style='color:${color}'>${name}</span>`,
+                label: `${action.name} <span style='color:${color}'>${name}</span>`,
                 action,
                 type: 'item',
                 miscData: this.miscData,
@@ -157,7 +154,7 @@ class ContextMenu {
 
           if (ContextMenu.canDoAction(actions, action)) {
             items.push({
-              label: `Take <span style='color:${color}'>${name}</span>`,
+              label: `${action.name} <span style='color:${color}'>${name}</span>`,
               action,
               type: 'item',
               at: {
@@ -183,7 +180,7 @@ class ContextMenu {
 
           if (ContextMenu.canDoAction(actions, action)) {
             items.push({
-              label: `Equip <span style='color:${color}'>${name}</span>`,
+              label: `${action.name} <span style='color:${color}'>${name}</span>`,
               action,
               type: 'item',
               miscData: this.miscData,
@@ -205,7 +202,7 @@ class ContextMenu {
 
           if (ContextMenu.canDoAction(actions, action)) {
             items.push({
-              label: `Unequip <span style='color:${color}'>${name}</span>`,
+              label: `${action.name} <span style='color:${color}'>${name}</span>`,
               action,
               type: 'item',
               miscData: this.miscData,
@@ -222,7 +219,7 @@ class ContextMenu {
           if (foregroundData && ContextMenu.canDoAction(foregroundData.actions, action)) {
             const fgColor = UI.getContextSubjectColor(foregroundData.context);
             items.push({
-              label: `Examine <span style='color:${fgColor}'>${foregroundData.name}</span>`,
+              label: `${action.name} <span style='color:${fgColor}'>${foregroundData.name}</span>`,
               action,
               examine: foregroundData.examine,
               type: 'foreground',
@@ -236,7 +233,7 @@ class ContextMenu {
             if (ContextMenu.canDoAction(actions, action)) {
               const color = UI.getContextSubjectColor(context);
               items.push({
-                label: `Examine <span style='color:${color}'>${name}</span>`,
+                label: `${action.name} <span style='color:${color}'>${name}</span>`,
                 action,
                 examine,
                 type: 'npc',
@@ -274,7 +271,7 @@ class ContextMenu {
 
           if (ContextMenu.canDoAction(actions, action)) {
             items.push({
-              label: `Examine <span style='color:${color}'>${name}</span>`,
+              label: `${action.name} <span style='color:${color}'>${name}</span>`,
               action,
               examine,
               type: 'item',
@@ -289,7 +286,7 @@ class ContextMenu {
         if (foregroundData && ContextMenu.canDoAction(foregroundData, action)) {
           const color = UI.getContextSubjectColor(foregroundData.context);
           items.push({
-            label: `Mine <span style='color:${color}'>${foregroundData.name}</span>`,
+            label: `${action.name} <span style='color:${color}'>${foregroundData.name}</span>`,
             action,
             type: 'mine',
             at: {
@@ -307,7 +304,7 @@ class ContextMenu {
         if (foregroundData && ContextMenu.canDoAction(foregroundData, action)) {
           const color = UI.getContextSubjectColor(foregroundData.context);
           items.push({
-            label: `Push <span style='color:${color}'>${foregroundData.name}</span>`,
+            label: `${action.name} <span style='color:${color}'>${foregroundData.name}</span>`,
             action,
             type: 'object',
             at: {

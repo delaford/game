@@ -13,6 +13,7 @@ import world from '../../../core/world';
 import Handler from '../../../player/handler';
 import ContextMenu from '../../../core/context-menu';
 import { wearableItems } from '../../../core/data/items';
+import Query from '../../../core/data/query';
 
 export default {
   'player:walk-here': (data) => {
@@ -140,6 +141,53 @@ export default {
     const miscData = incoming.data.data.item.miscData || false;
     const action = new Action(incoming.data.player.socket_id, miscData);
     action.do(incoming.data.data, incoming.data.queueItem);
+  },
+
+  'player:resource:goldenplaque:push': (data) => {
+    const { playerIndex } = data;
+
+    const { id } = UI.randomElementFromArray(wearableItems);
+
+    world.items.push({
+      id,
+      uuid: uuid(),
+      x: 20,
+      y: 108,
+      timestamp: Date.now(),
+    });
+
+    Socket.broadcast('world:itemDropped', world.items);
+
+    Socket.emit('resource:push:goldenplaque', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      text: 'You feel a magical aurora as an item starts to appear from the ground...',
+    });
+  },
+
+  'player:take': (data) => {
+    const { playerIndex, todo } = data;
+    // eslint-disable-next-line
+    const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.uuid === todo.uuid));
+
+    world.items.splice(itemToTake, 1);
+
+    Socket.broadcast('item:change', world.items);
+
+    console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
+    const { id, graphics } = Query.getItemData(todo.item.id);
+
+    world.players[playerIndex].inventory.push({
+      slot: UI.getOpenSlot(world.players[playerIndex].inventory),
+      uuid: todo.item.uuid,
+      graphics,
+      id,
+    });
+
+    // Tell client to update their inventory
+    Socket.emit('item:pickup', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].inventory,
+    });
   },
 
   'goldenplaque:push': (incoming) => {

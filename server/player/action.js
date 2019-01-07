@@ -78,7 +78,8 @@ class Action {
    */
   do(data, queuedAction = null) {
     const clickedTile = data.tile;
-    const doing = data.item.action.name.toLowerCase();
+    const incomingAction = data.item.action;
+    const doing = incomingAction.name.toLowerCase();
 
     const tileWalkable = UI.tileWalkable(UI.getTileOverMouse(
       this.background,
@@ -96,9 +97,14 @@ class Action {
         player: {
           socket_id: this.player.socket_id,
         },
+        actionToQueue: {
+          ...data.item.action,
+          coordinates: { x: clickedTile.x, y: clickedTile.y },
+        },
       }));
     }
 
+    // Object need to complete an action
     const dataObject = {
       clickedTile: data.tile,
       doing,
@@ -109,70 +115,12 @@ class Action {
       data: {
         miscData: this.miscData,
       },
-      location: data.item.action.nearby,
+      location: incomingAction.nearby,
       coordinates: { x: clickedTile.x, y: clickedTile.y },
     };
 
-    switch (doing) {
-      case 'walk-here':
-        playerEvent['player:walk-here'](dataObject);
-        break;
-
-      case 'examine':
-        playerEvent['player:examine'](dataObject);
-        break;
-
-      case 'equip':
-        playerEvent['item:equip'](dataObject);
-        break;
-
-      case 'unequip':
-        playerEvent['item:unequip'](dataObject);
-        break;
-
-      case 'drop':
-        playerEvent['player:inventory-drop'](dataObject);
-        break;
-
-      case 'take':
-        if (tileWalkable) {
-          Handler['player:mouseTo']({
-            data: {
-              id: this.player.uuid,
-              coordinates: { x: clickedTile.x, y: clickedTile.y },
-            },
-            player: {
-              socket_id: this.player.uuid,
-            },
-          });
-        }
-
-        break;
-
-      case 'push':
-        this.player.action = {
-          ...data.item.action,
-          coordinates: { x: clickedTile.x, y: clickedTile.y },
-        };
-
-        Handler['player:mouseTo']({
-          data: {
-            coordinates: { x: clickedTile.x, y: clickedTile.y },
-            id: this.player.uuid,
-            location: data.item.action.nearby,
-          },
-          player: {
-            socket_id: this.player.uuid,
-          },
-        });
-
-
-        break;
-
-      default:
-      case 'cancel':
-        break;
-    }
+    const iminimentAction = incomingAction.queueable ? 'player:mouseTo' : incomingAction.actionId;
+    playerEvent[iminimentAction](dataObject);
   }
 }
 

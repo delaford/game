@@ -1,6 +1,7 @@
 import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
 import Query from './data/query';
+import playerEvent from './../player/handlers/actions';
 
 const config = require('../config');
 const PF = require('pathfinding');
@@ -193,51 +194,11 @@ class Player {
           if (!Player.queueEmpty(playerIndex)) {
             const todo = world.players[playerIndex].queue[0];
 
-            // TODO
-            // Abstract this to own file of action events in-game
-            if (todo.action.name === 'Push') {
-              const { id } = UI.randomElementFromArray(wearableItems);
-
-              world.items.push({
-                id,
-                uuid: uuid(),
-                x: 20,
-                y: 108,
-                timestamp: Date.now(),
-              });
-
-              Socket.broadcast('world:itemDropped', world.items);
-
-              Socket.emit('resource:push:goldenplaque', {
-                player: { socket_id: world.players[playerIndex].socket_id },
-                text: 'You feel a magical aurora as an item starts to appear from the ground...',
-              });
-            }
-
-            if (todo.action.name === 'Take') {
-              // eslint-disable-next-line
-              const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
-
-              world.items.splice(itemToTake, 1);
-
-              Socket.broadcast('item:change', world.items);
-
-              console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
-              const { id, graphics } = Query.getItemData(todo.item.id);
-
-              world.players[playerIndex].inventory.push({
-                slot: UI.getOpenSlot(world.players[playerIndex].inventory),
-                uuid: todo.item.uuid,
-                graphics,
-                id,
-              });
-
-              // Tell client to update their inventory
-              Socket.emit('item:pickup', {
-                player: { socket_id: world.players[playerIndex].socket_id },
-                data: world.players[playerIndex].inventory,
-              });
-            }
+            // todo.action.name
+            playerEvent[todo.action.actionId]({
+              todo,
+              playerIndex,
+            });
 
             // Remove action from queue
             this.queue.shift();
