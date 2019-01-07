@@ -1,6 +1,7 @@
 export default [
   {
     name: 'Walk here',
+    actionId: 'player:walk-here',
     context: ['gameMap'],
     allow: true,
     nearby: false,
@@ -8,6 +9,7 @@ export default [
   },
   {
     name: 'Take',
+    actionId: 'player:take',
     context: ['gameMap'],
     allow: ['item'],
     nearby: 'exact',
@@ -16,6 +18,7 @@ export default [
   },
   {
     name: 'Examine',
+    actionId: 'player:examine',
     context: ['gameMap', 'inventorySlot'],
     allow: ['npc', 'item'],
     nearby: false,
@@ -23,6 +26,7 @@ export default [
   },
   {
     name: 'Drop',
+    actionId: 'player:inventory-drop',
     context: ['inventorySlot'],
     allow: ['item'],
     nearby: false,
@@ -30,6 +34,7 @@ export default [
   },
   {
     name: 'Equip',
+    actionId: 'item:equip',
     context: ['inventorySlot'],
     allow: ['item'],
     nearby: false,
@@ -37,6 +42,7 @@ export default [
   },
   {
     name: 'Unequip',
+    actionId: 'item:unequip',
     context: ['wearSlot'],
     allow: ['item'],
     nearby: false,
@@ -44,6 +50,7 @@ export default [
   },
   {
     name: 'Mine',
+    actionId: 'player:resource:rock:mine',
     context: ['gameMap'],
     allow: ['foreground'],
     nearby: 'edge',
@@ -52,6 +59,7 @@ export default [
   },
   {
     name: 'Push',
+    actionId: 'player:resource:goldenplaque:push',
     context: ['gameMap'],
     allow: ['foreground'],
     nearby: 'edge',

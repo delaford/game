@@ -6,14 +6,15 @@ const { wearableItems } = require('./../../core/data/items');
 
 module.exports = {
   equippedAnItem(data) {
+    const equippingItem = data.player.inventory.find(s => s.slot === data.item.miscData.slot);
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
-    const getItem = wearableItems.find(i => i.id === data.data.item.id);
+    const getItem = wearableItems.find(i => i.id === data.item.id);
 
     const item = {
       name: getItem.name,
       graphics: getItem.graphics,
-      id: data.data.item.id,
-      uuid: data.data.item.uuid,
+      id: getItem.id,
+      uuid: equippingItem.uuid,
     };
 
     world.players[playerIndex].wear[getItem.slot] = item;
@@ -28,7 +29,7 @@ module.exports = {
   unequipItem(data) {
     return new Promise((resolve) => {
       const playerIndex = world.players.findIndex(p => p.uuid === data.id);
-      const getItem = wearableItems.find(i => i.id === data.data.item.id);
+      const getItem = wearableItems.find(i => i.id === data.item.id);
 
       const item = {
         slot: UI.getOpenSlot(world.players[playerIndex].inventory),
@@ -37,12 +38,11 @@ module.exports = {
         uuid: world.players[playerIndex].wear[getItem.slot].uuid,
       };
 
-      if (data.data.replacing) {
+      if (data.replacing) {
         // TODO - Make this nicer.
-        item.slot = item.slot <= data.data.item.slot ? item.slot : data.data.item.slot;
-      } else {
-        console.log(`Unequip: ${getItem.id}`);
+        item.slot = item.slot <= data.item.slot ? item.slot : data.item.slot;
       }
+      console.log(`Unequip: ${getItem.id}`);
 
       world.players[playerIndex].wear[getItem.slot] = null;
       world.players[playerIndex].inventory.push(item);
