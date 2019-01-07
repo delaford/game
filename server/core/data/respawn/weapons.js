@@ -1,5 +1,5 @@
 module.exports = [{
-  id: 'bronze-mace',
+  id: 'bronze-sword',
   x: 20,
   y: 112,
 }];

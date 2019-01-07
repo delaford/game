@@ -26,6 +26,7 @@ export default [
     actions: presetActions([
       'wearable',
     ]),
+    respawnIn: 3000,
   },
   {
     id: 'bronze-axe',

@@ -167,7 +167,7 @@ export default {
   'player:take': (data) => {
     const { playerIndex, todo } = data;
     // eslint-disable-next-line
-    const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.uuid === todo.uuid));
+    const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
 
     world.items.splice(itemToTake, 1);
 
@@ -182,6 +182,13 @@ export default {
       graphics,
       id,
     });
+
+    // eslint-disable-next-line
+    const resetItemIndex = world.respawns.items.findIndex(i => i.x === todo.at.x && i.y === todo.at.y && i.uuid === todo.item.uuid);
+    if (resetItemIndex !== -1) {
+      world.respawns.items[resetItemIndex].pickedUp = true;
+      world.respawns.items[resetItemIndex].pickedUpAt = Date.now();
+    }
 
     // Tell client to update their inventory
     Socket.emit('item:pickup', {

@@ -97,11 +97,19 @@ class Map {
     this.foreground = board[1].data;
 
     // Set items on map
-    world.items = Map.addUUIDs([
+    const itemsOnMap = [
       ...weapons,
       ...armor,
       ...jewelry,
-    ]);
+    ];
+    world.items = Map.addUUIDs(itemsOnMap);
+    world.respawns = {
+      items: itemsOnMap.map((i) => {
+        i.pickedUp = false;
+        return i;
+      }),
+      monsters: [],
+    };
 
     // Add a timestamp to all dropped items
     world.items = world.items.map((i) => {
