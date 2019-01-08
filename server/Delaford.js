@@ -52,6 +52,9 @@ class Delaford {
   start() {
     setInterval(() => {
       NPC.movement();
+    }, 2000);
+
+    setInterval(() => {
       Item.check();
     }, 2000);
 

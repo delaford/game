@@ -9,6 +9,7 @@ import pipe from '../../pipeline';
 import Action from '../../action';
 import Map from '../../../core/map';
 import Socket from '../../../socket';
+import { addSeconds } from 'date-fns';
 import world from '../../../core/world';
 import Handler from '../../../player/handler';
 import ContextMenu from '../../../core/context-menu';
@@ -186,8 +187,9 @@ export default {
     // eslint-disable-next-line
     const resetItemIndex = world.respawns.items.findIndex(i => i.x === todo.at.x && i.y === todo.at.y && i.uuid === todo.item.uuid);
     if (resetItemIndex !== -1) {
+      const pickedUpAt = new Date();
       world.respawns.items[resetItemIndex].pickedUp = true;
-      world.respawns.items[resetItemIndex].pickedUpAt = Date.now();
+      world.respawns.items[resetItemIndex].willRespawnIn = addSeconds(pickedUpAt, 3);
     }
 
     // Tell client to update their inventory
