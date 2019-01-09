@@ -13,6 +13,7 @@ const emoji = require('node-emoji');
 // Default entities
 const NPC = require('./core/npc');
 const Map = require('./core/map');
+const Item = require('./core/item');
 
 // Tools and utility
 const Authentication = require('./player/authentication');
@@ -52,6 +53,10 @@ class Delaford {
     setInterval(() => {
       NPC.movement();
     }, 2000);
+
+    setInterval(() => {
+      Item.check();
+    }, 1000);
 
     // Bind the websocket connection to the `this` context
     world.socket.ws.on('connection', this.connection.bind(this));

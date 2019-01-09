@@ -1,5 +1,6 @@
 module.exports = [{
-  id: 'bronze-mace',
+  id: 'bronze-sword',
+  respawnIn: '8s',
   x: 20,
   y: 112,
 }];

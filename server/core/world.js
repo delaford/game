@@ -14,6 +14,10 @@ module.exports = {
   },
   npcs: [],
   items: [],
+  respawns: {
+    items: [],
+    monsters: [],
+  },
   monsters: [],
   players: [],
   clients: [],
