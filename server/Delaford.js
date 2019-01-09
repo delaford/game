@@ -56,7 +56,7 @@ class Delaford {
 
     setInterval(() => {
       Item.check();
-    }, 2000);
+    }, 1000);
 
     // Bind the websocket connection to the `this` context
     world.socket.ws.on('connection', this.connection.bind(this));

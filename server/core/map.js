@@ -102,7 +102,7 @@ class Map {
       ...armor,
       ...jewelry,
     ];
-    world.items = Map.addUUIDs(itemsOnMap);
+    world.items = Map.readyItems(itemsOnMap);
     world.respawns = {
       items: itemsOnMap.map((i) => {
         i.pickedUp = false;
@@ -119,14 +119,15 @@ class Map {
   }
 
   /**
-   * Add a UUID to all respawned items
+   * Add a UUID and mark items as respawns to all respawned items
    *
    * @param {array} items List of respawned items
    * @returns {array}
    */
-  static addUUIDs(items) {
+  static readyItems(items) {
     return items.map((i) => {
       i.uuid = uuid();
+      i.respawn = true;
       return i;
     });
   }

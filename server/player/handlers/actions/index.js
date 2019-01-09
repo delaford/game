@@ -7,9 +7,10 @@ import UI from 'shared/ui';
 import uuid from 'uuid/v4';
 import pipe from '../../pipeline';
 import Action from '../../action';
+import Item from '../../../core/item';
 import Map from '../../../core/map';
 import Socket from '../../../socket';
-import { addSeconds } from 'date-fns';
+import { addSeconds, addHours, addMinutes } from 'date-fns';
 import world from '../../../core/world';
 import Handler from '../../../player/handler';
 import ContextMenu from '../../../core/context-menu';
@@ -184,12 +185,26 @@ export default {
       id,
     });
 
+    // Add respawn timer on item (if is a respawn)
     // eslint-disable-next-line
-    const resetItemIndex = world.respawns.items.findIndex(i => i.x === todo.at.x && i.y === todo.at.y && i.uuid === todo.item.uuid);
+    const resetItemIndex = world.respawns.items.findIndex(i => i.respawn && i.x === todo.at.x && i.y === todo.at.y);
     if (resetItemIndex !== -1) {
       const pickedUpAt = new Date();
       world.respawns.items[resetItemIndex].pickedUp = true;
-      world.respawns.items[resetItemIndex].willRespawnIn = addSeconds(pickedUpAt, 3);
+      const respawnsIn = world.respawns.items[resetItemIndex].respawnIn;
+
+      const add = {
+        hours: Item.parseTime(respawnsIn, 'h'),
+        minutes: Item.parseTime(respawnsIn, 'm'),
+        seconds: Item.parseTime(respawnsIn, 's'),
+      };
+
+      let timeToAdd = 0;
+      if (typeof (add.hours) === 'number') timeToAdd = addHours(pickedUpAt, add.hours);
+      if (typeof (add.minutes) === 'number') timeToAdd = addMinutes(pickedUpAt, add.minutes);
+      if (typeof (add.seconds) === 'number') timeToAdd = addSeconds(pickedUpAt, add.seconds);
+
+      world.respawns.items[resetItemIndex].willRespawnIn = timeToAdd;
     }
 
     // Tell client to update their inventory

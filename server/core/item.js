@@ -1,6 +1,5 @@
 import uuid from 'uuid/v4';
 import world from '../core/world';
-import { addSeconds } from 'date-fns';
 import Socket from './../socket';
 
 class Item {
@@ -21,24 +20,22 @@ class Item {
     this.equipped = data.equipped;
   }
 
+  /**
+   * Checks the map for any picked up respawning items
+   */
   static check() {
     const itemsWaitingToRespawn = world.respawns.items.filter(i => i.pickedUp);
 
-
     if (itemsWaitingToRespawn.length) {
-      const timeNow = new Date();
-      itemsWaitingToRespawn.forEach((item, index) => {
-        // If time is elapsed and is pickedUp...
-        // Then let us put a new item back in-game
-        if (timeNow > item.willRespawnIn) {
-          debugger;
-          world.respawns.items[index].willRespawnIn = addSeconds(timeNow, 3);
-
+      itemsWaitingToRespawn.forEach((item) => {
+        const a = Item.itemAlreadyPlaced(item);
+        if (a === undefined) {
           world.items.push({
             id: item.id,
             uuid: uuid(),
             x: item.x,
             y: item.y,
+            respawn: true,
             timestamp: Date.now(),
           });
 
@@ -48,6 +45,37 @@ class Item {
         }
       });
     }
+  }
+
+  /**
+   * Is the item already placed in the map waiting to be picked up?
+   *
+   * @param {object} item The item we are checking
+   *
+   * @returns {boolean}
+   */
+  static itemAlreadyPlaced(item) {
+    const time = new Date();
+
+    return time > item.willRespawnIn
+      && world.items.find(i => i.respawn && i.x === item.x && i.y === item.y);
+  }
+
+  /**
+   * Take a string like '4hr 5m 1s' and get the numerical values
+   *
+   * @param {string} time The time for the time to respwan in
+   * @param {string} part The part of time we are parsing
+   *
+   * @returns {integer}
+   */
+  static parseTime(time, part) {
+    const found = time.split(' ').filter(t => t.endsWith(part)).map(t => Number(t.slice(0, -1)));
+    if (found.length) {
+      return found[0];
+    }
+
+    return false;
   }
 }
 
