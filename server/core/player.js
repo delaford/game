@@ -194,7 +194,6 @@ class Player {
           if (!Player.queueEmpty(playerIndex)) {
             const todo = world.players[playerIndex].queue[0];
 
-            // todo.action.name
             playerEvent[todo.action.actionId]({
               todo,
               playerIndex,

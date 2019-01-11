@@ -16,6 +16,7 @@ import Handler from '../../../player/handler';
 import ContextMenu from '../../../core/context-menu';
 import { wearableItems } from '../../../core/data/items';
 import Query from '../../../core/data/query';
+import Mining from '../../../core/skills/mining';
 
 export default {
   'player:walk-here': (data) => {
@@ -214,23 +215,11 @@ export default {
     });
   },
 
-  'goldenplaque:push': (incoming) => {
-    const { id } = UI.randomElementFromArray(wearableItems);
-
-    world.items.push({
-      id,
-      uuid: uuid(),
-      x: 20,
-      y: 108,
-      timestamp: Date.now(),
-    });
-
-    Socket.broadcast('world:itemDropped', world.items);
-
-    Socket.emit('resource:push:goldenplaque', {
-      player: { socket_id: world.players[incoming.playerIndex].socket_id },
-      text: 'You feel a magical aurora as an item starts to appear from the ground...',
-    });
+  'player:resource:mining:rock': (data) => {
+    const mining = new Mining(data.playerIndex, data.todo.item.id);
+    mining.pickAtRock();
+    mining.updateExperience();
+    debugger;
   },
 };
 

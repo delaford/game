@@ -50,7 +50,7 @@ export default [
   },
   {
     name: 'Mine',
-    actionId: 'player:resource:rock:mine',
+    actionId: 'player:resource:mining:rock',
     context: ['gameMap'],
     allow: ['foreground'],
     nearby: 'edge',
