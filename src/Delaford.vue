@@ -115,6 +115,9 @@ export default {
   created() {
     const context = this;
 
+    // Reload window upon Socket close
+    window.ws.onclose = () => setTimeout(() => window.location.reload(), 1000);
+
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
 

@@ -7,16 +7,16 @@ import UI from 'shared/ui';
 import uuid from 'uuid/v4';
 import pipe from '../../pipeline';
 import Action from '../../action';
-import Item from '../../../core/item';
 import Map from '../../../core/map';
 import Socket from '../../../socket';
-import { addSeconds, addHours, addMinutes } from 'date-fns';
+import Item from '../../../core/item';
 import world from '../../../core/world';
+import Query from '../../../core/data/query';
 import Handler from '../../../player/handler';
+import Mining from '../../../core/skills/mining';
 import ContextMenu from '../../../core/context-menu';
 import { wearableItems } from '../../../core/data/items';
-import Query from '../../../core/data/query';
-import Mining from '../../../core/skills/mining';
+import { addSeconds, addHours, addMinutes } from 'date-fns';
 
 export default {
   'player:walk-here': (data) => {
@@ -59,11 +59,11 @@ export default {
     });
   },
   'player:inventory-drop': (data) => {
-    const itemUuid = data.player.inventory.find(s => s.slot === data.item.miscData.slot).uuid;
+    const itemUuid = data.player.inventory.find(s => s.slot === data.data.miscData.slot).uuid;
 
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     world.players[playerIndex].inventory = world.players[playerIndex].inventory
-      .filter(v => v.slot !== data.item.slot);
+      .filter(v => v.slot !== data.data.miscData.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
 
     // Add item back to the world
@@ -218,8 +218,6 @@ export default {
   'player:resource:mining:rock': (data) => {
     const mining = new Mining(data.playerIndex, data.todo.item.id);
     mining.pickAtRock();
-    mining.updateExperience();
-    debugger;
   },
 };
 
