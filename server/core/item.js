@@ -28,8 +28,7 @@ class Item {
 
     if (itemsWaitingToRespawn.length) {
       itemsWaitingToRespawn.forEach((item) => {
-        const a = Item.itemAlreadyPlaced(item);
-        if (a === undefined) {
+        if (Item.itemAlreadyPlaced(item) === undefined) {
           world.items.push({
             id: item.id,
             uuid: uuid(),
