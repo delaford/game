@@ -222,7 +222,7 @@ class Player {
 
           const playerChanging = world.players[playerIndex];
           world.clients.forEach((client) => {
-            if ((client.readyState === WebSocket.OPEN) && world.bus) {
+            if (client.readyState === WebSocket.OPEN) {
               Socket.broadcast('player:movement', playerChanging);
             }
           });
