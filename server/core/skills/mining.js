@@ -1,14 +1,56 @@
 import Skill from './index';
+import world from '../world';
 import { foregroundObjects } from '../data/foreground';
+import Query from '../data/query';
 
 export default class Mining extends Skill {
-  constructor(playerId, rockId) {
-    super(playerId);
+  constructor(playerIndex, rockId) {
+    super(playerIndex);
+    this.player = world.players[playerIndex];
     this.rockId = rockId;
   }
 
   get rock() {
     return foregroundObjects.find(e => e.id === this.rockId);
+  }
+
+  /**
+   * Checks to see if the player has a pickaxe in their inventory or is weilding one.
+   *
+   * @returns {boolean}
+   */
+  checkForPickaxe() {
+    const rightHand = this.player.wear.right_hand;
+
+    // Is the player currently weilding a pickaxe?
+    // If not, does the player currently have a pickaxe in their inventory?
+
+    if (rightHand) {
+      const itemInHand = Query.getItemData(rightHand.id);
+      if (!Mining.isAPickaxe(itemInHand)) {
+        const getPick = this.player.inventory.find(i => i.id.includes('pickaxe'));
+        if (getPick) {
+          // TODO
+          // Add actual level requirements based on your Mining level
+          const getItemForPickaxe = Query.getItemData(getPick.id);
+          return getItemForPickaxe;
+        }
+      } else {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Checks to see if the item being inspected is a pickaxe
+   *
+   * @param {object} item The data item we are inspecting
+   * @returns {boolean}
+   */
+  static isAPickaxe(item) {
+    return item.actions.includes('mine') && item.id.includes('pickaxe');
   }
 
   /**
@@ -18,14 +60,20 @@ export default class Mining extends Skill {
     let counter = 0;
     console.log(`Mining for ${this.rock.resources}`);
 
-    const action = setInterval(() => {
-      counter += 1;
-      console.log('Picking at rock...');
-      if (counter === 3) {
-        clearInterval(action);
-        console.log('Done.');
+    return new Promise((resolve, reject) => {
+      if (this.checkForPickaxe()) {
+        const action = setInterval(() => {
+          counter += 1;
+          console.log('Picking at rock...');
+          if (counter === 3) {
+            clearInterval(action);
+            resolve(this.rock);
+          }
+        }, 1000);
+      } else {
+        reject(new Error('Criteria to mine not sufficient.'));
       }
-    }, 1000);
+    });
   }
 
   /**

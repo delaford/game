@@ -215,9 +215,16 @@ export default {
     });
   },
 
-  'player:resource:mining:rock': (data) => {
+  'player:resource:mining:rock': async (data) => {
     const mining = new Mining(data.playerIndex, data.todo.item.id);
-    mining.pickAtRock();
+
+    try {
+      const rockMined = await mining.pickAtRock();
+      console.log(rockMined);
+      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${rockMined.resources[0]}.`);
+    } catch (err) {
+      Socket.sendMessageToPlayer(data.playerIndex, 'You need a pickaxe to mine rocks.');
+    }
   },
 };
 

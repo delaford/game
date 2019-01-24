@@ -16,7 +16,7 @@ class Query {
   }
 
   /**
-   * Obtain the full information of an item by its ID from the socket event
+   * Obtain the full information of an item by its ID on the server-side
    *
    * @param {integer} id The ID of the item
    * @returns {object}

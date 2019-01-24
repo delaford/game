@@ -1,9 +1,9 @@
 export default class Skill {
-  constructor(playerId) {
-    this.playerId = playerId;
+  constructor(playerIndex) {
+    this.playerIndex = playerIndex;
   }
 
   updateExperience() {
-    console.log(`Updating experience for ${this.playerId}`);
+    console.log(`Updating experience for ${this.playerIndex}`);
   }
 }
