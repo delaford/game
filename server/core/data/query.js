@@ -1,4 +1,4 @@
-import { wearableItems } from 'root/core/data/items';
+import { wearableItems, general } from 'root/core/data/items';
 import { foregroundObjects } from 'root/core/data/foreground';
 
 class Query {
@@ -22,7 +22,8 @@ class Query {
    * @returns {object}
    */
   static getItemData(id) {
-    return wearableItems.map((t) => {
+    const allItems = [...wearableItems, ...general];
+    return allItems.map((t) => {
       t.context = 'item';
       return t;
     }).find(item => item.id === id);

@@ -1,18 +1,17 @@
 <template>
   <div
     class="inventory_slot">
-    <div v-if="slotHasItem(i)">
-      <div
-        v-for="(n, i) in (0, 23)"
-        :key="i"
-        :style="{
-          backgroundImage: 'url(' + getBgUrl(i) + ')',
-          backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
-        }"
-        class="slot inventorySlot"
-        @click.right="rightClick($event, i)"
-      />
-    </div>
+    <div
+      v-for="(n, i) in (0, 23)"
+      v-if="slotHasItem(i)"
+      :key="i"
+      :style="{
+        backgroundImage: 'url(' + getBgUrl(i) + ')',
+        backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
+      }"
+      class="slot inventorySlot"
+      @click.right="rightClick($event, i)"
+    />
     <div
       v-else
       class="slot inventorySlot">

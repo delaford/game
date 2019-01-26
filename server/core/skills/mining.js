@@ -48,7 +48,7 @@ export default class Mining extends Skill {
         const action = setInterval(() => {
           counter += 1;
           console.log('Picking at rock...');
-          if (counter === 3) {
+          if (counter === 1) {
             clearInterval(action);
             resolve(this.rock);
           }
