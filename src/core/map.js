@@ -87,11 +87,18 @@ class Map {
   setImages(images) {
     // Define images
     // eslint-disable-next-line
-    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage, jewelryImage] = images;
+    const [playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage, jewelryImage, generalImage] = images;
 
     // Image and data
     this.images = {
-      playerImage, npcsImage, objectImage, terrainImage, weaponsImage, armorImage, jewelryImage,
+      playerImage,
+      npcsImage,
+      objectImage,
+      terrainImage,
+      weaponsImage,
+      armorImage,
+      jewelryImage,
+      generalImage,
     };
 
     // Set image and config

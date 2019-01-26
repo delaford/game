@@ -20,27 +20,10 @@ export default class Mining extends Skill {
    * @returns {boolean}
    */
   checkForPickaxe() {
-    const rightHand = this.player.wear.right_hand;
+    const pickaxe = this.player.inventory.find(i => i.id.includes('pickaxe')) || this.player.wear.right_hand;
+    const itemFound = Query.getItemData(pickaxe.id);
 
-    // Is the player currently weilding a pickaxe?
-    // If not, does the player currently have a pickaxe in their inventory?
-
-    if (rightHand) {
-      const itemInHand = Query.getItemData(rightHand.id);
-      if (!Mining.isAPickaxe(itemInHand)) {
-        const getPick = this.player.inventory.find(i => i.id.includes('pickaxe'));
-        if (getPick) {
-          // TODO
-          // Add actual level requirements based on your Mining level
-          const getItemForPickaxe = Query.getItemData(getPick.id);
-          return getItemForPickaxe;
-        }
-      } else {
-        return true;
-      }
-    }
-
-    return false;
+    return Mining.isAPickaxe(itemFound) ? itemFound : false;
   }
 
   /**

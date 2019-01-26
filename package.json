@@ -14,7 +14,7 @@
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "postinstall": "npm run build-server && npm run build",
     "test:unit": "vue-cli-service test:unit",
-    "ndb": "./node_modules/.bin/ndb",
+    "ndb": "./node_modules/.bin/ndb npm run dev:node",
     "format": "eslint --fix",
     "clean-server": "rm -rf build && mkdir build",
     "transpile-server": "./node_modules/.bin/babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps --presets @babel/preset-env --plugins @babel/plugin-transform-runtime",

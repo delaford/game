@@ -64,7 +64,7 @@ class Socket {
   }
 
   static sendMessageToPlayer(playerIndex, message) {
-    this.emit('resource:push:goldenplaque', {
+    this.emit('game:send:message', {
       player: { socket_id: world.players[playerIndex].socket_id },
       text: message,
     });

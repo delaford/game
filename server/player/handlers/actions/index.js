@@ -15,7 +15,7 @@ import Query from '../../../core/data/query';
 import Handler from '../../../player/handler';
 import Mining from '../../../core/skills/mining';
 import ContextMenu from '../../../core/context-menu';
-import { wearableItems } from '../../../core/data/items';
+import { wearableItems, general } from '../../../core/data/items';
 import { addSeconds, addHours, addMinutes } from 'date-fns';
 
 export default {
@@ -161,7 +161,7 @@ export default {
 
     Socket.broadcast('world:itemDropped', world.items);
 
-    Socket.emit('resource:push:goldenplaque', {
+    Socket.emit('game:send:message', {
       player: { socket_id: world.players[playerIndex].socket_id },
       text: 'You feel a magical aurora as an item starts to appear from the ground...',
     });
@@ -220,8 +220,25 @@ export default {
 
     try {
       const rockMined = await mining.pickAtRock();
-      console.log(rockMined);
-      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${rockMined.resources[0]}.`);
+      const getItem = general.find(i => i.id === rockMined.resources);
+
+      // Add new skill exp based on getItem.exp
+
+      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${rockMined.resources}.`);
+
+      world.players[data.playerIndex].inventory.push({
+        slot: UI.getOpenSlot(world.players[data.playerIndex].inventory),
+        id: getItem.id,
+        graphics: getItem.graphics,
+        uuid: uuid(),
+      });
+
+      // TODO
+      // Change socket event to ITEM:ADDED:TO:INVENTORY
+      Socket.emit('item:pickup', {
+        player: { socket_id: world.players[data.playerIndex].socket_id },
+        data: world.players[data.playerIndex].inventory,
+      });
     } catch (err) {
       Socket.sendMessageToPlayer(data.playerIndex, 'You need a pickaxe to mine rocks.');
     }

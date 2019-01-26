@@ -6,7 +6,7 @@ export default {
   /**
    * Golden Plaque action result
    */
-  'resource:push:goldenplaque': (data) => {
+  'game:send:message': (data) => {
     bus.$emit('item:examine', { data: { type: 'normal', text: data.data.text } });
   },
 
