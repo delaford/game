@@ -234,7 +234,7 @@ export default {
       });
 
       // Update the experience
-      mining.updateExperience('mining', rockMined.experience);
+      mining.updateExperience(rockMined.experience);
 
       // TODO
       // Change socket event to ITEM:ADDED:TO:INVENTORY
