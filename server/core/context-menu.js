@@ -289,6 +289,7 @@ class ContextMenu {
             label: `${action.name} <span style='color:${color}'>${foregroundData.name}</span>`,
             action,
             type: 'mine',
+            coordinates: this.coordinates.map,
             at: {
               x: this.coordinates.viewport.x,
               y: this.coordinates.viewport.y,

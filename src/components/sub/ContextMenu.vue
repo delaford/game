@@ -78,7 +78,7 @@ export default {
         tile: this.tile,
         action: item.action,
         at: item.at || false,
-        coordinate: 2,
+        coordinates: item.coordinates || false,
         queueable: item.action.queueable,
       };
 

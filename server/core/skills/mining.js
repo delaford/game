@@ -49,6 +49,11 @@ export default class Mining extends Skill {
         const action = setInterval(() => {
           counter += 1;
           console.log('Picking at rock...');
+
+          // TODO
+          // Create algorithm to determine amount
+          // of time spent mining for a rock based
+          // on a player's mining level and that rock
           if (counter === 1) {
             clearInterval(action);
             resolve(this.rock);
