@@ -26,6 +26,13 @@ const presetActions = (items) => {
           'unequip',
         ];
         break;
+      case 'resource':
+        list = [
+          'take',
+          'examine',
+          'drop',
+        ];
+        break;
       // Axes you can chop with
       case 'axe':
         list = [

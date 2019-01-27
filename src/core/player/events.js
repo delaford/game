@@ -25,7 +25,7 @@ const handler = {
    * Receive the data from the client upon browser open
    */
   'server:send:items': (data) => {
-    window.allItems = data.data.wearableItems;
+    window.allItems = data.data.items;
   },
 };
 

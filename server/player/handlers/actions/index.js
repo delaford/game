@@ -7,15 +7,16 @@ import UI from 'shared/ui';
 import uuid from 'uuid/v4';
 import pipe from '../../pipeline';
 import Action from '../../action';
-import Item from '../../../core/item';
 import Map from '../../../core/map';
 import Socket from '../../../socket';
-import { addSeconds, addHours, addMinutes } from 'date-fns';
+import Item from '../../../core/item';
 import world from '../../../core/world';
-import Handler from '../../../player/handler';
-import ContextMenu from '../../../core/context-menu';
-import { wearableItems } from '../../../core/data/items';
 import Query from '../../../core/data/query';
+import Handler from '../../../player/handler';
+import Mining from '../../../core/skills/mining';
+import ContextMenu from '../../../core/context-menu';
+import { wearableItems, general } from '../../../core/data/items';
+import { addSeconds, addHours, addMinutes } from 'date-fns';
 
 export default {
   'player:walk-here': (data) => {
@@ -58,11 +59,11 @@ export default {
     });
   },
   'player:inventory-drop': (data) => {
-    const itemUuid = data.player.inventory.find(s => s.slot === data.item.miscData.slot).uuid;
+    const itemUuid = data.player.inventory.find(s => s.slot === data.data.miscData.slot).uuid;
 
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     world.players[playerIndex].inventory = world.players[playerIndex].inventory
-      .filter(v => v.slot !== data.item.slot);
+      .filter(v => v.slot !== data.data.miscData.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
 
     // Add item back to the world
@@ -160,7 +161,7 @@ export default {
 
     Socket.broadcast('world:itemDropped', world.items);
 
-    Socket.emit('resource:push:goldenplaque', {
+    Socket.emit('game:send:message', {
       player: { socket_id: world.players[playerIndex].socket_id },
       text: 'You feel a magical aurora as an item starts to appear from the ground...',
     });
@@ -214,23 +215,42 @@ export default {
     });
   },
 
-  'goldenplaque:push': (incoming) => {
-    const { id } = UI.randomElementFromArray(wearableItems);
+  'player:resource:mining:rock': async (data) => {
+    const mining = new Mining(data.playerIndex, data.todo.item.id);
 
-    world.items.push({
-      id,
-      uuid: uuid(),
-      x: 20,
-      y: 108,
-      timestamp: Date.now(),
-    });
+    try {
+      const rockMined = await mining.pickAtRock();
+      const getItem = general.find(i => i.id === rockMined.resources);
 
-    Socket.broadcast('world:itemDropped', world.items);
+      // Tell user of successful resource gathering
+      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${getItem.name}.`);
 
-    Socket.emit('resource:push:goldenplaque', {
-      player: { socket_id: world.players[incoming.playerIndex].socket_id },
-      text: 'You feel a magical aurora as an item starts to appear from the ground...',
-    });
+      // Add ore to inventory
+      world.players[data.playerIndex].inventory.push({
+        slot: UI.getOpenSlot(world.players[data.playerIndex].inventory),
+        id: getItem.id,
+        graphics: getItem.graphics,
+        uuid: uuid(),
+      });
+
+      // Update the experience
+      mining.updateExperience(rockMined.experience);
+
+      // TODO
+      // Change socket event to ITEM:ADDED:TO:INVENTORY
+      Socket.emit('item:pickup', {
+        player: { socket_id: world.players[data.playerIndex].socket_id },
+        data: world.players[data.playerIndex].inventory,
+      });
+
+      // Tell client of their new experience in that skill
+      Socket.emit('resource:skills:update', {
+        player: { socket_id: world.players[data.playerIndex].socket_id },
+        data: world.players[data.playerIndex].skills,
+      });
+    } catch (err) {
+      Socket.sendMessageToPlayer(data.playerIndex, 'You need a pickaxe to mine rocks.');
+    }
   },
 };
 

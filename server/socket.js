@@ -62,6 +62,13 @@ class Socket {
 
     world.clients = world.clients.filter(client => client.readyState !== 3);
   }
+
+  static sendMessageToPlayer(playerIndex, message) {
+    this.emit('game:send:message', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      text: message,
+    });
+  }
 }
 
 module.exports = Socket;

@@ -1,7 +1,6 @@
 <template>
   <div
     class="inventory_slot">
-    <!-- eslint-disable max-len -->
     <div
       v-for="(n, i) in (0, 23)"
       v-if="slotHasItem(i)"
@@ -120,6 +119,8 @@ export default {
       }
 
       switch (getItem.graphics.tileset) {
+        case 'general':
+          return this.images.generalImage.src;
         case 'jewelry':
           return this.images.jewelryImage.src;
         case 'armor':

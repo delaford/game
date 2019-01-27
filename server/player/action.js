@@ -119,6 +119,10 @@ class Action {
       coordinates: { x: clickedTile.x, y: clickedTile.y },
     };
 
+    // TODO
+    // Refactor this as not every queueable
+    // action will need 'player:mouseTo' before it
+
     const iminimentAction = incomingAction.queueable ? 'player:mouseTo' : incomingAction.actionId;
     playerEvent[iminimentAction](dataObject);
   }

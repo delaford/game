@@ -6,6 +6,7 @@ import playerImage from '../assets/graphics/actors/players/human.png';
 import weaponsImage from '../assets/graphics/items/weapons.png';
 import armorImage from '../assets/graphics/items/armor.png';
 import jewelryImage from '../assets/graphics/items/jewelry.png';
+import generalImage from '../assets/graphics/items/general.png';
 
 import bus from '../core/utilities/bus';
 
@@ -63,9 +64,7 @@ class Client {
   /**
    * Start building the map itself
    */
-  async setUp(serverMap) {
-    this.map = new Map(serverMap);
-
+  async setUp() {
     const images = await this.start();
     this.map.setImages(images);
     this.map.setPlayer(this.player);
@@ -88,6 +87,7 @@ class Client {
       weaponsImage,
       armorImage,
       jewelryImage,
+      generalImage,
     ];
 
     const images = Object.values(assets).map(asset =>
