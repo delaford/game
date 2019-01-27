@@ -45,7 +45,9 @@ export default class Mining extends Skill {
     console.log(`Mining for ${this.rock.resources}`);
 
     return new Promise((resolve, reject) => {
-      if (this.checkForPickaxe()) {
+      if (this.rock.function === 'no-mining-resource') {
+        reject(new Error(this.rock.resources));
+      } else if (this.checkForPickaxe()) {
         const action = setInterval(() => {
           counter += 1;
           console.log('Picking at rock...');
@@ -60,7 +62,7 @@ export default class Mining extends Skill {
           }
         }, 1000);
       } else {
-        reject(new Error('Criteria to mine not sufficient.'));
+        reject(new Error('You need a pickaxe to mine rocks.'));
       }
     });
   }

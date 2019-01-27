@@ -5,7 +5,7 @@ export default [{
   name: 'Rocks',
   examine: 'There seems to be no more ore left in this rock.',
   experience: 0,
-  function: 'obtain-resource',
+  function: 'no-mining-resource',
   resources: 'There is no ore left to mine on this rock',
   actions: presetActions(['pickaxe']),
   type: 'mine',

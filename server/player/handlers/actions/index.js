@@ -218,6 +218,9 @@ export default {
   'player:resource:mining:rock': async (data) => {
     const mining = new Mining(data.playerIndex, data.todo.item.id);
 
+    // Update rock to dead-rock after successful mine
+    world.map.foreground[data.todo.actionToQueue.onTile] = 532;
+
     try {
       const rockMined = await mining.pickAtRock();
       const getItem = general.find(i => i.id === rockMined.resources);
@@ -248,8 +251,13 @@ export default {
         player: { socket_id: world.players[data.playerIndex].socket_id },
         data: world.players[data.playerIndex].skills,
       });
+
+      // Update client of dead rock
+      Socket.broadcast('world:foreground:update', world.map.foreground);
     } catch (err) {
-      Socket.sendMessageToPlayer(data.playerIndex, 'You need a pickaxe to mine rocks.');
+      // Tell player of their error
+      // either no pickaxe or no rock available
+      Socket.sendMessageToPlayer(data.playerIndex, err.message);
     }
   },
 };
