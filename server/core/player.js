@@ -334,11 +334,13 @@ class Player {
    */
   update() {
     const url = `${process.env.SITE_URL}/api/auth/update`;
+
+    // Set correct bearer token
     const reqConfig = {
       headers: { Authorization: `Bearer ${this.token}` },
     };
 
-    // Find player on server
+    // Find player on server via their token
     const getPlayer = world.players
       .find(p => p.token === this.token);
 
@@ -354,6 +356,9 @@ class Player {
     // Get inventory data
     const inventoryData = getPlayer.inventory;
 
+    // Get skills data
+    const skillsData = getPlayer.skills;
+
     // Get wearable data
     const wearData = getPlayer.wear;
 
@@ -363,12 +368,13 @@ class Player {
       }
     });
 
+    // We are not looking at arrows for the time being -- remove them.
     if (Object.prototype.hasOwnProperty.call(wearData, 'arrows')) {
       delete wearData.arrows;
     }
 
     const data = {
-      uuid: this.uuid, playerData, inventoryData, wearData,
+      uuid: this.uuid, playerData, inventoryData, wearData, skillsData,
     };
 
     return new Promise((resolve) => {

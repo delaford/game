@@ -28,6 +28,7 @@ const presetActions = (items) => {
         break;
       case 'resource':
         list = [
+          'take',
           'examine',
           'drop',
         ];

@@ -2,7 +2,7 @@
 import Socket from './socket';
 import Handler from './player/handler';
 
-const { wearableItems } = require('./core/data/items');
+const { wearableItems, general } = require('./core/data/items');
 
 const world = require('./core/world');
 
@@ -112,7 +112,7 @@ class Delaford {
     // Send player server items
     Socket.emit('server:send:items', {
       player: { socket_id: ws.id },
-      wearableItems,
+      items: [...wearableItems, ...general],
     });
 
     ws.on('message', async (msg) => {

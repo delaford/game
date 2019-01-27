@@ -14,9 +14,15 @@ export default {
    * Mine a rock
    */
   'player:resource:rock:mine': (data) => {
-    debugger;
     // Show rock picking event going on...
     console.log(data);
+  },
+
+  /**
+   * Update skills
+   */
+  'resource:skills:update': (incoming, context) => {
+    context.game.player.skills = incoming.data.data;
   },
 };
 
