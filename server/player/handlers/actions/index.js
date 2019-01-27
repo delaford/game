@@ -222,8 +222,10 @@ export default {
       const rockMined = await mining.pickAtRock();
       const getItem = general.find(i => i.id === rockMined.resources);
 
-      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${rockMined.resources}.`);
+      // Tell user of successful resource gathering
+      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${getItem.name}.`);
 
+      // Add ore to inventory
       world.players[data.playerIndex].inventory.push({
         slot: UI.getOpenSlot(world.players[data.playerIndex].inventory),
         id: getItem.id,
@@ -231,8 +233,8 @@ export default {
         uuid: uuid(),
       });
 
-      // Should this change to object key/values instead of array?
-      world.players[data.playerIndex].skills.mining.exp += rockMined.experience;
+      // Update the experience
+      mining.updateExperience('mining', rockMined.experience);
 
       // TODO
       // Change socket event to ITEM:ADDED:TO:INVENTORY
@@ -241,6 +243,7 @@ export default {
         data: world.players[data.playerIndex].inventory,
       });
 
+      // Tell client of their new experience in that skill
       Socket.emit('resource:skills:update', {
         player: { socket_id: world.players[data.playerIndex].socket_id },
         data: world.players[data.playerIndex].skills,
