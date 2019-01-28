@@ -16,7 +16,6 @@ import Handler from '../../../player/handler';
 import Mining from '../../../core/skills/mining';
 import ContextMenu from '../../../core/context-menu';
 import { wearableItems, general } from '../../../core/data/items';
-import { addSeconds, addHours, addMinutes } from 'date-fns';
 
 export default {
   'player:walk-here': (data) => {
@@ -190,22 +189,10 @@ export default {
     // eslint-disable-next-line
     const resetItemIndex = world.respawns.items.findIndex(i => i.respawn && i.x === todo.at.x && i.y === todo.at.y);
     if (resetItemIndex !== -1) {
-      const pickedUpAt = new Date();
       world.respawns.items[resetItemIndex].pickedUp = true;
-      const respawnsIn = world.respawns.items[resetItemIndex].respawnIn;
 
-      const add = {
-        hours: Item.parseTime(respawnsIn, 'h'),
-        minutes: Item.parseTime(respawnsIn, 'm'),
-        seconds: Item.parseTime(respawnsIn, 's'),
-      };
-
-      let timeToAdd = 0;
-      if (typeof (add.hours) === 'number') timeToAdd = addHours(pickedUpAt, add.hours);
-      if (typeof (add.minutes) === 'number') timeToAdd = addMinutes(pickedUpAt, add.minutes);
-      if (typeof (add.seconds) === 'number') timeToAdd = addSeconds(pickedUpAt, add.seconds);
-
-      world.respawns.items[resetItemIndex].willRespawnIn = timeToAdd;
+      // eslint-disable-next-line
+      world.respawns.items[resetItemIndex].willRespawnIn = Item.calculateRespawnTime(world.respawns.items[resetItemIndex].respawnIn);
     }
 
     // Tell client to update their inventory
@@ -254,6 +241,13 @@ export default {
 
       // Update client of dead rock
       Socket.broadcast('world:foreground:update', world.map.foreground);
+
+      // Add this resource to respawn clock
+      world.respawns.resources.push({
+        setToTile: rockMined.id + 253,
+        onTile: data.todo.actionToQueue.onTile,
+        willRespawnIn: Item.calculateRespawnTime(rockMined.respawnIn),
+      });
     } catch (err) {
       // Tell player of their error
       // either no pickaxe or no rock available

@@ -1,6 +1,7 @@
 import uuid from 'uuid/v4';
 import world from '../core/world';
 import Socket from './../socket';
+import { addSeconds, addHours, addMinutes } from 'date-fns';
 
 class Item {
   constructor(data) {
@@ -18,6 +19,24 @@ class Item {
     this.carried = data.carried;
     this.slot = data.slot;
     this.equipped = data.equipped;
+  }
+
+  /**
+   * Check the map resources to see if they need to be replenished
+   */
+  static resourcesCheck() {
+    world.respawns.resources.forEach((item, index) => {
+      if (Item.itemAlreadyPlaced(item) === undefined) {
+        // Set resource back to original tile
+        world.map.foreground[item.onTile] = item.setToTile;
+
+        // Tell all players of map update
+        Socket.broadcast('world:foreground:update', world.map.foreground);
+
+        // Take resource off respawn check
+        world.respawns.resources.splice(index, 1);
+      }
+    });
   }
 
   /**
@@ -75,6 +94,31 @@ class Item {
     }
 
     return false;
+  }
+
+  /**
+   * Calculate the time it will take to respawn this tile
+   *
+   * @param {string} respawnTime Time in short notation (eg: '1hr 4m 18s')
+   * @returns {integer}
+   */
+  static calculateRespawnTime(respawnTime) {
+    // MOVE TO OBJECT ENGINE CLASS AND EXTEND FROM HERE?
+    const pickedUpAt = new Date();
+    const respawnsIn = respawnTime;
+
+    const add = {
+      hours: Item.parseTime(respawnsIn, 'h'),
+      minutes: Item.parseTime(respawnsIn, 'm'),
+      seconds: Item.parseTime(respawnsIn, 's'),
+    };
+
+    let timeToAdd = 0;
+    if (typeof (add.hours) === 'number') timeToAdd = addHours(pickedUpAt, add.hours);
+    if (typeof (add.minutes) === 'number') timeToAdd = addMinutes(pickedUpAt, add.minutes);
+    if (typeof (add.seconds) === 'number') timeToAdd = addSeconds(pickedUpAt, add.seconds);
+
+    return timeToAdd;
   }
 }
 
