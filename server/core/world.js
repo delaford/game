@@ -16,6 +16,7 @@ module.exports = {
   respawns: {
     items: [],
     monsters: [],
+    resources: [],
   },
   monsters: [],
   players: [],

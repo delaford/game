@@ -45,17 +45,24 @@ export default class Mining extends Skill {
     console.log(`Mining for ${this.rock.resources}`);
 
     return new Promise((resolve, reject) => {
-      if (this.checkForPickaxe()) {
+      if (this.rock.function === 'no-mining-resource') {
+        reject(new Error(this.rock.resources));
+      } else if (this.checkForPickaxe()) {
         const action = setInterval(() => {
           counter += 1;
           console.log('Picking at rock...');
+
+          // TODO
+          // Create algorithm to determine amount
+          // of time spent mining for a rock based
+          // on a player's mining level and that rock
           if (counter === 1) {
             clearInterval(action);
             resolve(this.rock);
           }
         }, 1000);
       } else {
-        reject(new Error('Criteria to mine not sufficient.'));
+        reject(new Error('You need a pickaxe to mine rocks.'));
       }
     });
   }

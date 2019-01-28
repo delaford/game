@@ -5,7 +5,7 @@ export default [{
   name: 'Rocks',
   examine: 'There seems to be no more ore left in this rock.',
   experience: 0,
-  function: 'obtain-resource',
+  function: 'no-mining-resource',
   resources: 'There is no ore left to mine on this rock',
   actions: presetActions(['pickaxe']),
   type: 'mine',
@@ -18,6 +18,7 @@ export default [{
   resources: 'copper-ore',
   actions: presetActions(['pickaxe']),
   type: 'mine',
+  respawnIn: '2s',
 }, {
   id: 281,
   name: 'Tin Rocks',
@@ -27,4 +28,5 @@ export default [{
   resources: 'tin-ore',
   actions: presetActions(['pickaxe']),
   type: 'mine',
+  respawnIn: '5s',
 }];

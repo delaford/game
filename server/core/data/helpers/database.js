@@ -42,6 +42,7 @@ const presetActions = (items) => {
       case 'pickaxe':
         list = [
           'mine',
+          'examine',
         ];
     }
 

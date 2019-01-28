@@ -2,6 +2,7 @@ import UI from 'shared/ui';
 import { merge } from 'lodash';
 import world from '../core/world';
 import Handler from './handler';
+import config from '../config';
 
 import playerEvent from './handlers/actions';
 
@@ -20,6 +21,9 @@ class Action {
 
     // Misc data (slots, etc)
     this.miscData = miscData;
+
+    // On what tile?
+    this.tile = false;
   }
 
   /**
@@ -71,6 +75,23 @@ class Action {
   }
 
   /**
+   * Get the tile number the player clicked on
+   *
+   * @param {object} clickedOn The x,y the player clicked on
+   */
+  getTileNumber(clickedOn) {
+    const { size, viewport } = config.map;
+    const tileCrop = {
+      x: this.player.x - Math.floor(0.5 * viewport.x),
+      y: this.player.y - Math.floor(0.5 * viewport.y),
+    };
+
+    // eslint-disable-next-line
+    const onTile = (((clickedOn.y + tileCrop.y) * size.x) + clickedOn.x) + tileCrop.x;
+    this.tile = onTile;
+  }
+
+  /**
    * Execute the certain action by checking (if allowed)
    *
    * @param {object} data Information of tile, Action class and items
@@ -80,6 +101,8 @@ class Action {
     const clickedTile = data.tile;
     const incomingAction = data.item.action;
     const doing = incomingAction.name.toLowerCase();
+
+    this.getTileNumber(clickedTile);
 
     const tileWalkable = UI.tileWalkable(UI.getTileOverMouse(
       this.background,
@@ -99,6 +122,7 @@ class Action {
         },
         actionToQueue: {
           ...data.item.action,
+          onTile: this.tile,
           coordinates: { x: clickedTile.x, y: clickedTile.y },
         },
       }));
@@ -122,7 +146,6 @@ class Action {
     // TODO
     // Refactor this as not every queueable
     // action will need 'player:mouseTo' before it
-
     const iminimentAction = incomingAction.queueable ? 'player:mouseTo' : incomingAction.actionId;
     playerEvent[iminimentAction](dataObject);
   }

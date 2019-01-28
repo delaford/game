@@ -109,6 +109,7 @@ class Map {
         return i;
       }),
       monsters: [],
+      resources: [],
     };
 
     // Add a timestamp to all dropped items
