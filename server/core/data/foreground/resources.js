@@ -18,7 +18,7 @@ export default [{
   resources: 'copper-ore',
   actions: presetActions(['pickaxe']),
   type: 'mine',
-  respawnIn: '2s',
+  respawnIn: '5s',
 }, {
   id: 281,
   name: 'Tin Rocks',
@@ -28,5 +28,5 @@ export default [{
   resources: 'tin-ore',
   actions: presetActions(['pickaxe']),
   type: 'mine',
-  respawnIn: '5s',
+  respawnIn: '3s',
 }];

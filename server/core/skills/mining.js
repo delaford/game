@@ -22,6 +22,8 @@ export default class Mining extends Skill {
    */
   checkForPickaxe() {
     const pickaxe = this.player.inventory.find(i => i.id.includes('pickaxe')) || this.player.wear.right_hand;
+    if (!pickaxe) return false;
+
     const itemFound = Query.getItemData(pickaxe.id);
 
     return Mining.isAPickaxe(itemFound) ? itemFound : false;
@@ -55,7 +57,7 @@ export default class Mining extends Skill {
           // TODO
           // Create algorithm to determine amount
           // of time spent mining for a rock based
-          // on a player's mining level and that rock
+          // on a player's mining level and that rock and their pickaxe
           if (counter === 1) {
             clearInterval(action);
             resolve(this.rock);

@@ -114,7 +114,7 @@ class UI {
     if (inventory.length === 0) return 0;
     let slotPosition = false;
 
-    for (let index = 0; index < 23; index += 1) {
+    for (let index = 0; index < 24; index += 1) {
       if (!inventory.find(e => e.slot === index) && slotPosition === false) {
         slotPosition = index;
       }
@@ -208,35 +208,33 @@ class UI {
   }
 
   /**
-   * Calculate the level from experience or get the experience needed for a level
+   * Calculate the experience needed for a level
    *
-   * @param {string} type What is being calculcated (experience or level)
    * @param {integer} level The level for the experience
    * @returns {integer}
    */
-  static calculateSkill(digits, type) {
+  static getExperience(level) {
     let a = 0;
-    let level = 1;
-    const [mod1, mod2, mod3, mod4, mod5] = [300, 400, 500, 600, 750];
+    for (let x = 1; x < level; x += 1) {
+      a += Math.floor(x + (530 * (2 ** (x / 7))));
+    }
 
-    for (let levelParse = 0; levelParse < 100; levelParse += 1) {
-      let diff = mod1;
-      if (levelParse > 20) diff = mod2;
-      if (levelParse > 50) diff = mod3;
-      if (levelParse > 75) diff = mod4;
-      if (levelParse > 90) diff = mod5;
+    return Math.floor(a / 4);
+  }
 
-      for (let x = 1; x < (type === 'level' ? digits : levelParse); x += 1) {
-        a += Math.floor(x + (diff * (2 ** (x / 6.10))));
-      }
-
-      const expAdded = Math.floor(a / 4);
-
-      if (type === 'level') return expAdded;
-
-      if (expAdded <= digits) {
-        level = levelParse;
-      }
+  /**
+   * Get the level from experience points
+   *
+   * @param {integer} exp The experience requested
+   * @return {integer}
+   */
+  static getLevel(exp) {
+    let level = 0;
+    let calcExp = 0;
+    while (exp > calcExp) {
+      calcExp = UI.getExperience(level);
+      if (calcExp >= exp) break;
+      level += 1;
     }
 
     return level;

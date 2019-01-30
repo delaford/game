@@ -2,7 +2,7 @@
   <div
     class="inventory_slot">
     <div
-      v-for="(n, i) in (0, 23)"
+      v-for="(n, i) in (0, 24)"
       v-if="slotHasItem(i)"
       :key="i"
       :style="{

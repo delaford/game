@@ -13,14 +13,13 @@ export default class Skill {
    * @param {integer} expToAdd The experience to add to current skill experience
    */
   updateExperience(expToAdd) {
-    console.log(`Updating experience for ${this.columnId}`);
     const currentExperience = world.players[this.playerIndex].skills[this.columnId].exp;
     const updatedExperience = currentExperience + expToAdd;
     const didUserLevelUp = Skill.didUserLevelUp(currentExperience, updatedExperience);
 
     if (didUserLevelUp) {
       world.players[this.playerIndex].skills[this.columnId].level += 1;
-      Socket.sendMessageToPlayer(this.playerIndex, `You successfully leveled up a ${UI.capitalizeFirstLetter(this.columnId)} level!`);
+      Socket.sendMessageToPlayer(this.playerIndex, `You have gained a ${UI.capitalizeFirstLetter(this.columnId)} level!`);
     }
 
     world.players[this.playerIndex].skills[this.columnId].exp = updatedExperience;
@@ -34,6 +33,8 @@ export default class Skill {
    * @return {boolean}
    */
   static didUserLevelUp(currentExp, updatedExp) {
-    return UI.calculateSkill(currentExp, 'experience') !== UI.calculateSkill(updatedExp, 'experience');
+    const a = UI.getLevel(currentExp);
+    const b = UI.getLevel(updatedExp);
+    return a !== b;
   }
 }
