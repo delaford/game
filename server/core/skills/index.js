@@ -1,5 +1,6 @@
 import world from '../world';
 import UI from 'shared/ui';
+import uuid from 'uuid/v4';
 import Socket from '../../socket';
 
 export default class Skill {
@@ -36,5 +37,42 @@ export default class Skill {
     const a = UI.getLevel(currentExp);
     const b = UI.getLevel(updatedExp);
     return a !== b;
+  }
+
+  /**
+   * Tell the user to add resource to their inventory
+   * or drop on ground based on inventory availability
+   *
+   * @param {object} getItem The resource we are gathering
+   */
+  extractResource(getItem) {
+    const openSlot = UI.getOpenSlot(world.players[this.playerIndex].inventory);
+
+    // Do we have an open slot for the newly-mined resource?
+    if (!openSlot) {
+      // If not, we let it fall on the ground
+      world.items.push({
+        id: getItem.id,
+        uuid: uuid(),
+        x: world.players[this.playerIndex].x,
+        y: world.players[this.playerIndex].y,
+        timestamp: Date.now(),
+      });
+
+      Socket.broadcast('world:itemDropped', world.items);
+    } else {
+      // If so, we add it to our inventory
+      world.players[this.playerIndex].inventory.push({
+        slot: openSlot,
+        id: getItem.id,
+        graphics: getItem.graphics,
+        uuid: uuid(),
+      });
+
+      Socket.emit('item:added-to-inventory', {
+        player: { socket_id: world.players[this.playerIndex].socket_id },
+        data: world.players[this.playerIndex].inventory,
+      });
+    }
   }
 }

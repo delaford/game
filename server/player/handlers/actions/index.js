@@ -196,7 +196,7 @@ export default {
     }
 
     // Tell client to update their inventory
-    Socket.emit('item:pickup', {
+    Socket.emit('item:added-to-inventory', {
       player: { socket_id: world.players[playerIndex].socket_id },
       data: world.players[playerIndex].inventory,
     });
@@ -210,42 +210,13 @@ export default {
 
     try {
       const rockMined = await mining.pickAtRock();
-      const getItem = general.find(i => i.id === rockMined.resources);
+      const resource = general.find(i => i.id === rockMined.resources);
 
       // Tell user of successful resource gathering
-      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${getItem.name}.`);
+      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${resource.name}.`);
 
-      const openSlot = UI.getOpenSlot(world.players[data.playerIndex].inventory);
-
-      // Do we have an open slot for the newly-mined resource?
-      if (!openSlot) {
-        // If not, we let it fall on the ground
-        world.items.push({
-          id: getItem.id,
-          uuid: uuid(),
-          x: world.players[data.playerIndex].x,
-          y: world.players[data.playerIndex].y,
-          timestamp: Date.now(),
-        });
-
-        Socket.broadcast('world:itemDropped', world.items);
-      } else {
-        // If so, we add it to our inventory
-        world.players[data.playerIndex].inventory.push({
-          slot: openSlot,
-          id: getItem.id,
-          graphics: getItem.graphics,
-          uuid: uuid(),
-        });
-
-
-        // TODO
-        // Change socket event to ITEM:ADDED:TO:INVENTORY
-        Socket.emit('item:pickup', {
-          player: { socket_id: world.players[data.playerIndex].socket_id },
-          data: world.players[data.playerIndex].inventory,
-        });
-      }
+      // Extract resource and either add to inventory or drop it
+      mining.extractResource(resource);
 
       // Update the experience
       mining.updateExperience(rockMined.experience);

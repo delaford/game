@@ -11,7 +11,7 @@ export default {
   /**
    * A player recieves an item in their inventory
    */
-  'item:pickup': (incoming, context) => {
+  'item:added-to-inventory': (incoming, context) => {
     context.game.player.inventory = incoming.data.data;
   },
 };
