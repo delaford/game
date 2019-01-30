@@ -202,6 +202,10 @@ export default {
     });
   },
 
+  'player:screen:bank': () => {
+    console.log('Player wants to access their bank.');
+  },
+
   'player:resource:mining:rock': async (data) => {
     const mining = new Mining(data.playerIndex, data.todo.item.id);
 

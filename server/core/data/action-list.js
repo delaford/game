@@ -66,5 +66,13 @@ export default [
     weight: 1,
     queueable: true,
   },
-
+  {
+    name: 'Bank',
+    actionId: 'player:screen:bank',
+    context: ['gameMap'],
+    allow: ['npc'],
+    nearby: 'edge',
+    weight: 1,
+    queueable: true,
+  },
 ];

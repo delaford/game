@@ -105,6 +105,11 @@ class ContextMenu {
     const itemActedOn = this.player.inventory.find(s => s.slot === this.miscData.slot);
 
     // Context menu list center
+    /**
+     * TODO
+     * I know there is a MUCH better way to abstract
+     * this switch-case code below to more simpler methods.
+     */
     switch (action.name) {
       default:
         return items;
@@ -314,6 +319,38 @@ class ContextMenu {
             },
             id: foregroundData.id,
             tile: this.tile,
+          });
+        }
+
+        break;
+
+      // Bank
+      case 'Bank':
+        if (this.isFromGameCanvas()) {
+          if (foregroundData && ContextMenu.canDoAction(foregroundData.actions, action)) {
+            const fgColor = UI.getContextSubjectColor(foregroundData.context);
+            items.push({
+              label: `${action.name} <span style='color:${fgColor}'>${foregroundData.name}</span>`,
+              action,
+              examine: foregroundData.examine,
+              type: 'foreground',
+              id: foregroundData.id,
+            });
+          }
+
+          getNPCs.forEach(({
+            actions, name, context, examine, id,
+          }) => {
+            if (ContextMenu.canDoAction(actions, action)) {
+              const color = UI.getContextSubjectColor(context);
+              items.push({
+                label: `${action.name} <span style='color:${color}'>${name}</span>`,
+                action,
+                examine,
+                type: 'npc',
+                id,
+              });
+            }
           });
         }
 
