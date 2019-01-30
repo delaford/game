@@ -5,6 +5,11 @@ const Socket = require('../../socket');
 const { wearableItems } = require('./../../core/data/items');
 
 module.exports = {
+  /**
+   * Equip an an item to the player
+   *
+   * @param {object} data Item you are equipping
+   */
   equippedAnItem(data) {
     const equippingItem = data.player.inventory.find(s => s.slot === data.item.miscData.slot);
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
@@ -22,10 +27,14 @@ module.exports = {
     const getRealPlacement = world.players[playerIndex].inventory.findIndex(i => item.uuid === i.uuid);
     world.players[playerIndex].inventory.splice(getRealPlacement, 1);
 
-    console.log(`Equip: ${getItem.id}`);
-
     Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
   },
+
+  /**
+   * Unequip an an item to the player
+   *
+   * @param {object} data Item you are unequipping
+   */
   unequipItem(data) {
     return new Promise((resolve) => {
       const playerIndex = world.players.findIndex(p => p.uuid === data.id);
@@ -38,11 +47,12 @@ module.exports = {
         uuid: world.players[playerIndex].wear[getItem.slot].uuid,
       };
 
-      if (data.replacing) {
-        // TODO - Make this nicer.
-        item.slot = item.slot <= data.item.slot ? item.slot : data.item.slot;
+      // If we are replacing an item (because we are equipping while wielding)
+      // and the slot from where the item was equipped is less than the first
+      // slot available, then let us unequip to that slot.
+      if (data.replacing && UI.isNumeric(item.slot) && item.slot >= data.item.slot) {
+        item.slot = data.item.slot;
       }
-      console.log(`Unequip: ${getItem.id}`);
 
       world.players[playerIndex].wear[getItem.slot] = null;
       world.players[playerIndex].inventory.push(item);

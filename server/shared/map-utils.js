@@ -2,10 +2,17 @@ import world from '../core/world';
 import UI from 'shared/ui';
 
 class MapUtils {
+  /**
+   * Calculate whether the grid is walkable through various methods
+   *
+   * @param {array} tiles The tiles we are marking
+   * @param {object} player The player for which we are working with
+   * @param {integer} onTile On what tile did wil lthey walk from
+   * @param {integer} row On what row are they on?
+   * @param {integer} column On what column are they on?
+   * @return {integer}
+   */
   static gridWalkable(tiles, player, onTile, row = 0, column = 0) {
-    // TODO - Refactor
-    // Cover your eyes, probably the ugliest code
-    // I have written in my life. I am so sorry.
     // What's going on here? FG & BG collision
     let walkableTile = 0;
 

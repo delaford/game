@@ -249,6 +249,15 @@ class UI {
   static capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
+  /**
+   * Is the variable numeric?
+   *
+   * @param {random} n The variable
+   */
+  static isNumeric(n) {
+    return (typeof n === 'number');
+  }
 }
 
 export default UI;

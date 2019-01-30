@@ -73,9 +73,9 @@ class ContextMenu {
    * @returns {boolean}
    */
   async check(action, items) {
-    // TODO
-    // Only get the objects in the viewport of the player
     const getItems = this.droppedItems
+      .filter(item => item.x < (this.player.x + 7) && item.x > (this.player.x - 10))
+      .filter(item => item.y < (this.player.y + 7) && item.y > (this.player.y - 10))
       .filter(item => item.x === this.coordinates.map.x && item.y === this.coordinates.map.y)
       .map((i) => {
         i.context = 'item';
