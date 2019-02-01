@@ -54,6 +54,9 @@ export default {
     };
   },
   computed: {
+    isBankOpen() {
+      return document.querySelector('.bankSlot');
+    },
     slotColumnRows() {
       return {
         'grid-template-columns': '35px '.repeat(this.gridData(this.screen).columns),
@@ -87,6 +90,8 @@ export default {
      * @param {event} event The mouse-click event
      */
     rightClick(event, index) {
+      this.$forceUpdate();
+
       const coordinates = UI.getViewportCoordinates(event);
 
       const data = {
@@ -97,9 +102,6 @@ export default {
       };
 
       event.preventDefault();
-
-      console.log(data);
-
 
       bus.$emit('PLAYER:MENU', data);
     },

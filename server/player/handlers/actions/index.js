@@ -207,6 +207,8 @@ export default {
    */
   'player:screen:bank': (data) => {
     console.log('Accessing bank...');
+    world.players[data.playerIndex].currentPane = 'bank';
+
     Socket.emit('open:screen', {
       player: { socket_id: world.players[data.playerIndex].socket_id },
       screen: 'bank',

@@ -48,6 +48,15 @@ export default {
       return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
   },
+  watch: {
+    current(newVal) {
+      if (typeof newVal === 'boolean') {
+        Socket.emit('player:pane:close', {
+          id: this.game.player.uuid,
+        });
+      }
+    },
+  },
   created() {
     bus.$on('canvas:getMouse', () => this.mouseSelection());
 
