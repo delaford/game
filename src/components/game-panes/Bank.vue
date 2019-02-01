@@ -1,28 +1,11 @@
 <template>
   <div class="bankView">
     <pane-header text="Bank of Delaford" />
-    <div
-      class="main inventory_slot">
-      <div
-        v-for="(n, i) in (0, 250)"
-        :key="i"
-      >
-        <div
-          v-if="slotHasItem(i)"
-          :style="{
-            backgroundImage: 'url(' + getBgUrl(i) + ')',
-            // eslint-disable-next-line
-            backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
-          }"
-          class="slot inventorySlot"
-          @click.right="rightClick($event, i)" />
-        <div
-          v-else
-          class="slot inventorySlot">
-          <!-- Empty slot -->
-        </div>
-      </div>
-    </div>
+    <item-grid
+      :images="game.map.images"
+      :items="gameData"
+      :slots="200"
+      screen="bank" />
   </div>
 </template>
 
@@ -159,39 +142,6 @@ $default_color: #383838;
 
   .main {
     padding: .5em;
-  }
-}
-
-div.inventory_slot {
-  display: grid;
-  height: 275px;
-  overflow-y: scroll;
-  box-sizing: border-box;
-  grid-template-columns: repeat(11, 35px);
-  grid-template-rows: repeat(6, 35px);
-  grid-gap: 5px;
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: darken($background_color, 35%);
-  }
-
-  overflow-x: hidden;
-
-  div.slot {
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    margin: 1px 0 0 1px;
-    text-align: center;
-    background-color: transparent;
   }
 }
 </style>

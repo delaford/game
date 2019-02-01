@@ -25,7 +25,9 @@ Vue.use(VueTippy, {
 
 // Import game-panes
 const files = require.context('./components/game-panes', true, /\.vue$/i);
+const utilFiles = require.context('./components/util', true, /\.vue$/i);
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+utilFiles.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], utilFiles(key).default));
 
 // Start the websocket server client-side
 if ('WebSocket' in window) {
