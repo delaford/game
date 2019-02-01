@@ -19,7 +19,7 @@ export default [
   {
     name: 'Examine',
     actionId: 'player:examine',
-    context: ['gameMap', 'inventorySlot'],
+    context: ['gameMap', 'inventorySlot', 'bankSlot'],
     allow: ['npc', 'item'],
     nearby: false,
     weight: 5,

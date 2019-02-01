@@ -102,7 +102,14 @@ class ContextMenu {
     const foregroundData = Query.getForegroundData(foregroundTile);
 
     // Action on item (Equip, Drop, Unequip, etc.)
-    const itemActedOn = this.player.inventory.find(s => s.slot === this.miscData.slot);
+    const itemSource = {
+      inventorySlot: this.player.inventory,
+      bankSlot: this.player.bank,
+    };
+
+    const itemsToSearch = itemSource[this.context[1]] || this.player.inventory;
+
+    const itemActedOn = itemsToSearch.find(s => s.slot === this.miscData.slot);
 
     // Context menu list center
     /**
@@ -407,7 +414,11 @@ class ContextMenu {
    * @returns {boolean}
    */
   isFromGameCanvas() {
-    return this.clickedOn('gameMap');
+    // TODO
+    // Get the top-left X,Y and right-bottom X,Y of .gameMap and then
+    // see if mouse-click is within those limits. Technically, you
+    // would have clicked on the gameCanvas because of X,Y origin.
+    return this.clickedOn('gameMap') || this.clickedOn('bankSlot');
   }
 
   /**

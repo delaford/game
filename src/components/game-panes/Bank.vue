@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import UI from 'shared/ui';
-
 export default {
   props: {
     data: {
@@ -27,89 +25,6 @@ export default {
     return {
       gameData: this.data.items,
     };
-  },
-  computed: {
-    images() {
-      return this.game.map.images;
-    },
-    items() {
-      return this.gameData;
-    },
-  },
-  methods: {
-    /**
-     * Check to see if this slot is available
-     *
-     * @param {integer} slotNumber The index of the slot in inventory
-     * @return {boolean}
-     */
-    slotHasItem(slotNumber) {
-      const itemFound = this.items.find(s => s.slot === slotNumber);
-      if (!itemFound) {
-        return false;
-      }
-
-      if (itemFound) {
-        return true;
-      }
-
-      return false;
-    },
-    /**
-     * Get the item's column of a certain slot in the inventory
-     *
-     * @param {integer} slotNumber The slot index in the inventory
-     * @return {integer|boolean}
-     */
-    getItem(slotNumber) {
-      const getItem = this.getItemFromSlot(slotNumber);
-
-      const getGraphic = UI.getItemData(getItem.id);
-
-      if (getItem) {
-        return {
-          column: getGraphic.graphics.column,
-          row: getGraphic.graphics.row,
-        };
-      }
-
-      return false;
-    },
-
-    /**
-     * Gets the item from current slot
-     *
-     * @param {integer} slotNumber The current slot number
-     * @returns {object}
-     */
-    getItemFromSlot(slotNumber) {
-      return this.items.find(s => s.slot === slotNumber);
-    },
-    /**
-     * Get the correct background URL to show in inventory
-     *
-     * @param {string} item The item type in slot
-     * @returns {string}
-     */
-    getBgUrl(slotNumber) {
-      const getItem = UI.getItemData(this.getItemFromSlot(slotNumber).id);
-
-      if (!this.images) {
-        return false;
-      }
-
-      switch (getItem.graphics.tileset) {
-        case 'general':
-          return this.images.generalImage.src;
-        case 'jewelry':
-          return this.images.jewelryImage.src;
-        case 'armor':
-          return this.images.armorImage.src;
-        default:
-        case 'weapons':
-          return this.images.weaponsImage.src;
-      }
-    },
   },
 };
 </script>

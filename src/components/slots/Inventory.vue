@@ -1,5 +1,6 @@
 <template>
   <item-grid
+    v-if="loaded"
     :images="game.map.images"
     :items="items"
     :slots="24"
@@ -7,6 +8,8 @@
 </template>
 
 <script>
+import bus from '../../core/utilities/bus';
+
 export default {
   props: {
     game: {
@@ -14,12 +17,25 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      loaded: false,
+    };
+  },
   computed: {
     images() {
       return this.game.map.images;
     },
     items() {
       return this.game.player.inventory;
+    },
+  },
+  created() {
+    bus.$on('game:images:loaded', this.imagesLoaded);
+  },
+  methods: {
+    imagesLoaded() {
+      this.loaded = true;
     },
   },
 };

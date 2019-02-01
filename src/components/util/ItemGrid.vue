@@ -1,7 +1,7 @@
 <template>
   <div
     :style="slotColumnRows"
-    class="main inventory_slot">
+    class="main grid_container">
     <div
       v-for="(n, i) in (0, slots)"
       :key="i"
@@ -13,11 +13,11 @@
           // eslint-disable-next-line
           backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
         }"
-        class="slot inventorySlot"
+        :class="`slot ${gridData(screen).classId}`"
         @click.right="rightClick($event, i)" />
       <div
         v-else
-        class="slot inventorySlot">
+        :class="`slot ${gridData(screen).classId}`">
         <!-- Empty slot -->
       </div>
     </div>
@@ -56,8 +56,8 @@ export default {
   computed: {
     slotColumnRows() {
       return {
-        'grid-template-columns': '35px '.repeat(this.columnsAndRows(this.screen).columns),
-        'grid-template-rows': '35px '.repeat(this.columnsAndRows(this.screen).rows),
+        'grid-template-columns': '35px '.repeat(this.gridData(this.screen).columns),
+        'grid-template-rows': '35px '.repeat(this.gridData(this.screen).rows),
       };
     },
   },
@@ -65,15 +65,17 @@ export default {
     this.$forceUpdate();
   },
   methods: {
-    columnsAndRows(section) {
+    gridData(section) {
       const modifier = {
         inventory: {
           columns: 4,
           rows: 6,
+          classId: 'inventorySlot',
         },
         bank: {
           columns: 11,
           rows: 6,
+          classId: 'bankSlot',
         },
       };
 
@@ -183,7 +185,7 @@ $color: #706559;
 $background_color: #ededed;
 $default_color: #383838;
 
-div.inventory_slot {
+div.grid_container {
   display: grid;
   height: 275px;
   overflow-y: scroll;

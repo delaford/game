@@ -37,6 +37,7 @@ $color: #706559;
 
   .text-header {
     cursor: default;
+    text-shadow: 2px 2px 0 black;
     line-height: 27px;
   }
 
