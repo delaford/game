@@ -26,6 +26,10 @@ class Player {
       max: data.hp.max,
     };
 
+    // A player's bank
+    this.bank = data.bank;
+
+
     // Worn items statistics
     this.combat = {
       attack: {

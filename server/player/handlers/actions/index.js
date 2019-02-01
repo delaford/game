@@ -202,10 +202,21 @@ export default {
     });
   },
 
-  'player:screen:bank': () => {
-    console.log('Player wants to access their bank.');
+  /**
+   * A player wants to access their bank
+   */
+  'player:screen:bank': (data) => {
+    console.log('Accessing bank...');
+    Socket.emit('open:screen', {
+      player: { socket_id: world.players[data.playerIndex].socket_id },
+      screen: 'bank',
+      payload: { items: world.players[data.playerIndex].bank },
+    });
   },
 
+  /**
+   * A player is going to attempt to mine a rock
+   */
   'player:resource:mining:rock': async (data) => {
     const mining = new Mining(data.playerIndex, data.todo.item.id);
 
