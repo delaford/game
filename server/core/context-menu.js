@@ -149,9 +149,6 @@ class ContextMenu {
 
             const color = UI.getContextSubjectColor(context);
 
-            console.log(actions, action);
-
-
             if (this.canDoAction(actions, action)) {
               items.push({
                 label: `${action.name} <span style='color:${color}'>${name}</span>`,
@@ -373,6 +370,33 @@ class ContextMenu {
         }
 
         break;
+
+      case 'Deposit':
+        if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
+          const {
+            name, examine, id, context, actions,
+          } = Query.getItemData(itemActedOn.id);
+
+          const color = UI.getContextSubjectColor(context);
+
+          if (this.canDoAction(actions, action)) {
+            const quantity = [1, 5, 10, 'All'];
+
+            quantity.forEach((q) => {
+              items.push({
+                label: `${action.name}-${q.toString()} <span style='color:${color}'>${name}</span>`,
+                params: {
+                  quantity: q,
+                },
+                action,
+                examine,
+                type: 'item',
+                id,
+              });
+            });
+          }
+        }
+        break;
     }
 
     return items;
@@ -446,6 +470,8 @@ class ContextMenu {
     // Can we allow this action while a certain pane is open?
     // (ie: Equip not allowed while accessing bank)
     if (action.disallowWhile && action.disallowWhile.includes(this.currentPane)) return false;
+    if (action.onPane && !action.onPane.includes(this.currentPane)) return false;
+
 
     // If we have a list of actions
     if (item instanceof Array) {

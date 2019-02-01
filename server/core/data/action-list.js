@@ -77,4 +77,13 @@ export default [
     weight: 1,
     queueable: true,
   },
+  {
+    name: 'Deposit',
+    actionId: 'player:screen:bank:deposit',
+    context: ['inventorySlot'],
+    allow: ['item'],
+    nearby: false,
+    weight: 1,
+    onPane: ['bank'],
+  },
 ];

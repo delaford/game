@@ -216,6 +216,30 @@ export default {
     });
   },
 
+  'player:screen:bank:deposit': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
+    const qty = data.item.params.quantity;
+    const itemId = data.item.id;
+    console.log(qty);
+    console.log(itemId);
+
+    // Remember items from inventory...
+    const getItemsFromInventory = {
+      ...world.players[playerIndex].inventory
+        .filter(i => i.id === itemId)
+        .splice(0, qty),
+      ...world.players[playerIndex].inventory
+        .filter(i => i.id !== itemId),
+    };
+    console.log(getItemsFromInventory.length);
+    // world.players[playerIndex].bank.push({
+
+    // })
+
+    console.log(world.players[playerIndex].bank);
+    // console.log(world.players[playerIndex].inventory);
+  },
+
   /**
    * A player is going to attempt to mine a rock
    */
