@@ -220,24 +220,28 @@ export default {
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const qty = data.item.params.quantity;
     const itemId = data.item.id;
-    console.log(qty);
-    console.log(itemId);
+    const inv = world.players[playerIndex].inventory;
 
     // Remember items from inventory...
-    const getItemsFromInventory = {
-      ...world.players[playerIndex].inventory
+    // not gonns work below
+    const toKeep = inv.filter(i => i.id === itemId).length - (qty === 'All' ? inv.filter(i => i.id === itemId).length : qty);
+    // Have 5? Deposit 3? You keep 2.
+    const getItemsFromInventory = [
+      ...inv
         .filter(i => i.id === itemId)
-        .splice(0, qty),
-      ...world.players[playerIndex].inventory
+        .sort((a, b) => b.slot - a.slot)
+        .splice(0, toKeep),
+      ...inv
         .filter(i => i.id !== itemId),
-    };
-    console.log(getItemsFromInventory.length);
-    // world.players[playerIndex].bank.push({
+    ];
+    debugger;
 
-    // })
+    world.players[playerIndex].inventory = getItemsFromInventory;
 
-    console.log(world.players[playerIndex].bank);
-    // console.log(world.players[playerIndex].inventory);
+    Socket.emit('item:added-to-inventory', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].inventory,
+    });
   },
 
   /**
