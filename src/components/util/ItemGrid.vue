@@ -84,7 +84,8 @@ export default {
      * @param {integer} slot The item in the slot we are selecting
      */
     selectItem(slot) {
-      this.itemSelected = this.itemSelected === slot ? false : slot;
+      // Allow 'selecting' an item only on the Inventory or if its not already selected
+      this.itemSelected = this.itemSelected === slot || this.screen !== 'inventory' ? false : slot;
     },
     gridData(section) {
       const modifier = {

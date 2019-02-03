@@ -1,6 +1,5 @@
 import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
-import Query from './data/query';
 import playerEvent from './../player/handlers/actions';
 
 const config = require('../config');
@@ -83,23 +82,9 @@ class Player {
     this.queue = [];
 
     // Player inventory
-    this.inventory = Player.constructInventory(data.inventory);
+    this.inventory = data.inventory;
 
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
-  }
-
-  /**
-   * Make up correct object format for Vue component INVENTORY
-   * as it is abstracted from the database
-   *
-   * @param {string} data The array of Inventory items
-   */
-  static constructInventory(data) {
-    return data.map((item) => {
-      const { graphics } = Query.getItemData(item.id);
-      item.graphics = graphics;
-      return item;
-    });
   }
 
   /**
