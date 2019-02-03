@@ -69,7 +69,7 @@ export default class Skill {
         uuid: uuid(),
       });
 
-      Socket.emit('item:added-to-inventory', {
+      Socket.emit('core:refresh:inventory', {
         player: { socket_id: world.players[this.playerIndex].socket_id },
         data: world.players[this.playerIndex].inventory,
       });

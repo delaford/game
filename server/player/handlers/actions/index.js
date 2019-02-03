@@ -195,7 +195,7 @@ export default {
     }
 
     // Tell client to update their inventory
-    Socket.emit('item:added-to-inventory', {
+    Socket.emit('core:refresh:inventory', {
       player: { socket_id: world.players[playerIndex].socket_id },
       data: world.players[playerIndex].inventory,
     });
@@ -219,13 +219,17 @@ export default {
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const qty = data.item.params.quantity;
     const itemId = data.item.id;
-    const inv = world.players[playerIndex].inventory;
+    const player = world.players[playerIndex];
+    const inv = player.inventory;
+    const totalOfItemInInv = inv.filter(i => i.id === itemId).length;
+    const bankItems = player.bank.map(e => e.id);
 
-    // Remember items from inventory...
-    // not gonns work below
-    const toKeep = inv.filter(i => i.id === itemId).length - (qty === 'All' ? inv.filter(i => i.id === itemId).length : qty);
-    // Have 5? Deposit 3? You keep 2.
-    const getItemsFromInventory = [
+    // How many items will we keep in the inventory?
+    const toKeep = totalOfItemInInv - (qty === 'All' ? totalOfItemInInv : qty);
+
+    // Remove the first X of items we will be keeping and
+    // then add remaing of inventory that we aren't depositng
+    world.players[playerIndex].inventory = [
       ...inv
         .filter(i => i.id === itemId)
         .sort((a, b) => b.slot - a.slot)
@@ -233,13 +237,35 @@ export default {
       ...inv
         .filter(i => i.id !== itemId),
     ];
-    debugger;
 
-    world.players[playerIndex].inventory = getItemsFromInventory;
+    // How many items are we depositing on selection?
+    const numericQty = qty === 'All' ? totalOfItemInInv : qty;
 
-    Socket.emit('item:added-to-inventory', {
+    // Do we already have items in the bank of what we're depositing?
+    const itemAlreadyInBank = bankItems.includes(itemId);
+
+    if (itemAlreadyInBank) {
+      // If we do, let's just add to its quantity
+      const itemFound = bankItems.findIndex(i => itemId === i);
+      world.players[playerIndex].bank[itemFound].qty += numericQty;
+    } else {
+      // If not, let's add to their bank with the quantity
+      world.players[playerIndex].bank.push({
+        id: itemId,
+        qty: numericQty,
+        slot: UI.getOpenSlot(world.players[playerIndex].bank, 'bank'),
+      });
+    }
+
+    // Refresh client with new data
+    Socket.emit('core:refresh:inventory', {
       player: { socket_id: world.players[playerIndex].socket_id },
       data: world.players[playerIndex].inventory,
+    });
+
+    Socket.emit('core:bank:refresh', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].bank,
     });
   },
 

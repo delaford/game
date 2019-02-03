@@ -3,7 +3,7 @@
     <pane-header text="Bank of Delaford" />
     <item-grid
       :images="game.map.images"
-      :items="gameData"
+      :items="bankItems"
       :slots="200"
       screen="bank" />
   </div>
@@ -12,10 +12,6 @@
 <script>
 export default {
   props: {
-    data: {
-      type: Object,
-      required: true,
-    },
     game: {
       type: Object,
       required: true,
@@ -23,8 +19,13 @@ export default {
   },
   data() {
     return {
-      gameData: this.data.items,
+      gameData: this.game.player.bank,
     };
+  },
+  computed: {
+    bankItems() {
+      return this.game.player.bank;
+    },
   },
 };
 </script>

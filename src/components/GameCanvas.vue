@@ -4,7 +4,6 @@
       v-if="current !== false"
       class="pane">
       <component
-        :data="screenData"
         :game="game"
         :is="current"/>
     </div>

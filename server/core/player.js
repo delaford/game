@@ -345,6 +345,9 @@ class Player {
     // Get inventory data
     const inventoryData = getPlayer.inventory;
 
+    // Get bank data
+    const bankData = getPlayer.bank;
+
     // Get skills data
     const skillsData = getPlayer.skills;
 
@@ -363,7 +366,7 @@ class Player {
     }
 
     const data = {
-      uuid: this.uuid, playerData, inventoryData, wearData, skillsData,
+      uuid: this.uuid, playerData, inventoryData, wearData, skillsData, bankData,
     };
 
     return new Promise((resolve) => {

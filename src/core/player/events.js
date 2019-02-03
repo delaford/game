@@ -3,6 +3,7 @@ import itemEvents from './events/item';
 import resourceEvents from './events/resource';
 import npcEvents from './events/npc';
 import worldEvents from './events/world';
+import screenEvents from './events/screen';
 
 /**
  * A global event handler [CLIENT SIDE] (RPC)
@@ -20,6 +21,7 @@ const handler = {
   ...resourceEvents,
   ...npcEvents,
   ...worldEvents,
+  ...screenEvents,
 
   /**
    * Receive the data from the client upon browser open

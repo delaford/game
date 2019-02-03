@@ -110,11 +110,16 @@ class UI {
    * @param {array} inventory Your current inventory
    * @returns {integer}
    */
-  static getOpenSlot(inventory) {
+  static getOpenSlot(inventory, location = 'inventory') {
     if (inventory.length === 0) return 0;
     let slotPosition = false;
 
-    for (let index = 0; index < 24; index += 1) {
+    const slotsAvailable = {
+      inventory: 24,
+      bank: 200,
+    };
+
+    for (let index = 0; index < slotsAvailable[location]; index += 1) {
       if (!inventory.find(e => e.slot === index) && slotPosition === false) {
         slotPosition = index;
       }
