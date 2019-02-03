@@ -86,4 +86,13 @@ export default [
     weight: 1,
     onPane: ['bank'],
   },
+  {
+    name: 'Withdraw',
+    actionId: 'player:screen:bank:withdraw',
+    context: ['bankSlot'],
+    allow: ['item'],
+    nearby: false,
+    weight: 1,
+    onPane: ['bank'],
+  },
 ];

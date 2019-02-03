@@ -397,6 +397,33 @@ class ContextMenu {
           }
         }
         break;
+
+      case 'Withdraw':
+        if (this.clickedOn('bankSlot')) {
+          const {
+            name, examine, id, context, actions,
+          } = Query.getItemData(itemActedOn.id);
+
+          const color = UI.getContextSubjectColor(context);
+
+          if (this.canDoAction(actions, action)) {
+            const quantity = [1, 5, 10, 'All'];
+
+            quantity.forEach((q) => {
+              items.push({
+                label: `${action.name}-${q.toString()} <span style='color:${color}'>${name}</span>`,
+                params: {
+                  quantity: q,
+                },
+                action,
+                examine,
+                type: 'item',
+                id,
+              });
+            });
+          }
+        }
+        break;
     }
 
     return items;

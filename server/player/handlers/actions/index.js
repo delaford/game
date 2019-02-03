@@ -215,6 +215,11 @@ export default {
     });
   },
 
+  'player:screen:bank:withdraw': (data) => {
+    console.log(data);
+    debugger;
+  },
+
   'player:screen:bank:deposit': (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const qty = data.item.params.quantity;

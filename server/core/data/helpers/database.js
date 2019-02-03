@@ -25,6 +25,7 @@ const presetActions = (items) => {
           'equip',
           'unequip',
           'deposit',
+          'withdraw',
         ];
         break;
       case 'resource':
@@ -33,6 +34,7 @@ const presetActions = (items) => {
           'examine',
           'drop',
           'deposit',
+          'withdraw',
         ];
         break;
       // Axes you can chop with
