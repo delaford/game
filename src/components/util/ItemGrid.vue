@@ -13,12 +13,13 @@
           // eslint-disable-next-line
           backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
         }"
-        :class="`slot ${gridData(screen).classId}`"
-        @click.right="rightClick($event, i)" />
-      <div
-        v-else
-        :class="`slot ${gridData(screen).classId}`">
-        <!-- Empty slot -->
+        :class="`slot ${gridData(screen).classId} ${isItemSelected(i)}`"
+        @click.left="selectItem(i)"
+        @click.right="rightClick($event, i)">
+        <span
+          v-if="getItemFromSlot(i).qty && getItemFromSlot(i).qty > 1"
+          class="qty"
+          v-text="getItemFromSlot(i).qty" />
       </div>
     </div>
   </div>
@@ -50,7 +51,7 @@ export default {
   },
   data() {
     return {
-      //
+      itemSelected: false,
     };
   },
   computed: {
@@ -68,6 +69,23 @@ export default {
     this.$forceUpdate();
   },
   methods: {
+    /**
+     * Is the item selected?
+     *
+     * @param {integer} slot The slot we are examining
+     * @return {boolean}
+     */
+    isItemSelected(slot) {
+      return this.itemSelected === slot ? 'selected' : '';
+    },
+    /**
+     * Select the item to let player know its in use
+     *
+     * @param {integer} slot The item in the slot we are selecting
+     */
+    selectItem(slot) {
+      this.itemSelected = this.itemSelected === slot ? false : slot;
+    },
     gridData(section) {
       const modifier = {
         inventory: {
@@ -215,6 +233,13 @@ div.grid_container {
     margin: 1px 0 0 1px;
     text-align: center;
     background-color: transparent;
+
+    .qty {
+      font-size: 10px;
+      color: yellow;
+      text-shadow: 1px 1px 0 black;
+      float: left;
+    }
 
     &.selected {
       filter: drop-shadow(1px 0 0 yellow) drop-shadow(-1px 0 0 yellow) drop-shadow(0 1px 0 yellow) drop-shadow(0 -1px 0 yellow);
