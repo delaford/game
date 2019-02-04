@@ -321,9 +321,6 @@ export default {
   'player:resource:mining:rock': async (data) => {
     const mining = new Mining(data.playerIndex, data.todo.item.id);
 
-    // Update rock to dead-rock after successful mine
-    world.map.foreground[data.todo.actionToQueue.onTile] = 532;
-
     try {
       const rockMined = await mining.pickAtRock();
       const resource = general.find(i => i.id === rockMined.resources);
@@ -333,6 +330,9 @@ export default {
 
       // Extract resource and either add to inventory or drop it
       mining.extractResource(resource);
+
+      // Update rock to dead-rock after successful mine
+      world.map.foreground[data.todo.actionToQueue.onTile] = 532;
 
       // Update the experience
       mining.updateExperience(rockMined.experience);
