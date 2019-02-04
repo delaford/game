@@ -216,6 +216,9 @@ export default {
     });
   },
 
+  /**
+   * A player withdraws items from their bank
+   */
   'player:screen:bank:withdraw': (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const itemId = data.item.id;
@@ -255,6 +258,9 @@ export default {
     });
   },
 
+  /**
+   * A player deposits items into their bank
+   */
   'player:screen:bank:deposit': (data) => {
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const qty = data.item.params.quantity;
