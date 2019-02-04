@@ -1,6 +1,21 @@
 import { presetActions } from '../helpers/database';
 
 export default [
+  // Coins
+  {
+    id: 'coins',
+    name: 'Coins',
+    examine: 'Precious money.',
+    price: false,
+    type: 'currency',
+    stackable: true,
+    graphics: {
+      tileset: 'general',
+      row: 0,
+      column: 0,
+      levels: [1, 10, 100, 1000],
+    },
+  },
   // Ores
   {
     id: 'copper-ore',

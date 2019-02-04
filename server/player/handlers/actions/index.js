@@ -8,6 +8,7 @@ import uuid from 'uuid/v4';
 import pipe from '../../pipeline';
 import Action from '../../action';
 import Map from '../../../core/map';
+import config from '../../../config';
 import Socket from '../../../socket';
 import Item from '../../../core/item';
 import world from '../../../core/world';
@@ -216,8 +217,42 @@ export default {
   },
 
   'player:screen:bank:withdraw': (data) => {
-    console.log(data);
-    debugger;
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
+    const itemId = data.item.id;
+    const player = world.players[playerIndex];
+    let qty = data.item.params.quantity === 'All' ? player.bank.find(i => i.id === itemId).qty : data.item.params.quantity;
+    const openInventorySlots = config.player.slots.inventory - player.inventory.length;
+    // Is the quantity more than the slots we have available?
+    qty = openInventorySlots > qty ? qty : openInventorySlots;
+
+    // Add an item to the inventory for every quantity
+    for (let index = 0; index < qty; index += 1) {
+      world.players[playerIndex].inventory.push({
+        id: itemId,
+        uuid: uuid(),
+        slot: UI.getOpenSlot(world.players[playerIndex].inventory),
+      });
+    }
+
+    // Set the item that we just withdrew with its new quantity
+    const itemStillInBank = player.bank.findIndex(i => i.id === itemId);
+    world.players[playerIndex].bank[itemStillInBank].qty -= qty;
+
+    // Is the quantity now zero? Let's remove it from the bank.
+    if (world.players[playerIndex].bank[itemStillInBank].qty === 0) {
+      world.players[playerIndex].bank.splice(itemStillInBank, 1);
+    }
+
+    // Refresh client with new data
+    Socket.emit('core:refresh:inventory', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].inventory,
+    });
+
+    Socket.emit('core:bank:refresh', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].bank,
+    });
   },
 
   'player:screen:bank:deposit': (data) => {
