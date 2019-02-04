@@ -49,6 +49,13 @@ const config = {
       y: 5,
     },
   },
+  player: {
+    slots: {
+      inventory: 24,
+      bank: 200,
+      trade: 16,
+    },
+  },
 };
 
 module.exports = config;

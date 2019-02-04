@@ -3,6 +3,7 @@ import PF from 'pathfinding';
 import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
 import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
 import UI from 'shared/ui';
+import bus from './utilities/bus';
 
 class Map {
   constructor(data, images) {
@@ -100,6 +101,9 @@ class Map {
       jewelryImage,
       generalImage,
     };
+
+    // Tell client images are loaded
+    bus.$emit('game:images:loaded');
 
     // Set image and config
     this.build();

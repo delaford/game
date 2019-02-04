@@ -50,4 +50,22 @@ module.exports = [
       range: 4,
     },
   },
+  {
+    id: 4,
+    name: 'Bank gnome',
+    examine: 'Helps with your finances and assets, I believe.',
+    graphic: {
+      row: 0,
+      column: 3,
+    },
+    actions: [
+      'examine',
+      'bank',
+    ],
+    spawn: {
+      x: 17,
+      y: 105,
+      range: 2,
+    },
+  },
 ];

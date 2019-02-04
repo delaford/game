@@ -8,6 +8,7 @@ import uuid from 'uuid/v4';
 import pipe from '../../pipeline';
 import Action from '../../action';
 import Map from '../../../core/map';
+import config from '../../../config';
 import Socket from '../../../socket';
 import Item from '../../../core/item';
 import world from '../../../core/world';
@@ -176,12 +177,11 @@ export default {
     Socket.broadcast('item:change', world.items);
 
     console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
-    const { id, graphics } = Query.getItemData(todo.item.id);
+    const { id } = Query.getItemData(todo.item.id);
 
     world.players[playerIndex].inventory.push({
       slot: UI.getOpenSlot(world.players[playerIndex].inventory),
       uuid: todo.item.uuid,
-      graphics,
       id,
     });
 
@@ -196,12 +196,128 @@ export default {
     }
 
     // Tell client to update their inventory
-    Socket.emit('item:added-to-inventory', {
+    Socket.emit('core:refresh:inventory', {
       player: { socket_id: world.players[playerIndex].socket_id },
       data: world.players[playerIndex].inventory,
     });
   },
 
+  /**
+   * A player wants to access their bank
+   */
+  'player:screen:bank': (data) => {
+    console.log('Accessing bank...');
+    world.players[data.playerIndex].currentPane = 'bank';
+
+    Socket.emit('open:screen', {
+      player: { socket_id: world.players[data.playerIndex].socket_id },
+      screen: 'bank',
+      payload: { items: world.players[data.playerIndex].bank },
+    });
+  },
+
+  /**
+   * A player withdraws items from their bank
+   */
+  'player:screen:bank:withdraw': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
+    const itemId = data.item.id;
+    const player = world.players[playerIndex];
+    let qty = data.item.params.quantity === 'All' ? player.bank.find(i => i.id === itemId).qty : data.item.params.quantity;
+    const openInventorySlots = config.player.slots.inventory - player.inventory.length;
+    // Is the quantity more than the slots we have available?
+    qty = openInventorySlots > qty ? qty : openInventorySlots;
+
+    // Add an item to the inventory for every quantity
+    for (let index = 0; index < qty; index += 1) {
+      world.players[playerIndex].inventory.push({
+        id: itemId,
+        uuid: uuid(),
+        slot: UI.getOpenSlot(world.players[playerIndex].inventory),
+      });
+    }
+
+    // Set the item that we just withdrew with its new quantity
+    const itemStillInBank = player.bank.findIndex(i => i.id === itemId);
+    world.players[playerIndex].bank[itemStillInBank].qty -= qty;
+
+    // Is the quantity now zero? Let's remove it from the bank.
+    if (world.players[playerIndex].bank[itemStillInBank].qty === 0) {
+      world.players[playerIndex].bank.splice(itemStillInBank, 1);
+    }
+
+    // Refresh client with new data
+    Socket.emit('core:refresh:inventory', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].inventory,
+    });
+
+    Socket.emit('core:bank:refresh', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].bank,
+    });
+  },
+
+  /**
+   * A player deposits items into their bank
+   */
+  'player:screen:bank:deposit': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.id);
+    const qty = data.item.params.quantity;
+    const itemId = data.item.id;
+    const player = world.players[playerIndex];
+    const inv = player.inventory;
+    const totalOfItemInInv = inv.filter(i => i.id === itemId).length;
+    const bankItems = player.bank.map(e => e.id);
+
+    // How many items will we keep in the inventory?
+    const toKeep = totalOfItemInInv - (qty === 'All' ? totalOfItemInInv : qty);
+
+    // Remove the first X of items we will be keeping and
+    // then add remaing of inventory that we aren't depositng
+    world.players[playerIndex].inventory = [
+      ...inv
+        .filter(i => i.id === itemId)
+        .sort((a, b) => b.slot - a.slot)
+        .splice(0, toKeep),
+      ...inv
+        .filter(i => i.id !== itemId),
+    ];
+
+    // How many items are we depositing on selection?
+    const numericQty = qty === 'All' ? totalOfItemInInv : qty;
+
+    // Do we already have items in the bank of what we're depositing?
+    const itemAlreadyInBank = bankItems.includes(itemId);
+
+    if (itemAlreadyInBank) {
+      // If we do, let's just add to its quantity
+      const itemFound = bankItems.findIndex(i => itemId === i);
+      world.players[playerIndex].bank[itemFound].qty += numericQty;
+    } else {
+      // If not, let's add to their bank with the quantity
+      world.players[playerIndex].bank.push({
+        id: itemId,
+        qty: numericQty,
+        slot: UI.getOpenSlot(world.players[playerIndex].bank, 'bank'),
+      });
+    }
+
+    // Refresh client with new data
+    Socket.emit('core:refresh:inventory', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].inventory,
+    });
+
+    Socket.emit('core:bank:refresh', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].bank,
+    });
+  },
+
+  /**
+   * A player is going to attempt to mine a rock
+   */
   'player:resource:mining:rock': async (data) => {
     const mining = new Mining(data.playerIndex, data.todo.item.id);
 

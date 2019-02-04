@@ -74,12 +74,16 @@ export default {
    * Queue up an player action to executed they reach their destination
    */
   'player:queueAction': (data) => {
-    console.log('Action queued.');
-
     const playerIndex = world.players.findIndex(p => p.socket_id === data.player.socket_id);
 
     world.players[playerIndex].queue.push(data);
     world.players[playerIndex].action = data.actionToQueue;
+  },
+
+  'player:pane:close': (data) => {
+    const playerIndex = world.players.findIndex(p => p.uuid === data.data.id);
+
+    world.players[playerIndex].currentPane = false;
   },
 };
 

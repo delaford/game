@@ -39,6 +39,9 @@ class ContextMenu {
       },
     };
 
+    // Are they on any pane?
+    this.currentPane = this.player.currentPane;
+
     // Data relevant to the context
     this.miscData = miscData;
   }
@@ -102,9 +105,26 @@ class ContextMenu {
     const foregroundData = Query.getForegroundData(foregroundTile);
 
     // Action on item (Equip, Drop, Unequip, etc.)
-    const itemActedOn = this.player.inventory.find(s => s.slot === this.miscData.slot);
+    const itemSource = {
+      inventorySlot: this.player.inventory,
+      bankSlot: this.player.bank,
+    };
+
+    // if this.currentPane, remove some items
+    // this.currentPane
+
+    // From where are we getting our data from?
+    // If we clicked on 'inventorySlot', then obviously player.inventory
+    // if we clicked on 'bankSlot', then player.bank and so on.
+    const itemsToSearch = itemSource[this.context[1]] || this.player.inventory;
+    const itemActedOn = itemsToSearch.find(s => s.slot === this.miscData.slot);
 
     // Context menu list center
+    /**
+     * TODO
+     * I know there is a MUCH better way to abstract
+     * this switch-case code below to more simpler methods.
+     */
     switch (action.name) {
       default:
         return items;
@@ -129,7 +149,7 @@ class ContextMenu {
 
             const color = UI.getContextSubjectColor(context);
 
-            if (ContextMenu.canDoAction(actions, action)) {
+            if (this.canDoAction(actions, action)) {
               items.push({
                 label: `${action.name} <span style='color:${color}'>${name}</span>`,
                 action,
@@ -152,7 +172,7 @@ class ContextMenu {
 
           const color = UI.getContextSubjectColor(item.context);
 
-          if (ContextMenu.canDoAction(actions, action)) {
+          if (this.canDoAction(actions, action)) {
             items.push({
               label: `${action.name} <span style='color:${color}'>${name}</span>`,
               action,
@@ -178,7 +198,7 @@ class ContextMenu {
 
           const color = UI.getContextSubjectColor(context);
 
-          if (ContextMenu.canDoAction(actions, action)) {
+          if (this.canDoAction(actions, action)) {
             items.push({
               label: `${action.name} <span style='color:${color}'>${name}</span>`,
               action,
@@ -200,7 +220,7 @@ class ContextMenu {
 
           const color = UI.getContextSubjectColor(context);
 
-          if (ContextMenu.canDoAction(actions, action)) {
+          if (this.canDoAction(actions, action)) {
             items.push({
               label: `${action.name} <span style='color:${color}'>${name}</span>`,
               action,
@@ -216,7 +236,7 @@ class ContextMenu {
       // Examine item/object/npc from where possible
       case 'Examine':
         if (this.isFromGameCanvas()) {
-          if (foregroundData && ContextMenu.canDoAction(foregroundData.actions, action)) {
+          if (foregroundData && this.canDoAction(foregroundData.actions, action)) {
             const fgColor = UI.getContextSubjectColor(foregroundData.context);
             items.push({
               label: `${action.name} <span style='color:${fgColor}'>${foregroundData.name}</span>`,
@@ -230,7 +250,7 @@ class ContextMenu {
           getNPCs.forEach(({
             actions, name, context, examine, id,
           }) => {
-            if (ContextMenu.canDoAction(actions, action)) {
+            if (this.canDoAction(actions, action)) {
               const color = UI.getContextSubjectColor(context);
               items.push({
                 label: `${action.name} <span style='color:${color}'>${name}</span>`,
@@ -249,7 +269,7 @@ class ContextMenu {
 
             const color = UI.getContextSubjectColor(item.context);
 
-            if (ContextMenu.canDoAction(actions, action)) {
+            if (this.canDoAction(actions, action)) {
               items.push({
                 label: `Examine <span style='color:${color}'>${name}</span>`,
                 action,
@@ -269,7 +289,7 @@ class ContextMenu {
 
           const color = UI.getContextSubjectColor(context);
 
-          if (ContextMenu.canDoAction(actions, action)) {
+          if (this.canDoAction(actions, action)) {
             items.push({
               label: `${action.name} <span style='color:${color}'>${name}</span>`,
               action,
@@ -283,7 +303,7 @@ class ContextMenu {
 
       // Mine rocks
       case 'Mine':
-        if (foregroundData && ContextMenu.canDoAction(foregroundData, action)) {
+        if (foregroundData && this.canDoAction(foregroundData, action)) {
           const color = UI.getContextSubjectColor(foregroundData.context);
           items.push({
             label: `${action.name} <span style='color:${color}'>${foregroundData.name}</span>`,
@@ -302,7 +322,7 @@ class ContextMenu {
 
       // Push
       case 'Push':
-        if (foregroundData && ContextMenu.canDoAction(foregroundData, action)) {
+        if (foregroundData && this.canDoAction(foregroundData, action)) {
           const color = UI.getContextSubjectColor(foregroundData.context);
           items.push({
             label: `${action.name} <span style='color:${color}'>${foregroundData.name}</span>`,
@@ -317,6 +337,92 @@ class ContextMenu {
           });
         }
 
+        break;
+
+      // Bank
+      case 'Bank':
+        if (this.isFromGameCanvas()) {
+          if (foregroundData && this.canDoAction(foregroundData.actions, action)) {
+            const fgColor = UI.getContextSubjectColor(foregroundData.context);
+            items.push({
+              label: `${action.name} <span style='color:${fgColor}'>${foregroundData.name}</span>`,
+              action,
+              examine: foregroundData.examine,
+              type: 'foreground',
+              id: foregroundData.id,
+            });
+          }
+
+          getNPCs.forEach(({
+            actions, name, context, examine, id,
+          }) => {
+            if (this.canDoAction(actions, action)) {
+              const color = UI.getContextSubjectColor(context);
+              items.push({
+                label: `${action.name} <span style='color:${color}'>${name}</span>`,
+                action,
+                examine,
+                type: 'npc',
+                id,
+              });
+            }
+          });
+        }
+
+        break;
+
+      case 'Deposit':
+        if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
+          const {
+            name, examine, id, context, actions,
+          } = Query.getItemData(itemActedOn.id);
+
+          const color = UI.getContextSubjectColor(context);
+
+          if (this.canDoAction(actions, action)) {
+            const quantity = [1, 5, 10, 'All'];
+
+            quantity.forEach((q) => {
+              items.push({
+                label: `${action.name}-${q.toString()} <span style='color:${color}'>${name}</span>`,
+                params: {
+                  quantity: q,
+                },
+                action,
+                examine,
+                type: 'item',
+                id,
+              });
+            });
+          }
+        }
+        break;
+
+      case 'Withdraw':
+        if (this.clickedOn('bankSlot')) {
+          const {
+            name, examine, id, context, actions,
+          } = Query.getItemData(itemActedOn.id);
+
+          const color = UI.getContextSubjectColor(context);
+
+          if (this.canDoAction(actions, action)) {
+            const quantity = [1, 5, 10, 'All'];
+
+            quantity.forEach((q) => {
+              items.push({
+                label: `${action.name}-${q.toString()} <span style='color:${color}'>${name}</span>`,
+                params: {
+                  quantity: q,
+                },
+                action,
+                examine,
+                type: 'item',
+                id,
+              });
+            });
+          }
+        }
         break;
     }
 
@@ -370,7 +476,11 @@ class ContextMenu {
    * @returns {boolean}
    */
   isFromGameCanvas() {
-    return this.clickedOn('gameMap');
+    // TODO
+    // Get the top-left X,Y and right-bottom X,Y of .gameMap and then
+    // see if mouse-click is within those limits. Technically, you
+    // would have clicked on the gameCanvas because of X,Y origin.
+    return this.clickedOn('gameMap') || this.clickedOn('bankSlot');
   }
 
   /**
@@ -381,8 +491,14 @@ class ContextMenu {
    * @param {object} action The action being checked
    * @returns {boolean}
    */
-  static canDoAction(item, action) {
+  canDoAction(item, action) {
     const name = action.name.toLowerCase();
+
+    // Can we allow this action while a certain pane is open?
+    // (ie: Equip not allowed while accessing bank)
+    if (action.disallowWhile && action.disallowWhile.includes(this.currentPane)) return false;
+    if (action.onPane && !action.onPane.includes(this.currentPane)) return false;
+
 
     // If we have a list of actions
     if (item instanceof Array) {

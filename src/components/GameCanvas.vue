@@ -1,5 +1,12 @@
 <template>
   <div class="game">
+    <div
+      v-if="current !== false"
+      class="pane">
+      <component
+        :game="game"
+        :is="current"/>
+    </div>
     <canvas
       id="game-map"
       tabindex="0"
@@ -31,6 +38,8 @@ export default {
   data() {
     return {
       mouse: false,
+      current: false,
+      screenData: false,
     };
   },
   computed: {
@@ -38,10 +47,30 @@ export default {
       return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
   },
+  watch: {
+    current(newVal) {
+      if (typeof newVal === 'boolean') {
+        Socket.emit('player:pane:close', {
+          id: this.game.player.uuid,
+        });
+      }
+    },
+  },
   created() {
     bus.$on('canvas:getMouse', () => this.mouseSelection());
+
+    bus.$on('open:screen', this.openScreen);
+    bus.$on('screen:close', this.closePane);
   },
   methods: {
+    closePane() {
+      this.current = false;
+    },
+    openScreen(incoming) {
+      this.current = incoming.data.screen;
+      this.screenData = incoming.data.payload;
+      console.log(incoming);
+    },
     /**
      * Right-click brings up context-menu
      *
@@ -67,6 +96,11 @@ export default {
      */
     leftClick(event) {
       const coordinates = UI.getViewportCoordinates(event);
+
+      if (this.current !== false) {
+        this.current = false;
+      }
+
       // Send to game engine that
       // the player clicked to move
       const data = {
@@ -134,6 +168,7 @@ export default {
 div.game {
   height: 352px;
   margin-bottom: 5px;
+  position: relative;
 
   canvas.main-canvas {
     border-top-left-radius: 3px;
@@ -141,6 +176,26 @@ div.game {
     background: #fff;
     outline: none;
     cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .pane {
+    z-index: 5;
+    position: relative;
+    background: red;
+    width: 90%;
+    height: 90%;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+
+    div {
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
 
   #context-menu {

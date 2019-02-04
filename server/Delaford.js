@@ -110,10 +110,21 @@ class Delaford {
     console.log(`${emoji.get('computer')}  A client (${ws.id.substring(0, 5)}...) connected.`);
     world.clients.push(ws);
 
+    // Only return needed values for client
+    const allItems = [...wearableItems, ...general].map((i) => {
+      const item = {
+        name: i.name,
+        id: i.id,
+        graphics: i.graphics,
+      };
+
+      return item;
+    });
+
     // Send player server items
     Socket.emit('server:send:items', {
       player: { socket_id: ws.id },
-      items: [...wearableItems, ...general],
+      items: allItems,
     });
 
     ws.on('message', async (msg) => {

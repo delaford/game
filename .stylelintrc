@@ -2,6 +2,7 @@
   "processors": ["stylelint-processor-html"],
   "extends": "stylelint-config-standard",
   "ignoreFiles": ["**/*.js"],
+  "comment-word-blacklist": ["eslint"],
   "rules": {
     "color-hex-case": null,
     "number-leading-zero": null,

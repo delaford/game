@@ -1,6 +1,5 @@
 import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
-import Query from './data/query';
 import playerEvent from './../player/handlers/actions';
 
 const config = require('../config');
@@ -25,6 +24,10 @@ class Player {
       current: data.hp.current,
       max: data.hp.max,
     };
+
+    // A player's bank
+    this.bank = data.bank;
+
 
     // Worn items statistics
     this.combat = {
@@ -79,23 +82,9 @@ class Player {
     this.queue = [];
 
     // Player inventory
-    this.inventory = Player.constructInventory(data.inventory);
+    this.inventory = data.inventory;
 
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
-  }
-
-  /**
-   * Make up correct object format for Vue component INVENTORY
-   * as it is abstracted from the database
-   *
-   * @param {string} data The array of Inventory items
-   */
-  static constructInventory(data) {
-    return data.map((item) => {
-      const { graphics } = Query.getItemData(item.id);
-      item.graphics = graphics;
-      return item;
-    });
   }
 
   /**
@@ -356,6 +345,9 @@ class Player {
     // Get inventory data
     const inventoryData = getPlayer.inventory;
 
+    // Get bank data
+    const bankData = getPlayer.bank;
+
     // Get skills data
     const skillsData = getPlayer.skills;
 
@@ -374,7 +366,7 @@ class Player {
     }
 
     const data = {
-      uuid: this.uuid, playerData, inventoryData, wearData, skillsData,
+      uuid: this.uuid, playerData, inventoryData, wearData, skillsData, bankData,
     };
 
     return new Promise((resolve) => {
