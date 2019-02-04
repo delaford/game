@@ -49,7 +49,7 @@ export default class Skill {
     const openSlot = UI.getOpenSlot(world.players[this.playerIndex].inventory);
 
     // Do we have an open slot for the newly-mined resource?
-    if (!openSlot) {
+    if (openSlot === false) {
       // If not, we let it fall on the ground
       world.items.push({
         id: getItem.id,
