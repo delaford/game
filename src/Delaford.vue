@@ -68,7 +68,9 @@
         <Info :game="game" />
 
         <!-- Slots (Stats, Wear, Inventory, etc.) -->
-        <Slots :game="game" />
+        <Slots
+          ref="sidebarSlots"
+          :game="game" />
       </div>
 
       <context-menu :game="game"/>
@@ -149,6 +151,7 @@ export default {
     logout() {
       this.screen = 'login';
       this.game = { exit: true };
+      this.$refs.sidebarSlots.selected = 1;
     },
 
     /**
