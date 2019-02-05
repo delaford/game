@@ -110,9 +110,6 @@ class ContextMenu {
       bankSlot: this.player.bank,
     };
 
-    // if this.currentPane, remove some items
-    // this.currentPane
-
     // From where are we getting our data from?
     // If we clicked on 'inventorySlot', then obviously player.inventory
     // if we clicked on 'bankSlot', then player.bank and so on.
