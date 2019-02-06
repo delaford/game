@@ -15,6 +15,9 @@ export default [
       column: 0,
       quantityLevel: [1, 2, 3, 4, 5, 25, 100, 250, 1000, 10000],
     },
+    actions: presetActions([
+      'resource',
+    ]),
   },
   // Ores
   {
