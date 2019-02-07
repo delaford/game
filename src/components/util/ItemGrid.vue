@@ -83,7 +83,7 @@ export default {
       if (getItem) {
         let { column } = getGraphic.graphics;
         if (getGraphic.graphics.quantityLevel) {
-          const qtyColumn = this.getQuantityColumn(slotNumber);
+          const qtyColumn = this.getQuantityColumn(slotNumber, getGraphic.graphics);
           column = qtyColumn;
         }
 
@@ -102,17 +102,16 @@ export default {
      * @param {integer} slotNumber The slot index in the inventory
      * @return {integer}
      */
-    getQuantityColumn(slotNumber) {
-      const dan = this.items.map((e) => {
-        if (e.qty && e.graphics && e.graphics.quantityLevel) {
-          e.graphics = window.allItems.find(i => i.id === e.id).graphics;
-          e.column = e.graphics.quantityLevel.findIndex(x => x > e.qty);
-          e.column = (e.column === -1 ? e.graphics.quantityLevel.length : e.column) - 1;
-        }
-        return e;
-      });
+    getQuantityColumn(slotNumber, graphics) {
+      const findCorrectItem = this.items.find(e => e.slot === slotNumber);
 
-      return dan[slotNumber].column;
+      if (findCorrectItem.qty && graphics.quantityLevel) {
+        findCorrectItem.graphics = graphics;
+        findCorrectItem.column = graphics.quantityLevel.findIndex(x => x > findCorrectItem.qty);
+        findCorrectItem.column = (findCorrectItem.column === -1 ? graphics.quantityLevel.length : findCorrectItem.column) - 1;
+      }
+
+      return findCorrectItem.column;
     },
     /**
      * Does this item quantity, and thus is stackable?
