@@ -273,34 +273,59 @@ export default {
     // How many items will we keep in the inventory?
     const toKeep = totalOfItemInInv - (qty === 'All' ? totalOfItemInInv : qty);
 
-    // Remove the first X of items we will be keeping and
-    // then add remaing of inventory that we aren't depositng
-    world.players[playerIndex].inventory = [
-      ...inv
-        .filter(i => i.id === itemId)
-        .sort((a, b) => b.slot - a.slot)
-        .splice(0, toKeep),
-      ...inv
-        .filter(i => i.id !== itemId),
-    ];
-
-    // How many items are we depositing on selection?
-    const numericQty = qty === 'All' ? totalOfItemInInv : qty;
+    const getItem = inv.find(i => i.id === itemId);
+    const isStackable = 'qty' in getItem;
 
     // Do we already have items in the bank of what we're depositing?
     const itemAlreadyInBank = bankItems.includes(itemId);
 
-    if (itemAlreadyInBank) {
-      // If we do, let's just add to its quantity
-      const itemFound = bankItems.findIndex(i => itemId === i);
-      world.players[playerIndex].bank[itemFound].qty += numericQty;
+
+    if (isStackable) {
+      const realQty = qty === 'All' ? getItem.qty : qty;
+      const getItemInInventory = inv.findIndex(e => e.id === itemId);
+
+      if (itemAlreadyInBank) {
+        world.players[playerIndex].inventory[getItemInInventory].qty -= realQty;
+        const itemStillInBank = player.bank.findIndex(i => i.id === itemId);
+        world.players[playerIndex].bank[itemStillInBank].qty += realQty;
+
+        if (world.players[playerIndex].inventory[getItemInInventory].qty === 0) {
+          world.players[playerIndex].inventory.splice(getItemInInventory, 1);
+        }
+      } else {
+        world.players[playerIndex].bank.push({
+          id: itemId,
+          qty: realQty,
+          slot: UI.getOpenSlot(world.players[playerIndex].bank, 'bank'),
+        });
+      }
     } else {
-      // If not, let's add to their bank with the quantity
-      world.players[playerIndex].bank.push({
-        id: itemId,
-        qty: numericQty,
-        slot: UI.getOpenSlot(world.players[playerIndex].bank, 'bank'),
-      });
+      // Remove the first X of items we will be keeping and
+      // then add remaing of inventory that we aren't depositng
+      world.players[playerIndex].inventory = [
+        ...inv
+          .filter(i => i.id === itemId)
+          .sort((a, b) => b.slot - a.slot)
+          .splice(0, toKeep),
+        ...inv
+          .filter(i => i.id !== itemId),
+      ];
+
+      // How many items are we depositing on selection?
+      const numericQty = qty === 'All' ? totalOfItemInInv : qty;
+
+      if (itemAlreadyInBank) {
+        // If we do, let's just add to its quantity
+        const itemFound = bankItems.findIndex(i => itemId === i);
+        world.players[playerIndex].bank[itemFound].qty += numericQty;
+      } else {
+        // If not, let's add to their bank with the quantity
+        world.players[playerIndex].bank.push({
+          id: itemId,
+          qty: numericQty,
+          slot: UI.getOpenSlot(world.players[playerIndex].bank, 'bank'),
+        });
+      }
     }
 
     // Refresh client with new data
