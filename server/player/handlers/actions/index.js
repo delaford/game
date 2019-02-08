@@ -14,6 +14,7 @@ import Item from '../../../core/item';
 import world from '../../../core/world';
 import Query from '../../../core/data/query';
 import Handler from '../../../player/handler';
+import { Bank } from '../../../core/functions';
 import Mining from '../../../core/skills/mining';
 import ContextMenu from '../../../core/context-menu';
 import { wearableItems, general } from '../../../core/data/items';
@@ -220,30 +221,52 @@ export default {
    * A player withdraws items from their bank
    */
   'player:screen:bank:withdraw': (data) => {
+    const bank = new Bank(data.id, data.item.id, data.item.params.quantity, 'withdraw');
+    console.log(bank);
+    debugger;
+
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     const itemId = data.item.id;
     const player = world.players[playerIndex];
+    const { stackable } = Query.getItemData(itemId);
+    const getItem = player.bank.find(i => i.id === itemId);
     let qty = data.item.params.quantity === 'All' ? player.bank.find(i => i.id === itemId).qty : data.item.params.quantity;
     const openInventorySlots = config.player.slots.inventory - player.inventory.length;
     // Is the quantity more than the slots we have available?
-    qty = openInventorySlots > qty ? qty : openInventorySlots;
+    const itemAlreadyBank = player.bank.map(e => e.id).includes(getItem.id);
+    const isStackable = 'qty' in getItem && stackable;
+    qty = openInventorySlots > qty || isStackable ? qty : openInventorySlots;
 
-    // Add an item to the inventory for every quantity
-    for (let index = 0; index < qty; index += 1) {
-      world.players[playerIndex].inventory.push({
-        id: itemId,
-        uuid: uuid(),
-        slot: UI.getOpenSlot(world.players[playerIndex].inventory),
-      });
-    }
+    if (isStackable) {
+      const getItemInBank = player.bank.findIndex(e => e.id === itemId);
 
-    // Set the item that we just withdrew with its new quantity
-    const itemStillInBank = player.bank.findIndex(i => i.id === itemId);
-    world.players[playerIndex].bank[itemStillInBank].qty -= qty;
+      if (itemAlreadyBank) {
+        world.players[playerIndex].bank[getItemInBank].qty -= qty;
+        const itemStillInInventory = player.inventory.findIndex(i => i.id === itemId);
+        world.players[playerIndex].inventory[itemStillInInventory].qty += qty;
 
-    // Is the quantity now zero? Let's remove it from the bank.
-    if (world.players[playerIndex].bank[itemStillInBank].qty === 0) {
-      world.players[playerIndex].bank.splice(itemStillInBank, 1);
+        if (world.players[playerIndex].bank[getItemInBank].qty === 0) {
+          world.players[playerIndex].bank.splice(getItemInBank, 1);
+        }
+      }
+    } else {
+      // Add an item to the inventory for every quantity
+      for (let index = 0; index < qty; index += 1) {
+        world.players[playerIndex].inventory.push({
+          id: itemId,
+          uuid: uuid(),
+          slot: UI.getOpenSlot(world.players[playerIndex].inventory),
+        });
+      }
+
+      // Set the item that we just withdrew with its new quantity
+      const itemStillInBank = player.bank.findIndex(i => i.id === itemId);
+      world.players[playerIndex].bank[itemStillInBank].qty -= qty;
+
+      // Is the quantity now zero? Let's remove it from the bank.
+      if (world.players[playerIndex].bank[itemStillInBank].qty === 0) {
+        world.players[playerIndex].bank.splice(itemStillInBank, 1);
+      }
     }
 
     // Refresh client with new data
@@ -278,7 +301,6 @@ export default {
 
     // Do we already have items in the bank of what we're depositing?
     const itemAlreadyInBank = bankItems.includes(itemId);
-
 
     if (isStackable) {
       const realQty = qty === 'All' ? getItem.qty : qty;

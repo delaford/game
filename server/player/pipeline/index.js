@@ -1,4 +1,4 @@
-const player = require('./players');
+import player from './players';
 /**
  * Pipelines are used to handle
  * events for certain actions
