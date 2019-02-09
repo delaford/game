@@ -227,22 +227,29 @@ export default {
       data.doing,
     );
 
-    const { inventory, bankItems } = bank[data.doing]();
+    try {
+      const { inventory, bankItems } = bank[data.doing]();
 
-    /** UPDATE PLAYER DATA */
-    world.players[bank.playerIndex].bank = bankItems;
-    world.players[bank.playerIndex].inventory = inventory;
+      /** UPDATE PLAYER DATA */
+      world.players[bank.playerIndex].bank = bankItems;
+      world.players[bank.playerIndex].inventory = inventory;
 
-    // Refresh client with new data
-    Socket.emit('core:refresh:inventory', {
-      player: { socket_id: world.players[bank.playerIndex].socket_id },
-      data: inventory,
-    });
+      // Refresh client with new data
+      Socket.emit('core:refresh:inventory', {
+        player: { socket_id: world.players[bank.playerIndex].socket_id },
+        data: inventory,
+      });
 
-    Socket.emit('core:bank:refresh', {
-      player: { socket_id: world.players[bank.playerIndex].socket_id },
-      data: bankItems,
-    });
+      Socket.emit('core:bank:refresh', {
+        player: { socket_id: world.players[bank.playerIndex].socket_id },
+        data: bankItems,
+      });
+    } catch (err) {
+      Socket.emit('game:send:message', {
+        player: { socket_id: data.player.socket_id },
+        text: err.message,
+      });
+    }
   },
 
   /**

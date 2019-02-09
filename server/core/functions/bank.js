@@ -34,6 +34,21 @@ export default class Bank {
   }
 
   /**
+   * Check for space in the correct array (inventory or bank)
+   *
+   * @param {string} type The type of action we are doing (withdraw|deposit)
+   * @return {integer}
+   */
+  checkCorrectSpace(type) {
+    const slotsAvailable = {
+      inventory: (config.player.slots.inventory - this.inventory.length),
+      bank: (config.player.slots.bank - this.bankSlots.length),
+    };
+
+    return slotsAvailable[type === 'withdraw' ? 'inventory' : 'bank'];
+  }
+
+  /**
    * Get the real amount of quantity based on the level we choose
    *
    * @param {integer} quantity The number we are withdrawing or depositing
@@ -42,20 +57,39 @@ export default class Bank {
    */
   getTrueQuantity(quantity, type) {
     const getItem = this.source.filter(e => e.id === this.itemId);
-    const inventorySlots = config.player.slots.inventory;
     const itemFound = (type === 'withdraw' || this.stackable) ? getItem[0].qty : getItem.length;
 
+    // First we get the number of available slots open in our inventory or bank
+    const availableSlots = this.checkCorrectSpace(type);
+
     if (quantity === 'All') {
-      // We either get all of the quantity a stackable item has
-      // or we get the number of times that item appears in the inventory
-      let availableSlots = (inventorySlots - this.inventory.length);
-      if (type === 'deposit') availableSlots = itemFound;
-      return this.stackable ? this.item.qty : availableSlots;
+      // If we are withdrawing and its not stackable
+      // then we want to see whats available in the inventory
+      // but if we are depositing, all items have a QTY counter
+      // and thus we can get the number of items we found
+      return type === 'withdraw' && !this.stackable ? availableSlots : itemFound;
     }
+
+    // If we have no slots available -- just return zero.
+    if (availableSlots === 0) return 0;
+
+    // Based on what we are enacting on,
+    // we need to determine the correct quantity
+    // we can deposit or withdraw
+    const amount = this.stackable || type === 'deposit' ? itemFound : availableSlots;
 
     // If our quantity is more than we want to deposit/withdraw
     // set accordingly. Withdraw 5; only have 3? Withdraw 3.
-    return quantity > itemFound ? itemFound : quantity;
+    return quantity < amount ? quantity : amount;
+  }
+
+  /**
+   * Does the inventory have enough space available?
+   *
+   * @return {boolean}
+   */
+  notEnoughSpace() {
+    return this.quantity === 0;
   }
 
   /**
@@ -76,6 +110,10 @@ export default class Bank {
    * Withdraw an item from the bank
    */
   withdraw() {
+    if (this.notEnoughSpace()) {
+      throw new Error('Not enough space to withdraw.');
+    }
+
     // First, is the item we are withdrawing already in the inventory and stackable?
     if (this.itemAlreadyInInventory() && this.stackable) {
       // If so, lets just add to its quantity
