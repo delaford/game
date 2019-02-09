@@ -13,8 +13,11 @@ export default [
       tileset: 'general',
       row: 0,
       column: 0,
-      levels: [1, 10, 100, 1000],
+      quantityLevel: [1, 2, 3, 4, 5, 25, 100, 250, 1000, 10000],
     },
+    actions: presetActions([
+      'resource',
+    ]),
   },
   // Ores
   {
@@ -25,7 +28,7 @@ export default [
     type: 'ore',
     graphics: {
       tileset: 'general',
-      row: 1,
+      row: 3,
       column: 5,
     },
     actions: presetActions([
@@ -40,7 +43,7 @@ export default [
     type: 'ore',
     graphics: {
       tileset: 'general',
-      row: 1,
+      row: 3,
       column: 6,
     },
     actions: presetActions([
