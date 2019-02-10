@@ -18,9 +18,14 @@ export default new Vuex.Store({
     },
     guestAccount: false,
     rememberMe: false,
+    action: {
+      label: '',
+      object: '',
+    },
   },
   getters: {
     account: state => state.account,
+    action: state => state.action,
     guestAccount: state => state.guestAccount,
     rememberMe: state => state.rememberMe,
   },
@@ -28,6 +33,10 @@ export default new Vuex.Store({
     REMEMBER_DEV_ACCOUNT: (state, payload) => {
       state.account.username = payload.username;
       state.account.password = payload.password;
+    },
+    SET_ACTION: (state, payload) => {
+      state.action.label = payload.label;
+      state.action.object = payload.object;
     },
     SET_REMEMBER_ME: (state, payload) => {
       state.rememberMe = payload;
@@ -37,6 +46,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    setAction: (context, payload) => {
+      context.commit('SET_ACTION', payload);
+    },
     setGuestAccount: (context, payload) => {
       context.commit('SET_GUEST_ACCOUNT', payload);
     },

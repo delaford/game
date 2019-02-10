@@ -27,6 +27,7 @@
 import UI from 'shared/ui';
 import config from 'root/config';
 import Client from '../core/client';
+import ClientUI from '../core/utilities/client-ui';
 import bus from '../core/utilities/bus';
 import Socket from '../core/utilities/socket';
 
@@ -40,14 +41,18 @@ export default {
   },
   data() {
     return {
-      action: '',
-      currentAction: false,
       mouse: false,
       current: false,
       screenData: false,
     };
   },
   computed: {
+    currentAction() {
+      return this.$store.getters.action.object;
+    },
+    action() {
+      return this.$store.getters.action.label;
+    },
     otherPlayers() {
       return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
@@ -65,22 +70,9 @@ export default {
     bus.$on('canvas:getMouse', () => this.mouseSelection());
     bus.$on('open:screen', this.openScreen);
     bus.$on('screen:close', this.closePane);
-    bus.$on('game:context-menu:first-only', this.displayFirstAction);
+    bus.$on('game:context-menu:first-only', ClientUI.displayFirstAction);
   },
   methods: {
-    /**
-     * Only display the first action in the top-left
-     *
-     * @param {object} incoming The data returned from the context-menu
-     */
-    displayFirstAction(incoming) {
-      const { count } = incoming.data.data;
-      console.log(incoming);
-      let { label } = incoming.data.data.firstItem;
-      if (count > 0) label += ` / ${count} other options`;
-      this.action = label;
-      this.currentAction = incoming.data.data.firstItem;
-    },
     /**
      * Close the context-menu
      */
@@ -95,7 +87,6 @@ export default {
     openScreen(incoming) {
       this.current = incoming.data.screen;
       this.screenData = incoming.data.payload;
-      console.log(incoming);
     },
     /**
      * Right-click brings up context-menu

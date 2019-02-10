@@ -30,6 +30,7 @@
 /* eslint-disable max-len */
 import UI from 'shared/ui';
 import bus from '../../core/utilities/bus';
+import ClientUI from '../../core/utilities/client-ui';
 
 export default {
   props: {
@@ -53,8 +54,6 @@ export default {
   data() {
     return {
       action: '',
-      currentAction: false,
-      itemSelected: false,
     };
   },
   computed: {
@@ -70,16 +69,9 @@ export default {
   },
   created() {
     this.$forceUpdate();
-    bus.$on('game:context-menu:first-only', this.displayFirstAction);
+    bus.$on('game:context-menu:first-only', ClientUI.displayFirstAction);
   },
   methods: {
-    displayFirstAction(incoming) {
-      const { count } = incoming.data.data;
-      let { label } = incoming.data.data.firstItem;
-      if (count > 0) label += ` / ${count} other options`;
-      this.action = label;
-      this.currentAction = incoming.data.data.firstItem;
-    },
     /**
      * Get the item's column of a certain slot in the inventory
      *
@@ -156,7 +148,7 @@ export default {
 
       bus.$emit('canvas:select-action', {
         event,
-        item: this.currentAction,
+        item: this.$store.getters.action.object,
       });
 
       // this.itemSelected = this.itemSelected === slot || this.screen !== 'inventory' ? false : slot;
