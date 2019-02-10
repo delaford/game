@@ -14,8 +14,9 @@
           backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
         }"
         :class="`slot ${gridData(screen).classId} ${isItemSelected(i)}`"
-        @click.left="selectItem(i)"
-        @click.right="rightClick($event, i)">
+        @click.left="selectItem($event)"
+        @mouseover="showContextMenu($event, i, true)"
+        @click.right="showContextMenu($event, i)">
         <span
           v-if="hasQuantity(i)"
           class="qty"
@@ -51,6 +52,8 @@ export default {
   },
   data() {
     return {
+      action: '',
+      currentAction: false,
       itemSelected: false,
     };
   },
@@ -67,8 +70,16 @@ export default {
   },
   created() {
     this.$forceUpdate();
+    bus.$on('game:context-menu:first-only', this.displayFirstAction);
   },
   methods: {
+    displayFirstAction(incoming) {
+      const { count } = incoming.data.data;
+      let { label } = incoming.data.data.firstItem;
+      if (count > 0) label += ` / ${count} other options`;
+      this.action = label;
+      this.currentAction = incoming.data.data.firstItem;
+    },
     /**
      * Get the item's column of a certain slot in the inventory
      *
@@ -140,9 +151,15 @@ export default {
      *
      * @param {integer} slot The item in the slot we are selecting
      */
-    selectItem(slot) {
+    selectItem(event) {
       // Allow 'selecting' an item only on the Inventory or if its not already selected
-      this.itemSelected = this.itemSelected === slot || this.screen !== 'inventory' ? false : slot;
+
+      bus.$emit('canvas:select-action', {
+        event,
+        item: this.currentAction,
+      });
+
+      // this.itemSelected = this.itemSelected === slot || this.screen !== 'inventory' ? false : slot;
     },
     gridData(section) {
       const modifier = {
@@ -165,7 +182,7 @@ export default {
      *
      * @param {event} event The mouse-click event
      */
-    rightClick(event, index) {
+    showContextMenu(event, index, firstOnly = false) {
       this.$forceUpdate();
 
       const coordinates = UI.getViewportCoordinates(event);
@@ -177,9 +194,21 @@ export default {
         target: event.target,
       };
 
-      event.preventDefault();
+      if (!firstOnly) {
+        event.preventDefault();
 
-      bus.$emit('PLAYER:MENU', data);
+        bus.$emit('PLAYER:MENU', data);
+      }
+
+      if (firstOnly && event && event.target) {
+        bus.$emit('PLAYER:MENU', {
+          coordinates,
+          event,
+          slot: index,
+          target: event.target,
+          firstOnly: true,
+        });
+      }
     },
     /**
      * Check to see if this slot is available

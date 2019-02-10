@@ -1,11 +1,14 @@
 <template>
   <div class="game">
     <div
+      class="first-action"
+      v-html="action" />
+    <div
       v-if="current !== false"
       class="pane">
       <component
         :game="game"
-        :is="current"/>
+        :is="current" />
     </div>
     <canvas
       id="game-map"
@@ -37,6 +40,8 @@ export default {
   },
   data() {
     return {
+      action: '',
+      currentAction: false,
       mouse: false,
       current: false,
       screenData: false,
@@ -58,14 +63,35 @@ export default {
   },
   created() {
     bus.$on('canvas:getMouse', () => this.mouseSelection());
-
     bus.$on('open:screen', this.openScreen);
     bus.$on('screen:close', this.closePane);
+    bus.$on('game:context-menu:first-only', this.displayFirstAction);
   },
   methods: {
+    /**
+     * Only display the first action in the top-left
+     *
+     * @param {object} incoming The data returned from the context-menu
+     */
+    displayFirstAction(incoming) {
+      const { count } = incoming.data.data;
+      console.log(incoming);
+      let { label } = incoming.data.data.firstItem;
+      if (count > 0) label += ` / ${count} other options`;
+      this.action = label;
+      this.currentAction = incoming.data.data.firstItem;
+    },
+    /**
+     * Close the context-menu
+     */
     closePane() {
       this.current = false;
     },
+    /**
+     * Open the context-menu
+     *
+     * @param {object} incoming The data returned from the context-menu
+     */
     openScreen(incoming) {
       this.current = incoming.data.screen;
       this.screenData = incoming.data.payload;
@@ -95,24 +121,29 @@ export default {
      * @param {event} event The mouse-click event
      */
     leftClick(event) {
-      const coordinates = UI.getViewportCoordinates(event);
+      bus.$emit('canvas:select-action', {
+        event,
+        item: this.currentAction,
+      });
 
-      if (this.current !== false) {
-        this.current = false;
-      }
+      // const coordinates = UI.getViewportCoordinates(event);
 
-      // Send to game engine that
-      // the player clicked to move
-      const data = {
-        id: this.game.player.uuid,
-        coordinates,
-      };
+      // if (this.current !== false) {
+      //   this.current = false;
+      // }
 
-      // Save latest mouse data
-      this.mouse = event;
+      // // Send to game engine that
+      // // the player clicked to move
+      // const data = {
+      //   id: this.game.player.uuid,
+      //   coordinates,
+      // };
 
-      Socket.emit('player:mouseTo', data);
-      bus.$emit('contextmenu:close');
+      // // Save latest mouse data
+      // this.mouse = event;
+
+      // Socket.emit('player:mouseTo', data);
+      // bus.$emit('contextmenu:close');
     },
 
     /**
@@ -139,6 +170,15 @@ export default {
           typeof this.game.map.setMouseCoordinates === 'function'
         ) {
           bus.$emit('DRAW:MOUSE', data);
+
+          if (event && event.target) {
+            bus.$emit('PLAYER:MENU', {
+              coordinates: hoveredSquare,
+              event,
+              target: event.target,
+              firstOnly: true,
+            });
+          }
         }
       }
     },
@@ -179,6 +219,18 @@ div.game {
     position: absolute;
     top: 0;
     left: 0;
+  }
+
+  .first-action {
+    position: relative;
+    z-index: 9;
+    left: .5em;
+    top: .5em;
+    font-size: 0.75em;
+    text-align: left;
+    font-family: "GameFont", sans-serif;
+    text-shadow: 1px 1px 0 #000;
+    color: #fff;
   }
 
   .pane {

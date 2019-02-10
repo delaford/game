@@ -135,10 +135,17 @@ export default {
 
     const items = await contextMenu.build();
 
-    Socket.emit('game:context-menu:items', {
-      data: items,
-      player: incomingData.data.player,
-    });
+    if (incomingData.data.miscData.firstOnly) {
+      Socket.emit('game:context-menu:first-only', {
+        data: items,
+        player: incomingData.data.player,
+      });
+    } else {
+      Socket.emit('game:context-menu:items', {
+        data: items,
+        player: incomingData.data.player,
+      });
+    }
   },
   'player:context-menu:action': (incoming) => {
     const miscData = incoming.data.data.item.miscData || false;
