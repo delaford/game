@@ -54,6 +54,9 @@ export default {
     bus.$on('PLAYER:MENU', this.buildMenu);
     bus.$on('game:context-menu:items', this.createMenu);
     bus.$on('contextmenu:close', this.closeMenu);
+    bus.$on('canvas:select-action', (event) => {
+      this.selectAction(event.event, event.item);
+    });
   },
   methods: {
     /**

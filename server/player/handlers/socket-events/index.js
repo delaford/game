@@ -43,9 +43,6 @@ export default {
    * A player sends a chat message to everyone
    */
   'player:say': ({ data }) => {
-    // TODO
-    // Only broadcast to players who are in a 7x5 tile radius
-    // of where the message was originally sent from
     const { id, said } = data;
     const { username } = world.players.find(p => p.socket_id === id);
 

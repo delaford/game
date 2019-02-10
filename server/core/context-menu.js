@@ -17,6 +17,9 @@ class ContextMenu {
     this.npcs = world.npcs;
     this.droppedItems = world.items;
 
+    // Only generate the first item?
+    this.firstOnly = miscData.firstOnly || false;
+
     // Element clicked on
     this.context = Object.values(miscData.clickedOn);
 
@@ -64,6 +67,16 @@ class ContextMenu {
         self.check(action, items);
         list += 1;
       } while (list < generateList.length);
+
+      items.sort((a, b) => b.timestamp - a.timestamp)
+        .sort((a, b) => a.action.weight - b.action.weight);
+
+      if (this.miscData.firstOnly) {
+        resolve({
+          firstItem: items[0],
+          count: items.length - 1,
+        });
+      }
 
       resolve(items);
     }, this);

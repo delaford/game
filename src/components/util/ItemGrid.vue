@@ -14,10 +14,11 @@
           backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
         }"
         :class="`slot ${gridData(screen).classId} ${isItemSelected(i)}`"
-        @click.left="selectItem(i)"
-        @click.right="rightClick($event, i)">
+        @click.left="selectItem($event)"
+        @mouseover="showContextMenu($event, i, true)"
+        @click.right="showContextMenu($event, i)">
         <span
-          v-if="getItemFromSlot(i).qty && getItemFromSlot(i).qty > 1"
+          v-if="hasQuantity(i)"
           class="qty"
           v-text="getItemFromSlot(i).qty" />
       </div>
@@ -51,6 +52,8 @@ export default {
   },
   data() {
     return {
+      action: '',
+      currentAction: false,
       itemSelected: false,
     };
   },
@@ -67,8 +70,73 @@ export default {
   },
   created() {
     this.$forceUpdate();
+    bus.$on('game:context-menu:first-only', this.displayFirstAction);
   },
   methods: {
+    displayFirstAction(incoming) {
+      const { count } = incoming.data.data;
+      let { label } = incoming.data.data.firstItem;
+      if (count > 0) label += ` / ${count} other options`;
+      this.action = label;
+      this.currentAction = incoming.data.data.firstItem;
+    },
+    /**
+     * Get the item's column of a certain slot in the inventory
+     *
+     * @param {integer} slotNumber The slot index in the inventory
+     * @return {integer|boolean}
+     */
+    getItem(slotNumber) {
+      const getItem = this.getItemFromSlot(slotNumber);
+
+      const getGraphic = UI.getItemData(getItem.id);
+
+      if (getItem) {
+        let { column } = getGraphic.graphics;
+        if (getGraphic.graphics.quantityLevel) {
+          const qtyColumn = this.getQuantityColumn(slotNumber, getGraphic.graphics);
+          column = qtyColumn;
+        }
+
+        return {
+          column,
+          row: getGraphic.graphics.row,
+        };
+      }
+
+      return false;
+    },
+
+    /**
+     * Get the correct graphic depending on quantity on item
+     *
+     * @param {integer} slotNumber The slot index in the inventory
+     * @return {integer}
+     */
+    getQuantityColumn(slotNumber, graphics) {
+      const findCorrectItem = this.items.find(e => e.slot === slotNumber);
+
+      if (findCorrectItem.qty && graphics.quantityLevel) {
+        findCorrectItem.graphics = graphics;
+        findCorrectItem.column = graphics.quantityLevel.findIndex(x => x > findCorrectItem.qty);
+        findCorrectItem.column = (findCorrectItem.column === -1 ? graphics.quantityLevel.length : findCorrectItem.column) - 1;
+      }
+
+      return findCorrectItem.column;
+    },
+    /**
+     * Does this item quantity, and thus is stackable?
+     *
+     * @param {integer} item The item of the shouldComponentUpdate = (nextProps, nextState) => {
+     * @return {boolean}
+     */
+    hasQuantity(item) {
+      if (this.getItemFromSlot(item).graphics) {
+        return this.getItemFromSlot(item).graphics.quantityLevel;
+      }
+
+      return (this.getItemFromSlot(item).qty && this.getItemFromSlot(item).qty > 1);
+    },
     /**
      * Is the item selected?
      *
@@ -83,9 +151,15 @@ export default {
      *
      * @param {integer} slot The item in the slot we are selecting
      */
-    selectItem(slot) {
+    selectItem(event) {
       // Allow 'selecting' an item only on the Inventory or if its not already selected
-      this.itemSelected = this.itemSelected === slot || this.screen !== 'inventory' ? false : slot;
+
+      bus.$emit('canvas:select-action', {
+        event,
+        item: this.currentAction,
+      });
+
+      // this.itemSelected = this.itemSelected === slot || this.screen !== 'inventory' ? false : slot;
     },
     gridData(section) {
       const modifier = {
@@ -108,7 +182,7 @@ export default {
      *
      * @param {event} event The mouse-click event
      */
-    rightClick(event, index) {
+    showContextMenu(event, index, firstOnly = false) {
       this.$forceUpdate();
 
       const coordinates = UI.getViewportCoordinates(event);
@@ -120,9 +194,21 @@ export default {
         target: event.target,
       };
 
-      event.preventDefault();
+      if (!firstOnly) {
+        event.preventDefault();
 
-      bus.$emit('PLAYER:MENU', data);
+        bus.$emit('PLAYER:MENU', data);
+      }
+
+      if (firstOnly && event && event.target) {
+        bus.$emit('PLAYER:MENU', {
+          coordinates,
+          event,
+          slot: index,
+          target: event.target,
+          firstOnly: true,
+        });
+      }
     },
     /**
      * Check to see if this slot is available
@@ -142,27 +228,6 @@ export default {
 
       return false;
     },
-    /**
-     * Get the item's column of a certain slot in the inventory
-     *
-     * @param {integer} slotNumber The slot index in the inventory
-     * @return {integer|boolean}
-     */
-    getItem(slotNumber) {
-      const getItem = this.getItemFromSlot(slotNumber);
-
-      const getGraphic = UI.getItemData(getItem.id);
-
-      if (getItem) {
-        return {
-          column: getGraphic.graphics.column,
-          row: getGraphic.graphics.row,
-        };
-      }
-
-      return false;
-    },
-
     /**
      * Gets the item from current slot
      *
@@ -211,6 +276,7 @@ div.grid_container {
   height: 275px;
   overflow-y: scroll;
   box-sizing: border-box;
+  font-family: "GameFont", serif;
   grid-template-rows: repeat(6, 35px);
   grid-gap: 5px;
   overflow-x: hidden;
