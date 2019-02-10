@@ -15,7 +15,8 @@
         }"
         :class="`slot ${gridData(screen).classId} ${isItemSelected(i)}`"
         @click.left="selectItem(i)"
-        @click.right="rightClick($event, i)">
+        @mouseover="showContextMenu($event, i, true)"
+        @click.right="showContextMenu($event, i)">
         <span
           v-if="hasQuantity(i)"
           class="qty"
@@ -165,7 +166,7 @@ export default {
      *
      * @param {event} event The mouse-click event
      */
-    rightClick(event, index) {
+    showContextMenu(event, index, firstOnly = false) {
       this.$forceUpdate();
 
       const coordinates = UI.getViewportCoordinates(event);
@@ -177,9 +178,21 @@ export default {
         target: event.target,
       };
 
-      event.preventDefault();
+      if (!firstOnly) {
+        event.preventDefault();
 
-      bus.$emit('PLAYER:MENU', data);
+        bus.$emit('PLAYER:MENU', data);
+      }
+
+      if (firstOnly && event && event.target) {
+        bus.$emit('PLAYER:MENU', {
+          coordinates,
+          event,
+          slot: index,
+          target: event.target,
+          firstOnly: true,
+        });
+      }
     },
     /**
      * Check to see if this slot is available
