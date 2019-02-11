@@ -124,8 +124,10 @@ export default {
       const data = JSON.parse(evt.data);
       const eventName = data.event;
 
-
-      if (data && eventName && ['world', 'player', 'item'].includes(eventName)) {
+      const canRefresh = ['world', 'player', 'item'].some(e => eventName.split(':').includes(e));
+      // Did the game canvas change that we need
+      // to refresh the first context action?
+      if (data && eventName && canRefresh) {
         bus.$emit('canvas:reset-context-menu');
       }
 
