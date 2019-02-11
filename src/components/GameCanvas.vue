@@ -16,6 +16,8 @@
       class="main-canvas gameMap"
       height="352"
       width="512"
+      @mouseenter="onGame = true"
+      @mouseleave="onGame = false"
       @mousemove="mouseSelection"
       @click.left="leftClick"
       @click.right="rightClick"
@@ -42,10 +44,12 @@ export default {
   data() {
     return {
       mouse: false,
+      onGame: false,
       current: false,
       screenData: false,
       tileX: 0,
       tileY: 0,
+      event: false,
     };
   },
   computed: {
@@ -73,6 +77,7 @@ export default {
     bus.$on('open:screen', this.openScreen);
     bus.$on('screen:close', this.closePane);
     bus.$on('game:context-menu:first-only', ClientUI.displayFirstAction);
+    bus.$on('canvas:reset-context-menu', () => this.mouseSelection());
   },
   methods: {
     /**
@@ -126,7 +131,12 @@ export default {
      * @param {MouseEvent} event
      */
     mouseSelection(event) {
-      const mouseEvent = event || this.mouse;
+      if (event) {
+        this.event = event;
+      }
+
+      if (!this.onGame) return;
+      const mouseEvent = this.event || this.mouse;
       const { tile } = config.map.tileset;
 
       // Save latest mouse data
@@ -137,26 +147,26 @@ export default {
         y: Math.floor(UI.getMousePos(mouseEvent).y / tile.height),
       };
 
-      // eslint-disable-next-line
-      if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0 && (this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y)) {
-        const data = { x: hoveredSquare.x, y: hoveredSquare.y };
-        if (
-          this.game.map &&
-          typeof this.game.map.setMouseCoordinates === 'function'
-        ) {
+      const data = { x: hoveredSquare.x, y: hoveredSquare.y };
+      if (
+        this.game.map &&
+        typeof this.game.map.setMouseCoordinates === 'function'
+      ) {
+        if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
+          bus.$emit('DRAW:MOUSE', data);
+        }
+
+        // eslint-disable-next-line
+        if (!event || (this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y) && this.event && this.event.target) {
           this.tileX = hoveredSquare.x;
           this.tileY = hoveredSquare.y;
 
-          bus.$emit('DRAW:MOUSE', data);
-
-          if (event && event.target) {
-            bus.$emit('PLAYER:MENU', {
-              coordinates: hoveredSquare,
-              event,
-              target: event.target,
-              firstOnly: true,
-            });
-          }
+          bus.$emit('PLAYER:MENU', {
+            coordinates: hoveredSquare,
+            event: this.event,
+            target: this.event.target,
+            firstOnly: true,
+          });
         }
       }
     },

@@ -122,12 +122,18 @@ export default {
 
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
+      const eventName = data.event;
 
-      if (data.event !== undefined) {
-        if (!Event[data.event]) {
-          bus.$emit(data.event, data);
+
+      if (data && eventName && ['world', 'player', 'item'].includes(eventName)) {
+        bus.$emit('canvas:reset-context-menu');
+      }
+
+      if (eventName !== undefined) {
+        if (!Event[eventName]) {
+          bus.$emit(eventName, data);
         } else {
-          Event[data.event](data, context);
+          Event[eventName](data, context);
         }
       } else {
         console.log(data);
