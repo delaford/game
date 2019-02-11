@@ -39,10 +39,10 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
 
 - [Player](https://github.com/Delaford/game/projects/1)
   - [x] Walking / pathfinding
-  - [ ] Context-menu / Actions*
+  - [X] Context-menu / Actions
   - [ ] Health and stats
-  - [ ] Inventory*
-  - [ ] Character wear*
+  - [X] Inventory
+  - [X] Character wear
   - [ ] Your first quest
 - [User Interface](https://github.com/Delaford/game/projects/2)
   - [x] Inventory tab
@@ -52,23 +52,28 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [x] Overall look &amp; feel
 - [NPC](https://github.com/Delaford/game/projects/3)
   - [ ] Trading
+  - [ ] Dialog Interaction
   - [x] Walking around
-  - [x] Talking
-  - [ ] Examine
+  - [X] Banking
 - [Monsters](https://github.com/Delaford/game/projects/3)
   - [ ] Battle System
   - [ ] Looting
   - [ ] Spawning
 - [Networking](https://github.com/Delaford/game/projects/5)
-  - [X] Player connect to server
+  - [X] Players see each other
   - [X] Non-playable characters
   - [ ] Monsters
   - [X] Items
-  - [ ] Minor networking tweaks / alpha-stage
+- World
+  - [X] Respawn system
+  - [ ] Player versus Player
+  - [ ] Resource skills
+    - [X] Mining
+    - [ ] Smithing
+    - [ ] Fishing
+    - [ ] Cooking
 
-> Items marked with an asterisk (*) are started but have not been finalized or finished.
-
-Once all of these items are checked, Delaford will be stable without breaking changes.
+Once all of these items are checked, Delaford will be stable without breaking changes. But for the time being, please jump in and help add some of these features -- if you'd like!
 
 ## Debugging
 
