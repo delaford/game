@@ -84,6 +84,7 @@ export default {
       guestAccount: false,
       musicIntroduced: false,
       rememberMe: false,
+      isLoginInProgress: false,
     };
   },
   computed: {
@@ -113,6 +114,7 @@ export default {
     this.guestAccount = this.$store.getters.guestAccount;
 
     bus.$on('player:login-error', data => this.incorrectLogin(data));
+    bus.$on('login:done', () => this.setLoginProgress(false));
 
     if (this.guestAccount && process.env.NODE_ENV === 'development') {
       // Development user
@@ -161,6 +163,8 @@ export default {
      * Send login request to server.
      */
     login() {
+      if (this.isLoginInProgress) return;
+      this.setLoginProgress(true);
       this.invalid = false;
       const data = {
         username: this.username,
@@ -169,14 +173,17 @@ export default {
       };
 
       this.$store.dispatch('rememberDevAccount', { username: this.username, password: this.password });
-
       Socket.emit('player:login', data);
     },
     /**
      * Displays when a user login is invalid
      */
     incorrectLogin() {
+      this.setLoginProgress(false);
       this.invalid = true;
+    },
+    setLoginProgress(isLoginInProgress) {
+      this.isLoginInProgress = isLoginInProgress;
     },
   },
 };
