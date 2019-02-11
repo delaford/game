@@ -214,6 +214,9 @@ export default {
         window.focusOnGame();
       }, 250);
 
+      // Clear login procedure
+      bus.$emit('login:done');
+
       // Show the game canvas
       this.loaded = true;
     },
