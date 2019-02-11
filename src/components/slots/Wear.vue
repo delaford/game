@@ -35,7 +35,9 @@
           v-if="slotFilled('head')"
           :title="getTooltip('head')"
           class="slot wearSlot"
-          @click.right="showContextMenu($event, 'head')">
+          @click.right="showContextMenu($event, 'head')"
+          @mouseover="showContextMenu($event, 'head', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('head')"
             :style="{
@@ -54,7 +56,9 @@
           v-if="slotFilled('back')"
           :title="getTooltip('back')"
           class="slot wearSlot"
-          @click.right="showContextMenu($event, 'back')">
+          @click.right="showContextMenu($event, 'back')"
+          @mouseover="showContextMenu($event, 'back', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('back')"
             :style="{
@@ -71,7 +75,9 @@
           v-if="slotFilled('necklace')"
           :title="getTooltip('necklace')"
           class="slot wearSlot"
-          @click.right="showContextMenu($event, 'necklace')">
+          @click.right="showContextMenu($event, 'necklace')"
+          @mouseover="showContextMenu($event, 'necklace', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('necklace')"
             :style="{
@@ -91,7 +97,9 @@
           v-if="slotFilled('right_hand')"
           :title="getTooltip('right_hand')"
           class="slot wearSlot"
-          @click.right="showContextMenu($event, 'right_hand')">
+          @click.right="showContextMenu($event, 'right_hand')"
+          @mouseover="showContextMenu($event, 'right_hand', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('right_hand')"
             :style="{
@@ -108,7 +116,9 @@
           v-if="slotFilled('armor')"
           :title="getTooltip('armor')"
           class="slot wearSlot"
-          @click.right="showContextMenu($event, 'armor')">
+          @click.right="showContextMenu($event, 'armor')"
+          @mouseover="showContextMenu($event, 'armor', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('armor')"
             :style="{
@@ -145,7 +155,9 @@
           v-if="slotFilled('gloves')"
           :title="getTooltip('gloves')"
           class="slot wearSlot"
-          @click.right="showContextMenu($event, 'gloves')">
+          @click.right="showContextMenu($event, 'gloves')"
+          @mouseover="showContextMenu($event, 'gloves', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('gloves')"
             :style="{
@@ -161,7 +173,9 @@
           v-if="slotFilled('feet')"
           :title="getTooltip('feet')"
           class="slot wearSlot"
-          @click.right="showContextMenu($event, 'feet')">
+          @click.right="showContextMenu($event, 'feet')"
+          @mouseover="showContextMenu($event, 'feet', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('feet')"
             :style="{
@@ -177,7 +191,9 @@
           v-if="slotFilled('ring')"
           :title="getTooltip('ring')"
           class="slot wearSlot"
-          @click.right="showContextMenu($event, 'ring')">
+          @click.right="showContextMenu($event, 'ring')"
+          @mouseover="showContextMenu($event, 'ring', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('ring')"
             :style="{
