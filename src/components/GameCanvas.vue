@@ -44,6 +44,8 @@ export default {
       mouse: false,
       current: false,
       screenData: false,
+      tileX: 0,
+      tileY: 0,
     };
   },
   computed: {
@@ -116,25 +118,6 @@ export default {
         event,
         item: this.currentAction,
       });
-
-      // const coordinates = UI.getViewportCoordinates(event);
-
-      // if (this.current !== false) {
-      //   this.current = false;
-      // }
-
-      // // Send to game engine that
-      // // the player clicked to move
-      // const data = {
-      //   id: this.game.player.uuid,
-      //   coordinates,
-      // };
-
-      // // Save latest mouse data
-      // this.mouse = event;
-
-      // Socket.emit('player:mouseTo', data);
-      // bus.$emit('contextmenu:close');
     },
 
     /**
@@ -154,12 +137,16 @@ export default {
         y: Math.floor(UI.getMousePos(mouseEvent).y / tile.height),
       };
 
-      if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
+      // eslint-disable-next-line
+      if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0 && (this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y)) {
         const data = { x: hoveredSquare.x, y: hoveredSquare.y };
         if (
           this.game.map &&
           typeof this.game.map.setMouseCoordinates === 'function'
         ) {
+          this.tileX = hoveredSquare.x;
+          this.tileY = hoveredSquare.y;
+
           bus.$emit('DRAW:MOUSE', data);
 
           if (event && event.target) {
