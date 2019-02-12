@@ -224,12 +224,9 @@ div.game {
   .pane {
     z-index: 5;
     position: relative;
-    background: red;
     width: 90%;
     height: 90%;
-    margin: 0 auto;
-    top: 50%;
-    transform: translateY(-50%);
+    margin: 10px auto;
 
     div {
       height: 100%;
