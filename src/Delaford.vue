@@ -124,12 +124,20 @@ export default {
 
     window.ws.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
+      const eventName = data.event;
 
-      if (data.event !== undefined) {
-        if (!Event[data.event]) {
-          bus.$emit(data.event, data);
+      const canRefresh = ['world', 'player', 'item'].some(e => eventName.split(':').includes(e));
+      // Did the game canvas change that we need
+      // to refresh the first context action?
+      if (data && eventName && canRefresh) {
+        bus.$emit('canvas:reset-context-menu');
+      }
+
+      if (eventName !== undefined) {
+        if (!Event[eventName]) {
+          bus.$emit(eventName, data);
         } else {
-          Event[data.event](data, context);
+          Event[eventName](data, context);
         }
       } else {
         console.log(data);

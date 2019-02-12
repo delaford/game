@@ -16,6 +16,8 @@
       class="main-canvas gameMap"
       height="352"
       width="512"
+      @mouseenter="onGame = true"
+      @mouseleave="onGame = false"
       @mousemove="mouseSelection"
       @click.left="leftClick"
       @click.right="rightClick"
@@ -27,6 +29,7 @@
 import UI from 'shared/ui';
 import config from 'root/config';
 import Client from '../core/client';
+import ClientUI from '../core/utilities/client-ui';
 import bus from '../core/utilities/bus';
 import Socket from '../core/utilities/socket';
 
@@ -40,14 +43,22 @@ export default {
   },
   data() {
     return {
-      action: '',
-      currentAction: false,
       mouse: false,
+      onGame: false,
       current: false,
       screenData: false,
+      tileX: 0,
+      tileY: 0,
+      event: false,
     };
   },
   computed: {
+    currentAction() {
+      return this.$store.getters.action.object;
+    },
+    action() {
+      return this.$store.getters.action.label;
+    },
     otherPlayers() {
       return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
@@ -65,22 +76,10 @@ export default {
     bus.$on('canvas:getMouse', () => this.mouseSelection());
     bus.$on('open:screen', this.openScreen);
     bus.$on('screen:close', this.closePane);
-    bus.$on('game:context-menu:first-only', this.displayFirstAction);
+    bus.$on('game:context-menu:first-only', ClientUI.displayFirstAction);
+    bus.$on('canvas:reset-context-menu', () => this.mouseSelection());
   },
   methods: {
-    /**
-     * Only display the first action in the top-left
-     *
-     * @param {object} incoming The data returned from the context-menu
-     */
-    displayFirstAction(incoming) {
-      const { count } = incoming.data.data;
-      console.log(incoming);
-      let { label } = incoming.data.data.firstItem;
-      if (count > 0) label += ` / ${count} other options`;
-      this.action = label;
-      this.currentAction = incoming.data.data.firstItem;
-    },
     /**
      * Close the context-menu
      */
@@ -95,7 +94,6 @@ export default {
     openScreen(incoming) {
       this.current = incoming.data.screen;
       this.screenData = incoming.data.payload;
-      console.log(incoming);
     },
     /**
      * Right-click brings up context-menu
@@ -125,25 +123,6 @@ export default {
         event,
         item: this.currentAction,
       });
-
-      // const coordinates = UI.getViewportCoordinates(event);
-
-      // if (this.current !== false) {
-      //   this.current = false;
-      // }
-
-      // // Send to game engine that
-      // // the player clicked to move
-      // const data = {
-      //   id: this.game.player.uuid,
-      //   coordinates,
-      // };
-
-      // // Save latest mouse data
-      // this.mouse = event;
-
-      // Socket.emit('player:mouseTo', data);
-      // bus.$emit('contextmenu:close');
     },
 
     /**
@@ -152,7 +131,12 @@ export default {
      * @param {MouseEvent} event
      */
     mouseSelection(event) {
-      const mouseEvent = event || this.mouse;
+      if (event) {
+        this.event = event;
+      }
+
+      if (!this.onGame) return;
+      const mouseEvent = this.event || this.mouse;
       const { tile } = config.map.tileset;
 
       // Save latest mouse data
@@ -163,22 +147,26 @@ export default {
         y: Math.floor(UI.getMousePos(mouseEvent).y / tile.height),
       };
 
-      if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
-        const data = { x: hoveredSquare.x, y: hoveredSquare.y };
-        if (
-          this.game.map &&
-          typeof this.game.map.setMouseCoordinates === 'function'
-        ) {
+      const data = { x: hoveredSquare.x, y: hoveredSquare.y };
+      if (
+        this.game.map &&
+        typeof this.game.map.setMouseCoordinates === 'function'
+      ) {
+        if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
           bus.$emit('DRAW:MOUSE', data);
+        }
 
-          if (event && event.target) {
-            bus.$emit('PLAYER:MENU', {
-              coordinates: hoveredSquare,
-              event,
-              target: event.target,
-              firstOnly: true,
-            });
-          }
+        // eslint-disable-next-line
+        if (!event || (this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y) && this.event && this.event.target) {
+          this.tileX = hoveredSquare.x;
+          this.tileY = hoveredSquare.y;
+
+          bus.$emit('PLAYER:MENU', {
+            coordinates: hoveredSquare,
+            event: this.event,
+            target: this.event.target,
+            firstOnly: true,
+          });
         }
       }
     },

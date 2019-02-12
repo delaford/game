@@ -35,7 +35,9 @@
           v-if="slotFilled('head')"
           :title="getTooltip('head')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'head')">
+          @click.right="showContextMenu($event, 'head')"
+          @mouseover="showContextMenu($event, 'head', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('head')"
             :style="{
@@ -54,7 +56,9 @@
           v-if="slotFilled('back')"
           :title="getTooltip('back')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'back')">
+          @click.right="showContextMenu($event, 'back')"
+          @mouseover="showContextMenu($event, 'back', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('back')"
             :style="{
@@ -71,7 +75,9 @@
           v-if="slotFilled('necklace')"
           :title="getTooltip('necklace')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'necklace')">
+          @click.right="showContextMenu($event, 'necklace')"
+          @mouseover="showContextMenu($event, 'necklace', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('necklace')"
             :style="{
@@ -91,7 +97,9 @@
           v-if="slotFilled('right_hand')"
           :title="getTooltip('right_hand')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'right_hand')">
+          @click.right="showContextMenu($event, 'right_hand')"
+          @mouseover="showContextMenu($event, 'right_hand', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('right_hand')"
             :style="{
@@ -108,7 +116,9 @@
           v-if="slotFilled('armor')"
           :title="getTooltip('armor')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'armor')">
+          @click.right="showContextMenu($event, 'armor')"
+          @mouseover="showContextMenu($event, 'armor', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('armor')"
             :style="{
@@ -124,7 +134,9 @@
           v-if="slotFilled('left_hand')"
           :title="getTooltip('left_hand')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'left_hand')">
+          @click.left="selectItem($event)"
+          @mouseover="showContextMenu($event, 'left_hand', true)"
+          @click.right="showContextMenu($event, 'left_hand')">
           <div
             :class="showBackground('left_hand')"
             :style="{
@@ -143,7 +155,9 @@
           v-if="slotFilled('gloves')"
           :title="getTooltip('gloves')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'gloves')">
+          @click.right="showContextMenu($event, 'gloves')"
+          @mouseover="showContextMenu($event, 'gloves', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('gloves')"
             :style="{
@@ -159,7 +173,9 @@
           v-if="slotFilled('feet')"
           :title="getTooltip('feet')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'feet')">
+          @click.right="showContextMenu($event, 'feet')"
+          @mouseover="showContextMenu($event, 'feet', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('feet')"
             :style="{
@@ -175,7 +191,9 @@
           v-if="slotFilled('ring')"
           :title="getTooltip('ring')"
           class="slot wearSlot"
-          @click.right="rightClick($event, 'ring')">
+          @click.right="showContextMenu($event, 'ring')"
+          @mouseover="showContextMenu($event, 'ring', true)"
+          @click.left="selectItem($event)">
           <div
             :class="showBackground('ring')"
             :style="{
@@ -194,6 +212,7 @@
 <script>
 import UI from 'shared/ui';
 import bus from '../../core/utilities/bus';
+import ClientUI from '../../core/utilities/client-ui';
 
 export default {
   props: {
@@ -207,7 +226,16 @@ export default {
       return this.game.player.wear;
     },
   },
+  created() {
+    bus.$on('game:context-menu:first-only', ClientUI.displayFirstAction);
+  },
   methods: {
+    selectItem(event) {
+      bus.$emit('canvas:select-action', {
+        event,
+        item: this.$store.getters.action.object,
+      });
+    },
     /**
      * Check to see if slot is filled with an item
      *
@@ -230,6 +258,39 @@ export default {
       }
 
       return false;
+    },
+    /**
+     * Right-click brings up context-menu
+     *
+     * @param {event} event The mouse-click event
+     */
+    showContextMenu(event, index, firstOnly = false) {
+      this.$forceUpdate();
+
+      const coordinates = UI.getViewportCoordinates(event);
+
+      const data = {
+        event,
+        coordinates,
+        slot: index,
+        target: event.target,
+      };
+
+      if (!firstOnly) {
+        event.preventDefault();
+
+        bus.$emit('PLAYER:MENU', data);
+      }
+
+      if (firstOnly && event && event.target) {
+        bus.$emit('PLAYER:MENU', {
+          coordinates,
+          event,
+          slot: index,
+          target: event.target,
+          firstOnly: true,
+        });
+      }
     },
     /**
      * Right-click brings up context-menu
@@ -353,7 +414,7 @@ div.wear {
       $slots: torso gloves left_hand head arrows necklace right_hand ring feet back;
 
       @each $slot in $slots {
-        div.#{$slot} {
+        .#{$slot} {
           background-image: url(./../../assets/graphics/ui/client/slots/wear/#{$slot}.png);
         }
 

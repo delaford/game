@@ -2,10 +2,14 @@
   <img src="https://github.com/Delaford/game/raw/master/src/assets/github/logo.png"/>
 </p>
 
+<div align="center">
+<a href="https://discord.gg/vTp2SW"><img src="https://camo.githubusercontent.com/b12a95e20b7ca35f918c0ab5103fe56b6f44c067/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f636861742d6f6e253230646973636f72642d3732383964612e737667" alt="Discord" /></a>
+</div>
+
 <p align="center">
   <strong>Welcome to Delaford. An online, 2D medieval game using JavaScript and HTML5.</strong>
 
-  <img width="704" alt="Game screenshot" src="https://cdn.rawgit.com/delaford/game/2c8b4c29/src/assets/github/readme_hero.png">
+  <img width="704" alt="Game screenshot" src="https://github.com/delaford/game/blob/master/src/assets/github/readme_hero.png">
 </p>
 
 ## Getting Started
@@ -25,6 +29,8 @@ Now, while still inside the `game` folder, open another terminal session in that
 
 Now you may visit `http://localhost:8080` to login and start developing!
 
+For a better time, make sure to join the [Discord channel](https://discord.gg/vTp2SW) to talk to other developers for help and exclusive dicussions!
+
 ## Contributing
 
 Please check out our [CONTRIBUTING.md](https://github.com/Delaford/game/blob/master/.github/CONTRIBUTING.md) guide on how you can actively participate in the development of this medieval game. It's pretty easy and fun!
@@ -39,10 +45,10 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
 
 - [Player](https://github.com/Delaford/game/projects/1)
   - [x] Walking / pathfinding
-  - [ ] Context-menu / Actions*
+  - [X] Context-menu / Actions
   - [ ] Health and stats
-  - [ ] Inventory*
-  - [ ] Character wear*
+  - [X] Inventory
+  - [X] Character wear
   - [ ] Your first quest
 - [User Interface](https://github.com/Delaford/game/projects/2)
   - [x] Inventory tab
@@ -52,23 +58,28 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [x] Overall look &amp; feel
 - [NPC](https://github.com/Delaford/game/projects/3)
   - [ ] Trading
+  - [ ] Dialog Interaction
   - [x] Walking around
-  - [x] Talking
-  - [ ] Examine
+  - [X] Banking
 - [Monsters](https://github.com/Delaford/game/projects/3)
   - [ ] Battle System
   - [ ] Looting
   - [ ] Spawning
 - [Networking](https://github.com/Delaford/game/projects/5)
-  - [X] Player connect to server
+  - [X] Players see each other
   - [X] Non-playable characters
   - [ ] Monsters
   - [X] Items
-  - [ ] Minor networking tweaks / alpha-stage
+- World
+  - [X] Respawn system
+  - [ ] Player versus Player
+  - [ ] Resource skills
+    - [X] Mining
+    - [ ] Smithing
+    - [ ] Fishing
+    - [ ] Cooking
 
-> Items marked with an asterisk (*) are started but have not been finalized or finished.
-
-Once all of these items are checked, Delaford will be stable without breaking changes.
+Once all of these items are checked, Delaford will be stable without breaking changes. But for the time being, please jump in and help add some of these features -- if you'd like!
 
 ## Debugging
 
