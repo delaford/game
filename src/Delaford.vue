@@ -63,7 +63,9 @@
         <!-- Chatbox -->
         <Chatbox :game="game" />
       </div>
-      <div class="right">
+      <div
+        class="right"
+        @click="sidebarClicked">
         <!-- Player overview -->
         <Info :game="game" />
 
@@ -229,6 +231,9 @@ export default {
       // Make right-click system for
       // rest of the game view.
       event.preventDefault();
+    },
+    sidebarClicked() {
+      bus.$emit('contextmenu:close');
     },
   },
 };

@@ -1,5 +1,7 @@
 <template>
-  <div class="chatbox">
+  <div
+    class="chatbox"
+    @click="chatboxClicked">
     <div
       id="chat"
       readonly>
@@ -140,6 +142,9 @@ export default {
     clearInput() {
       // Clear out user input
       this.said = '';
+    },
+    chatboxClicked() {
+      bus.$emit('contextmenu:close');
     },
   },
 };
