@@ -1,4 +1,4 @@
 import Bank from './bank';
+import Shop from './shop';
 
-// eslint-disable-next-line
-export { Bank };
+export { Bank, Shop };

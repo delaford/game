@@ -43,6 +43,7 @@ module.exports = [
     },
     actions: [
       'examine',
+      'trade',
     ],
     spawn: {
       x: 29,

@@ -3,6 +3,7 @@ export default [{
   npcId: 3,
   name: 'Ludovico\'s Limber Axes',
   type: 'speciality',
+  repawnItems: '5m',
   inventory: [
     {
       item: 'bronze-battleaxe',

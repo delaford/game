@@ -1,4 +1,5 @@
 import MapUtils from 'shared/map-utils';
+import { Shop } from './functions';
 
 const PF = require('pathfinding');
 const config = require('../config');
@@ -102,7 +103,11 @@ class Map {
       ...armor,
       ...jewelry,
     ];
+
+    // Spawn items on the map
     world.items = Map.readyItems(itemsOnMap);
+
+    // Set the respawns accordingly
     world.respawns = {
       items: itemsOnMap.map((i) => {
         i.pickedUp = false;
@@ -111,6 +116,9 @@ class Map {
       monsters: [],
       resources: [],
     };
+
+    // Load shops
+    world.shops = Shop.load();
 
     // Add a timestamp to all dropped items
     world.items = world.items.map((i) => {

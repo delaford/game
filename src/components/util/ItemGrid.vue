@@ -165,6 +165,11 @@ export default {
           rows: 6,
           classId: 'bankSlot',
         },
+        shop: {
+          columns: 11,
+          rows: 4,
+          classId: 'shopSlot',
+        },
       };
 
       return modifier[section];
@@ -236,7 +241,8 @@ export default {
      * @returns {string}
      */
     getBgUrl(slotNumber) {
-      const getItem = UI.getItemData(this.getItemFromSlot(slotNumber).id);
+      const zxx = this.getItemFromSlot(slotNumber).id;
+      const getItem = UI.getItemData(zxx);
 
       if (!this.images) {
         return false;

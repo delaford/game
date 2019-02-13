@@ -210,6 +210,20 @@ export default {
   },
 
   /**
+   * A player wants opening a trade shop
+   */
+  'player:screen:npc:trade': (data) => {
+    console.log('Accessing trade shop...');
+    world.players[data.playerIndex].currentPane = 'shop';
+
+    Socket.emit('open:screen', {
+      player: { socket_id: world.players[data.playerIndex].socket_id },
+      screen: 'shop',
+      payload: world.shops.find(e => e.npcId === data.todo.item.id),
+    });
+  },
+
+  /**
    * A player wants to access their bank
    */
   'player:screen:bank': (data) => {
