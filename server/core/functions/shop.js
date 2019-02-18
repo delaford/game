@@ -23,6 +23,8 @@ class Shop {
     this.ableToBuyAll = false;
 
     this.quantity = this.getTrueStockableQuantity(quantity);
+    this.insufficientSpace = false;
+    this.insufficientFunds = false;
 
     // Are buying or selling? Change to source of items based on action
     this.source = (type === 'buy' ? this.shop : this.inventory);
@@ -50,6 +52,11 @@ class Shop {
     // If we don't have enought slots available,
     // then we must substract from quantity to get true amount.
     const slotsLeftQuantity = this.slotsAvailable - this.quantity;
+    if (slotsLeftQuantity < 0) {
+      this.quantity = this.slotsAvailable;
+      this.insufficientSpace = true;
+      return this.slotsAvailable;
+    }
 
     return this.quantity < this.slotsAvailable ? this.quantity : slotsLeftQuantity;
   }
@@ -68,6 +75,9 @@ class Shop {
   }
 
   buy() {
+    // TODO
+    // When buying 5 items buy only have coins for 3 items (buy remaining 3...)
+    // Not enough space in inventory
     const inStock = this.itemInStock();
 
     const { price } = Query.getItemData(this.itemId);
@@ -76,7 +86,10 @@ class Shop {
     const playerGold = this.inventory[this.coinIndex].qty;
     const moneyLeft = playerGold - toSpend;
 
-    const rounds = this.stackable ? 1 : this.quantity;
+    let rounds = this.stackable ? 1 : this.quantity;
+
+    this.insufficientFunds = moneyLeft <= -1;
+    if (this.insufficientFunds) rounds = 0;
 
     for (let index = 0; index < rounds; index += 1) {
       const itemToAdd = {
@@ -93,13 +106,16 @@ class Shop {
       this.inventory.push(itemToAdd);
     }
 
-    this.inventory[this.coinIndex].qty = moneyLeft;
-    this.shop[this.shopItemIndex].qty -= isBuying;
+    if (rounds > 0) {
+      this.inventory[this.coinIndex].qty = moneyLeft;
+      this.shop[this.shopItemIndex].qty -= isBuying;
+    }
 
-    if (!this.ableToBuyAll && inStock) {
+    if ((!this.ableToBuyAll && inStock) || this.insufficientFunds || this.insufficientSpace) {
+      const msg = this.insufficientFunds ? 'Not enough gold to purchase' : 'You were not able to buy all of the items.';
       Socket.emit('game:send:message', {
         player: { socket_id: world.players[this.playerIndex].socket_id },
-        text: 'You were not able to buy all of the items due to the stock quantity.',
+        text: msg,
       });
     }
 
