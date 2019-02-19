@@ -103,35 +103,32 @@ class Shop {
    * @return {boolean}
    */
   itemInStock() {
-    if (this.shopItemQtyLeft === 0) {
-      Socket.emit('game:send:message', {
-        player: { socket_id: world.players[this.playerIndex].socket_id },
-        text: 'No more in stock.',
-      });
-
-      return false;
-    }
-
-    return true;
+    return this.shopItemQtyLeft > 0;
   }
 
   /**
    * Buy an item from a store
    */
   buy() {
-    const inStock = this.itemInStock();
-
+    // Get price of item
     const { price } = Query.getItemData(this.itemId);
+    // How many items can we buy based on inventory space
     const isBuying = this.getTrueBuyingQuantity();
+    // How much gold are we spending?
     const toSpend = price * isBuying;
+    // How much gold do we have?
     const playerGold = this.inventory[this.coinIndex].qty;
+    // How much money left after purchase?
     const moneyLeft = playerGold - toSpend;
-
+    // How many items to buy based on all calculations
     let rounds = this.stackable ? 1 : this.quantity;
 
+    // Do we have enough money?
     this.insufficient.funds = moneyLeft <= -1;
+    // then we are not buying anything
     if (this.insufficient.funds) rounds = 0;
 
+    // Add item to inventory
     for (let index = 0; index < rounds; index += 1) {
       const itemToAdd = {
         id: this.itemId,
@@ -142,23 +139,38 @@ class Shop {
       this.inventory.push(itemToAdd);
     }
 
+    // If we completed one round of purchasing
     if (rounds > 0) {
+      // Update our new money total
       this.inventory[this.coinIndex].qty = moneyLeft;
+      // Substract the quantity of the items we have bought
       this.shop[this.shopItemIndex].qty -= isBuying;
     }
 
-    if ((!this.ableToBuyAll && inStock) || this.insufficient.funds || this.insufficient.space) {
-      const msg = this.insufficient.funds ? 'Not enough gold to purchase.' : 'You were not able to buy all of the items.';
-      Socket.emit('game:send:message', {
-        player: { socket_id: world.players[this.playerIndex].socket_id },
-        text: msg,
-      });
-    }
+    this.checkPurchase();
 
     return {
       inventory: this.inventory,
       shopItems: this.shop,
     };
+  }
+
+  /**
+   * The purchase did not meet all requirements
+   */
+  checkPurchase() {
+    let msg = '';
+    if (!this.itemInStock()) {
+      msg = 'No more in stock.';
+    } else if (this.insufficient.funds) {
+      msg = 'Not enough gold to purchase.';
+    } else if (this.insufficient.space) {
+      msg = 'You were not able to buy all of the items.';
+    }
+    Socket.emit('game:send:message', {
+      player: { socket_id: world.players[this.playerIndex].socket_id },
+      text: msg,
+    });
   }
 
   /**

@@ -364,7 +364,7 @@ export default [
     id: 'iron-battleaxe',
     name: 'Iron Battleaxe',
     examine: 'This a battleaxe forged from iron metal alloys.',
-    price: 4,
+    price: 72,
     type: 'weapon',
     slot: 'right_hand',
     wearable: 'sword',
