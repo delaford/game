@@ -442,8 +442,10 @@ class ContextMenu {
         }
         break;
 
+      case 'Sell':
       case 'Buy':
-        if (this.clickedOn('shopSlot')) {
+        debugger;
+        if (this.clickedOn('shopSlot') || this.clickedOn('inventorySlot')) {
           const {
             name, examine, id, context, actions,
           } = Query.getItemData(itemActedOn.id);

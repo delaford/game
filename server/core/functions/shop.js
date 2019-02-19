@@ -106,6 +106,11 @@ class Shop {
     return this.shopItemQtyLeft > 0;
   }
 
+  sell() {
+    console.log(this.itemId);
+    console.log('Selling item...');
+  }
+
   /**
    * Buy an item from a store
    */
@@ -147,6 +152,8 @@ class Shop {
       this.shop[this.shopItemIndex].qty -= isBuying;
     }
 
+    // Check to see if purchases can be
+    // made and give message accordingly
     this.checkPurchase();
 
     return {

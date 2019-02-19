@@ -27,6 +27,7 @@ const presetActions = (items) => {
           'deposit',
           'withdraw',
           'buy',
+          'sell',
           'value',
         ];
         break;
@@ -38,6 +39,7 @@ const presetActions = (items) => {
           'deposit',
           'withdraw',
           'buy',
+          'sell',
           'value',
         ];
         break;
