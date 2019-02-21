@@ -125,7 +125,7 @@ export default [
   {
     name: 'Value',
     actionId: 'player:screen:npc:trade:action',
-    context: ['shopSlot'],
+    context: ['shopSlot', 'inventorySlot'],
     allow: ['item'],
     nearby: false,
     weight: 1,

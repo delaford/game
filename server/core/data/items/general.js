@@ -18,6 +18,7 @@ export default [
     actions: presetActions([
       'resource',
     ]),
+    untradeable: false,
   },
   // Ores
   {

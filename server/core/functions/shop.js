@@ -23,12 +23,11 @@ class Shop {
     this.shop = world.shops[this.shopIndex].inventory; // Shop's inventory
     this.coinIndex = this.inventory.findIndex(e => e.id === 'coins');
     this.shopItemIndex = this.shop.findIndex(q => q.id === this.itemId);
-
-    // How much do we have left of the item we are trying to sell/buy in shop?
-    this.shopItemQtyLeft = this.shop[this.shopItemIndex].qty;
+    this.shopType = world.shops[this.shopIndex].type;
 
     // Is our item stackable?
-    this.stackable = Query.getItemData(q => q.id === this.itemId);
+    this.itemFull = Query.getItemData(this.itemId);
+    this.stackable = this.itemFull;
     this.ableToBuyAll = false;
 
     // Get the quantity of how much we are able to buy
@@ -103,12 +102,44 @@ class Shop {
    * @return {boolean}
    */
   itemInStock() {
-    return this.shopItemQtyLeft > 0;
+    return this.shop[this.shopItemIndex].qty > 0;
+  }
+
+  isSpeciality() {
+    return this.shopType === 'speciality';
+  }
+
+  canWeSell() {
+    let willWeSell = false;
+    let msg = '';
+    if (this.isSpeciality()) {
+      willWeSell = this.shop.map(q => q.id).includes(this.itemId);
+      if (!willWeSell) {
+        msg = 'You cannot sell this item to the store.';
+      } else if (!this.spaceInInventory) {
+        msg = 'Not enough space in inventory.';
+      } else {
+        willWeSell = true;
+      }
+    }
+
+    if (!willWeSell) {
+      Socket.emit('game:send:message', {
+        player: { socket_id: world.players[this.playerIndex].socket_id },
+        text: msg,
+      });
+    }
+
+    return willWeSell;
   }
 
   sell() {
     console.log(this.itemId);
     console.log('Selling item...');
+
+    if (this.canWeSell()) {
+      console.log('WE CAN SELL!');
+    }
   }
 
   /**
@@ -187,8 +218,12 @@ class Shop {
     const { price, name } = Query.getItemData(this.itemId);
     Socket.emit('game:send:message', {
       player: { socket_id: world.players[this.playerIndex].socket_id },
-      text: `${name} costs ${price} coins.`,
+      text: `${name}: ${price} coins.`,
     });
+  }
+
+  spaceInInventory() {
+    return this.slotsAvailable > 0;
   }
 
   /**

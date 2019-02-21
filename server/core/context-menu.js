@@ -444,7 +444,6 @@ class ContextMenu {
 
       case 'Sell':
       case 'Buy':
-        debugger;
         if (this.clickedOn('shopSlot') || this.clickedOn('inventorySlot')) {
           const {
             name, examine, id, context, actions,
