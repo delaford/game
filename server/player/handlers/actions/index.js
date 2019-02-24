@@ -241,23 +241,27 @@ export default {
       shop[data.doing]();
       //
     } else {
-      const { inventory, shopItems } = shop[data.doing]();
+      const response = shop[data.doing]();
 
       /** UPDATE PLAYER DATA */
-      world.players[shop.shopIndex].inventory = shopItems;
-      world.players[shop.playerIndex].inventory = inventory;
+      if (Shop.successfulSale(response)) {
+        console.log('sale!');
 
-      // Refresh client with new data
-      Socket.emit('core:refresh:inventory', {
-        player: { socket_id: world.players[shop.playerIndex].socket_id },
-        data: inventory,
-      });
+        world.players[shop.shopIndex].inventory = response.shopItems;
+        world.players[shop.playerIndex].inventory = response.inventory;
 
-      Socket.emit('open:screen', {
-        player: { socket_id: world.players[shop.playerIndex].socket_id },
-        screen: 'shop',
-        payload: world.shops[shop.shopIndex],
-      });
+        // Refresh client with new data
+        Socket.emit('core:refresh:inventory', {
+          player: { socket_id: world.players[shop.playerIndex].socket_id },
+          data: response.inventory,
+        });
+
+        Socket.emit('open:screen', {
+          player: { socket_id: world.players[shop.playerIndex].socket_id },
+          screen: 'shop',
+          payload: world.shops[shop.shopIndex],
+        });
+      }
     }
   },
 

@@ -27,11 +27,12 @@ class Shop {
 
     // Is our item stackable?
     this.itemFull = Query.getItemData(this.itemId);
-    this.stackable = this.itemFull;
+    this.stackable = this.itemFull.stackable;
     this.ableToBuyAll = false;
 
     // Get the quantity of how much we are able to buy
     this.quantity = this.getTrueStockableQuantity(quantity);
+    this.quantityToSell = this.getSellableQuantity(quantity);
 
     // Do we have enough space? Money?
     this.insufficient = {
@@ -56,6 +57,15 @@ class Shop {
     });
   }
 
+  getSellableQuantity(quantity) {
+    // How many items (to sell) do we have in our inventory?
+    const howManyItems = this.inventory.map(q => q.id).filter(e => e === this.itemId).length;
+
+    // If our items exceed the quantity we want to
+    // sell (50), set the correct amount to sell.
+    return howManyItems > quantity ? quantity : howManyItems;
+  }
+
   /**
    * Return the number of items we can buy based on the store's in-stock quantity
    *
@@ -63,6 +73,7 @@ class Shop {
    * @return {boolean}
    */
   getTrueStockableQuantity(quantity) {
+    if (this.isSpeciality() && this.shopItemIndex === -1) return 0;
     // Is our in-stock quantity higher than what we want to buy?
     const moreThanWeHave = this.shop[this.shopItemIndex].qty >= quantity;
 
@@ -116,7 +127,8 @@ class Shop {
       willWeSell = this.shop.map(q => q.id).includes(this.itemId);
       if (!willWeSell) {
         msg = 'You cannot sell this item to the store.';
-      } else if (!this.spaceInInventory) {
+      } else if (!this.spaceInInventory()) {
+        willWeSell = false;
         msg = 'Not enough space in inventory.';
       } else {
         willWeSell = true;
@@ -134,12 +146,40 @@ class Shop {
   }
 
   sell() {
-    console.log(this.itemId);
-    console.log('Selling item...');
+    const { price } = Query.getItemData(this.itemId);
 
     if (this.canWeSell()) {
-      console.log('WE CAN SELL!');
+      // Specialized store?
+      if (this.isSpeciality()) {
+        this.shop[this.shopItemIndex].qty += this.quantityToSell;
+        const rounds = this.stackable ? 1 : this.quantityToSell;
+
+        // Add coins to our coins in inventory
+        if (this.hasCoinsInInventory()) {
+          this.inventory[this.coinIndex].qty += price;
+        } else {
+          // If not, lets give them their coins to the inventory
+          this.inventory.push({
+            id: 'coins',
+            qty: price * rounds,
+            uuid: uuid(),
+            slot: UI.getOpenSlot(this.inventory),
+          });
+        }
+
+        // Remove item from inventory
+        for (let index = 0; index < rounds; index += 1) {
+          this.inventory.splice(this.inventory.findIndex(z => z.id === this.itemId), 1);
+        }
+      } else {
+        // General store code
+      }
     }
+
+    return {
+      inventory: this.inventory,
+      shopItems: this.shop,
+    };
   }
 
   /**
@@ -222,8 +262,16 @@ class Shop {
     });
   }
 
+  static successfulSale(response) {
+    return response !== undefined && Object.prototype.hasOwnProperty.call(response, 'inventory');
+  }
+
   spaceInInventory() {
-    return this.slotsAvailable > 0;
+    return this.hasCoinsInInventory() || this.slotsAvailable > 0;
+  }
+
+  hasCoinsInInventory() {
+    return this.coinIndex > -1;
   }
 
   /**
