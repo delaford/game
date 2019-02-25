@@ -22,4 +22,24 @@ export default [{
       stock: 1,
     },
   ],
+}, {
+  id: 2,
+  npcId: 2,
+  name: 'General Store',
+  type: 'general',
+  repawnItems: '5m',
+  inventory: [
+    {
+      item: 'hammer',
+      stock: 15,
+    },
+    {
+      item: 'lantern',
+      stock: 15,
+    },
+    {
+      item: 'knife',
+      stock: 15,
+    },
+  ],
 }];

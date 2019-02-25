@@ -51,4 +51,51 @@ export default [
       'resource',
     ]),
   },
+  // Other
+  {
+    id: 'hammer',
+    name: 'Hammer',
+    examine: 'I can meld bars with the right hits into weaponry and armory.',
+    price: 12,
+    type: 'blunt',
+    graphics: {
+      tileset: 'general',
+      row: 2,
+      column: 0,
+    },
+    actions: presetActions([
+      'resource',
+      'smith',
+    ]),
+  },
+  {
+    id: 'knife',
+    name: 'Knife',
+    examine: 'Sharp and edgy. Just like my teenage self...',
+    price: 5,
+    type: 'sharp',
+    graphics: {
+      tileset: 'general',
+      row: 2,
+      column: 1,
+    },
+    actions: presetActions([
+      'resource',
+    ]),
+  },
+  {
+    id: 'lantern',
+    name: 'Lantern',
+    examine: 'A lot more useful when lit.',
+    price: 20,
+    type: 'light',
+    graphics: {
+      tileset: 'general',
+      row: 3,
+      column: 0,
+    },
+    actions: presetActions([
+      'resource',
+    ]),
+  },
 ];

@@ -19,7 +19,7 @@
         @click.right="showContextMenu($event, i)">
         <span
           v-if="hasQuantity(i)"
-          class="qty"
+          :class="`qty ${gridData(screen).classId}`"
           v-text="getItemFromSlot(i).qty" />
       </div>
     </div>

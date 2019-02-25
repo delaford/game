@@ -18,19 +18,20 @@ module.exports = [
   },
   {
     id: 2,
-    name: 'Adney',
-    examine: 'A city dweller looking for his next opportunity.',
+    name: 'Shop keeper',
+    examine: 'Sells and buys items in exchange for coins.',
     graphic: {
       row: 0,
       column: 1,
     },
     actions: [
+      'trade',
       'examine',
     ],
     spawn: {
       x: 12,
       y: 116,
-      range: 4,
+      range: 2,
     },
   },
   {

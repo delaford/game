@@ -14,6 +14,9 @@ const presetActions = (items) => {
   items.forEach((item) => {
     switch (item) {
       default:
+        list = [
+          ...item,
+        ];
         break;
       // Every wearable, you can
       // drop, examine, take, .etc.

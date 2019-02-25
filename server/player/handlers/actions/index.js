@@ -245,8 +245,6 @@ export default {
 
       /** UPDATE PLAYER DATA */
       if (Shop.successfulSale(response)) {
-        console.log('sale!');
-
         world.players[shop.shopIndex].inventory = response.shopItems;
         world.players[shop.playerIndex].inventory = response.inventory;
 
