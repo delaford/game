@@ -122,7 +122,7 @@ class ContextMenu {
     const itemSource = {
       inventorySlot: this.player.inventory,
       bankSlot: this.player.bank,
-      shopSlot: world.shops[0].inventory,
+      shopSlot: this.getShopInventory(),
     };
 
     // From where are we getting our data from?
@@ -524,6 +524,18 @@ class ContextMenu {
     // see if mouse-click is within those limits. Technically, you
     // would have clicked on the gameCanvas because of X,Y origin.
     return this.clickedOn('gameMap') || this.clickedOn('bankSlot');
+  }
+
+  /**
+   * Get the shop inventory based on NPC
+   *
+   * @returns {array}
+   */
+  getShopInventory() {
+    if (!this.player.objectId) return [];
+    const shopIndex = world.shops.findIndex(q => q.npcId === this.player.objectId);
+
+    return world.shops[shopIndex].inventory;
   }
 
   /**

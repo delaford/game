@@ -104,7 +104,7 @@ class Shop {
     // If our quantity wanted is less than slots available, return the quantity
     // otherwise, lets take the remaining slots left and just give them that.
     // (eg: player has 8 slots left, wants to buy 20, we return 12)
-    return this.quantity < this.slotsAvailable ? this.quantity : slotsLeftQuantity;
+    return this.quantity <= this.slotsAvailable ? this.quantity : slotsLeftQuantity;
   }
 
   /**
@@ -149,30 +149,25 @@ class Shop {
     const { price } = Query.getItemData(this.itemId);
 
     if (this.canWeSell()) {
-      // Specialized store?
-      if (this.isSpeciality()) {
-        this.shop[this.shopItemIndex].qty += this.quantityToSell;
-        const rounds = this.stackable ? 1 : this.quantityToSell;
+      this.shop[this.shopItemIndex].qty += this.quantityToSell;
+      const rounds = this.stackable ? 1 : this.quantityToSell;
 
-        // Add coins to our coins in inventory
-        if (this.hasCoinsInInventory()) {
-          this.inventory[this.coinIndex].qty += price;
-        } else {
-          // If not, lets give them their coins to the inventory
-          this.inventory.push({
-            id: 'coins',
-            qty: price * rounds,
-            uuid: uuid(),
-            slot: UI.getOpenSlot(this.inventory),
-          });
-        }
-
-        // Remove item from inventory
-        for (let index = 0; index < rounds; index += 1) {
-          this.inventory.splice(this.inventory.findIndex(z => z.id === this.itemId), 1);
-        }
+      // Add coins to our coins in inventory
+      if (this.hasCoinsInInventory()) {
+        this.inventory[this.coinIndex].qty += price;
       } else {
-        // General store code
+        // If not, lets give them their coins to the inventory
+        this.inventory.push({
+          id: 'coins',
+          qty: price * rounds,
+          uuid: uuid(),
+          slot: UI.getOpenSlot(this.inventory),
+        });
+      }
+
+      // Remove item from inventory
+      for (let index = 0; index < rounds; index += 1) {
+        this.inventory.splice(this.inventory.findIndex(z => z.id === this.itemId), 1);
       }
     }
 
@@ -180,6 +175,18 @@ class Shop {
       inventory: this.inventory,
       shopItems: this.shop,
     };
+  }
+
+  /**
+   * Is the player buying a store-stocked item?
+   *
+   * @return {boolean}
+   */
+  buyingStoreProduct() {
+    debugger;
+    const originalItems = shops[this.shopIndex].inventory.map(e => e.item);
+
+    return originalItems.includes(this.itemId);
   }
 
   /**
@@ -215,6 +222,10 @@ class Shop {
       this.inventory.push(itemToAdd);
     }
 
+    const originalProduct = this.buyingStoreProduct();
+    console.log(originalProduct);
+    debugger;
+
     // If we completed one round of purchasing
     if (rounds > 0) {
       // Update our new money total
@@ -245,10 +256,13 @@ class Shop {
     } else if (this.insufficient.space) {
       msg = 'You were not able to buy all of the items.';
     }
-    Socket.emit('game:send:message', {
-      player: { socket_id: world.players[this.playerIndex].socket_id },
-      text: msg,
-    });
+
+    if (msg !== '') {
+      Socket.emit('game:send:message', {
+        player: { socket_id: world.players[this.playerIndex].socket_id },
+        text: msg,
+      });
+    }
   }
 
   /**
@@ -262,14 +276,30 @@ class Shop {
     });
   }
 
+  /**
+   * Has the player succesffuly made a sale?
+   *
+   * @param {object} response The sale to be analyzed
+   * @return {boolean}
+   */
   static successfulSale(response) {
     return response !== undefined && Object.prototype.hasOwnProperty.call(response, 'inventory');
   }
 
+  /**
+   * Does the player have enough space in their inventory?
+   *
+   * @return {boolean}
+   */
   spaceInInventory() {
     return this.hasCoinsInInventory() || this.slotsAvailable > 0;
   }
 
+  /**
+   * Does the player have coins in their inventory?
+   *
+   * @return {boolean}
+   */
   hasCoinsInInventory() {
     return this.coinIndex > -1;
   }
