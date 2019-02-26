@@ -123,7 +123,7 @@ export default {
      * @return {boolean}
      */
     hasQuantity(item) {
-      if (this.screen === 'shop') return true;
+      if (this.screen === 'shop' && this.getItemFromSlot(item).qty !== 1) return true;
       if (this.getItemFromSlot(item).graphics) {
         return this.getItemFromSlot(item).graphics.quantityLevel;
       }

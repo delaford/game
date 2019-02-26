@@ -49,10 +49,15 @@ class Shop {
 
   /**
    * Load the store data
+   *
+   * @return {object}
    */
   static load() {
     return shops.map((s) => {
+      // Format to more consise properties
       s.inventory = s.inventory.map(Shop.formatData);
+      // Take stock of original items sold in general stores
+      s.originalStock = s.inventory.map(q => q.id);
       return s;
     });
   }
@@ -73,7 +78,7 @@ class Shop {
    * @return {boolean}
    */
   getTrueStockableQuantity(quantity) {
-    if (this.isSpeciality() && this.shopItemIndex === -1) return 0;
+    if (this.shopItemIndex === -1) return 0;
     // Is our in-stock quantity higher than what we want to buy?
     const moreThanWeHave = this.shop[this.shopItemIndex].qty >= quantity;
 
@@ -113,11 +118,18 @@ class Shop {
    * @return {boolean}
    */
   itemInStock() {
+    if (this.shopItemIndex === -1) return false;
+    if (!this.shop[this.shopItemIndex]) return false;
+
     return this.shop[this.shopItemIndex].qty > 0;
   }
 
   isSpeciality() {
     return this.shopType === 'speciality';
+  }
+
+  isGeneralStore() {
+    return this.shopType === 'general';
   }
 
   canWeSell() {
@@ -133,6 +145,8 @@ class Shop {
       } else {
         willWeSell = true;
       }
+    } else {
+      willWeSell = true;
     }
 
     if (!willWeSell) {
@@ -149,7 +163,6 @@ class Shop {
     const { price } = Query.getItemData(this.itemId);
 
     if (this.canWeSell()) {
-      this.shop[this.shopItemIndex].qty += this.quantityToSell;
       const rounds = this.stackable ? 1 : this.quantityToSell;
 
       // Add coins to our coins in inventory
@@ -162,6 +175,18 @@ class Shop {
           qty: price * rounds,
           uuid: uuid(),
           slot: UI.getOpenSlot(this.inventory),
+        });
+      }
+
+      if (this.itemInStock()) {
+        this.shop[this.shopItemIndex].qty += this.quantityToSell;
+      }
+
+      if (!this.itemInStock() && this.isGeneralStore()) {
+        this.shop.push({
+          id: this.itemId,
+          qty: 1,
+          slot: UI.getOpenSlot(this.shop),
         });
       }
 
@@ -183,10 +208,7 @@ class Shop {
    * @return {boolean}
    */
   buyingStoreProduct() {
-    debugger;
-    const originalItems = shops[this.shopIndex].inventory.map(e => e.item);
-
-    return originalItems.includes(this.itemId);
+    return world.shops[this.shopIndex].originalStock.includes(this.itemId);
   }
 
   /**
@@ -222,9 +244,8 @@ class Shop {
       this.inventory.push(itemToAdd);
     }
 
-    const originalProduct = this.buyingStoreProduct();
-    console.log(originalProduct);
-    debugger;
+    // Save quantity before a purchase
+    const qtyBeforePurchase = this.shop[this.shopItemIndex].qty;
 
     // If we completed one round of purchasing
     if (rounds > 0) {
@@ -232,11 +253,15 @@ class Shop {
       this.inventory[this.coinIndex].qty = moneyLeft;
       // Substract the quantity of the items we have bought
       this.shop[this.shopItemIndex].qty -= isBuying;
+
+      if (!this.buyingStoreProduct()) {
+        this.shop.splice(this.shopItemIndex, 1);
+      }
     }
 
     // Check to see if purchases can be
     // made and give message accordingly
-    this.checkPurchase();
+    this.checkPurchase(qtyBeforePurchase);
 
     return {
       inventory: this.inventory,
@@ -247,9 +272,9 @@ class Shop {
   /**
    * The purchase did not meet all requirements
    */
-  checkPurchase() {
+  checkPurchase(quantity) {
     let msg = '';
-    if (!this.itemInStock()) {
+    if (quantity < 1 && this.buyingStoreProduct()) {
       msg = 'No more in stock.';
     } else if (this.insufficient.funds) {
       msg = 'Not enough gold to purchase.';
