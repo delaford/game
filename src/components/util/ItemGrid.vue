@@ -242,8 +242,7 @@ export default {
      * @returns {string}
      */
     getBgUrl(slotNumber) {
-      const zxx = this.getItemFromSlot(slotNumber).id;
-      const getItem = UI.getItemData(zxx);
+      const getItem = UI.getItemData(this.getItemFromSlot(slotNumber).id);
 
       if (!this.images) {
         return false;
