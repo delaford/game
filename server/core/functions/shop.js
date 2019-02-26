@@ -62,6 +62,12 @@ class Shop {
     });
   }
 
+  /**
+   * How many items can we sell?
+   *
+   * @param {integer} quantity The quantity we are selling
+   * @return {integer}
+   */
   getSellableQuantity(quantity) {
     // How many items (to sell) do we have in our inventory?
     const howManyItems = this.inventory.map(q => q.id).filter(e => e === this.itemId).length;
@@ -124,14 +130,30 @@ class Shop {
     return this.shop[this.shopItemIndex].qty > 0;
   }
 
+  /**
+   * Is this store a speciality type?
+   * (Ludovicus's Axes, etc)
+   *
+   * @return {boolean}
+   */
   isSpeciality() {
     return this.shopType === 'speciality';
   }
 
+  /**
+   * Is this store a general store?
+   *
+   * @return {boolean}
+   */
   isGeneralStore() {
     return this.shopType === 'general';
   }
 
+  /**
+   * Can we sell this item based on inventory space, store requirements or anything else?
+   *
+   * @return {boolean}
+   */
   canWeSell() {
     let willWeSell = false;
     let msg = '';
@@ -149,6 +171,7 @@ class Shop {
       willWeSell = true;
     }
 
+    // If we can't, lets give them the reason why not
     if (!willWeSell) {
       Socket.emit('game:send:message', {
         player: { socket_id: world.players[this.playerIndex].socket_id },
@@ -159,6 +182,9 @@ class Shop {
     return willWeSell;
   }
 
+  /**
+   * Sell an item to the shop
+   */
   sell() {
     const { price } = Query.getItemData(this.itemId);
 
@@ -212,7 +238,7 @@ class Shop {
   }
 
   /**
-   * Buy an item from a store
+   * Buy an item from the shop
    */
   buy() {
     // Get price of item
