@@ -57,7 +57,7 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [x] Character wear tab
   - [x] Overall look &amp; feel
 - [NPC](https://github.com/Delaford/game/projects/3)
-  - [ ] Trading
+  - [X] Trading (Shops)
   - [ ] Dialog Interaction
   - [x] Walking around
   - [X] Banking
@@ -69,6 +69,7 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [X] Players see each other
   - [X] Non-playable characters
   - [ ] Monsters
+  - [ ] Player trading
   - [X] Items
 - World
   - [X] Respawn system
