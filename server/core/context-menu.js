@@ -16,6 +16,7 @@ class ContextMenu {
     // Moving map objects (npcs, items, etc.)
     this.npcs = world.npcs;
     this.droppedItems = world.items;
+    this.shops = world.shops;
 
     // Only generate the first item?
     this.firstOnly = miscData.firstOnly || false;
@@ -121,6 +122,7 @@ class ContextMenu {
     const itemSource = {
       inventorySlot: this.player.inventory,
       bankSlot: this.player.bank,
+      shopSlot: this.getShopInventory(),
     };
 
     // From where are we getting our data from?
@@ -135,9 +137,12 @@ class ContextMenu {
      * I know there is a MUCH better way to abstract
      * this switch-case code below to more simpler methods.
      */
+    if (!action) return;
+
     switch (action.name) {
       default:
-        return items;
+      case 'Cancel':
+        break;
 
       // Walk player to this location
       case 'Walk here':
@@ -245,6 +250,7 @@ class ContextMenu {
 
       // Examine item/object/npc from where possible
       case 'Examine':
+      case 'Value':
         if (this.isFromGameCanvas()) {
           if (foregroundData && this.canDoAction(foregroundData.actions, action)) {
             const fgColor = UI.getContextSubjectColor(foregroundData.context);
@@ -349,8 +355,9 @@ class ContextMenu {
 
         break;
 
-      // Bank
+      // Bank and Trading
       case 'Bank':
+      case 'Trade':
         if (this.isFromGameCanvas()) {
           if (foregroundData && this.canDoAction(foregroundData.actions, action)) {
             const fgColor = UI.getContextSubjectColor(foregroundData.context);
@@ -434,9 +441,35 @@ class ContextMenu {
           }
         }
         break;
-    }
 
-    return items;
+      case 'Sell':
+      case 'Buy':
+        if (this.clickedOn('shopSlot') || this.clickedOn('inventorySlot')) {
+          const {
+            name, examine, id, context, actions,
+          } = Query.getItemData(itemActedOn.id);
+
+          const color = UI.getContextSubjectColor(context);
+
+          if (this.canDoAction(actions, action)) {
+            const quantity = [1, 5, 10, 50];
+
+            quantity.forEach((q) => {
+              items.push({
+                label: `${action.name}-${q.toString()} <span style='color:${color}'>${name}</span>`,
+                params: {
+                  quantity: q,
+                },
+                action,
+                examine,
+                type: 'item',
+                id,
+              });
+            });
+          }
+        }
+        break;
+    }
   }
 
   /**
@@ -491,6 +524,18 @@ class ContextMenu {
     // see if mouse-click is within those limits. Technically, you
     // would have clicked on the gameCanvas because of X,Y origin.
     return this.clickedOn('gameMap') || this.clickedOn('bankSlot');
+  }
+
+  /**
+   * Get the shop inventory based on NPC
+   *
+   * @returns {array}
+   */
+  getShopInventory() {
+    if (!this.player.objectId) return [];
+    const shopIndex = world.shops.findIndex(q => q.npcId === this.player.objectId);
+
+    return world.shops[shopIndex].inventory;
   }
 
   /**

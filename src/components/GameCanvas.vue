@@ -8,6 +8,7 @@
       class="pane">
       <component
         :game="game"
+        :data="screenData"
         :is="current" />
     </div>
     <canvas
@@ -94,6 +95,7 @@ export default {
     openScreen(incoming) {
       this.current = incoming.data.screen;
       this.screenData = incoming.data.payload;
+      bus.$emit('pane:data', this.screenData);
     },
     /**
      * Right-click brings up context-menu
@@ -224,12 +226,9 @@ div.game {
   .pane {
     z-index: 5;
     position: relative;
-    background: red;
     width: 90%;
     height: 90%;
-    margin: 0 auto;
-    top: 50%;
-    transform: translateY(-50%);
+    margin: 10px auto;
 
     div {
       height: 100%;

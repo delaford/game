@@ -14,6 +14,9 @@ const presetActions = (items) => {
   items.forEach((item) => {
     switch (item) {
       default:
+        list = [
+          ...item,
+        ];
         break;
       // Every wearable, you can
       // drop, examine, take, .etc.
@@ -26,6 +29,9 @@ const presetActions = (items) => {
           'unequip',
           'deposit',
           'withdraw',
+          'buy',
+          'sell',
+          'value',
         ];
         break;
       case 'resource':
@@ -35,6 +41,9 @@ const presetActions = (items) => {
           'drop',
           'deposit',
           'withdraw',
+          'buy',
+          'sell',
+          'value',
         ];
         break;
       // Axes you can chop with

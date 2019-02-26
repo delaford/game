@@ -13,7 +13,7 @@ import Item from '../../../core/item';
 import world from '../../../core/world';
 import Query from '../../../core/data/query';
 import Handler from '../../../player/handler';
-import { Bank } from '../../../core/functions';
+import { Bank, Shop } from '../../../core/functions';
 import Mining from '../../../core/skills/mining';
 import ContextMenu from '../../../core/context-menu';
 import { wearableItems, general } from '../../../core/data/items';
@@ -127,6 +127,9 @@ export default {
    * Start building the context menu for the player
    */
   'player:context-menu:build': async (incomingData) => {
+    // TODO
+    // Pass only socket_id and grep from
+    // instead of passing whole player object
     const contextMenu = new ContextMenu(
       incomingData.data.player,
       incomingData.data.tile,
@@ -210,10 +213,64 @@ export default {
   },
 
   /**
+   * A player wants opening a trade shop
+   */
+  'player:screen:npc:trade': (data) => {
+    console.log('Accessing trade shop...', data.todo.item.id);
+    world.players[data.playerIndex].currentPane = 'shop';
+    world.players[data.playerIndex].objectId = data.todo.item.id;
+
+    Socket.emit('open:screen', {
+      player: { socket_id: world.players[data.playerIndex].socket_id },
+      screen: 'shop',
+      payload: world.shops.find(e => e.npcId === data.todo.item.id),
+    });
+  },
+
+  /**
+   * A player wants to buy or sell an item (and sometimes check its value)
+   */
+  'player:screen:npc:trade:action': (data) => {
+    const quantity = data.item.params ? data.item.params.quantity : 0;
+    const shop = new Shop(
+      data.player.objectId,
+      data.id,
+      data.item.id,
+      data.doing,
+      quantity,
+    );
+
+    // Simple check for the item's price
+    if (data.doing === 'value') {
+      shop[data.doing]();
+    } else {
+      // We will be buying or selling an item
+      const response = shop[data.doing]();
+
+      /** UPDATE PLAYER DATA */
+      if (Shop.successfulSale(response)) {
+        world.shops[shop.shopIndex].inventory = response.shopItems;
+        world.players[shop.playerIndex].inventory = response.inventory;
+
+        // Refresh client with new data
+        Socket.emit('core:refresh:inventory', {
+          player: { socket_id: world.players[shop.playerIndex].socket_id },
+          data: response.inventory,
+        });
+
+        Socket.emit('open:screen', {
+          player: { socket_id: world.players[shop.playerIndex].socket_id },
+          screen: 'shop',
+          payload: world.shops[shop.shopIndex],
+        });
+      }
+    }
+  },
+
+  /**
    * A player wants to access their bank
    */
   'player:screen:bank': (data) => {
-    console.log('Accessing bank...');
     world.players[data.playerIndex].currentPane = 'bank';
 
     Socket.emit('open:screen', {

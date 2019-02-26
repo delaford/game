@@ -147,6 +147,10 @@ class Action {
     // Refactor this as not every queueable
     // action will need 'player:mouseTo' before it
     const iminimentAction = incomingAction.queueable ? 'player:mouseTo' : incomingAction.actionId;
+
+    // No action? Do nothing. (eg: Cancel)
+    if (!iminimentAction) return;
+
     playerEvent[iminimentAction](dataObject);
   }
 }

@@ -19,7 +19,7 @@
         @click.right="showContextMenu($event, i)">
         <span
           v-if="hasQuantity(i)"
-          class="qty"
+          :class="`qty ${gridData(screen).classId}`"
           v-text="getItemFromSlot(i).qty" />
       </div>
     </div>
@@ -123,6 +123,7 @@ export default {
      * @return {boolean}
      */
     hasQuantity(item) {
+      if (this.screen === 'shop' && this.getItemFromSlot(item).qty !== 1) return true;
       if (this.getItemFromSlot(item).graphics) {
         return this.getItemFromSlot(item).graphics.quantityLevel;
       }
@@ -164,6 +165,11 @@ export default {
           columns: 11,
           rows: 6,
           classId: 'bankSlot',
+        },
+        shop: {
+          columns: 11,
+          rows: 4,
+          classId: 'shopSlot',
         },
       };
 

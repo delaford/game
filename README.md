@@ -57,7 +57,7 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [x] Character wear tab
   - [x] Overall look &amp; feel
 - [NPC](https://github.com/Delaford/game/projects/3)
-  - [ ] Trading
+  - [X] Trading (Shops)
   - [ ] Dialog Interaction
   - [x] Walking around
   - [X] Banking
@@ -69,6 +69,7 @@ When an item is checkmarked, it means the basic foundation is in place. Sometime
   - [X] Players see each other
   - [X] Non-playable characters
   - [ ] Monsters
+  - [ ] Player trading
   - [X] Items
 - World
   - [X] Respawn system
@@ -93,5 +94,6 @@ Delaford contains work from multiple sources not organically made by contributio
 
 - [Tileset, monsters, items, players](http://pousse.rapiere.free.fr/tome/tome-tiles.htm) by David E. Gervais. &middot; [CC license](https://creativecommons.org/licenses/by/3.0/)
 - [Main screen music](https://opengameart.org/content/enchanted-festival) by [Matthew Pablo](http://www.matthewpablo.com). &middot; [CC license](https://creativecommons.org/licenses/by/3.0/)
-- Game font '[PixelMix](https://www.dafont.com/pixelmix.font)' by [Andrew Tyler](http://andrewtyler.net/fonts/), IBM VGA8 by IBM.
+- Game font '[PixelMix](https://www.dafont.com/pixelmix.font)' by [Andrew Tyler](http://andrewtyler.net/fonts/)
+- Chat font '[IBM VGA 8](https://int10h.org/oldschool-pc-fonts/fontlist/)' by [IBM](https://www.ibm.com).
 - [Heroicons](https://github.com/sschoger/heroicons-ui) by [Steve Schoger](http://www.steveschoger.com/)

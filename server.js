@@ -44,10 +44,11 @@ const game = new Delaford(server);
 
 // Live update of world items and players
 // TODO Allow only on localhost.
+// Make dynamic
 app.get('/world/items', (req, res) => res.send(world.items));
 app.get('/world/players', (req, res) => res.send(world.players));
 app.get('/world/respawns', (req, res) => res.send(world.respawns));
-app.get('/world/map/foreground', (req, res) => res.send(world.map.foreground));
+app.get('/world/shops', (req, res) => res.send(world.shops));
 /** ************************************** */
 
 // Start the game server.
