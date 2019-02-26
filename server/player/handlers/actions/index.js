@@ -227,6 +227,9 @@ export default {
     });
   },
 
+  /**
+   * A player wants to buy or sell an item (and sometimes check its value)
+   */
   'player:screen:npc:trade:action': (data) => {
     const quantity = data.item.params ? data.item.params.quantity : 0;
     const shop = new Shop(
@@ -237,10 +240,11 @@ export default {
       quantity,
     );
 
+    // Simple check for the item's price
     if (data.doing === 'value') {
       shop[data.doing]();
-      //
     } else {
+      // We will be buying or selling an item
       const response = shop[data.doing]();
 
       /** UPDATE PLAYER DATA */
@@ -267,7 +271,6 @@ export default {
    * A player wants to access their bank
    */
   'player:screen:bank': (data) => {
-    console.log('Accessing bank...');
     world.players[data.playerIndex].currentPane = 'bank';
 
     Socket.emit('open:screen', {
