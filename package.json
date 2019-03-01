@@ -7,7 +7,6 @@
   },
   "scripts": {
     "dev:node": "set NODE_ENV=development && ./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node --no-babelrc server.js --presets @babel/preset-env --plugins @babel/plugin-transform-modules-commonjs",
-    "dev:node_global": "set NODE_ENV=development && nodemon --exec ./node_modules/.bin/babel-node --no-babelrc server.js --presets @babel/preset-env --plugins @babel/plugin-transform-modules-commonjs",
     "server:prod": "NODE_ENV=production node server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
