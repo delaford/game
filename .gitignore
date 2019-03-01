@@ -20,7 +20,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
-*.history
 
 # Project specific
 scratchpad.txt
+
+#History Files
+*.history
