@@ -23,3 +23,6 @@ yarn-error.log*
 
 # Project specific
 scratchpad.txt
+
+#History Files
+*.history
