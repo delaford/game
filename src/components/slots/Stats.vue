@@ -3,10 +3,12 @@
     <ul>
       <li
         v-tippy
-        v-for="skill in skills"
+        v-for="(skill, key, index) in skills"
         :title="`${skill.exp} exp`"
-        :key="skill._id">
-        <span class="skill-name">{{ skill.name }}</span>
+        :key="index">
+        <span
+          class="skill-name"
+          v-text="key" />
         <span class="level">{{ skill.level }} / 99</span>
       </li>
     </ul>
@@ -48,9 +50,10 @@ div.stats_slot {
     line-height: 2em;
 
     li {
-      span.skill-name {// eslint-disable-line
+      span.skill-name {
         text-transform: capitalize;
-      }// eslint-disable-line
+      }
+
       span.level {
         float: right;
       }

@@ -15,32 +15,26 @@
 		"max": 10
 	},
 	"skills": [{
-		"_id" : 0,
 		"level": 1,
 		"exp": 0,
 		"name": "Attack"
 	}, {
-		"_id" : 1,
 		"level": 1,
 		"exp": 0,
 		"name": "Defence"
 	}, {
-		"_id" : 2,
 		"level": 1,
 		"exp": 0,
 		"name": "Mining"
 	}, {
-		"_id" : 3,
 		"level": 1,
 		"exp": 0,
 		"name": "Smithing"
 	}, {
-		"_id" : 4,
 		"level": 1,
 		"exp": 0,
 		"name": "Fishing"
 	}, {
-		"_id" : 5,
 		"level": 1,
 		"exp": 0,
 		"name": "Cooking"
