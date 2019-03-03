@@ -3,11 +3,11 @@
     <ul>
       <li
         v-tippy
-        v-for="(item, key, index) in skills"
-        :title="`${item.exp} exp`"
-        :key="index">
-        <span v-text="capitalizeFirstLetter(key)"/>
-        <span class="level">{{ item.level }} / 99</span>
+        v-for="skill in skills"
+        :title="`${skill.exp} exp`"
+        :key="skill._id">
+        <span class="skill-name">{{ skill.name }}</span>
+        <span class="level">{{ skill.level }} / 99</span>
       </li>
     </ul>
   </div>
@@ -24,11 +24,6 @@ export default {
   computed: {
     skills() {
       return this.game.player.skills;
-    },
-  },
-  methods: {
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
     },
   },
 };
@@ -53,6 +48,9 @@ div.stats_slot {
     line-height: 2em;
 
     li {
+      span.skill-name {// eslint-disable-line
+        text-transform: capitalize;
+      }// eslint-disable-line
       span.level {
         float: right;
       }
