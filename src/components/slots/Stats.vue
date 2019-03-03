@@ -48,8 +48,8 @@ div.stats_slot {
     line-height: 2em;
 
     li {
-      span.skill-name { // eslint-disable-line
-        text-transform: capitalize;// eslint-disable-line
+      span.skill-name {// eslint-disable-line
+        text-transform: capitalize;
       }// eslint-disable-line
       span.level {
         float: right;
