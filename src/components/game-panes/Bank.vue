@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import bus from '../../core/utilities/bus';
+
 export default {
   props: {
     game: {
@@ -26,6 +28,10 @@ export default {
     bankItems() {
       return this.game.player.bank;
     },
+  },
+  mounted() {
+    const INVENTORY = 1;
+    bus.$emit('show-sidebar', INVENTORY);
   },
 };
 </script>
