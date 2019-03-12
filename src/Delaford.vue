@@ -150,6 +150,8 @@ export default {
       this.screen = 'server-down';
     };
 
+    bus.$on('show-sidebar', this.showSidebar);
+
     // On logout, let's do a few things...
     bus.$on('player:logout', this.logout);
     bus.$on('go:main', this.cancelLogin);
@@ -234,6 +236,9 @@ export default {
     },
     sidebarClicked() {
       bus.$emit('contextmenu:close');
+    },
+    showSidebar(selectedSlot) {
+      this.$refs.sidebarSlots.selected = selectedSlot;
     },
   },
 };
