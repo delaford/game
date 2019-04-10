@@ -61,9 +61,7 @@
         <GameCanvas :game="game" />
 
         <!-- Chatbox -->
-        <Chatbox
-          v-if="screen === 'game'"
-          :game="game" />
+        <Chatbox :game="game" />
       </div>
       <div
         class="right"
@@ -225,9 +223,6 @@ export default {
 
       // Show the game canvas
       this.loaded = true;
-
-      // Set screen so chat will reset on game loading
-      this.screen = 'game';
     },
     /**
      * A click-handler event that does nothing, really.
