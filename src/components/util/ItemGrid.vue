@@ -272,7 +272,7 @@ $default_color: #383838;
 div.grid_container {
   display: grid;
   height: 275px;
-  overflow-y: scroll;
+  overflow-y: auto;
   box-sizing: border-box;
   font-family: "GameFont", serif;
   grid-template-rows: repeat(6, 35px);
