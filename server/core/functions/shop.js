@@ -248,7 +248,11 @@ class Shop {
     // How much gold are we spending?
     const toSpend = price * isBuying;
     // How much gold do we have?
-    const playerGold = this.inventory[this.coinIndex].qty;
+    let playerGold = 0;
+
+    if (this.inventory[this.coinIndex]) {
+      playerGold = this.inventory[this.coinIndex].qty;
+    }
     // How much money left after purchase?
     const moneyLeft = playerGold - toSpend;
     // How many items to buy based on all calculations
