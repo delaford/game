@@ -223,6 +223,9 @@ export default {
 
       // Show the game canvas
       this.loaded = true;
+
+      // Set screen to 'game' for chatbox reset
+      this.screen = 'game';
     },
     /**
      * A click-handler event that does nothing, really.
