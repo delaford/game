@@ -61,9 +61,7 @@
         <GameCanvas :game="game" />
 
         <!-- Chatbox -->
-        <Chatbox
-          v-if="screen === 'game'"
-          :game="game" />
+        <Chatbox :game="game" />
       </div>
       <div
         class="right"
