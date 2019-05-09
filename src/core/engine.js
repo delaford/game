@@ -28,12 +28,12 @@ class Engine {
 
   change(setting, val) {
     switch (setting) {
-      case 'fps':
-        this.fps.max = val;
-        break;
+    case 'fps':
+      this.fps.max = val;
+      break;
 
-      default:
-        break;
+    default:
+      break;
     }
   }
 

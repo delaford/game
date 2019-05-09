@@ -294,13 +294,13 @@ jewelry	build/core/data/respawn/index.js	/^var jewelry = require('.\/jewelry');$
 module.exports.apps	ecosystem.config.js	/^  apps: [{$/;"	p
 module.exports.armor	build/core/data/respawn/index.js	/^  armor: armor,$/;"	p
 module.exports.configureWebpack	vue.config.js	/^  configureWebpack: {$/;"	p
-module.exports.env	.eslintrc.js	/^  env: {$/;"	p
+module.exports.env	.eslintrc.js	/^	env: {$/;"	p
 module.exports.env	tests/unit/.eslintrc.js	/^  env: {$/;"	p
 module.exports.jewelry	build/core/data/respawn/index.js	/^  jewelry: jewelry$/;"	p
 module.exports.moduleFileExtensions	jest.config.js	/^  moduleFileExtensions: [$/;"	p
 module.exports.player	build/player/pipeline/index.js	/^  player: _players.default$/;"	p
 module.exports.plugins	postcss.config.js	/^  plugins: {$/;"	p
-module.exports.root	.eslintrc.js	/^  root: true,$/;"	p
+module.exports.root	.eslintrc.js	/^	root: true,$/;"	p
 module.exports.socket	build/core/world.js	/^  socket: {},$/;"	p
 module.exports.socket	server/core/world.js	/^  socket: {},$/;"	p
 module.exports.weapons	build/core/data/respawn/index.js	/^  weapons: weapons,$/;"	p

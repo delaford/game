@@ -37,7 +37,7 @@
     "vue": "^2.6.2",
     "vue-tippy": "^2.0.19",
     "vuex": "^3.0.1",
-    "vuex-persist": "^2.0.0",
+    "vuex-persistedstate": "^2.5.4",
     "ws": "^7.0.0"
   },
   "devDependencies": {

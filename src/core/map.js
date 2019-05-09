@@ -257,15 +257,15 @@ class Map {
       // Get the correct tileset to draw upon
       const itemTileset = () => {
         switch (info.graphics.tileset) {
-          case 'general':
-            return this.images.generalImage;
-          case 'jewelry':
-            return this.images.jewelryImage;
-          case 'armor':
-            return this.images.armorImage;
-          default:
-          case 'weapons':
-            return this.images.weaponsImage;
+        case 'general':
+          return this.images.generalImage;
+        case 'jewelry':
+          return this.images.jewelryImage;
+        case 'armor':
+          return this.images.armorImage;
+        default:
+        case 'weapons':
+          return this.images.weaponsImage;
         }
       };
 
