@@ -15,4 +15,3 @@ export default {
     context.game.player.inventory = incoming.data.data;
   },
 };
-

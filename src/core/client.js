@@ -8,11 +8,11 @@ import armorImage from '../assets/graphics/items/armor.png';
 import jewelryImage from '../assets/graphics/items/jewelry.png';
 import generalImage from '../assets/graphics/items/general.png';
 
-import bus from '../core/utilities/bus';
+import bus from './utilities/bus';
 
-import Socket from '../core/utilities/socket';
+import Socket from './utilities/socket';
 
-import Map from '../core/map';
+import Map from './map';
 
 
 class Client {
@@ -90,8 +90,7 @@ class Client {
       generalImage,
     ];
 
-    const images = Object.values(assets).map(asset =>
-      this.constructor.uploadImage(asset));
+    const images = Object.values(assets).map(asset => this.constructor.uploadImage(asset));
 
     return images;
   }

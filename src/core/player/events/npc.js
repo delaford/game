@@ -6,4 +6,3 @@ export default {
     context.npcMovement(data.data);
   },
 };
-

@@ -1,4 +1,4 @@
-import bus from '../core/utilities/bus';
+import bus from './utilities/bus';
 
 class Engine {
   constructor(game) {

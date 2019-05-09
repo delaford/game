@@ -1,6 +1,6 @@
 // Player event handler
 
-import bus from './../../utilities/bus';
+import bus from '../../utilities/bus';
 
 export default {
   /**
@@ -80,4 +80,3 @@ export default {
     }
   },
 };
-
