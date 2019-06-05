@@ -1,5 +1,4 @@
 import UI from 'shared/ui';
-import uuid from 'uuid/v4';
 import world from '../world';
 import Query from '../data/query';
 import config from '../../config';
@@ -24,7 +23,7 @@ export default class Bank {
     this.stackable = Query.getItemData(itemId).stackable;
 
     // Are withdrawing or depositing? Change to source of items based on action
-    this.source = (type === 'withdraw' ? this.bankSlots : this.inventory);
+    this.source = (type === 'withdraw' ? this.bankSlots : this.inventory.slots);
 
     // The item we are acting on
     this.item = this.source.find(e => e.id === this.itemId);
@@ -109,7 +108,7 @@ export default class Bank {
   /**
    * Withdraw an item from the bank
    */
-  withdraw() {
+  async withdraw() {
     if (this.notEnoughSpace()) {
       throw new Error('Not enough space to withdraw.');
     }
@@ -120,21 +119,7 @@ export default class Bank {
       this.inventory[this.index.inventory].qty += this.quantity;
     } else {
       // Add item to inventory either once (if stackable) or as many times as needed
-      const rounds = this.stackable ? 1 : this.quantity; // How many times to iterate on inventory?
-      for (let index = 0; index < rounds; index += 1) {
-        const itemToAdd = {
-          id: this.itemId,
-          uuid: uuid(),
-          slot: UI.getOpenSlot(this.inventory),
-        };
-
-        // If the item is stackable, lets give its proper quantity
-        if (this.stackable) {
-          itemToAdd.qty = this.quantity;
-        }
-
-        this.inventory.push(itemToAdd);
-      }
+      await this.inventory.add();
     }
 
     // Secondly, lets update our bank accordingly

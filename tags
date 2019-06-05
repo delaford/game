@@ -254,7 +254,6 @@ const.headers	server/core/player.js	/^      headers: { Authorization: `Bearer ${
 const.headers	server/player/authentication.js	/^      headers: { Authorization: `Bearer ${token}` },$/;"	p
 const.hours	server/core/item.js	/^      hours: Item.parseTime(respawnsIn, 'h'),$/;"	p
 const.id	server/core/functions/shop.js	/^        id: this.itemId,$/;"	p
-const.id	server/core/utilities/common/player/inventory.js	/^        id: this.itemId,$/;"	p
 const.inventory	server/shared/ui.js	/^      inventory: 24,$/;"	p
 const.inventorySlot	server/core/context-menu.js	/^      inventorySlot: this.player.inventory,$/;"	p
 const.map	server/player/authentication.js	/^      map: world.map,$/;"	p

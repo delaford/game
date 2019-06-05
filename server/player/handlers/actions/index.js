@@ -12,7 +12,7 @@ import Socket from '../../../socket';
 import Item from '../../../core/item';
 import world from '../../../core/world';
 import Query from '../../../core/data/query';
-import Handler from '../../../player/handler';
+// import Handler from '../../handler';
 import { Bank, Shop } from '../../../core/functions';
 import Mining from '../../../core/skills/mining';
 import ContextMenu from '../../../core/context-menu';
@@ -21,15 +21,15 @@ import { wearableItems, general } from '../../../core/data/items';
 export default {
   'player:walk-here': (data) => {
     if (data.tileWalkable) {
-      Handler['player:mouseTo']({
-        data: {
-          id: data.player.uuid,
-          coordinates: { x: data.clickedTile.x, y: data.clickedTile.y },
-        },
-        player: {
-          socket_id: data.player.uuid,
-        },
-      });
+      // Handler['player:mouseTo']({
+      //   data: {
+      //     id: data.player.uuid,
+      //     coordinates: { x: data.clickedTile.x, y: data.clickedTile.y },
+      //   },
+      //   player: {
+      //     socket_id: data.player.uuid,
+      //   },
+      // });
     }
   },
   /**
@@ -59,7 +59,9 @@ export default {
     });
   },
   'player:inventory-drop': (data) => {
-    const itemUuid = data.player.inventory.find(s => s.slot === data.data.miscData.slot).uuid;
+    const itemInventory = data.player.inventory.find(s => s.slot === data.data.miscData.slot);
+
+    const itemUuid = itemInventory.uuid;
 
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
     world.players[playerIndex].inventory = world.players[playerIndex].inventory
@@ -71,12 +73,13 @@ export default {
     world.items.push({
       id: data.item.id,
       uuid: itemUuid,
+      qty: itemInventory.qty || null,
       x: world.players[playerIndex].x,
       y: world.players[playerIndex].y,
       timestamp: Date.now(),
     });
 
-    console.log(`Dropping: ${data.item.id} at ${world.players[playerIndex].x}, ${world.players[playerIndex].x}`);
+    console.log(`Dropping: ${data.item.id} (${itemInventory.qty || 0}) at ${world.players[playerIndex].x}, ${world.players[playerIndex].x}`);
 
     Socket.broadcast('world:itemDropped', world.items);
   },
@@ -180,20 +183,27 @@ export default {
   'player:take': (data) => {
     const { playerIndex, todo } = data;
     // eslint-disable-next-line
-    const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
-
+    const { id, stackable } = Query.getItemData(todo.item.id);
+    const itemToTake = world.items.findIndex(e => (e.x === todo.at.x)
+      && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
+    const { qty } = world.items[itemToTake];
     world.items.splice(itemToTake, 1);
+
 
     Socket.broadcast('item:change', world.items);
 
     console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
-    const { id } = Query.getItemData(todo.item.id);
-
-    world.players[playerIndex].inventory.push({
+    const itemObject = {
       slot: UI.getOpenSlot(world.players[playerIndex].inventory),
       uuid: todo.item.uuid,
       id,
-    });
+    };
+
+    if (stackable) {
+      itemObject.qty = qty;
+    }
+
+    world.players[playerIndex].inventory.push(itemObject);
 
     // Add respawn timer on item (if is a respawn)
     // eslint-disable-next-line
@@ -360,4 +370,3 @@ export default {
     }
   },
 };
-

@@ -56,6 +56,8 @@ export default {
    */
   'player:equippedAnItem': (data, context) => {
     if (data.data.uuid === context.game.player.uuid) {
+      console.log(data.data.inventory);
+
       context.game.player.inventory = data.data.inventory;
       context.game.player.wear = data.data.wear;
       context.game.player.combat = data.data.combat;

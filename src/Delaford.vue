@@ -83,6 +83,7 @@
 
 <script>
 // Vue components
+import config from 'root/config';
 import GameCanvas from './components/GameCanvas.vue';
 import Chatbox from './components/Chatbox.vue';
 import Slots from './components/Slots.vue';
@@ -94,7 +95,6 @@ import AudioMainMenu from './components/sub/AudioMainMenu.vue';
 import Login from './components/ui/Login.vue';
 
 // Core assets
-import config from 'root/config';
 import Client from './core/client';
 import Engine from './core/engine';
 import bus from './core/utilities/bus';
