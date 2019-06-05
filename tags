@@ -253,14 +253,15 @@ const.foreground	server/core/player.js	/^      foreground: steppedOn.foreground 
 const.headers	server/core/player.js	/^      headers: { Authorization: `Bearer ${this.token}` },$/;"	p
 const.headers	server/player/authentication.js	/^      headers: { Authorization: `Bearer ${token}` },$/;"	p
 const.hours	server/core/item.js	/^      hours: Item.parseTime(respawnsIn, 'h'),$/;"	p
-const.id	server/core/functions/bank.js	/^          id: this.itemId,$/;"	p
 const.id	server/core/functions/shop.js	/^        id: this.itemId,$/;"	p
+const.id	server/core/utilities/common/player/inventory.js	/^        id: this.itemId,$/;"	p
 const.inventory	server/shared/ui.js	/^      inventory: 24,$/;"	p
 const.inventorySlot	server/core/context-menu.js	/^      inventorySlot: this.player.inventory,$/;"	p
 const.map	server/player/authentication.js	/^      map: world.map,$/;"	p
 const.name	server/config.js	/^  name: 'delaford',$/;"	p
 const.name	server/player/pipeline/players.js	/^      name: getItem.name,$/;"	p
 const.prod	src/main.js	/^    prod: 'wss:\/\/play.delaford.com',$/;"	p
+const.slot	server/player/handlers/actions/index.js	/^      slot: UI.getOpenSlot(world.players[playerIndex].inventory),$/;"	p
 const.socket	server/config.js	/^  socket: {$/;"	p
 const.uuid	server/core/player.js	/^      uuid: this.uuid, playerData, inventoryData, wearData, skillsData, bankData,$/;"	p
 const.version	server/config.js	/^  version: '0.1.0',$/;"	p
