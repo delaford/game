@@ -21,7 +21,7 @@ export default class Mining extends Skill {
    * @returns {boolean}
    */
   checkForPickaxe() {
-    const pickaxe = this.player.inventory.find(i => i.id.includes('pickaxe')) || this.player.wear.right_hand;
+    const pickaxe = this.player.inventory.slots.find(i => i.id.includes('pickaxe')) || this.player.wear.right_hand;
     if (!pickaxe) return false;
 
     const itemFound = Query.getItemData(pickaxe.id);

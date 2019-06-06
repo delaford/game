@@ -181,6 +181,10 @@ export default {
       if (this.game.player.uuid === data.uuid) {
         this.game.map.player = data;
         this.game.player = data;
+        if (data.inventory.slots) {
+          this.game.map.player.inventory = data.inventory.slots;
+          this.game.player.inventory = data.inventory.slots;
+        }
       } else {
         const playerIndex = this.game.map.players.findIndex(p => p.uuid === data.uuid);
 

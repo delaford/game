@@ -12,8 +12,6 @@ export default {
    * A player recieves an item in their inventory
    */
   'core:refresh:inventory': (incoming, context) => {
-    console.log(incoming.data.data);
-    debugger;
     context.game.player.inventory = incoming.data.data;
   },
 };

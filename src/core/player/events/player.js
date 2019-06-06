@@ -21,7 +21,9 @@ export default {
    * When a player moves.
    */
   'player:movement': (data, context) => {
+    data.data.inventory = data.data.inventory.slots;
     context.playerMovement(data.data);
+
   },
   /**
    * A player saying something
@@ -58,7 +60,7 @@ export default {
     if (data.data.uuid === context.game.player.uuid) {
       console.log(data.data.inventory);
 
-      context.game.player.inventory = data.data.inventory;
+      context.game.player.inventory = data.data.inventory.slots;
       context.game.player.wear = data.data.wear;
       context.game.player.combat = data.data.combat;
     }
@@ -76,7 +78,7 @@ export default {
    */
   'player:unequippedAnItem': (data, context) => {
     if (data.data.uuid === context.game.player.uuid) {
-      context.game.player.inventory = data.data.inventory;
+      context.game.player.inventory = data.data.inventory.slots;
       context.game.player.wear = data.data.wear;
       context.game.player.combat = data.data.combat;
     }

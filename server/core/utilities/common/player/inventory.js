@@ -17,7 +17,7 @@ export default class Inventory {
    * @param {string} itemId - The ID of the item
    * @param {integer} qty - The number of quantity for that item
    */
-  add(itemId, qty = 1) {
+  add(itemId, qty = 1, incomingUuid = null) {
     // TODO
     // Drop items on floor if no space (functionality in shop)
     return new Promise((resolve) => {
@@ -25,9 +25,10 @@ export default class Inventory {
 
       const rounds = stackable ? 1 : qty; // How many times to iterate on inventory?
       for (let index = 0; index < rounds; index += 1) {
+        const itemUuid = incomingUuid || uuid();
         const itemToAdd = {
           id: itemId,
-          uuid: uuid(),
+          uuid: itemUuid,
           slot: UI.getOpenSlot(this.slots),
         };
 
