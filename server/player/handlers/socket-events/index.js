@@ -83,4 +83,3 @@ export default {
     world.players[playerIndex].currentPane = false;
   },
 };
-

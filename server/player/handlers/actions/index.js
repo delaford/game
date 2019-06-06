@@ -12,7 +12,7 @@ import Socket from '../../../socket';
 import Item from '../../../core/item';
 import world from '../../../core/world';
 import Query from '../../../core/data/query';
-import Handler from '../../../player/handler';
+import Handler from '../../handler';
 import { Bank, Shop } from '../../../core/functions';
 import Mining from '../../../core/skills/mining';
 import ContextMenu from '../../../core/context-menu';
@@ -59,10 +59,12 @@ export default {
     });
   },
   'player:inventory-drop': (data) => {
-    const itemUuid = data.player.inventory.find(s => s.slot === data.data.miscData.slot).uuid;
+    const itemInventory = data.player.inventory.slots.find(s => s.slot === data.data.miscData.slot);
+
+    const itemUuid = itemInventory.uuid;
 
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
-    world.players[playerIndex].inventory = world.players[playerIndex].inventory
+    world.players[playerIndex].inventory.slots = world.players[playerIndex].inventory.slots
       .filter(v => v.slot !== data.data.miscData.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
 
@@ -71,12 +73,13 @@ export default {
     world.items.push({
       id: data.item.id,
       uuid: itemUuid,
+      qty: itemInventory.qty || null,
       x: world.players[playerIndex].x,
       y: world.players[playerIndex].y,
       timestamp: Date.now(),
     });
 
-    console.log(`Dropping: ${data.item.id} at ${world.players[playerIndex].x}, ${world.players[playerIndex].x}`);
+    console.log(`Dropping: ${data.item.id} (${itemInventory.qty || 0}) at ${world.players[playerIndex].x}, ${world.players[playerIndex].x}`);
 
     Socket.broadcast('world:itemDropped', world.items);
   },
@@ -180,20 +183,18 @@ export default {
   'player:take': (data) => {
     const { playerIndex, todo } = data;
     // eslint-disable-next-line
-    const itemToTake = world.items.findIndex(e => (e.x === todo.at.x) && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
-
+    const { id, stackable } = Query.getItemData(todo.item.id);
+    const itemToTake = world.items.findIndex(e => (e.x === todo.at.x)
+      && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
+    const { qty } = world.items[itemToTake];
     world.items.splice(itemToTake, 1);
+
 
     Socket.broadcast('item:change', world.items);
 
     console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
-    const { id } = Query.getItemData(todo.item.id);
 
-    world.players[playerIndex].inventory.push({
-      slot: UI.getOpenSlot(world.players[playerIndex].inventory),
-      uuid: todo.item.uuid,
-      id,
-    });
+    world.players[playerIndex].inventory.add(id, qty, todo.item.uuid);
 
     // Add respawn timer on item (if is a respawn)
     // eslint-disable-next-line
@@ -208,7 +209,7 @@ export default {
     // Tell client to update their inventory
     Socket.emit('core:refresh:inventory', {
       player: { socket_id: world.players[playerIndex].socket_id },
-      data: world.players[playerIndex].inventory,
+      data: world.players[playerIndex].inventory.slots,
     });
   },
 
@@ -250,7 +251,7 @@ export default {
       /** UPDATE PLAYER DATA */
       if (Shop.successfulSale(response)) {
         world.shops[shop.shopIndex].inventory = response.shopItems;
-        world.players[shop.playerIndex].inventory = response.inventory;
+        world.players[shop.playerIndex].inventory.slots = response.inventory;
 
         // Refresh client with new data
         Socket.emit('core:refresh:inventory', {
@@ -283,7 +284,7 @@ export default {
   /**
    * A player withdraws or deposits items from their bank or inventory
    */
-  'player:screen:bank:action': (data) => {
+  'player:screen:bank:action': async (data) => {
     const bank = new Bank(
       data.id,
       data.item.id,
@@ -292,11 +293,12 @@ export default {
     );
 
     try {
-      const { inventory, bankItems } = bank[data.doing]();
+      const { inventory, bankItems } = await bank[data.doing]();
 
       /** UPDATE PLAYER DATA */
       world.players[bank.playerIndex].bank = bankItems;
-      world.players[bank.playerIndex].inventory = inventory;
+      world.players[bank.playerIndex].inventory.slots = inventory;
+
 
       // Refresh client with new data
       Socket.emit('core:refresh:inventory', {
@@ -360,4 +362,3 @@ export default {
     }
   },
 };
-

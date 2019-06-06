@@ -24,6 +24,7 @@ class Client {
 
     // Entities on map
     this.player = data.player;
+    this.player.inventory = this.player.inventory.slots;
     this.players = [];
     this.droppedItems = data.droppedItems;
     this.npcs = data.npcs;

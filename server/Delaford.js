@@ -1,3 +1,6 @@
+import uuid from 'uuid/v4';
+import emoji from 'node-emoji';
+
 // Main modules
 import Socket from './socket';
 import Handler from './player/handler';
@@ -5,10 +8,6 @@ import Handler from './player/handler';
 const { wearableItems, general } = require('./core/data/items');
 
 const world = require('./core/world');
-
-// Node modules
-const uuid = require('uuid/v4');
-const emoji = require('node-emoji');
 
 // Default entities
 const NPC = require('./core/npc');

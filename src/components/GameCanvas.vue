@@ -151,8 +151,8 @@ export default {
 
       const data = { x: hoveredSquare.x, y: hoveredSquare.y };
       if (
-        this.game.map &&
-        typeof this.game.map.setMouseCoordinates === 'function'
+        this.game.map
+        && typeof this.game.map.setMouseCoordinates === 'function'
       ) {
         if (hoveredSquare.x >= 0 && hoveredSquare.y >= 0) {
           bus.$emit('DRAW:MOUSE', data);

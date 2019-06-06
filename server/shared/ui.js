@@ -21,13 +21,18 @@ class UI {
    * Get the correct color to label the context subject
    *
    * @param {string} data Incoming context type
+   * @return {string}
    */
   static getContextSubjectColor(data) {
+    // TODO
+    // Turn this into a switch statement
     if (data === 'npc') {
       return map.color.npc;
-    } else if (data === 'item') {
+    }
+    if (data === 'item') {
       return map.color.item;
-    } else if (data === 'action') {
+    }
+    if (data === 'action') {
       return map.color.action;
     }
     return 'inherit';

@@ -83,6 +83,7 @@
 
 <script>
 // Vue components
+import config from 'root/config';
 import GameCanvas from './components/GameCanvas.vue';
 import Chatbox from './components/Chatbox.vue';
 import Slots from './components/Slots.vue';
@@ -94,7 +95,6 @@ import AudioMainMenu from './components/sub/AudioMainMenu.vue';
 import Login from './components/ui/Login.vue';
 
 // Core assets
-import config from 'root/config';
 import Client from './core/client';
 import Engine from './core/engine';
 import bus from './core/utilities/bus';
@@ -181,6 +181,10 @@ export default {
       if (this.game.player.uuid === data.uuid) {
         this.game.map.player = data;
         this.game.player = data;
+        if (data.inventory.slots) {
+          this.game.map.player.inventory = data.inventory.slots;
+          this.game.player.inventory = data.inventory.slots;
+        }
       } else {
         const playerIndex = this.game.map.players.findIndex(p => p.uuid === data.uuid);
 

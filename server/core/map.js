@@ -2,10 +2,10 @@ import MapUtils from 'shared/map-utils';
 import { Shop } from './functions';
 
 const PF = require('pathfinding');
+const uuid = require('uuid/v4');
 const config = require('../config');
 const surfaceMap = require('./../maps/layers/surface.json');
 const world = require('./../core/world');
-const uuid = require('uuid/v4');
 const { weapons, armor, jewelry } = require('./data/respawn');
 
 class Map {

@@ -1,5 +1,4 @@
 import UI from 'shared/ui';
-import uuid from 'uuid/v4';
 import world from '../world';
 import Query from '../data/query';
 import config from '../../config';
@@ -16,7 +15,7 @@ export default class Bank {
 
     // Where in our inventory or bank can this item be?
     this.index = {
-      inventory: this.inventory.findIndex(e => e.id === this.itemId),
+      inventory: this.inventory.slots.findIndex(e => e.id === this.itemId),
       bank: this.bankSlots.findIndex(e => e.id === this.itemId),
     };
 
@@ -24,7 +23,7 @@ export default class Bank {
     this.stackable = Query.getItemData(itemId).stackable;
 
     // Are withdrawing or depositing? Change to source of items based on action
-    this.source = (type === 'withdraw' ? this.bankSlots : this.inventory);
+    this.source = (type === 'withdraw' ? this.bankSlots : this.inventory.slots);
 
     // The item we are acting on
     this.item = this.source.find(e => e.id === this.itemId);
@@ -41,7 +40,7 @@ export default class Bank {
    */
   checkCorrectSpace(type) {
     const slotsAvailable = {
-      inventory: (config.player.slots.inventory - this.inventory.length),
+      inventory: (config.player.slots.inventory - this.inventory.slots.length),
       bank: (config.player.slots.bank - this.bankSlots.length),
     };
 
@@ -103,13 +102,13 @@ export default class Bank {
    * Is the item we are enacting on already in our inventory
    */
   itemAlreadyInInventory() {
-    return this.inventory.map(e => e.id).includes(this.itemId) === true;
+    return this.inventory.slots.map(e => e.id).includes(this.itemId) === true;
   }
 
   /**
    * Withdraw an item from the bank
    */
-  withdraw() {
+  async withdraw() {
     if (this.notEnoughSpace()) {
       throw new Error('Not enough space to withdraw.');
     }
@@ -117,24 +116,10 @@ export default class Bank {
     // First, is the item we are withdrawing already in the inventory and stackable?
     if (this.itemAlreadyInInventory() && this.stackable) {
       // If so, lets just add to its quantity
-      this.inventory[this.index.inventory].qty += this.quantity;
+      this.inventory.slots[this.index.inventory].qty += this.quantity;
     } else {
       // Add item to inventory either once (if stackable) or as many times as needed
-      const rounds = this.stackable ? 1 : this.quantity; // How many times to iterate on inventory?
-      for (let index = 0; index < rounds; index += 1) {
-        const itemToAdd = {
-          id: this.itemId,
-          uuid: uuid(),
-          slot: UI.getOpenSlot(this.inventory),
-        };
-
-        // If the item is stackable, lets give its proper quantity
-        if (this.stackable) {
-          itemToAdd.qty = this.quantity;
-        }
-
-        this.inventory.push(itemToAdd);
-      }
+      await this.inventory.add(this.itemId, this.quantity);
     }
 
     // Secondly, lets update our bank accordingly
@@ -147,7 +132,7 @@ export default class Bank {
 
     // Lastly, lets return our new inventory and bank
     return {
-      inventory: this.inventory,
+      inventory: this.inventory.slots,
       bankItems: this.bankSlots,
     };
   }
@@ -159,19 +144,19 @@ export default class Bank {
     // First, are we depositing a stackable item?
     if (this.stackable) {
       // Let's remove its quantity accordingly
-      this.inventory[this.index.inventory].qty -= this.quantity;
+      this.inventory.slots[this.index.inventory].qty -= this.quantity;
     } else {
       // First we sort the items by their slot #
       // then we remove the first X (quantity)
       // then we add the remaining inventory
-      const getItemInventory = this.inventory
+      const getItemInventory = this.inventory.slots
         .filter(i => i.id === this.itemId)
         .sort((a, b) => a.slot - b.slot)
         .splice(this.quantity);
 
-      this.inventory = [
+      this.inventory.slots = [
         ...getItemInventory,
-        ...this.inventory
+        ...this.inventory.slots
           .filter(i => i.id !== this.itemId),
       ];
     }
@@ -197,7 +182,7 @@ export default class Bank {
 
     // Lastly, lets return our new inventory and bank
     return {
-      inventory: this.inventory,
+      inventory: this.inventory.slots,
       bankItems: this.bankSlots,
     };
   }

@@ -7,4 +7,6 @@ const foregroundObjects = [
   ...miscellaneous,
 ];
 
-export { foregroundObjects, resources, miscellaneous, shops };
+export {
+  foregroundObjects, resources, miscellaneous, shops,
+};

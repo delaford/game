@@ -1,15 +1,16 @@
 import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
-import playerEvent from './../player/handlers/actions';
+import playerEvent from '../player/handlers/actions';
+import Inventory from './utilities/common/player/inventory';
 
-const config = require('../config');
 const PF = require('pathfinding');
 const emoji = require('node-emoji');
-const world = require('./world');
 const WebSocket = require('ws');
 const axios = require('axios');
-const Socket = require('../socket');
 const uuid = require('uuid/v4');
+const Socket = require('../socket');
+const world = require('./world');
+const config = require('../config');
 const { wearableItems } = require('./data/items');
 
 class Player {
@@ -82,7 +83,7 @@ class Player {
     this.queue = [];
 
     // Player inventory
-    this.inventory = data.inventory;
+    this.inventory = new Inventory(data.inventory, this.socket_id);
 
     console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
   }
@@ -130,33 +131,33 @@ class Player {
     }
 
     switch (direction) {
-      default:
-        console.log('Nothing happened');
-        break;
+    default:
+      console.log('Nothing happened');
+      break;
 
-      case 'right':
-        if (!this.isBlocked(direction)) {
-          this.x += 1;
-        }
-        break;
+    case 'right':
+      if (!this.isBlocked(direction)) {
+        this.x += 1;
+      }
+      break;
 
-      case 'left':
-        if (!this.isBlocked(direction)) {
-          this.x -= 1;
-        }
-        break;
+    case 'left':
+      if (!this.isBlocked(direction)) {
+        this.x -= 1;
+      }
+      break;
 
-      case 'up':
-        if (!this.isBlocked(direction)) {
-          this.y -= 1;
-        }
-        break;
+    case 'up':
+      if (!this.isBlocked(direction)) {
+        this.y -= 1;
+      }
+      break;
 
-      case 'down':
-        if (!this.isBlocked(direction)) {
-          this.y += 1;
-        }
-        break;
+    case 'down':
+      if (!this.isBlocked(direction)) {
+        this.y += 1;
+      }
+      break;
     }
   }
 
@@ -343,7 +344,7 @@ class Player {
     };
 
     // Get inventory data
-    const inventoryData = getPlayer.inventory;
+    const inventoryData = getPlayer.inventory.slots;
 
     // Get bank data
     const bankData = getPlayer.bank;

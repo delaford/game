@@ -4,4 +4,3 @@ module.exports = [{
   x: 18,
   y: 113,
 }];
-

@@ -4,7 +4,7 @@ import world from '../world';
 import Socket from '../../socket';
 import Query from '../data/query';
 import { player } from '../../config';
-import { shops } from './../data/foreground';
+import { shops } from '../data/foreground';
 
 class Shop {
   constructor(shopId, playerUuid, itemId, type, quantity) {
@@ -13,7 +13,7 @@ class Shop {
     this.inventory = world.players[this.playerIndex].inventory;
 
     // How many spaces available in the player's inventory?
-    this.slotsAvailable = player.slots.inventory - this.inventory.length;
+    this.slotsAvailable = player.slots.inventory - this.inventory.slots.length;
 
     // What item we are buying/selling?
     this.itemId = itemId;
@@ -21,7 +21,7 @@ class Shop {
     // Object index references
     this.shopIndex = world.shops.findIndex(i => i.npcId === shopId);
     this.shop = world.shops[this.shopIndex].inventory; // Shop's inventory
-    this.coinIndex = this.inventory.findIndex(e => e.id === 'coins');
+    this.coinIndex = this.inventory.slots.findIndex(e => e.id === 'coins');
     this.shopItemIndex = this.shop.findIndex(q => q.id === this.itemId);
     this.shopType = world.shops[this.shopIndex].type;
 
@@ -41,7 +41,7 @@ class Shop {
     };
 
     // Are buying or selling? Change to source of items based on action
-    this.source = (type === 'buy' ? this.shop : this.inventory);
+    this.source = (type === 'buy' ? this.shop : this.inventory.slots);
 
     // The item we are acting on
     this.item = this.source.find(e => e.id === this.itemId);
@@ -70,7 +70,7 @@ class Shop {
    */
   getSellableQuantity(quantity) {
     // How many items (to sell) do we have in our inventory?
-    const howManyItems = this.inventory.map(q => q.id).filter(e => e === this.itemId).length;
+    const howManyItems = this.inventory.slots.map(q => q.id).filter(e => e === this.itemId).length;
 
     // If our items exceed the quantity we want to
     // sell (50), set the correct amount to sell.
@@ -193,15 +193,10 @@ class Shop {
 
       // Add coins to our coins in inventory
       if (this.hasCoinsInInventory()) {
-        this.inventory[this.coinIndex].qty += price;
+        this.inventory.slots[this.coinIndex].qty += price;
       } else {
         // If not, lets give them their coins to the inventory
-        this.inventory.push({
-          id: 'coins',
-          qty: price * rounds,
-          uuid: uuid(),
-          slot: UI.getOpenSlot(this.inventory),
-        });
+        this.inventory.add('coins', price * rounds);
       }
 
       if (this.itemInStock()) {
@@ -218,12 +213,12 @@ class Shop {
 
       // Remove item from inventory
       for (let index = 0; index < rounds; index += 1) {
-        this.inventory.splice(this.inventory.findIndex(z => z.id === this.itemId), 1);
+        this.inventory.slots.splice(this.inventory.slots.findIndex(z => z.id === this.itemId), 1);
       }
     }
 
     return {
-      inventory: this.inventory,
+      inventory: this.inventory.slots,
       shopItems: this.shop,
     };
   }
@@ -250,8 +245,8 @@ class Shop {
     // How much gold do we have?
     let playerGold = 0;
 
-    if (this.inventory[this.coinIndex]) {
-      playerGold = this.inventory[this.coinIndex].qty;
+    if (this.inventory.slots[this.coinIndex]) {
+      playerGold = this.inventory.slots[this.coinIndex].qty;
     }
     // How much money left after purchase?
     const moneyLeft = playerGold - toSpend;
@@ -264,15 +259,7 @@ class Shop {
     if (this.insufficient.funds) rounds = 0;
 
     // Add item to inventory
-    for (let index = 0; index < rounds; index += 1) {
-      const itemToAdd = {
-        id: this.itemId,
-        uuid: uuid(),
-        slot: UI.getOpenSlot(this.inventory),
-      };
-
-      this.inventory.push(itemToAdd);
-    }
+    this.inventory.add(this.itemId, rounds);
 
     // Save quantity before a purchase
     const qtyBeforePurchase = this.shop[this.shopItemIndex].qty;
@@ -280,7 +267,7 @@ class Shop {
     // If we completed one round of purchasing
     if (rounds > 0) {
       // Update our new money total
-      this.inventory[this.coinIndex].qty = moneyLeft;
+      this.inventory.slots[this.coinIndex].qty = moneyLeft;
       // Substract the quantity of the items we have bought
       this.shop[this.shopItemIndex].qty -= isBuying;
 
@@ -294,7 +281,7 @@ class Shop {
     this.checkPurchase(qtyBeforePurchase);
 
     return {
-      inventory: this.inventory,
+      inventory: this.inventory.slots,
       shopItems: this.shop,
     };
   }

@@ -335,19 +335,19 @@ export default {
     showBackground(classImg) {
       const wearClass = 'wearSlot';
       switch (classImg) {
-        case 'necklace':
-        case 'ring':
-          return this.slotFilled(this.wear[classImg]) ? `${wearClass} jewelryEquipped` : classImg;
-        case 'armor':
-        case 'feet':
-        case 'left_hand':
-        case 'back':
-        case 'gloves':
-        case 'head':
-          return this.slotFilled(this.wear[classImg]) ? `${wearClass} armorEquipped` : classImg;
-        default:
-        case 'right_hand':
-          return this.slotFilled(this.wear.right_hand) ? `${wearClass} swordEquipped` : classImg;
+      case 'necklace':
+      case 'ring':
+        return this.slotFilled(this.wear[classImg]) ? `${wearClass} jewelryEquipped` : classImg;
+      case 'armor':
+      case 'feet':
+      case 'left_hand':
+      case 'back':
+      case 'gloves':
+      case 'head':
+        return this.slotFilled(this.wear[classImg]) ? `${wearClass} armorEquipped` : classImg;
+      default:
+      case 'right_hand':
+        return this.slotFilled(this.wear.right_hand) ? `${wearClass} swordEquipped` : classImg;
       }
     },
   },
