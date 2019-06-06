@@ -80,16 +80,16 @@ export default {
       let message = '';
 
       switch (chat.type) {
-        // Standard game
-        default:
-        case 'normal':
-          message = chat.text;
-          break;
+      // Standard game
+      default:
+      case 'normal':
+        message = chat.text;
+        break;
 
         // Player chat message
-        case 'chat':
-          message = `${chat.username}: <span style='color:${chat.color}'>${chat.text}</span>`;
-          break;
+      case 'chat':
+        message = `${chat.username}: <span style='color:${chat.color}'>${chat.text}</span>`;
+        break;
       }
 
       return message;

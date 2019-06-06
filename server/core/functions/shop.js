@@ -4,7 +4,7 @@ import world from '../world';
 import Socket from '../../socket';
 import Query from '../data/query';
 import { player } from '../../config';
-import { shops } from './../data/foreground';
+import { shops } from '../data/foreground';
 
 class Shop {
   constructor(shopId, playerUuid, itemId, type, quantity) {
@@ -196,12 +196,7 @@ class Shop {
         this.inventory.slots[this.coinIndex].qty += price;
       } else {
         // If not, lets give them their coins to the inventory
-        this.inventory.push({
-          id: 'coins',
-          qty: price * rounds,
-          uuid: uuid(),
-          slot: UI.getOpenSlot(this.inventory.slots),
-        });
+        this.inventory.add('coins', price * rounds);
       }
 
       if (this.itemInStock()) {

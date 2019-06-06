@@ -158,4 +158,3 @@ export default [
     actions: presetActions(['wearable']),
   },
 ];
-

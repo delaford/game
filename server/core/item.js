@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
-import world from '../core/world';
-import Socket from './../socket';
 import { addSeconds, addHours, addMinutes } from 'date-fns';
+import world from './world';
+import Socket from '../socket';
 
 class Item {
   constructor(data) {
