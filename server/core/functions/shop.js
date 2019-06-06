@@ -1,4 +1,3 @@
-import uuid from 'uuid/v4';
 import UI from 'shared/ui';
 import world from '../world';
 import Socket from '../../socket';

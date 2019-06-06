@@ -54,7 +54,12 @@ module.exports = {
         item.slot = data.item.slot;
       }
 
-      world.players[playerIndex].inventory.add(getItem.id, 1, world.players[playerIndex].wear[getItem.slot].uuid);
+      world.players[playerIndex].inventory.add(
+        getItem.id,
+        1,
+        world.players[playerIndex].wear[getItem.slot].uuid,
+      );
+
       world.players[playerIndex].wear[getItem.slot] = null;
 
       Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
