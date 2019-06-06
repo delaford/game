@@ -23,7 +23,6 @@ export default {
   'player:movement': (data, context) => {
     data.data.inventory = data.data.inventory.slots;
     context.playerMovement(data.data);
-
   },
   /**
    * A player saying something

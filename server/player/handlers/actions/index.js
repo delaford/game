@@ -221,6 +221,8 @@ export default {
     world.players[data.playerIndex].currentPane = 'shop';
     world.players[data.playerIndex].objectId = data.todo.item.id;
 
+    debugger
+
     Socket.emit('open:screen', {
       player: { socket_id: world.players[data.playerIndex].socket_id },
       screen: 'shop',
