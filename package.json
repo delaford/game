@@ -22,7 +22,7 @@
     "lint:css": "stylelint '**/*.vue' --syntax scss"
   },
   "dependencies": {
-    "ajv": "5.10.0",
+    "ajv": "6.10.0",
     "axios": "^0.18.0",
     "compression": "^1.7.3",
     "date-fns": "^1.30.1",
