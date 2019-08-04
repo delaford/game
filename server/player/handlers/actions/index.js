@@ -187,6 +187,7 @@ export default {
     const itemToTake = world.items.findIndex(e => (e.x === todo.at.x)
       && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
     const { qty } = world.items[itemToTake];
+    const quantity = qty || 1; // If qty not specified, we are picking up 1 item.
     world.items.splice(itemToTake, 1);
 
 
@@ -194,7 +195,7 @@ export default {
 
     console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
 
-    world.players[playerIndex].inventory.add(id, qty, todo.item.uuid);
+    world.players[playerIndex].inventory.add(id, quantity, todo.item.uuid);
 
     // Add respawn timer on item (if is a respawn)
     // eslint-disable-next-line

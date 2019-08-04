@@ -116,6 +116,7 @@ class Action {
     // after a player reaches their destination
     if (queuedAction && queuedAction.queueable) {
       // Queue it up and tell the server.
+      // IF already in queue... do not add it
       Handler['player:queueAction'](merge(queuedAction, {
         player: {
           socket_id: this.player.socket_id,
