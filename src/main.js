@@ -6,7 +6,7 @@ import VueTippy from 'vue-tippy';
 
 // Import Delaford
 import Delaford from './Delaford.vue';
-import store from './store';
+import store from './state';
 
 
 // Vue configuration

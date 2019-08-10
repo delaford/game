@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     account: {
@@ -16,7 +16,7 @@ export default new Vuex.Store({
     action: {
       label: '',
       object: '',
-    },
+    }
   },
   getters: {
     account: state => state.account,
@@ -55,3 +55,5 @@ export default new Vuex.Store({
     },
   },
 });
+
+export default store;
