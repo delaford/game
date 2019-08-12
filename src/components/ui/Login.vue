@@ -126,8 +126,8 @@ export default {
       this.password = 'qwertykeyboard';
     }
 
-    if (this.$store.getters.account.username) {
-      const { username, password } = this.$store.getters.account;
+    if (this.account.username) {
+      const { username, password } = this.account;
       this.username = username;
       this.password = password;
       if (window.location.href.includes('#autologin')) {
@@ -173,7 +173,7 @@ export default {
       const data = {
         username: this.username,
         password: this.password,
-        useGuestAccount: this.guestAccount,
+        useGuestAccount: this.guestAccountChecked,
       };
 
       this.$store.commit('remember_dev_account', { username: this.username, password: this.password });
