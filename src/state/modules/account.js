@@ -5,10 +5,6 @@ const mutations = {
     state.account.username = payload.username;
     state.account.password = payload.password;
   },
-  set_action: (state, payload) => {
-    state.action.label = payload.label;
-    state.action.object = payload.object;
-  },
   set_remember_me: (state, payload) => {
     state.rememberMe = payload;
   },
@@ -18,7 +14,6 @@ const mutations = {
 };
 const getters = {
   account: state => state.account,
-  action: state => state.action,
   guestAccount: state => state.guestAccount,
   rememberMe: state => state.rememberMe,
 };
@@ -34,9 +29,5 @@ export default {
     },
     guestAccount: false,
     rememberMe: false,
-    action: {
-      label: '',
-      object: '',
-    },
   },
 };

@@ -81,7 +81,6 @@ export default {
       invalid: false,
       username: '',
       password: '',
-      musicIntroduced: false,
       isLoginInProgress: false,
     };
   },
