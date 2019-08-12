@@ -2,7 +2,7 @@
   <div class="game">
     <div
       class="first-action"
-      v-html="action" />
+      v-html="action.label" />
     <div
       v-if="current !== false"
       class="pane">
