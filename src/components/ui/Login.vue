@@ -9,8 +9,7 @@
         <input
           id="guest_account"
           v-model="guestAccountChecked"
-          type="checkbox"
-          @change="toggleGuestAccount">
+          type="checkbox">
         Guest account?
       </label>
     </div>
@@ -152,15 +151,10 @@ export default {
     }
   },
   methods: {
-    toggleGuestAccount() {
-      this.$store.commit('set_guest_account', this.guestAccountChecked);
-    },
     /**
      * Save the state between remember me checkbox
      */
     toggleRememberMe() {
-      this.$store.commit('set_remember_me', this.rememberMeChecked);
-
       const url = this.rememberMeChecked ? `${window.location.origin}/?#autologin` : window.location.origin;
 
       window.history.pushState('Page', 'Title', url);
