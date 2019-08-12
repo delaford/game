@@ -82,9 +82,7 @@ export default {
       invalid: false,
       username: '',
       password: '',
-      guestAccountChecked: false,
       musicIntroduced: false,
-      rememberMeChecked: false,
       isLoginInProgress: false,
     };
   },
@@ -101,6 +99,22 @@ export default {
       'guestAccount',
       'rememberMe',
     ]),
+    guestAccountChecked: {
+      get() {
+        return this.guestAccount;
+      },
+      set(val) {
+        this.$store.commit('set_guest_account', val);
+      },
+    },
+    rememberMeChecked: {
+      get() {
+        return this.rememberMe;
+      },
+      set(val) {
+        this.$store.commit('set_remember_me', val);
+      },
+    },
   },
   watch: {
     guestAccount() {
