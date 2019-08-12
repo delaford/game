@@ -8,7 +8,7 @@
       <label for="guest_account">
         <input
           id="guest_account"
-          v-model="guestAccount"
+          v-model="guestAccountChecked"
           type="checkbox"
           @change="toggleGuestAccount">
         Guest account?
@@ -58,7 +58,7 @@
         <label for="rememberMe">
           <input
             id="rememberMe"
-            v-model="rememberMe"
+            v-model="rememberMeChecked"
             type="checkbox"
             @change="toggleRememberMe">
           Remember me?
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import bus from '../../core/utilities/bus';
 import Socket from '../../core/utilities/socket';
 
@@ -81,9 +82,9 @@ export default {
       invalid: false,
       username: '',
       password: '',
-      guestAccount: false,
+      guestAccountChecked: false,
       musicIntroduced: false,
-      rememberMe: false,
+      rememberMeChecked: false,
       isLoginInProgress: false,
     };
   },
@@ -94,6 +95,12 @@ export default {
     inDevelopment() {
       return process.env.NODE_ENV !== 'production';
     },
+    ...mapGetters([
+      'account',
+      'action',
+      'guestAccount',
+      'rememberMe',
+    ]),
   },
   watch: {
     guestAccount() {
@@ -110,13 +117,10 @@ export default {
   created() {
     this.invalid = false;
 
-    this.rememberMe = this.$store.getters.rememberMe;
-    this.guestAccount = this.$store.getters.guestAccount;
-
     bus.$on('player:login-error', data => this.incorrectLogin(data));
     bus.$on('login:done', () => this.setLoginProgress(false));
 
-    if (this.guestAccount && process.env.NODE_ENV === 'development') {
+    if (this.guestAccountChecked && process.env.NODE_ENV === 'development') {
       // Development user
       this.username = 'dev';
       this.password = 'qwertykeyboard';
@@ -135,15 +139,15 @@ export default {
   },
   methods: {
     toggleGuestAccount() {
-      this.$store.dispatch('setGuestAccount', this.guestAccount);
+      this.$store.commit('set_guest_account', this.guestAccountChecked);
     },
     /**
      * Save the state between remember me checkbox
      */
     toggleRememberMe() {
-      this.$store.dispatch('setRememberMe', this.rememberMe);
+      this.$store.commit('set_remember_me', this.rememberMeChecked);
 
-      const url = this.rememberMe ? `${window.location.origin}/?#autologin` : window.location.origin;
+      const url = this.rememberMeChecked ? `${window.location.origin}/?#autologin` : window.location.origin;
 
       window.history.pushState('Page', 'Title', url);
     },
@@ -172,7 +176,7 @@ export default {
         useGuestAccount: this.guestAccount,
       };
 
-      this.$store.dispatch('rememberDevAccount', { username: this.username, password: this.password });
+      this.$store.commit('remember_dev_account', { username: this.username, password: this.password });
       Socket.emit('player:login', data);
     },
     /**
