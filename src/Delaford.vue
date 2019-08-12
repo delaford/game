@@ -117,6 +117,10 @@ export default {
   computed: {
     ...mapGetters([
       'screen',
+      'map',
+      'npcs',
+      'player',
+      'droppedItems',
     ]),
   },
   /**
@@ -202,7 +206,7 @@ export default {
      * On NPC movement, update NPCs
      */
     npcMovement(data) {
-      if (this.game.npcs) {
+      if (this.npcs) {
         this.game.map.npcs = data;
         this.game.npcs = data;
       }
@@ -214,6 +218,10 @@ export default {
     async startGame(data) {
       // Stop the main menu music
       bus.$emit('music:stop');
+      this.$store.commit('set_map', data.map);
+      this.$store.commit('set_npcs', data.npcs);
+      this.$store.commit('set_player', data.player);
+      this.$store.commit('set_droppedItems', data.droppedItems);
 
       // Start the Client
       this.game = new Client(data);
