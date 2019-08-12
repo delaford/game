@@ -58,9 +58,6 @@ export default {
     currentAction() {
       return this.action.object;
     },
-    action() {
-      return this.action.label;
-    },
     otherPlayers() {
       return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
