@@ -5,9 +5,13 @@ const mutations = {
     state.action.label = payload.label;
     state.action.object = payload.object;
   },
+  set_screen: (state, payload) => {
+    state.screen = payload;
+  },
 };
 const getters = {
   action: state => state.action,
+  screen: state => state.screen,
 };
 
 export default {
@@ -19,5 +23,6 @@ export default {
       label: '',
       object: '',
     },
+    screen: 'login',
   },
 };

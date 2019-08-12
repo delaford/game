@@ -82,6 +82,8 @@
 </template>
 
 <script>
+// Vuex
+import { mapGetters } from 'vuex';
 // Vue components
 import config from 'root/config';
 import GameCanvas from './components/GameCanvas.vue';
@@ -110,8 +112,12 @@ export default {
       config,
       loaded: false,
       game: { exit: true },
-      screen: 'login',
     };
+  },
+  computed: {
+    ...mapGetters([
+      'screen',
+    ]),
   },
   /**
    * WebSocket event handler
@@ -147,7 +153,7 @@ export default {
     // On server connection error,
     // show the appropriate screen
     window.ws.onerror = () => {
-      this.screen = 'server-down';
+      this.$store.commit('set_screen', 'server-down');
     };
 
     bus.$on('show-sidebar', this.showSidebar);
@@ -161,7 +167,7 @@ export default {
      * Logout player
      */
     logout() {
-      this.screen = 'login';
+      this.$store.commit('set_screen', 'login');
       this.game = { exit: true };
       this.$refs.sidebarSlots.selected = 1;
     },
@@ -171,7 +177,7 @@ export default {
       */
 
     cancelLogin() {
-      this.screen = 'main';
+      this.$store.commit('set_screen', 'main');
     },
 
     /**
@@ -229,7 +235,7 @@ export default {
       this.loaded = true;
 
       // Set screen to 'game' for chatbox reset
-      this.screen = 'game';
+      this.$store.commit('set_screen', 'game');
     },
     /**
      * A click-handler event that does nothing, really.
