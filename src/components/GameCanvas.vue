@@ -51,8 +51,6 @@ export default {
       onGame: false,
       current: false,
       screenData: false,
-      tileX: 0,
-      tileY: 0,
       event: false,
     };
   },
@@ -69,6 +67,8 @@ export default {
     ...mapGetters([
       'screen',
       'action',
+      'tileX',
+      'tileY',
     ]),
   },
   watch: {
@@ -167,8 +167,7 @@ export default {
 
         // eslint-disable-next-line
         if (!event || (this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y) && this.event && this.event.target) {
-          this.tileX = hoveredSquare.x;
-          this.tileY = hoveredSquare.y;
+          this.$store.commit('set_tile_coords', { x: hoveredSquare.x, y: hoveredSquare.y });
 
           bus.$emit('PLAYER:MENU', {
             coordinates: hoveredSquare,
