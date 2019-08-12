@@ -27,6 +27,9 @@
 </template>
 
 <script>
+// Vuex
+import { mapGetters } from 'vuex';
+
 import UI from 'shared/ui';
 import config from 'root/config';
 import Client from '../core/client';
@@ -55,14 +58,18 @@ export default {
   },
   computed: {
     currentAction() {
-      return this.$store.getters.action.object;
+      return this.action.object;
     },
     action() {
-      return this.$store.getters.action.label;
+      return this.action.label;
     },
     otherPlayers() {
       return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
     },
+    ...mapGetters([
+      'screen',
+      'action',
+    ]),
   },
   watch: {
     current(newVal) {
