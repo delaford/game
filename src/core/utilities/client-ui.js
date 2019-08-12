@@ -10,7 +10,7 @@ class ClientUI {
     const { count } = incoming.data.data;
     let { label } = incoming.data.data.firstItem;
     if (count > 0) label += ` / ${count} other options`;
-    store.dispatch('setAction', {
+    store.commit('set_action', {
       object: incoming.data.data.firstItem,
       label,
     });

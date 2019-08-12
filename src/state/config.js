@@ -1,7 +1,9 @@
-import account from './modules/account'
+import account from './modules/account';
+import canvas from './modules/canvas';
 
 export default {
-	modules: {
-		account
-	}
-}
+  modules: {
+    account,
+    canvas,
+  },
+};
