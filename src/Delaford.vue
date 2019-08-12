@@ -208,7 +208,7 @@ export default {
     npcMovement(data) {
       if (this.npcs) {
         this.game.map.npcs = data;
-        this.game.npcs = data;
+        this.$store.commit('set_npcs', data);
       }
     },
 
