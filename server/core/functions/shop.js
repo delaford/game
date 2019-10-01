@@ -192,20 +192,20 @@ class Shop {
 
       // Add coins to our coins in inventory
       if (this.hasCoinsInInventory()) {
-        this.inventory.slots[this.coinIndex].qty += price;
+        this.inventory.slots[this.coinIndex].qty += price * rounds;
       } else {
         // If not, lets give them their coins to the inventory
         this.inventory.add('coins', price * rounds);
       }
 
-      if (this.itemInStock()) {
+      if (this.itemInStock() || this.buyingStoreProduct()) {        
         this.shop[this.shopItemIndex].qty += this.quantityToSell;
       }
 
       if (!this.itemInStock() && this.isGeneralStore()) {
         this.shop.push({
           id: this.itemId,
-          qty: 1,
+          qty: this.quantityToSell,
           slot: UI.getOpenSlot(this.shop),
         });
       }
@@ -266,12 +266,24 @@ class Shop {
     // If we completed one round of purchasing
     if (rounds > 0) {
       // Update our new money total
-      this.inventory.slots[this.coinIndex].qty = moneyLeft;
+      if (moneyLeft > 0) {
+        this.inventory.slots[this.coinIndex].qty = moneyLeft;
+      } else {
+      // A quantity of zero still renders the item sprite.
+      // In the case that we have no money left, we should remove
+      // the whole coin sprite from the inventory
+        this.inventory.slots.splice(this.coinIndex, 1);
+      }
+      
       // Substract the quantity of the items we have bought
-      this.shop[this.shopItemIndex].qty -= isBuying;
+      const qtyAfterPurchase = this.shop[this.shopItemIndex].qty - isBuying;
 
-      if (!this.buyingStoreProduct()) {
-        this.shop.splice(this.shopItemIndex, 1);
+      if (qtyAfterPurchase > 0 || this.buyingStoreProduct()) {
+        this.shop[this.shopItemIndex].qty = qtyAfterPurchase;
+      } else {
+        // Remove sprite with quantity equals to zero only
+        // when item's origin is from a player.
+          this.shop.splice(this.shopItemIndex, 1);
       }
     }
 
