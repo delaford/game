@@ -331,7 +331,7 @@ class Shop {
     const { price, name } = Query.getItemData(this.itemId);
     Socket.emit('game:send:message', {
       player: { socket_id: world.players[this.playerIndex].socket_id },
-      text: `${name}: ${price} coins.`,
+      text: this.itemId !== 'coins' ? `${name}: ${price} coins.` : `${this.item.qty} coins.`,
     });
   }
 
