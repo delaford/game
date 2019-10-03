@@ -121,6 +121,7 @@ export default {
      * @param {event} event The mouse-click event
      */
     leftClick(event) {
+      bus.$emit('screen:close');
       bus.$emit('canvas:select-action', {
         event,
         item: this.currentAction,
