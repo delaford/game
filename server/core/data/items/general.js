@@ -18,7 +18,7 @@ export default [
     actions: presetActions([
       'resource',
     ]),
-    untradeable: false,
+    prohibited: true,
   },
   // Ores
   {

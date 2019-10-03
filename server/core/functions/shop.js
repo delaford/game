@@ -29,6 +29,9 @@ class Shop {
     this.stackable = this.itemFull.stackable;
     this.ableToBuyAll = false;
 
+    // Is this item prohibited from being sold?
+    this.prohibited = this.itemFull.prohibited;
+
     // Get the quantity of how much we are able to buy
     this.quantity = this.getTrueStockableQuantity(quantity);
     this.quantityToSell = this.getSellableQuantity(quantity);
@@ -156,7 +159,10 @@ class Shop {
   canWeSell() {
     let willWeSell = false;
     let msg = '';
-    if (this.isSpeciality()) {
+    if (this.prohibited) {
+      willWeSell = false;
+      msg = 'You cannot sell this item.';
+    } else if (this.isSpeciality()) {
       willWeSell = this.shop.map(q => q.id).includes(this.itemId);
       if (!willWeSell) {
         msg = 'You cannot sell this item to the store.';
