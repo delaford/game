@@ -190,15 +190,7 @@ class Shop {
     if (this.canWeSell()) {
       const rounds = this.stackable ? 1 : this.quantityToSell;
 
-      // Add coins to our coins in inventory
-      if (this.hasCoinsInInventory()) {
-        this.inventory.slots[this.coinIndex].qty += price * rounds;
-      } else {
-        // If not, lets give them their coins to the inventory
-        this.inventory.add('coins', price * rounds);
-      }
-
-      if (this.itemInStock() || this.buyingStoreProduct()) {        
+      if (this.itemInStock() || this.buyingStoreProduct()) {
         this.shop[this.shopItemIndex].qty += this.quantityToSell;
       }
 
@@ -213,6 +205,14 @@ class Shop {
       // Remove item from inventory
       for (let index = 0; index < rounds; index += 1) {
         this.inventory.slots.splice(this.inventory.slots.findIndex(z => z.id === this.itemId), 1);
+      }
+
+      // Add coins to our coins in inventory
+      if (this.hasCoinsInInventory()) {
+        this.inventory.slots[this.coinIndex].qty += price * rounds;
+      } else {
+        // If not, lets give them their coins to the inventory
+        this.inventory.add('coins', price * rounds);
       }
     }
 
@@ -274,7 +274,7 @@ class Shop {
       // the whole coin sprite from the inventory
         this.inventory.slots.splice(this.coinIndex, 1);
       }
-      
+
       // Substract the quantity of the items we have bought
       const qtyAfterPurchase = this.shop[this.shopItemIndex].qty - isBuying;
 
@@ -283,7 +283,7 @@ class Shop {
       } else {
         // Remove sprite with quantity equals to zero only
         // when item's origin is from a player.
-          this.shop.splice(this.shopItemIndex, 1);
+        this.shop.splice(this.shopItemIndex, 1);
       }
     }
 
