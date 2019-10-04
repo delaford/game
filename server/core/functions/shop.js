@@ -211,6 +211,7 @@ class Shop {
       // Remove item from inventory
       for (let index = 0; index < rounds; index += 1) {
         this.inventory.slots.splice(this.inventory.slots.findIndex(z => z.id === this.itemId), 1);
+        this.coinIndex = this.inventory.slots.findIndex(e => e.id === 'coins'); // Update the index where coins are in inventory
       }
 
       // Add coins to our coins in inventory
@@ -338,7 +339,7 @@ class Shop {
     }
     Socket.emit('game:send:message', {
       player: { socket_id: world.players[this.playerIndex].socket_id },
-      text: `${name}: ${value}`,
+      text: this.itemId !== 'coins' ? `${name}: ${price} coins.` : `${this.item.qty} coins.`,
     });
   }
 
