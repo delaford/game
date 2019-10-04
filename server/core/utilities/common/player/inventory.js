@@ -30,6 +30,7 @@ export default class Inventory {
           id: itemId,
           uuid: itemUuid,
           slot: UI.getOpenSlot(this.slots),
+          qty : qty
         };
 
         // If the item is stackable, lets give its proper quantity

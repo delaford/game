@@ -54,7 +54,7 @@ class Item {
             x: item.x,
             y: item.y,
             respawn: true,
-            timestamp: Date.now(),
+            timestamp: Date.now()
           });
 
           Socket.broadcast('world:itemDropped', world.items);

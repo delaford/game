@@ -74,7 +74,7 @@ export default {
     world.items.push({
       id: data.item.id,
       uuid: itemUuid,
-      qty: itemInventory.qty || null,
+      qty: itemInventory.qty || 1,
       x: world.players[playerIndex].x,
       y: world.players[playerIndex].y,
       timestamp: Date.now(),
