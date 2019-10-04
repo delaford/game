@@ -330,14 +330,9 @@ class Shop {
    */
   value() {
     const { price, name } = Query.getItemData(this.itemId);
-    let msg = '';
-    // If the item is prohibited, it has no value
-    if (this.prohibited) {
-      msg = 'How can you value that which has infinite value?';
-    }
     Socket.emit('game:send:message', {
       player: { socket_id: world.players[this.playerIndex].socket_id },
-      text: this.prohibited ? `${msg}` : `${name}: ${price} coins.`,
+      text: this.prohibited ? 'How can you value that which has infinite value?' : `${name}: ${price} coins.`,
     });
   }
 
