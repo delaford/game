@@ -3,20 +3,21 @@
  * for example: (take, drop, pickup, etc.)
  */
 
-import UI from 'shared/ui';
-import uuid from 'uuid/v4';
-import pipe from '../../pipeline';
-import Action from '../../action';
-import Map from '../../../core/map';
-import Socket from '../../../socket';
-import Item from '../../../core/item';
-import world from '../../../core/world';
-import Query from '../../../core/data/query';
-import Handler from '../../handler';
 import { Bank, Shop } from '../../../core/functions';
-import Mining from '../../../core/skills/mining';
+import { general, wearableItems } from '../../../core/data/items';
+
+import Action from '../../action';
 import ContextMenu from '../../../core/context-menu';
-import { wearableItems, general } from '../../../core/data/items';
+import Handler from '../../handler';
+import Item from '../../../core/item';
+import Map from '../../../core/map';
+import Mining from '../../../core/skills/mining';
+import Query from '../../../core/data/query';
+import Socket from '../../../socket';
+import UI from 'shared/ui';
+import pipe from '../../pipeline';
+import uuid from 'uuid/v4';
+import world from '../../../core/world';
 
 export default {
   'player:walk-here': (data) => {
@@ -182,36 +183,39 @@ export default {
 
   'player:take': (data) => {
     const { playerIndex, todo } = data;
-    // eslint-disable-next-line
-    const { id, stackable } = Query.getItemData(todo.item.id);
+    const { id } = Query.getItemData(todo.item.id);
     const itemToTake = world.items.findIndex(e => (e.x === todo.at.x)
       && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
-    const { qty } = world.items[itemToTake];
-    const quantity = qty || 1; // If qty not specified, we are picking up 1 item.
-    world.items.splice(itemToTake, 1);
+    const worldItem = world.items[itemToTake];
+    if (worldItem) {
+      // If qty not specified, we are picking up 1 item.
+      const quantity = worldItem.qty || 1;
+      world.items.splice(itemToTake, 1);
 
+      Socket.broadcast('item:change', world.items);
 
-    Socket.broadcast('item:change', world.items);
+      console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
 
-    console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
+      world.players[playerIndex].inventory.add(id, quantity, todo.item.uuid);
 
-    world.players[playerIndex].inventory.add(id, quantity, todo.item.uuid);
+      // Add respawn timer on item (if is a respawn)
+      const resetItemIndex = world.respawns.items.findIndex(i => (
+        i.respawn && i.x === todo.at.x && i.y === todo.at.y
+      ));
 
-    // Add respawn timer on item (if is a respawn)
-    // eslint-disable-next-line
-    const resetItemIndex = world.respawns.items.findIndex(i => i.respawn && i.x === todo.at.x && i.y === todo.at.y);
-    if (resetItemIndex !== -1) {
-      world.respawns.items[resetItemIndex].pickedUp = true;
+      if (resetItemIndex !== -1) {
+        world.respawns.items[resetItemIndex].pickedUp = true;
+        world.respawns.items[resetItemIndex].willRespawnIn = Item.calculateRespawnTime(
+          world.respawns.items[resetItemIndex].respawnIn,
+        );
+      }
 
-      // eslint-disable-next-line
-      world.respawns.items[resetItemIndex].willRespawnIn = Item.calculateRespawnTime(world.respawns.items[resetItemIndex].respawnIn);
+      // Tell client to update their inventory
+      Socket.emit('core:refresh:inventory', {
+        player: { socket_id: world.players[playerIndex].socket_id },
+        data: world.players[playerIndex].inventory.slots,
+      });
     }
-
-    // Tell client to update their inventory
-    Socket.emit('core:refresh:inventory', {
-      player: { socket_id: world.players[playerIndex].socket_id },
-      data: world.players[playerIndex].inventory.slots,
-    });
   },
 
   /**
