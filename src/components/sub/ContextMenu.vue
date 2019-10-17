@@ -151,6 +151,11 @@ export default {
         .sort((a, b) => b.timestamp - a.timestamp) // Sort by when item appeared
         .sort((a, b) => a.action.weight - b.action.weight); // then by action weight
 
+      // for Coins, do not give the option to "Sell"
+      if (data.data.data[0].id === 'coins') {
+        this.items = this.items.filter(menuItem => menuItem.action.name !== 'Sell');
+      }
+
       // Ready to show
       this.view = true;
 
