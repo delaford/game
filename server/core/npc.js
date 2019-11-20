@@ -1,10 +1,8 @@
+import Socket from '@socket';
 import UI from 'shared/ui';
-
-const emoji = require('node-emoji');
-const Socket = require('./../socket');
-const world = require('./world');
-const npcs = require('./data/npcs');
-
+import emoji from 'node-emoji';
+import npcs from './data/npcs';
+import world from './world';
 
 class NPC {
   constructor(data) {

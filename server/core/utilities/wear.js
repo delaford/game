@@ -1,5 +1,5 @@
-const { wearableItems } = require('./../data/items');
-const world = require('../../core/world');
+import world from '@core/world';
+import { wearableItems } from '../data/items';
 
 class Wear {
   /**

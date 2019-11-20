@@ -1,10 +1,9 @@
 import UI from 'shared/ui';
+import config from '@config';
 import { merge } from 'lodash';
-import world from '../core/world';
-import Handler from './handler';
-import config from '../config';
-
+import world from '@core/world';
 import playerEvent from './handlers/actions';
+import Handler from './handler';
 
 class Action {
   constructor(player, miscData) {

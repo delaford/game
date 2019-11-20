@@ -1,4 +1,4 @@
-import { presetActions } from '../helpers/database';
+import { presetActions } from '@core/data/helpers/database';
 
 export default [
   // Capes

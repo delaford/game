@@ -2,12 +2,11 @@
  * When the game world restarts, these items
  * and monsters will respawn at these coordinates.
  */
+import armor from './armor';
+import jewelry from './jewelry';
+import weapons from './weapons';
 
-const weapons = require('./weapons');
-const armor = require('./armor');
-const jewelry = require('./jewelry');
-
-module.exports = {
+export default {
   armor,
   weapons,
   jewelry,

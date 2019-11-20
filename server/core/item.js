@@ -1,7 +1,8 @@
+import { addHours, addMinutes, addSeconds } from 'date-fns';
+
+import Socket from '@socket';
 import uuid from 'uuid/v4';
-import { addSeconds, addHours, addMinutes } from 'date-fns';
 import world from './world';
-import Socket from '../socket';
 
 class Item {
   constructor(data) {
@@ -122,4 +123,4 @@ class Item {
   }
 }
 
-module.exports = Item;
+export default Item;

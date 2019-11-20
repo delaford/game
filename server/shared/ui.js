@@ -1,4 +1,4 @@
-import { map } from 'root/config';
+import { map } from '../config';
 
 class UI {
   /**

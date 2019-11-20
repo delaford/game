@@ -1,6 +1,6 @@
-const axios = require('axios');
-const Socket = require('./../socket');
-const world = require('./../core/world');
+import Socket from '@socket';
+import axios from 'axios';
+import world from '@core/world';
 
 class Authentication {
   /**

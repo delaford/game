@@ -1,0 +1,21 @@
+{
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    ["@babel/plugin-transform-modules-commonjs"],
+    [
+      "babel-plugin-root-import",
+      {
+        "paths": [
+          { "rootPathPrefix": "@core", "rootPathSuffix": "server/core" },
+          { "rootPathPrefix": "@maps", "rootPathSuffix": "server/maps" },
+          { "rootPathPrefix": "@player", "rootPathSuffix": "server/player" },
+          { "rootPathPrefix": "@shared", "rootPathSuffix": "server/shared" },
+          { "rootPathPrefix": "@config", "rootPathSuffix": "server/config" },
+          { "rootPathPrefix": "@socket", "rootPathSuffix": "server/socket" },
+        ]
+      }
+    ]
+  ]
+}

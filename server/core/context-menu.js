@@ -1,7 +1,7 @@
 import UI from 'shared/ui';
 import Query from './data/query';
-import config from '../config';
 import actionList from './data/action-list';
+import config from '@config';
 import world from './world';
 
 class ContextMenu {

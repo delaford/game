@@ -1,5 +1,5 @@
-import socketEvents from './handlers/socket-events';
-import actionEvents from './handlers/actions';
+import actionEvents from '@player/handlers/actions';
+import socketEvents from '@player/handlers/socket-events';
 
 /**
  * A global event handler (RPC)
