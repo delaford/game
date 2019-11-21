@@ -2,12 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@core/*": ["server/core/*"],
-      "@maps/*": ["server/maps/*"],
-      "@player/*": ["server/player/*"],
-      "@shared/*": ["server/shared/*"],
-      "@config": ["server/config"],
-      "@socket": ["server/socket"]
+      "@server/*": ["server/*"]
     }
   },
   "exclude": ["node_modules", "dist", "build"]

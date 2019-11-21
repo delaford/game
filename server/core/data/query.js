@@ -1,6 +1,6 @@
-import { general, wearableItems } from '@core/data/items';
+import { general, wearableItems } from '@server/core/data/items';
 
-import { foregroundObjects } from '@core/data/foreground';
+import { foregroundObjects } from '@server/core/data/foreground';
 
 class Query {
   /**

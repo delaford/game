@@ -1,6 +1,6 @@
-import Socket from '@socket';
+import Socket from '@server/socket';
 import axios from 'axios';
-import world from '@core/world';
+import world from '@server/core/world';
 
 class Authentication {
   /**

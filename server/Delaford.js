@@ -1,14 +1,14 @@
-import { general, wearableItems } from '@core/data/items';
+import { general, wearableItems } from '@server/core/data/items';
 
-import Authentication from '@player/authentication';
-import Handler from '@player/handler';
-import Item from '@core/item';
-import Map from '@core/map';
-import NPC from '@core/npc';
-import Socket from '@socket';
+import Authentication from '@server/player/authentication';
+import Handler from '@server/player/handler';
+import Item from '@server/core/item';
+import Map from '@server/core/map';
+import NPC from '@server/core/npc';
+import Socket from '@server/socket';
 import emoji from 'node-emoji';
 import uuid from 'uuid/v4';
-import world from '@core/world';
+import world from '@server/core/world';
 
 class Delaford {
   constructor(server) {

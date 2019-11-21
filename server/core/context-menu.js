@@ -1,7 +1,7 @@
+import Config from '@server/config';
 import UI from 'shared/ui';
 import Query from './data/query';
 import actionList from './data/action-list';
-import config from '@config';
 import world from './world';
 
 class ContextMenu {
@@ -33,8 +33,8 @@ class ContextMenu {
       },
       // Where on map they clicked on
       map: {
-        x: (this.player.x - config.map.player.x) + tile.x,
-        y: (this.player.y - config.map.player.y) + tile.y,
+        x: (this.player.x - Config.map.player.x) + tile.x,
+        y: (this.player.y - Config.map.player.y) + tile.y,
       },
       // Where in viewport they clicked on
       viewport: {

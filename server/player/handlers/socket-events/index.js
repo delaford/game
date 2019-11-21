@@ -2,11 +2,11 @@
  * Events from socket.
  * for example: (login, logout, queue. etc.)
  */
-import Authentication from '@player/authentication';
-import Player from '@core/player';
-import Socket from '@socket';
-import playerGuest from '@core/data/helpers/player.json';
-import world from '@core/world';
+import Authentication from '@server/player/authentication';
+import Player from '@server/core/player';
+import Socket from '@server/socket';
+import playerGuest from '@server/core/data/helpers/player.json';
+import world from '@server/core/world';
 
 export default {
   /**

@@ -1,7 +1,7 @@
-import Query from '@core/data/query';
+import Query from '@server/core/data/query';
 import UI from 'shared/ui';
 import uuid from 'uuid/v4';
-import world from '@core/world';
+import world from '@server/core/world';
 
 export default class Inventory {
   constructor(slots, socketId) {

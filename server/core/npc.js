@@ -1,4 +1,4 @@
-import Socket from '@socket';
+import Socket from '@server/socket';
 import UI from 'shared/ui';
 import emoji from 'node-emoji';
 import npcs from './data/npcs';

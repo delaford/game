@@ -1,7 +1,7 @@
-import Socket from '@socket';
+import Socket from '@server/socket';
 import UI from 'shared/ui';
-import { wearableItems } from '@core/data/items';
-import world from '@core/world';
+import { wearableItems } from '@server/core/data/items';
+import world from '@server/core/world';
 
 export default {
   /**

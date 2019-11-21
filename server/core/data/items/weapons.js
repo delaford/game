@@ -1,4 +1,4 @@
-import { presetActions } from '@core/data/helpers/database';
+import { presetActions } from '@server/core/data/helpers/database';
 
 export default [
   // Bronze weaponry

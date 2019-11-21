@@ -1,12 +1,12 @@
 import MapUtils from 'shared/map-utils';
 import PF from 'pathfinding';
-import Socket from '@socket';
+import Socket from '@server/socket';
 import UI from 'shared/ui';
 import WebSocket from 'ws';
 import axios from 'axios';
-import config from '@config';
+import config from '@server/config';
 import emoji from 'node-emoji';
-import playerEvent from '@player/handlers/actions';
+import playerEvent from '@server/player/handlers/actions';
 import uuid from 'uuid/v4';
 import Inventory from './utilities/common/player/inventory';
 import { wearableItems } from './data/items';

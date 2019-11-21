@@ -1,4 +1,4 @@
-import world from '@core/world';
+import world from '@server/core/world';
 import { wearableItems } from '../data/items';
 
 class Wear {

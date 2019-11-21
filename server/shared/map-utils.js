@@ -1,5 +1,5 @@
 import UI from 'shared/ui';
-import world from '@core/world';
+import world from '@server/core/world';
 
 class MapUtils {
   /**

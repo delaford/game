@@ -1,9 +1,9 @@
-import Query from '@core/data/query';
-import Socket from '@socket';
+import Query from '@server/core/data/query';
+import Socket from '@server/socket';
 import UI from 'shared/ui';
-import { player } from '@config';
-import { shops } from '@core/data/foreground';
-import world from '@core/world';
+import { player } from '@server/config';
+import { shops } from '@server/core/data/foreground';
+import world from '@server/core/world';
 
 class Shop {
   constructor(shopId, playerUuid, itemId, type, quantity) {

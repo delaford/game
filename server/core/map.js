@@ -1,9 +1,9 @@
-import { armor, jewelry, weapons } from '@core/data/respawn';
+import { armor, jewelry, weapons } from '@server/core/data/respawn';
 
 import MapUtils from 'shared/map-utils';
 import PF from 'pathfinding';
-import config from '@config';
-import surfaceMap from '@maps/layers/surface.json';
+import config from '@server/config';
+import surfaceMap from '@server/maps/layers/surface.json';
 import uuid from 'uuid/v4';
 import { Shop } from './functions';
 import world from './world';

@@ -1,6 +1,6 @@
-import Query from '@core/data/query';
-import { foregroundObjects } from '@core/data/foreground';
-import world from '@core/world';
+import Query from '@server/core/data/query';
+import { foregroundObjects } from '@server/core/data/foreground';
+import world from '@server/core/world';
 import Skill from './index';
 
 export default class Mining extends Skill {

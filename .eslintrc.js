@@ -10,6 +10,7 @@ module.exports = {
   rules: {
     'import/extensions': 'never',
     'import/first': 0,
+    'import/no-cycle': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-param-reassign': [2, { props: false }],
@@ -19,7 +20,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       'babel-plugin-root-import': {
-        rootPathPrefix: '@',
+        rootPathPrefix: '@server',
         rootPathSuffix: 'server',
       },
     },

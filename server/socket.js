@@ -1,5 +1,5 @@
 import WebSocket from 'ws';
-import world from '@core/world';
+import world from '@server/core/world';
 
 /**
  * IDEA: Create seperate socket classes,
