@@ -1,7 +1,8 @@
+import { armor, jewelry, weapons } from '@core/data/respawn';
+
 import MapUtils from 'shared/map-utils';
 import PF from 'pathfinding';
 import config from '@config';
-import itemsRespawn from '@core/data/respawn';
 import surfaceMap from '@maps/layers/surface.json';
 import uuid from 'uuid/v4';
 import { Shop } from './functions';
@@ -97,9 +98,11 @@ class Map {
     this.foreground = board[1].data;
 
     // Set items on map
-    const itemsOnMap = itemsRespawn.map(item => ({
-      ...item,
-    }));
+    const itemsOnMap = [
+      ...armor,
+      ...jewelry,
+      ...weapons,
+    ];
 
     // Spawn items on the map
     world.items = Map.readyItems(itemsOnMap);

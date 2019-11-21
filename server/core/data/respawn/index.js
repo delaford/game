@@ -6,8 +6,8 @@ import armor from './armor';
 import jewelry from './jewelry';
 import weapons from './weapons';
 
-export default {
+export {
   armor,
-  weapons,
   jewelry,
+  weapons,
 };

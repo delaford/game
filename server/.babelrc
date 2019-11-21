@@ -4,6 +4,9 @@
   ],
   "plugins": [
     ["@babel/plugin-transform-modules-commonjs"],
+    ["@babel/plugin-transform-runtime", {
+      "regenerator": true
+    }],
     [
       "babel-plugin-root-import",
       {
