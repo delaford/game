@@ -1,23 +1,22 @@
 import UI from 'shared/ui';
+import World from '@server/core/world';
+import config from '@server/config';
 import { merge } from 'lodash';
-import world from '../core/world';
 import Handler from './handler';
-import config from '../config';
-
 import playerEvent from './handlers/actions';
 
 class Action {
   constructor(player, miscData) {
     // Player
-    this.player = world.players.find(p => p.socket_id === player);
+    this.player = World.players.find(p => p.socket_id === player);
 
     // Map layers
-    this.background = world.map.background;
-    this.foreground = world.map.foreground;
+    this.background = World.map.background;
+    this.foreground = World.map.foreground;
 
     // Moving map objects (npcs, items, etc.)
-    this.npcs = world.npcs;
-    this.droppedItems = world.items;
+    this.npcs = World.npcs;
+    this.droppedItems = World.items;
 
     // Misc data (slots, etc)
     this.miscData = miscData;

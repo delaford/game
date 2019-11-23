@@ -1,7 +1,7 @@
+import Socket from '@server/socket';
 import UI from 'shared/ui';
 import uuid from 'uuid/v4';
-import world from '../world';
-import Socket from '../../socket';
+import world from '@server/core/world';
 
 export default class Skill {
   constructor(playerIndex) {

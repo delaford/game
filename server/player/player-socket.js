@@ -1,4 +1,4 @@
-import world from '../core/world';
+import world from '@server/core/world';
 
 class PlayerSocket {
   constructor(socketId) {

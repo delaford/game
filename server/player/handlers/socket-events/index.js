@@ -2,12 +2,11 @@
  * Events from socket.
  * for example: (login, logout, queue. etc.)
  */
-
-const Authentication = require('./../../authentication');
-const Player = require('./../../../core/player');
-const Socket = require('../../../socket');
-const world = require('../../../core/world');
-const playerGuest = require('../../../core/data/helpers/player.json');
+import Authentication from '@server/player/authentication';
+import Player from '@server/core/player';
+import Socket from '@server/socket';
+import playerGuest from '@server/core/data/helpers/player.json';
+import world from '@server/core/world';
 
 export default {
   /**

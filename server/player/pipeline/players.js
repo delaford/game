@@ -1,10 +1,9 @@
+import Socket from '@server/socket';
 import UI from 'shared/ui';
+import { wearableItems } from '@server/core/data/items';
+import world from '@server/core/world';
 
-const world = require('../../core/world');
-const Socket = require('../../socket');
-const { wearableItems } = require('./../../core/data/items');
-
-module.exports = {
+export default {
   /**
    * Equip an an item to the player
    *

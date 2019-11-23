@@ -1,5 +1,5 @@
-const WebSocketServer = require('ws').Server;
-const world = require('./core/world');
+import WebSocket from 'ws';
+import world from '@server/core/world';
 
 /**
  * IDEA: Create seperate socket classes,
@@ -8,7 +8,7 @@ const world = require('./core/world');
 
 class Socket {
   constructor(server) {
-    this.ws = new WebSocketServer({ server });
+    this.ws = new WebSocket.Server({ server });
     this.clients = world.clients;
   }
 

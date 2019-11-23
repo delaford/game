@@ -6,7 +6,7 @@
     "node": ">10.3.0"
   },
   "scripts": {
-    "dev:node": "npx cross-env NODE_ENV=development nodemon --exec ./node_modules/.bin/babel-node --no-babelrc server.js --presets @babel/preset-env --plugins @babel/plugin-transform-modules-commonjs",
+    "dev:node": "npx cross-env NODE_ENV=development nodemon --exec ./node_modules/.bin/babel-node server.js --route ./server/.babelrc",
     "server:prod": "npx cross-env NODE_ENV=production node server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
@@ -17,11 +17,12 @@
     "ndb": "ndb npm run dev:node",
     "format": "eslint --fix",
     "clean-server": "npx rimraf build && mkdir build",
-    "transpile-server": "babel --no-babelrc ./server --out-dir ./build --copy-files --source-maps --presets @babel/preset-env --plugins @babel/plugin-transform-runtime",
+    "transpile-server": "babel --route --config-file ./server/.babelrc ./server --out-dir ./build --copy-files --source-maps",
     "build-server": "npm run clean-server && npm run transpile-server",
     "lint:css": "stylelint '**/*.vue' --syntax scss"
   },
   "dependencies": {
+    "@babel/runtime": "^7.7.2",
     "ajv": "6.10.0",
     "axios": "^0.18.0",
     "compression": "^1.7.3",
@@ -49,6 +50,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "@babel/plugin-transform-modules-systemjs": "^7.2.0",
     "@babel/plugin-transform-modules-umd": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.1.0",
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
@@ -56,6 +58,9 @@
     "@vue/cli-service": "^3.0.4",
     "@vue/eslint-config-airbnb": "^4.0.0",
     "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-plugin-root-import": "^6.4.1",
+    "eslint-import-resolver-babel-plugin-root-import": "^1.1.1",
+    "eslint-plugin-import": "^2.18.2",
     "lint-staged": "^8.1.6",
     "ndb": "^1.0.42",
     "node-sass": "^4.9.0",

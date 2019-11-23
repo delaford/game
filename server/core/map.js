@@ -1,12 +1,12 @@
-import MapUtils from 'shared/map-utils';
-import { Shop } from './functions';
+import { armor, jewelry, weapons } from '@server/core/data/respawn';
 
-const PF = require('pathfinding');
-const uuid = require('uuid/v4');
-const config = require('../config');
-const surfaceMap = require('./../maps/layers/surface.json');
-const world = require('./../core/world');
-const { weapons, armor, jewelry } = require('./data/respawn');
+import MapUtils from 'shared/map-utils';
+import PF from 'pathfinding';
+import config from '@server/config';
+import surfaceMap from '@server/maps/layers/surface.json';
+import uuid from 'uuid/v4';
+import { Shop } from './functions';
+import world from './world';
 
 class Map {
   constructor(level) {
@@ -99,9 +99,9 @@ class Map {
 
     // Set items on map
     const itemsOnMap = [
-      ...weapons,
       ...armor,
       ...jewelry,
+      ...weapons,
     ];
 
     // Spawn items on the map

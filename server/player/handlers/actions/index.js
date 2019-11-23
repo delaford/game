@@ -3,21 +3,21 @@
  * for example: (take, drop, pickup, etc.)
  */
 
-import { Bank, Shop } from '../../../core/functions';
-import { general, wearableItems } from '../../../core/data/items';
+import { Bank, Shop } from '@server/core/functions';
+import { general, wearableItems } from '@server/core/data/items';
 
-import Action from '../../action';
-import ContextMenu from '../../../core/context-menu';
-import Handler from '../../handler';
-import Item from '../../../core/item';
-import Map from '../../../core/map';
-import Mining from '../../../core/skills/mining';
-import Query from '../../../core/data/query';
-import Socket from '../../../socket';
+import Action from '@server/player/action';
+import ContextMenu from '@server/core/context-menu';
+import Handler from '@server/player/handler';
+import Item from '@server/core/item';
+import Map from '@server/core/map';
+import Mining from '@server/core/skills/mining';
+import Query from '@server/core/data/query';
+import Socket from '@server/socket';
 import UI from 'shared/ui';
-import pipe from '../../pipeline';
+import pipe from '@server/player/pipeline';
 import uuid from 'uuid/v4';
-import world from '../../../core/world';
+import world from '@server/core/world';
 
 export default {
   'player:walk-here': (data) => {

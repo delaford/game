@@ -1,17 +1,16 @@
-import UI from 'shared/ui';
 import MapUtils from 'shared/map-utils';
-import playerEvent from '../player/handlers/actions';
+import PF from 'pathfinding';
+import Socket from '@server/socket';
+import UI from 'shared/ui';
+import WebSocket from 'ws';
+import axios from 'axios';
+import config from '@server/config';
+import emoji from 'node-emoji';
+import playerEvent from '@server/player/handlers/actions';
+import uuid from 'uuid/v4';
 import Inventory from './utilities/common/player/inventory';
-
-const PF = require('pathfinding');
-const emoji = require('node-emoji');
-const WebSocket = require('ws');
-const axios = require('axios');
-const uuid = require('uuid/v4');
-const Socket = require('../socket');
-const world = require('./world');
-const config = require('../config');
-const { wearableItems } = require('./data/items');
+import { wearableItems } from './data/items';
+import world from './world';
 
 class Player {
   constructor(data, token, socketId) {
