@@ -39,23 +39,25 @@ class Socket {
    * @param {string} event The type of event I am broadcasting
    * @param {object} data Data associated with the event
    */
-  static broadcast(event, data) {
+  static broadcast(event, data, players) {
     const obj = {
       event,
       data,
     };
 
     world.clients.forEach((client, index) => {
-      const getSender = world.players.find(p => p.socket_id === client.id);
+      if (!players || players.find(p => p.socket_id === client.id)) {
+        const sender = world.players.find(p => p.socket_id === client.id);
 
-      if (world.players.length && getSender) {
-        if (client.readyState === 3) {
-          world.clients.splice(index, 1);
-        }
-        const getPlayer = world.clients.find(c => c.id === client.id);
+        if (world.players.length && sender) {
+          if (client.readyState === 3) {
+            world.clients.splice(index, 1);
+          }
+          const player = world.clients.find(c => c.id === client.id);
 
-        if (getPlayer && (client.readyState === getPlayer.readyState) && (world.clients.length)) {
-          client.send(JSON.stringify(obj));
+          if (player && (client.readyState === player.readyState) && (world.clients.length)) {
+            client.send(JSON.stringify(obj));
+          }
         }
       }
     });
