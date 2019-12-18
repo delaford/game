@@ -1,9 +1,9 @@
-import config from 'root/config';
 import PF from 'pathfinding';
-import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
-import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
 import UI from 'shared/ui';
+import config from 'root/config';
+import blockedMouse from '@/assets/graphics/ui/mouse/blocked.png';
 import bus from './utilities/bus';
+import moveToMouse from '@/assets/graphics/ui/mouse/moveTo.png';
 
 class Map {
   constructor(data, images) {
