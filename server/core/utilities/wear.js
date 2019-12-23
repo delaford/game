@@ -27,7 +27,7 @@ class Wear {
   /**
    * Update a player's combat attack and defense
    */
-  static updateCombat(playerIndex) {
+  static updateCombat(playerIndex, unequipping = false) {
     const stats = {
       attack: {
         stab: 0,
@@ -61,17 +61,27 @@ class Wear {
           stab: defStab,
         } = this.getDefense({ id: val.id });
 
-        // Update attack stats
-        stats.attack.stab += stab;
-        stats.attack.slash += slash;
-        stats.attack.crush += crush;
-        stats.attack.range += range;
+        if (unequipping) {
+          stats.attack.stab -= stab;
+          stats.attack.slash -= slash;
+          stats.attack.crush -= crush;
+          stats.attack.range -= range;
 
-        // Update defense stats
-        stats.defense.stab += defStab;
-        stats.defense.slash += defSlash;
-        stats.defense.crush += defCrush;
-        stats.defense.range += defRange;
+          stats.defense.stab -= defStab;
+          stats.defense.slash -= defSlash;
+          stats.defense.crush -= defCrush;
+          stats.defense.range -= defRange;
+        } else {
+          stats.attack.stab += stab;
+          stats.attack.slash += slash;
+          stats.attack.crush += crush;
+          stats.attack.range += range;
+
+          stats.defense.stab += defStab;
+          stats.defense.slash += defSlash;
+          stats.defense.crush += defCrush;
+          stats.defense.range += defRange;
+        }
       }
     });
 
