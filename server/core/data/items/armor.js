@@ -631,11 +631,13 @@ export default [
     price: 125,
     type: 'armor',
     slot: 'gloves',
-    attack: {
-      stab: 0, slash: 0, crush: 0, range: 1,
-    },
-    defense: {
-      stab: 30, slash: 31, crush: 33, range: 31,
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 1,
+      },
+      defense: {
+        stab: 30, slash: 31, crush: 33, range: 31,
+      },
     },
     graphics: {
       tileset: 'armor',
@@ -651,11 +653,13 @@ export default [
     price: 137,
     type: 'armor',
     slot: 'armor',
-    attack: {
-      stab: 0, slash: 0, crush: 0, range: 2,
-    },
-    defense: {
-      stab: 38, slash: 39, crush: 30, range: 43,
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 2,
+      },
+      defense: {
+        stab: 38, slash: 39, crush: 30, range: 43,
+      },
     },
     graphics: {
       tileset: 'armor',
@@ -672,11 +676,13 @@ export default [
     price: 8,
     type: 'armor',
     slot: 'left_hand',
-    attack: {
-      stab: 0, slash: 0, crush: 0, range: 2,
-    },
-    defense: {
-      stab: 4, slash: 5, crush: 3, range: 4,
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 2,
+      },
+      defense: {
+        stab: 4, slash: 5, crush: 3, range: 4,
+      },
     },
     graphics: {
       tileset: 'armor',
@@ -692,11 +698,13 @@ export default [
     price: 13,
     type: 'armor',
     slot: 'armor',
-    attack: {
-      stab: 0, slash: 0, crush: 0, range: 2,
-    },
-    defense: {
-      stab: 7, slash: 9, crush: 7, range: 6,
+    stats: {
+      attack: {
+        stab: 0, slash: 0, crush: 0, range: 2,
+      },
+      defense: {
+        stab: 7, slash: 9, crush: 7, range: 6,
+      },
     },
     graphics: {
       tileset: 'armor',

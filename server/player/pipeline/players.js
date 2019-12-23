@@ -2,6 +2,7 @@ import Socket from '@server/socket';
 import UI from 'shared/ui';
 import { wearableItems } from '@server/core/data/items';
 import world from '@server/core/world';
+import Wear from '@server/core/utilities/wear';
 
 export default {
   /**
@@ -26,6 +27,7 @@ export default {
     const getRealPlacement = world.players[playerIndex].inventory.slots.findIndex(i => item.uuid === i.uuid);
     world.players[playerIndex].inventory.slots.splice(getRealPlacement, 1);
 
+    world.players[playerIndex].combat = Wear.updateCombat(playerIndex);
     Socket.broadcast('player:equippedAnItem', world.players[playerIndex]);
   },
 
@@ -60,6 +62,8 @@ export default {
       );
 
       world.players[playerIndex].wear[getItem.slot] = null;
+
+      world.players[playerIndex].combat = Wear.updateCombat(playerIndex, true);
 
       Socket.broadcast('player:unequippedAnItem', world.players[playerIndex]);
       resolve(200);

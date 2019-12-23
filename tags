@@ -257,7 +257,6 @@ const.inventory	server/shared/ui.js	/^      inventory: 24,$/;"	p
 const.inventorySlot	server/core/context-menu.js	/^      inventorySlot: this.player.inventory,$/;"	p
 const.map	server/player/authentication.js	/^      map: world.map,$/;"	p
 const.name	server/config.js	/^  name: 'delaford',$/;"	p
-const.name	server/player/pipeline/players.js	/^      name: getItem.name,$/;"	p
 const.prod	src/main.js	/^    prod: 'wss:\/\/play.delaford.com',$/;"	p
 const.socket	server/config.js	/^  socket: {$/;"	p
 const.uuid	server/core/player.js	/^      uuid: this.uuid, playerData, inventoryData, wearData, skillsData, bankData,$/;"	p
@@ -289,9 +288,7 @@ insufficient.space	server/core/functions/shop.js	/^      space: false,$/;"	p
 itemEquip	build/player/handlers/actions/index.js	/^    function itemEquip(_x2) {$/;"	f
 itemToTake	build/player/handlers/actions/index.js	/^    var itemToTake = _world.default.items.findIndex(function (e) {$/;"	v
 jewelry	build/core/data/respawn/index.js	/^var jewelry = require('.\/jewelry');$/;"	v
-module.exports.apps	ecosystem.config.js	/^  apps: [{$/;"	p
 module.exports.armor	build/core/data/respawn/index.js	/^  armor: armor,$/;"	p
-module.exports.configureWebpack	vue.config.js	/^  configureWebpack: {$/;"	p
 module.exports.env	.eslintrc.js	/^	env: {$/;"	p
 module.exports.env	tests/unit/.eslintrc.js	/^  env: {$/;"	p
 module.exports.jewelry	build/core/data/respawn/index.js	/^  jewelry: jewelry$/;"	p
@@ -325,8 +322,6 @@ resetItemIndex	build/player/handlers/actions/index.js	/^    var resetItemIndex =
 setMouseCoordinates.mouse	src/core/map.js	/^      mouse: {$/;"	p
 spawn.x	server/core/npc.js	/^      x: data.spawn.x,$/;"	p
 static	server/core/context-menu.js	/^  static hasProp(object, name) {$/;"	c
-static.att	server/core/utilities/wear.js	/^    const stats = { att: 0, def: 0 };$/;"	p
-static.def	server/core/utilities/wear.js	/^    const stats = { att: 0, def: 0 };$/;"	p
 static.hasOwnProperty	server/core/context-menu.js	/^    return Object.prototype.hasOwnProperty.call(object, name);$/;"	m
 static.surface	server/core/map.js	/^      surface: surfaceMap,$/;"	p
 surfaceMap	build/core/map.js	/^var surfaceMap = require('.\/..\/maps\/layers\/surface.json');$/;"	v
