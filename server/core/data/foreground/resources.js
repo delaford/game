@@ -29,4 +29,13 @@ export default [{
   actions: presetActions(['pickaxe']),
   type: 'mine',
   respawnIn: '3s',
+}, {
+  id: 'furnace',
+  name: 'Furnace',
+  examine: 'Smelt various ores into metal bars. Hot, hot, hot!',
+  experience: null,
+  function: 'smelt-bar',
+  resources: null,
+  actions: presetActions(['smelt-bars']),
+  type: 'smith',
 }];

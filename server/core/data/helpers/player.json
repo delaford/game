@@ -47,7 +47,7 @@
 			"quantity": null,
 			"id": null
 		},
-		"right_hand": null,
+		"right_hand": "iron-dagger",
 		"armor": null,
 		"left_hand": null,
 		"gloves": null,
