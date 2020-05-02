@@ -338,6 +338,7 @@ class ContextMenu {
 
       // Push
     case 'Push':
+    case 'Smelt':
       if (foregroundData && this.canDoAction(foregroundData, action)) {
         const color = UI.getContextSubjectColor(foregroundData.context);
         items.push({
@@ -561,7 +562,11 @@ class ContextMenu {
     }
 
     // If we have just one resource that has actions
-    return item.actions.includes(name);
+    if (item && item.actions) {
+      return item.actions.includes(name);
+    }
+
+    return false;
   }
 }
 

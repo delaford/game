@@ -160,6 +160,14 @@ export default {
     action.do(incoming.data.data, incoming.data.queueItem);
   },
 
+  'player:resource:smelt:furnace': (data) => {
+    const { playerIndex } = data;
+    const player = world.players[playerIndex];
+    Socket.emit('game:ui:smelt', {
+      player: { socket_id: player.socket_id, smithingLevel: player.skills.smithing.level },
+    });
+  },
+
   'player:resource:goldenplaque:push': (data) => {
     const { playerIndex } = data;
 
@@ -271,6 +279,16 @@ export default {
         });
       }
     }
+  },
+
+  'player:screen:smelt': (data) => {
+    world.players[data.playerIndex].currentPane = 'smelt';
+
+    Socket.emit('open:screen', {
+      player: { socket_id: world.players[data.playerIndex].socket_id },
+      screen: 'smelt',
+      payload: { items: world.players[data.playerIndex].skills.smithing.level },
+    });
   },
 
   /**

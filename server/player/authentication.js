@@ -11,6 +11,7 @@ class Authentication {
    */
   static async login(data) {
     return new Promise(async (resolve, reject) => {
+      console.log(data.data);
       const token = await Authentication.getToken(data.data).catch((error) => {
         reject(error);
       });
@@ -35,10 +36,12 @@ class Authentication {
           resolve(r.data.access_token);
         })
         .catch(() => {
-          reject(new Error({
-            error: 401,
-            message: 'Username and password are incorrect.',
-          }));
+          reject(
+            new Error({
+              error: 401,
+              message: 'Username and password are incorrect.',
+            }),
+          );
         });
     });
   }

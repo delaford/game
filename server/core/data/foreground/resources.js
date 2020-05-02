@@ -30,12 +30,12 @@ export default [{
   type: 'mine',
   respawnIn: '3s',
 }, {
-  id: 'furnace',
+  id: 217,
   name: 'Furnace',
   examine: 'Smelt various ores into metal bars. Hot, hot, hot!',
   experience: null,
   function: 'smelt-bar',
   resources: null,
-  actions: presetActions(['smelt-bars']),
+  actions: presetActions(['furnace']),
   type: 'smith',
 }];

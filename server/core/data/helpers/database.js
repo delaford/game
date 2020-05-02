@@ -57,6 +57,12 @@ const presetActions = (items) => {
         'mine',
         'examine',
       ];
+      break;
+    case 'furnace':
+      list = [
+        'smelt',
+      ];
+      break;
     }
 
     actions.push(...list);

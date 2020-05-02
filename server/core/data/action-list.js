@@ -60,6 +60,15 @@ export default [
     queueable: true,
   },
   {
+    name: 'Smelt',
+    actionId: 'player:resource:smelt:furnace',
+    context: ['gameMap'],
+    allow: ['foreground'],
+    nearby: 'edge',
+    weight: 1,
+    queueable: true,
+  },
+  {
     name: 'Push',
     actionId: 'player:resource:goldenplaque:push',
     context: ['gameMap'],
