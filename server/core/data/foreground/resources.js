@@ -1,6 +1,15 @@
 import { presetActions } from '@server/core/data/helpers/database';
 
 export default [{
+  id: 124,
+  name: 'Tree',
+  examine: 'Maybe I can cut it down.',
+  experience: 24,
+  function: 'obtain-resource',
+  resources: 'logs',
+  actions: presetActions(['axe']),
+  type: 'chop',
+}, {
   id: 279,
   name: 'Rocks',
   examine: 'There seems to be no more ore left in this rock.',

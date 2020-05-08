@@ -336,6 +336,25 @@ class ContextMenu {
 
       break;
 
+      // Cutting trees
+    case 'Chop':
+      if (foregroundData && this.canDoAction(foregroundData, action)) {
+        const color = UI.getContextSubjectColor(foregroundData.context);
+        items.push({
+          label: `${action.name} <span style='color:${color}'>${foregroundData.name}</span>`,
+          action,
+          type: 'chop',
+          coordinates: this.coordinates.map,
+          at: {
+            x: this.coordinates.viewport.x,
+            y: this.coordinates.viewport.y,
+          },
+          id: foregroundData.id,
+        });
+      }
+
+      break;
+
       // Push
     case 'Push':
       if (foregroundData && this.canDoAction(foregroundData, action)) {

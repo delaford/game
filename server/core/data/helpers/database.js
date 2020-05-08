@@ -50,6 +50,7 @@ const presetActions = (items) => {
     case 'axe':
       list = [
         'chop',
+        'examine',
       ];
       break;
     case 'pickaxe':
