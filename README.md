@@ -29,7 +29,7 @@ Now, while still inside the `game` folder, open another terminal session in that
 
 Now you may visit `http://localhost:8080` to login and start developing!
 
-For a better time, make sure to join the [Discord channel](https://discord.gg/vTp2SW) to talk to other developers for help and exclusive dicussions!
+For a better time, make sure to join the [Discord channel](https://discord.gg/nkZnHvD) to talk to other developers for help and exclusive dicussions!
 
 ## Contributing
 
