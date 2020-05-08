@@ -28,12 +28,13 @@ export default class Woodcutting extends Skill {
     return item.actions.includes('chop') && item.id.includes('axe');
   }
 
+  // TODO Add batching for the the tree.
   swingAtTree() {
     let counter = 0;
     console.log(`Chopping ${this.tree.resources}`);
 
     return new Promise((resolve, reject) => {
-      if (this.tree.resources === 'no-woodcutting-resource') {
+      if (this.tree.function === 'no-chopping-resource') {
         reject(new Error(this.tree.resource));
       } else if (this.checkForAxe()) {
         const action = setInterval(() => {

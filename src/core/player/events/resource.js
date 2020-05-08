@@ -19,6 +19,13 @@ export default {
   },
 
   /**
+   * Chop a tree
+   */
+  'player:resource:tree:chop': (data) => {
+    console.log(data);
+  },
+
+  /**
    * Update skills
    */
   'resource:skills:update': (incoming, context) => {

@@ -1,12 +1,22 @@
 import { presetActions } from '@server/core/data/helpers/database';
 
 export default [{
-  id: 124,
+  id: 111,
   name: 'Tree',
   examine: 'Maybe I can cut it down.',
   experience: 24,
   function: 'obtain-resource',
   resources: 'logs',
+  actions: presetActions(['axe']),
+  type: 'chop',
+  respawnIn: '5s',
+}, {
+  id: 270,
+  name: 'Stump',
+  examine: 'A leftover stump from a tree.',
+  experience: 0,
+  function: 'no-chopping-resource',
+  resources: 'There is no tree to chop.',
   actions: presetActions(['axe']),
   type: 'chop',
 }, {

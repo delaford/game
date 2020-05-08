@@ -38,6 +38,10 @@
 		"level": 1,
 		"exp": 0,
 		"name": "Cooking"
+  }, {
+    "level": 1,
+    "exp": 0,
+    "name": "Woodcutting"
 	}],
 	"wear": {
 		"head": null,

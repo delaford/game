@@ -51,6 +51,22 @@ export default [
       'resource',
     ]),
   },
+  // Logs
+  {
+    id: 'logs',
+    name: 'Logs',
+    examine: 'I can burn these.',
+    price: 5,
+    type: 'log',
+    graphics: {
+      tileset: 'general',
+      row: 4,
+      column: 5,
+    },
+    actions: presetActions([
+      'resource',
+    ]),
+  },
   // Other
   {
     id: 'hammer',

@@ -12,6 +12,7 @@ import Handler from '@server/player/handler';
 import Item from '@server/core/item';
 import Map from '@server/core/map';
 import Mining from '@server/core/skills/mining';
+import Woodcutting from '@server/core/skills/woodcutting';
 import Query from '@server/core/data/query';
 import Socket from '@server/socket';
 import UI from 'shared/ui';
@@ -363,6 +364,40 @@ export default {
     } catch (err) {
       // Tell player of their error
       // either no pickaxe or no rock available
+      Socket.sendMessageToPlayer(data.playerIndex, err.message);
+    }
+  },
+
+  'player:resource:chopping:tree': async (data) => {
+    const woodcutting = new Woodcutting(data.playerIndex, data.todo.item.id);
+
+    try {
+      const treeChopped = await woodcutting.swingAtTree();
+      const resource = general.find(i => i.id === treeChopped.resources);
+
+      Socket.sendMessageToPlayer(data.playerIndex, `You successfully chopped some ${resource.name}.`);
+
+      woodcutting.extractResource(resource);
+
+      world.map.foreground[data.todo.actionToQueue.onTile] = 532;
+
+      woodcutting.updateExperience(treeChopped.experience);
+
+      Socket.emit('resource:skills:update', {
+        player: { socket_id: world.players[data.playerIndex].socket_id },
+        data: world.players[data.playerIndex].skills,
+      });
+
+      // TODO make sure this is cut down tree is in the correct x,y position on map.
+      // Also figure out how to make a tree stump appear properly.
+      Socket.broadcast('world:foreground:update', world.map.foreground);
+      console.log(treeChopped.id + 253);
+      world.respawns.resources.push({
+        setToTile: treeChopped.id + 254,
+        onTile: data.todo.actionToQueue.onTile,
+        willRespawnIn: Item.calculateRespawnTime(treeChopped.respawnIn),
+      });
+    } catch (err) {
       Socket.sendMessageToPlayer(data.playerIndex, err.message);
     }
   },
