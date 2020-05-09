@@ -379,7 +379,7 @@ export default {
 
       woodcutting.extractResource(resource);
 
-      world.map.foreground[data.todo.actionToQueue.onTile] = 532;
+      world.map.foreground[data.todo.actionToQueue.onTile] = 523;
 
       woodcutting.updateExperience(treeChopped.experience);
 
@@ -392,8 +392,9 @@ export default {
       // Also figure out how to make a tree stump appear properly.
       Socket.broadcast('world:foreground:update', world.map.foreground);
       console.log(treeChopped.id + 253);
+      console.log(`onTile:${data.todo.actionToQueue.onTile}`);
       world.respawns.resources.push({
-        setToTile: treeChopped.id + 254,
+        setToTile: treeChopped.id + 253,
         onTile: data.todo.actionToQueue.onTile,
         willRespawnIn: Item.calculateRespawnTime(treeChopped.respawnIn),
       });
