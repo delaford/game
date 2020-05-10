@@ -65,8 +65,9 @@ export default {
     const itemUuid = itemInventory.uuid;
 
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
-    world.players[playerIndex].inventory.slots = world.players[playerIndex].inventory.slots
-      .filter(v => v.slot !== data.data.miscData.slot);
+    world.players[playerIndex].inventory.slots = world.players[playerIndex].inventory.slots.filter(
+      v => v.slot !== data.data.miscData.slot,
+    );
     Socket.broadcast('player:movement', world.players[playerIndex]);
 
     // Add item back to the world
@@ -80,7 +81,11 @@ export default {
       timestamp: Date.now(),
     });
 
-    console.log(`Dropping: ${data.item.id} (${itemInventory.qty || 0}) at ${world.players[playerIndex].x}, ${world.players[playerIndex].x}`);
+    console.log(
+      `Dropping: ${data.item.id} (${itemInventory.qty || 0}) at ${world.players[playerIndex].x}, ${
+        world.players[playerIndex].x
+      }`,
+    );
 
     Socket.broadcast('world:itemDropped', world.items);
   },
@@ -114,16 +119,13 @@ export default {
    */
   'item:unequip': (data) => {
     const itemUnequipping = data.player.wear[data.item.miscData.slot];
-    const newData = Object.assign(
-      data,
-      {
-        item: {
-          id: itemUnequipping.id,
-          uuid: itemUnequipping.uuid,
-          slot: data.item.miscData.slot,
-        },
+    const newData = Object.assign(data, {
+      item: {
+        id: itemUnequipping.id,
+        uuid: itemUnequipping.uuid,
+        slot: data.item.miscData.slot,
       },
-    );
+    });
     pipe.player.unequipItem(newData);
   },
 
@@ -163,6 +165,7 @@ export default {
   'player:resource:smelt:furnace': (data) => {
     const { playerIndex } = data;
     const player = world.players[playerIndex];
+    console.log('socket sending...');
     Socket.emit('game:ui:smelt', {
       player: { socket_id: player.socket_id, smithingLevel: player.skills.smithing.level },
     });
@@ -192,8 +195,9 @@ export default {
   'player:take': (data) => {
     const { playerIndex, todo } = data;
     const { id } = Query.getItemData(todo.item.id);
-    const itemToTake = world.items.findIndex(e => (e.x === todo.at.x)
-      && (e.y === todo.at.y) && (e.uuid === todo.item.uuid));
+    const itemToTake = world.items.findIndex(
+      e => e.x === todo.at.x && e.y === todo.at.y && e.uuid === todo.item.uuid,
+    );
     const worldItem = world.items[itemToTake];
     if (worldItem) {
       // If qty not specified, we are picking up 1 item.
@@ -207,9 +211,9 @@ export default {
       world.players[playerIndex].inventory.add(id, quantity, todo.item.uuid);
 
       // Add respawn timer on item (if is a respawn)
-      const resetItemIndex = world.respawns.items.findIndex(i => (
-        i.respawn && i.x === todo.at.x && i.y === todo.at.y
-      ));
+      const resetItemIndex = world.respawns.items.findIndex(
+        i => i.respawn && i.x === todo.at.x && i.y === todo.at.y,
+      );
 
       if (resetItemIndex !== -1) {
         world.respawns.items[resetItemIndex].pickedUp = true;
@@ -246,13 +250,7 @@ export default {
    */
   'player:screen:npc:trade:action': (data) => {
     const quantity = data.item.params ? data.item.params.quantity : 0;
-    const shop = new Shop(
-      data.player.objectId,
-      data.id,
-      data.item.id,
-      data.doing,
-      quantity,
-    );
+    const shop = new Shop(data.player.objectId, data.id, data.item.id, data.doing, quantity);
 
     // Simple check for the item's price
     if (data.doing === 'value') {
@@ -308,12 +306,7 @@ export default {
    * A player withdraws or deposits items from their bank or inventory
    */
   'player:screen:bank:action': async (data) => {
-    const bank = new Bank(
-      data.id,
-      data.item.id,
-      data.item.params.quantity,
-      data.doing,
-    );
+    const bank = new Bank(data.id, data.item.id, data.item.params.quantity, data.doing);
 
     try {
       const { inventory, bankItems } = await bank[data.doing]();
@@ -321,7 +314,6 @@ export default {
       /** UPDATE PLAYER DATA */
       world.players[bank.playerIndex].bank = bankItems;
       world.players[bank.playerIndex].inventory.slots = inventory;
-
 
       // Refresh client with new data
       Socket.emit('core:refresh:inventory', {

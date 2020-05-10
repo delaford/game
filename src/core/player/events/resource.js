@@ -18,7 +18,7 @@ export default {
     console.log(data);
   },
 
-  'player:screen:smelt': (data) => {
+  'game:ui:smelt': (data) => {
     console.log('Someone wants to smelt some ore.');
     // SHOW SMELTING UI POPUP2
     console.log(data);
