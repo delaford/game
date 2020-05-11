@@ -165,9 +165,12 @@ export default {
   'player:resource:smelt:furnace': (data) => {
     const { playerIndex } = data;
     const player = world.players[playerIndex];
-    console.log('socket sending...');
-    Socket.emit('game:ui:smelt', {
-      player: { socket_id: player.socket_id, smithingLevel: player.skills.smithing.level },
+    world.players[data.playerIndex].currentPane = 'furnace';
+
+    Socket.emit('open:screen', {
+      player: { socket_id: world.players[data.playerIndex].socket_id },
+      screen: 'furnace',
+      payload: { smithingLevel: player.skills.smithing.level },
     });
   },
 

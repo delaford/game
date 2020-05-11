@@ -33,8 +33,8 @@ class ContextMenu {
       },
       // Where on map they clicked on
       map: {
-        x: (this.player.x - Config.map.player.x) + tile.x,
-        y: (this.player.y - Config.map.player.y) + tile.y,
+        x: this.player.x - Config.map.player.x + tile.x,
+        y: this.player.y - Config.map.player.y + tile.y,
       },
       // Where in viewport they clicked on
       viewport: {
@@ -69,7 +69,8 @@ class ContextMenu {
         list += 1;
       } while (list < generateList.length);
 
-      items.sort((a, b) => b.timestamp - a.timestamp)
+      items
+        .sort((a, b) => b.timestamp - a.timestamp)
         .sort((a, b) => a.action.weight - b.action.weight);
 
       if (this.miscData.firstOnly) {
@@ -91,8 +92,8 @@ class ContextMenu {
    */
   async check(action, items) {
     const getItems = this.droppedItems
-      .filter(item => item.x < (this.player.x + 7) && item.x > (this.player.x - 10))
-      .filter(item => item.y < (this.player.y + 7) && item.y > (this.player.y - 10))
+      .filter(item => item.x < this.player.x + 7 && item.x > this.player.x - 10)
+      .filter(item => item.y < this.player.y + 7 && item.y > this.player.y - 10)
       .filter(item => item.x === this.coordinates.map.x && item.y === this.coordinates.map.y)
       .map((i) => {
         i.context = 'item';
@@ -183,7 +184,10 @@ class ContextMenu {
       getItems.forEach((item) => {
         const {
           actions, name, x, y, id, uuid, timestamp,
-        } = Object.assign(item, Query.getItemData(item.id));
+        } = Object.assign(
+          item,
+          Query.getItemData(item.id),
+        );
 
         const color = UI.getContextSubjectColor(item.context);
 
@@ -231,7 +235,9 @@ class ContextMenu {
       if (this.clickedOn('wearSlot') && this.isFromInventory()) {
         const {
           name, actions, context, id, uuid,
-        } = Query.getItemData(this.player.wear[this.miscData.slot].id);
+        } = Query.getItemData(
+          this.player.wear[this.miscData.slot].id,
+        );
 
         const color = UI.getContextSubjectColor(context);
 
@@ -281,7 +287,10 @@ class ContextMenu {
         getItems.forEach((item) => {
           const {
             name, examine, id, actions, timestamp,
-          } = Object.assign(item, Query.getItemData(item.id));
+          } = Object.assign(
+            item,
+            Query.getItemData(item.id),
+          );
 
           const color = UI.getContextSubjectColor(item.context);
 
@@ -554,7 +563,6 @@ class ContextMenu {
     // (ie: Equip not allowed while accessing bank)
     if (action.disallowWhile && action.disallowWhile.includes(this.currentPane)) return false;
     if (action.onPane && !action.onPane.includes(this.currentPane)) return false;
-
 
     // If we have a list of actions
     if (item instanceof Array) {
