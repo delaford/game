@@ -1,4 +1,4 @@
-import { general, wearableItems } from '@server/core/data/items';
+import { general, wearableItems, smithing } from '@server/core/data/items';
 
 import { foregroundObjects } from '@server/core/data/foreground';
 
@@ -10,10 +10,12 @@ class Query {
    * @returns {object}
    */
   static getForegroundData(id) {
-    return foregroundObjects.map((t) => {
-      t.context = 'action';
-      return t;
-    }).find(item => item.id === id);
+    return foregroundObjects
+      .map((t) => {
+        t.context = 'action';
+        return t;
+      })
+      .find(item => item.id === id);
   }
 
   /**
@@ -23,11 +25,13 @@ class Query {
    * @returns {object}
    */
   static getItemData(id) {
-    const allItems = [...wearableItems, ...general];
-    return allItems.map((t) => {
-      t.context = 'item';
-      return t;
-    }).find(item => item.id === id);
+    const allItems = [...wearableItems, ...general, ...smithing];
+    return allItems
+      .map((t) => {
+        t.context = 'item';
+        return t;
+      })
+      .find(item => item.id === id);
   }
 }
 
