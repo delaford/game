@@ -159,7 +159,7 @@ export default {
         furnace: {
           columns: 6,
           rows: 1,
-          classId: 'furnaceSlot'
+          classId: 'furnaceSlot',
         },
         inventory: {
           columns: 4,

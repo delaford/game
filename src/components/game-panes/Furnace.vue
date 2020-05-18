@@ -1,14 +1,14 @@
 <template>
   <div class="furnaceView">
     <pane-header text="Furnace" />
-      <p>
-        Select the bar you want to smelt. 
-      </p>
+    <p>
+      Select the bar you want to smelt.
+    </p>
     <item-grid
       :images="game.map.images"
       :items="barItems"
-      class="furnaceGrid"
       :slots="7"
+      class="furnaceGrid"
       screen="furnace" />
   </div>
 </template>
@@ -32,13 +32,11 @@ export default {
   },
   computed: {
     barItems() {
-      return this.data.items.map((e ,index) => {
-        return {
-            qty: 1,
-            slot: index,
-            id: e
-          }
-      });
+      return this.data.items.map((e, index) => ({
+        qty: 1,
+        slot: index,
+        id: e,
+      }));
     },
   },
 };

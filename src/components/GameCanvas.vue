@@ -4,8 +4,8 @@
       class="first-action"
       v-html="action" />
     <div
-        :style="getPaneDimensions"
       v-if="current !== false"
+      :style="getPaneDimensions"
       class="pane">
       <component
         :game="game"
@@ -57,10 +57,10 @@ export default {
   computed: {
     getPaneDimensions() {
       switch (this.current) {
-        default:
-          return;
-        case 'furnace':
-          return 'width:70%;height:40%';
+      default:
+        return;
+      case 'furnace':
+        return 'width:70%;height:40%';
       }
     },
     currentAction() {
