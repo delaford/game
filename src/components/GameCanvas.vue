@@ -4,6 +4,7 @@
       class="first-action"
       v-html="action" />
     <div
+        :style="getPaneDimensions"
       v-if="current !== false"
       class="pane">
       <component
@@ -54,6 +55,14 @@ export default {
     };
   },
   computed: {
+    getPaneDimensions() {
+      switch (this.current) {
+        default:
+          return;
+        case 'furnace':
+          return 'width:70%;height:40%';
+      }
+    },
     currentAction() {
       return this.$store.getters.action.object;
     },
@@ -227,10 +236,13 @@ div.game {
 
   .pane {
     z-index: 5;
-    position: relative;
     width: 90%;
     height: 90%;
-    margin: 10px auto;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     div {
       height: 100%;

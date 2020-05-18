@@ -1,11 +1,15 @@
 <template>
-  <div class="bankView">
+  <div class="furnaceView">
     <pane-header text="Furnace" />
+      <p>
+        Select the bar you want to smelt. 
+      </p>
     <item-grid
       :images="game.map.images"
-      :items="bankItems"
-      :slots="5"
-      screen="bank" />
+      :items="barItems"
+      class="furnaceGrid"
+      :slots="7"
+      screen="furnace" />
   </div>
 </template>
 
@@ -27,8 +31,14 @@ export default {
     };
   },
   computed: {
-    bankItems() {
-      return this.game.player.bank;
+    barItems() {
+      return this.data.items.map((e ,index) => {
+        return {
+            qty: 1,
+            slot: index,
+            id: e
+          }
+      });
     },
   },
 };
@@ -39,7 +49,18 @@ $color: #706559;
 $background_color: #ededed;
 $default_color: #383838;
 
-.bankView {
+p {
+  font-size: .6em;
+  margin: 1em 0;
+}
+
+.furnaceGrid {
+  display: flex;
+  justify-content: center;
+  height: auto;
+}
+
+.furnaceView {
   background-color: $color;
   font-family: "GameFont", serif;
   border: 5px solid darken($color, 10%);

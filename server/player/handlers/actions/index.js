@@ -167,10 +167,19 @@ export default {
     const player = world.players[playerIndex];
     world.players[data.playerIndex].currentPane = 'furnace';
 
+    const itemsToReturn = [
+      'bronze-bar',
+      'iron-bar',
+      'steel-bar',
+      'jatite-bar',
+      'silver-bar',
+      'gold-bar',
+    ];
+
     Socket.emit('open:screen', {
       player: { socket_id: world.players[data.playerIndex].socket_id },
       screen: 'furnace',
-      payload: { smithingLevel: player.skills.smithing.level },
+      payload: { smithingLevel: player.skills.smithing.level, items: itemsToReturn },
     });
   },
 

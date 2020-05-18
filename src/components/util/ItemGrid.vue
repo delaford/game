@@ -156,6 +156,11 @@ export default {
     },
     gridData(section) {
       const modifier = {
+        furnace: {
+          columns: 6,
+          rows: 1,
+          classId: 'furnaceSlot'
+        },
         inventory: {
           columns: 4,
           rows: 6,
