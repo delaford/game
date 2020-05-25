@@ -1,5 +1,8 @@
 import { presetActions } from '@server/core/data/helpers/database';
 
+// TODO
+// Find out why hovering over furnace grid shows inventyory grid items
+
 export default [
   {
     id: 'bronze-bar',

@@ -24,6 +24,8 @@ class ContextMenu {
     // Element clicked on
     this.context = Object.values(miscData.clickedOn);
 
+    console.log(this.context);
+
     // Coordinates of mouse-click and player
     this.coordinates = {
       // Where player is currently
@@ -57,6 +59,12 @@ class ContextMenu {
    */
   build() {
     const self = this;
+
+    console.log(this.context);
+    if (this.context[1] === 'furnaceSlot') {
+      console.log('time to smelt!');
+      debugger;
+    }
 
     return new Promise((resolve) => {
       let list = 0;
@@ -139,6 +147,10 @@ class ContextMenu {
      * this switch-case code below to more simpler methods.
      */
     if (!action) return;
+    console.log('@@@@@@@@@@@@@');
+    console.log('@@@@@@@@@@@@@');
+    // Why is there no LABEL when hovering over FURNACE - Bars
+    console.log(action.name);
 
     switch (action.name) {
     default:
