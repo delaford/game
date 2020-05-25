@@ -86,7 +86,7 @@ export default [
     experience: null,
     function: 'smith-bar',
     resources: null,
-    actions: presetActions(['smelt-bars']),
+    actions: presetActions(['smith-bars']),
     graphics: {
       tileset: 'general',
       row: 2,

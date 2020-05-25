@@ -24,8 +24,6 @@ class ContextMenu {
     // Element clicked on
     this.context = Object.values(miscData.clickedOn);
 
-    console.log(this.context);
-
     // Coordinates of mouse-click and player
     this.coordinates = {
       // Where player is currently
@@ -48,6 +46,9 @@ class ContextMenu {
     // Are they on any pane?
     this.currentPane = this.player.currentPane;
 
+    // For screens not managed by shops, banks or inventories.
+    this.currentPaneData = this.player.currentPaneData;
+
     // Data relevant to the context
     this.miscData = miscData;
   }
@@ -59,12 +60,6 @@ class ContextMenu {
    */
   build() {
     const self = this;
-
-    console.log(this.context);
-    if (this.context[1] === 'furnaceSlot') {
-      console.log('time to smelt!');
-      debugger;
-    }
 
     return new Promise((resolve) => {
       let list = 0;
@@ -137,8 +132,17 @@ class ContextMenu {
     // From where are we getting our data from?
     // If we clicked on 'inventorySlot', then obviously player.inventory
     // if we clicked on 'bankSlot', then player.bank and so on.
-    const itemsToSearch = itemSource[this.context[1]] || this.player.inventory.slots;
-    const itemActedOn = itemsToSearch.find(s => s.slot === this.miscData.slot);
+    const itemsToSearch = itemSource[this.context[1]] || this.currentPaneData;
+    // eslint-disable-next-line
+    let itemActedOn =
+      itemsToSearch.find(s => s.slot === this.miscData.slot) || itemsToSearch[this.miscData.slot];
+
+    if (typeof itemActedOn === 'object') {
+      // The only time an item is an object is it comes from an inventory, bank,
+      // or shop because those items are dynamic and have other data attached
+      // to them (qty, value, etc.)
+      itemActedOn = itemActedOn.id;
+    }
 
     // Context menu list center
     /**
@@ -146,12 +150,12 @@ class ContextMenu {
      * I know there is a MUCH better way to abstract
      * this switch-case code below to more simpler methods.
      */
-    if (!action) return;
-    console.log('@@@@@@@@@@@@@');
-    console.log('@@@@@@@@@@@@@');
-    // Why is there no LABEL when hovering over FURNACE - Bars
-    console.log(action.name);
 
+    // TODO
+    // Can definitely be abstracted out to something
+    // such as "Panes" with items that show on different panes
+    // that come with different requirements (ie: furnace view, cooking, smithing, etc.)
+    if (!action) return;
     switch (action.name) {
     default:
     case 'Cancel':
@@ -173,7 +177,7 @@ class ContextMenu {
         if (this.isFromInventory()) {
           const {
             actions, name, context, uuid, id,
-          } = Query.getItemData(itemActedOn.id);
+          } = Query.getItemData(itemActedOn);
 
           const color = UI.getContextSubjectColor(context);
 
@@ -225,7 +229,7 @@ class ContextMenu {
       if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
         const {
           actions, context, name, uuid, id,
-        } = Query.getItemData(itemActedOn.id);
+        } = Query.getItemData(itemActedOn);
 
         const color = UI.getContextSubjectColor(context);
 
@@ -322,7 +326,7 @@ class ContextMenu {
       if (this.isFromInventory()) {
         const {
           name, examine, id, context, actions,
-        } = Query.getItemData(itemActedOn.id);
+        } = Query.getItemData(itemActedOn);
 
         const color = UI.getContextSubjectColor(context);
 
@@ -414,7 +418,7 @@ class ContextMenu {
       if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
         const {
           name, examine, id, context, actions,
-        } = Query.getItemData(itemActedOn.id);
+        } = Query.getItemData(itemActedOn);
 
         const color = UI.getContextSubjectColor(context);
 
@@ -441,7 +445,7 @@ class ContextMenu {
       if (this.clickedOn('bankSlot')) {
         const {
           name, examine, id, context, actions,
-        } = Query.getItemData(itemActedOn.id);
+        } = Query.getItemData(itemActedOn);
 
         const color = UI.getContextSubjectColor(context);
 
@@ -469,7 +473,7 @@ class ContextMenu {
       if (this.clickedOn('shopSlot') || this.clickedOn('inventorySlot')) {
         const {
           name, examine, id, context, actions,
-        } = Query.getItemData(itemActedOn.id);
+        } = Query.getItemData(itemActedOn);
 
         const color = UI.getContextSubjectColor(context);
 

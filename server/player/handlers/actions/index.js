@@ -167,6 +167,10 @@ export default {
     const player = world.players[playerIndex];
     world.players[data.playerIndex].currentPane = 'furnace';
 
+    // TODO
+    // Can definitely be abstracted out to something
+    // such as "Panes" with items that show on different panes
+    // that come with different requirements (ie: furnace view, cooking, smithing, etc.)
     const itemsToReturn = [
       'bronze-bar',
       'iron-bar',
@@ -175,6 +179,11 @@ export default {
       'silver-bar',
       'gold-bar',
     ];
+
+    // Sometimes whats on the pane needs to travel
+    // with the screen because its not being tracked in
+    // the world object. So we need to pass the items to player.
+    world.players[data.playerIndex].currentPaneData = itemsToReturn;
 
     Socket.emit('open:screen', {
       player: { socket_id: world.players[data.playerIndex].socket_id },

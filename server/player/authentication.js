@@ -11,7 +11,6 @@ class Authentication {
    */
   static async login(data) {
     return new Promise(async (resolve, reject) => {
-      console.log(data.data);
       const token = await Authentication.getToken(data.data).catch((error) => {
         reject(error);
       });
