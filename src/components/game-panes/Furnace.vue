@@ -2,7 +2,7 @@
   <div class="furnaceView">
     <pane-header text="Furnace" />
     <p>
-      Select the bar you want to smelt.
+      Select the bar you want to smelt
     </p>
     <item-grid
       :images="game.map.images"
@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      gameData: this.game.player.bank,
+      smithingLevel: this.game.player.skills.smithing.level,
     };
   },
   computed: {
@@ -36,6 +36,7 @@ export default {
         qty: 1,
         slot: index,
         id: e,
+        isLocked: index < 2 ? '' : 'locked-item', // TODO: Calculate smithing level and lock bar on front-end
       }));
     },
   },

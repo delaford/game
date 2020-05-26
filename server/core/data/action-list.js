@@ -61,7 +61,16 @@ export default [
   },
   {
     name: 'Smelt',
-    actionId: 'player:resource:smelt:furnace',
+    actionId: 'player:resource:smelt:furnace:action',
+    context: ['furnaceSlot'],
+    allow: ['item'],
+    nearby: 'edge',
+    weight: 1,
+    onPane: ['furnace'],
+  },
+  {
+    name: 'Smelt',
+    actionId: 'player:resource:smelt:furnace:pane',
     context: ['gameMap'],
     allow: ['foreground'],
     nearby: 'edge',
@@ -88,7 +97,7 @@ export default [
   },
   {
     name: 'Deposit',
-    actionId: 'player:screen:bank:action',
+    actionId: 'player:screen:bank:action:deposit',
     context: ['inventorySlot'],
     allow: ['item'],
     nearby: false,
@@ -97,7 +106,7 @@ export default [
   },
   {
     name: 'Withdraw',
-    actionId: 'player:screen:bank:action',
+    actionId: 'player:screen:bank:action:withdraw',
     context: ['bankSlot'],
     allow: ['item'],
     nearby: false,
@@ -133,7 +142,7 @@ export default [
   },
   {
     name: 'Value',
-    actionId: 'player:screen:npc:trade:action',
+    actionId: 'player:screen:npc:trade:action:value',
     context: ['shopSlot', 'inventorySlot'],
     allow: ['item'],
     nearby: false,

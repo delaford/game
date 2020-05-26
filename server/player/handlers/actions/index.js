@@ -162,7 +162,12 @@ export default {
     action.do(incoming.data.data, incoming.data.queueItem);
   },
 
-  'player:resource:smelt:furnace': (data) => {
+  'player:resource:smelt:furnace:action': (data) => {
+    console.log(data);
+    console.log('So you want to smith something???');
+  },
+
+  'player:resource:smelt:furnace:pane': (data) => {
     const { playerIndex } = data;
     const player = world.players[playerIndex];
     world.players[data.playerIndex].currentPane = 'furnace';

@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable max-len -->
   <div
     :style="slotColumnRows"
     class="main grid_container">
@@ -13,7 +14,7 @@
           // eslint-disable-next-line
           backgroundPosition: `left -${(getItem(i).column * 32)}px top -${(getItem(i).row * 32)}px`
         }"
-        :class="`slot ${gridData(screen).classId} ${isItemSelected(i)}`"
+        :class="`slot ${getItemFromSlot(i).isLocked} ${getItemFromSlot(i).id} ${gridData(screen).classId} ${isItemSelected(i)}`"
         @click.left="selectItem($event)"
         @mouseover="showContextMenu($event, i, true)"
         @click.right="showContextMenu($event, i)">
@@ -294,6 +295,10 @@ div.grid_container {
 
   &::-webkit-scrollbar-thumb {
     background-color: darken($background_color, 35%);
+  }
+
+  .locked-item {
+    filter: contrast(0.35);
   }
 
   div.slot {

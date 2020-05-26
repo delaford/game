@@ -132,10 +132,13 @@ class ContextMenu {
     // From where are we getting our data from?
     // If we clicked on 'inventorySlot', then obviously player.inventory
     // if we clicked on 'bankSlot', then player.bank and so on.
-    const itemsToSearch = itemSource[this.context[1]] || this.currentPaneData;
-    // eslint-disable-next-line
+    /* eslint-disable */
+    // Either my neovim config is screwy or I'm lazy. It's 2:49 AM and this is too much.
+    const itemsToSearch =
+      itemSource[this.context[1]] || this.currentPaneData || this.player.inventory.slots;
     let itemActedOn =
       itemsToSearch.find(s => s.slot === this.miscData.slot) || itemsToSearch[this.miscData.slot];
+    /* eslint-enable */
 
     if (typeof itemActedOn === 'object') {
       // The only time an item is an object is it comes from an inventory, bank,
@@ -156,13 +159,15 @@ class ContextMenu {
     // such as "Panes" with items that show on different panes
     // that come with different requirements (ie: furnace view, cooking, smithing, etc.)
     if (!action) return;
-    switch (action.name) {
+    // TODO
+    // SWITCH TO USING actionId?
+    switch (action.actionId) {
     default:
     case 'Cancel':
       break;
 
       // Walk player to this location
-    case 'Walk here':
+    case 'player:walk-here':
       // Do not add WALK HERE if foreground tile is blocked
       items.push({
         action,
@@ -172,7 +177,7 @@ class ContextMenu {
       break;
 
       // Drop item from inventory
-    case 'Drop':
+    case 'player:inventory-drop':
       if (this.clickedOn('inventorySlot')) {
         if (this.isFromInventory()) {
           const {
@@ -196,7 +201,7 @@ class ContextMenu {
       break;
 
       // Take item from floor
-    case 'Take':
+    case 'player:take':
       getItems.forEach((item) => {
         const {
           actions, name, x, y, id, uuid, timestamp,
@@ -225,7 +230,7 @@ class ContextMenu {
       break;
 
       // Equip item from inventory
-    case 'Equip':
+    case 'item:equip':
       if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
         const {
           actions, context, name, uuid, id,
@@ -247,7 +252,7 @@ class ContextMenu {
       break;
 
       // Unequip item from the equipment screen
-    case 'Unequip':
+    case 'item:unequip':
       if (this.clickedOn('wearSlot') && this.isFromInventory()) {
         const {
           name, actions, context, id, uuid,
@@ -271,8 +276,8 @@ class ContextMenu {
       break;
 
       // Examine item/object/npc from where possible
-    case 'Examine':
-    case 'Value':
+    case 'player:examine':
+    case 'player:screen:npc:trade:action:value':
       if (this.isFromGameCanvas()) {
         if (foregroundData && this.canDoAction(foregroundData.actions, action)) {
           const fgColor = UI.getContextSubjectColor(foregroundData.context);
@@ -343,7 +348,7 @@ class ContextMenu {
       break;
 
       // Mine rocks
-    case 'Mine':
+    case 'player:resource:mining:rock':
       if (foregroundData && this.canDoAction(foregroundData, action)) {
         const color = UI.getContextSubjectColor(foregroundData.context);
         items.push({
@@ -361,9 +366,30 @@ class ContextMenu {
 
       break;
 
+    case 'player:resource:smelt:furnace:action':
+      if (this.clickedOn('furnaceSlot')) {
+        const {
+          actions, context, name, uuid, id,
+        } = Query.getItemData(itemActedOn);
+
+        const color = UI.getContextSubjectColor(context);
+
+        if (this.canDoAction(actions, action)) {
+          items.push({
+            label: `${action.name} <span style='color:${color}'>${name}</span>`,
+            action,
+            type: 'item',
+            miscData: this.miscData,
+            uuid,
+            id,
+          });
+        }
+      }
+      break;
+
       // Push
-    case 'Push':
-    case 'Smelt':
+    case 'player:resource:goldenplaque:push':
+    case 'player:resource:smelt:furnace:pane':
       if (foregroundData && this.canDoAction(foregroundData, action)) {
         const color = UI.getContextSubjectColor(foregroundData.context);
         items.push({
@@ -382,8 +408,8 @@ class ContextMenu {
       break;
 
       // Bank and Trading
-    case 'Bank':
-    case 'Trade':
+    case 'player:screen:bank':
+    case 'player:screen:npc:trade':
       if (this.isFromGameCanvas()) {
         if (foregroundData && this.canDoAction(foregroundData.actions, action)) {
           const fgColor = UI.getContextSubjectColor(foregroundData.context);
@@ -414,7 +440,7 @@ class ContextMenu {
 
       break;
 
-    case 'Deposit':
+    case 'player:screen:bank:action:deposit':
       if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
         const {
           name, examine, id, context, actions,
@@ -441,7 +467,7 @@ class ContextMenu {
       }
       break;
 
-    case 'Withdraw':
+    case 'player:screen:bank:action:withdraw':
       if (this.clickedOn('bankSlot')) {
         const {
           name, examine, id, context, actions,
@@ -468,8 +494,7 @@ class ContextMenu {
       }
       break;
 
-    case 'Sell':
-    case 'Buy':
+    case 'player:screen:npc:trade:action':
       if (this.clickedOn('shopSlot') || this.clickedOn('inventorySlot')) {
         const {
           name, examine, id, context, actions,
