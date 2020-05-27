@@ -31,12 +31,21 @@ export default {
     };
   },
   computed: {
+    itemDetail() {
+      return {
+        'bronze-bar': 1,
+        'iron-bar': 19,
+        'silver-bar': 25,
+        'steel-bar': 40,
+        'jatite-bar': 55,
+      };
+    },
     barItems() {
       return this.data.items.map((e, index) => ({
         qty: 1,
         slot: index,
         id: e,
-        isLocked: index < 2 ? '' : 'locked-item', // TODO: Calculate smithing level and lock bar on front-end
+        isLocked: this.itemDetail[e] <= this.smithingLevel ? '' : 'locked-item',
       }));
     },
   },
