@@ -7,7 +7,7 @@
     <item-grid
       :images="game.map.images"
       :items="barItems"
-      :slots="7"
+      :slots="6"
       class="furnaceGrid"
       screen="furnace" />
   </div>
@@ -37,6 +37,7 @@ export default {
         'iron-bar': 19,
         'silver-bar': 25,
         'steel-bar': 40,
+        'gold-bar': 47,
         'jatite-bar': 55,
       };
     },

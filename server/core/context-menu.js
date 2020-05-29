@@ -134,8 +134,10 @@ class ContextMenu {
     // if we clicked on 'bankSlot', then player.bank and so on.
     /* eslint-disable */
     // Either my neovim config is screwy or I'm lazy. It's 2:49 AM and this is too much.
+    // TODO
+    // Make the context automatically find which slot the click came from
     const itemsToSearch =
-      itemSource[this.context[1]] || this.currentPaneData || this.player.inventory.slots;
+      itemSource[this.context[3]] || this.currentPaneData || this.player.inventory.slots;
     let itemActedOn =
       itemsToSearch.find(s => s.slot === this.miscData.slot) || itemsToSearch[this.miscData.slot];
     /* eslint-enable */

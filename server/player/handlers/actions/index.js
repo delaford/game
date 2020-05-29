@@ -12,6 +12,7 @@ import Handler from '@server/player/handler';
 import Item from '@server/core/item';
 import Map from '@server/core/map';
 import Mining from '@server/core/skills/mining';
+import Smithing from '@server/core/skills/smithing';
 import Query from '@server/core/data/query';
 import Socket from '@server/socket';
 import UI from 'shared/ui';
@@ -163,8 +164,16 @@ export default {
   },
 
   'player:resource:smelt:furnace:action': (data) => {
-    console.log(data);
-    console.log('So you want to smith something???');
+    const itemClickedOn = data.player.currentPaneData[data.data.miscData.slot];
+    const smithingLevelToSmelt = Smithing.bars();
+
+    const { player } = data;
+
+    if (player.skills.smithing.level >= smithingLevelToSmelt[itemClickedOn]) {
+      console.log('You can smith', itemClickedOn);
+    } else {
+      console.log('You CANNOT smith this.');
+    }
   },
 
   'player:resource:smelt:furnace:pane': (data) => {
@@ -176,14 +185,7 @@ export default {
     // Can definitely be abstracted out to something
     // such as "Panes" with items that show on different panes
     // that come with different requirements (ie: furnace view, cooking, smithing, etc.)
-    const itemsToReturn = [
-      'bronze-bar',
-      'iron-bar',
-      'steel-bar',
-      'jatite-bar',
-      'silver-bar',
-      'gold-bar',
-    ];
+    const itemsToReturn = Object.keys(Smithing.bars());
 
     // Sometimes whats on the pane needs to travel
     // with the screen because its not being tracked in
@@ -271,6 +273,11 @@ export default {
     });
   },
 
+  'player:screen:npc:trade:action:value': (data) => {
+    const quantity = data.item.params ? data.item.params.quantity : 0;
+    const shop = new Shop(data.player.objectId, data.id, data.item.id, data.doing, quantity);
+    shop.value();
+  },
   /**
    * A player wants to buy or sell an item (and sometimes check its value)
    */
@@ -278,30 +285,25 @@ export default {
     const quantity = data.item.params ? data.item.params.quantity : 0;
     const shop = new Shop(data.player.objectId, data.id, data.item.id, data.doing, quantity);
 
-    // Simple check for the item's price
-    if (data.doing === 'value') {
-      shop[data.doing]();
-    } else {
-      // We will be buying or selling an item
-      const response = shop[data.doing]();
+    // We will be buying or selling an item
+    const response = shop[data.doing]();
 
-      /** UPDATE PLAYER DATA */
-      if (Shop.successfulSale(response)) {
-        world.shops[shop.shopIndex].inventory = response.shopItems;
-        world.players[shop.playerIndex].inventory.slots = response.inventory;
+    /** UPDATE PLAYER DATA */
+    if (Shop.successfulSale(response)) {
+      world.shops[shop.shopIndex].inventory = response.shopItems;
+      world.players[shop.playerIndex].inventory.slots = response.inventory;
 
-        // Refresh client with new data
-        Socket.emit('core:refresh:inventory', {
-          player: { socket_id: world.players[shop.playerIndex].socket_id },
-          data: response.inventory,
-        });
+      // Refresh client with new data
+      Socket.emit('core:refresh:inventory', {
+        player: { socket_id: world.players[shop.playerIndex].socket_id },
+        data: response.inventory,
+      });
 
-        Socket.emit('open:screen', {
-          player: { socket_id: world.players[shop.playerIndex].socket_id },
-          screen: 'shop',
-          payload: world.shops[shop.shopIndex],
-        });
-      }
+      Socket.emit('open:screen', {
+        player: { socket_id: world.players[shop.playerIndex].socket_id },
+        screen: 'shop',
+        payload: world.shops[shop.shopIndex],
+      });
     }
   },
 
@@ -331,11 +333,11 @@ export default {
   /**
    * A player withdraws or deposits items from their bank or inventory
    */
-  'player:screen:bank:action': async (data) => {
-    const bank = new Bank(data.id, data.item.id, data.item.params.quantity, data.doing);
+  'player:screen:bank:action:deposit': async (data) => {
+    const bank = new Bank(data.id, data.item.id, data.item.params.quantity, 'deposit');
 
     try {
-      const { inventory, bankItems } = await bank[data.doing]();
+      const { inventory, bankItems } = await bank.deposit();
 
       /** UPDATE PLAYER DATA */
       world.players[bank.playerIndex].bank = bankItems;
