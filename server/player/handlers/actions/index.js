@@ -333,11 +333,11 @@ export default {
   /**
    * A player withdraws or deposits items from their bank or inventory
    */
-  'player:screen:bank:action:deposit': async (data) => {
-    const bank = new Bank(data.id, data.item.id, data.item.params.quantity, 'deposit');
+  'player:screen:bank:action': async (data) => {
+    const bank = new Bank(data.id, data.item.id, data.item.params.quantity, data.doing);
 
     try {
-      const { inventory, bankItems } = await bank.deposit();
+      const { inventory, bankItems } = await bank[data.doing]();
 
       /** UPDATE PLAYER DATA */
       world.players[bank.playerIndex].bank = bankItems;

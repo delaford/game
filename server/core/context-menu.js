@@ -442,35 +442,8 @@ class ContextMenu {
 
       break;
 
-    case 'player:screen:bank:action:deposit':
-      if (this.clickedOn('inventorySlot') && this.isFromInventory()) {
-        const {
-          name, examine, id, context, actions,
-        } = Query.getItemData(itemActedOn);
-
-        const color = UI.getContextSubjectColor(context);
-
-        if (this.canDoAction(actions, action)) {
-          const quantity = [1, 5, 10, 'All'];
-
-          quantity.forEach((q) => {
-            items.push({
-              label: `${action.name}-${q.toString()} <span style='color:${color}'>${name}</span>`,
-              params: {
-                quantity: q,
-              },
-              action,
-              examine,
-              type: 'item',
-              id,
-            });
-          });
-        }
-      }
-      break;
-
-    case 'player:screen:bank:action:withdraw':
-      if (this.clickedOn('bankSlot')) {
+    case 'player:screen:bank:action':
+      if (this.clickedOn('bankSlot') || this.clickedOn('inventorySlot')) {
         const {
           name, examine, id, context, actions,
         } = Query.getItemData(itemActedOn);

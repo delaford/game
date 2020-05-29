@@ -97,7 +97,7 @@ export default [
   },
   {
     name: 'Deposit',
-    actionId: 'player:screen:bank:action:deposit',
+    actionId: 'player:screen:bank:action',
     context: ['inventorySlot'],
     allow: ['item'],
     nearby: false,
@@ -106,7 +106,7 @@ export default [
   },
   {
     name: 'Withdraw',
-    actionId: 'player:screen:bank:action:withdraw',
+    actionId: 'player:screen:bank:action',
     context: ['bankSlot'],
     allow: ['item'],
     nearby: false,
