@@ -239,15 +239,15 @@ class UI {
    * @return {integer}
    */
   static getLevel(exp) {
-    let level = 0;
+    let level = 1;
     let calcExp = 0;
     while (exp > calcExp) {
       calcExp = UI.getExperience(level);
-      if (calcExp >= exp) break;
+      if (calcExp > exp) break;
       level += 1;
     }
 
-    return level;
+    return (level - 1);
   }
 
   /**
