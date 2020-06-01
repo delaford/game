@@ -4,7 +4,7 @@
  */
 
 import { Bank, Shop } from '@server/core/functions';
-import { general, wearableItems } from '@server/core/data/items';
+import { wearableItems } from '@server/core/data/items';
 
 import Action from '@server/player/action';
 import ContextMenu from '@server/core/context-menu';
@@ -163,16 +163,22 @@ export default {
     action.do(incoming.data.data, incoming.data.queueItem);
   },
 
-  'player:resource:smelt:furnace:action': (data) => {
+  'player:resource:smelt:furnace:action': async (data) => {
     const itemClickedOn = data.player.currentPaneData[data.data.miscData.slot];
+    const playerIndex = world.players.findIndex(player => player.uuid === data.player.uuid);
+    const smithing = new Smithing(playerIndex, itemClickedOn, 'smelt');
     const smithingLevelToSmelt = Smithing.bars();
 
     const { player } = data;
 
     if (player.skills.smithing.level >= smithingLevelToSmelt[itemClickedOn]) {
-      console.log('You can smith', itemClickedOn);
+      const barSmelted = await smithing.smelt();
+
+      if (barSmelted) {
+        smithing.updateExperience(barSmelted.experience);
+      }
     } else {
-      console.log('You CANNOT smith this.');
+      Socket.sendMessageToPlayer(this.playerIndex, 'You need a higher smithing level.');
     }
   },
 
@@ -369,13 +375,12 @@ export default {
 
     try {
       const rockMined = await mining.pickAtRock();
-      const resource = general.find(i => i.id === rockMined.resources);
 
       // Tell user of successful resource gathering
-      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${resource.name}.`);
+      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${rockMined.name}.`);
 
       // Extract resource and either add to inventory or drop it
-      mining.extractResource(resource);
+      mining.extractResource(rockMined);
 
       // Update rock to dead-rock after successful mine
       world.map.foreground[data.todo.actionToQueue.onTile] = 532;

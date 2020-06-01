@@ -1,4 +1,7 @@
 import world from '@server/core/world';
+import { smithing } from '@server/core/data/items';
+import Socket from '@server/socket';
+
 import Skill from './index';
 
 export default class Smithing extends Skill {
@@ -8,8 +11,7 @@ export default class Smithing extends Skill {
     this.resourceId = resourceId;
     this.type = type; // bar | ore
     this.columnId = 'smithing';
-
-    this.inventory = this.player.inventory;
+    this.inventory = this.player.inventory.slots;
   }
 
   static ores() {
@@ -44,24 +46,50 @@ export default class Smithing extends Skill {
       return true;
     };
 
-    if (hasEnoughOre) {
-      // Let's take away the needed ores from inventory
-      for (const ore of Object.keys(barToSmelt.requires)) {
-        for (let i = 0; i < barToSmelt.requires[ore]; i + 1) {
-          // Going through every ore requirement, getting the value
-          // and filtering the ore needed one by one.
-          // There's probably a better way to do this...
-          const getIndexOfOre = this.inventory.findIndex(inv => inv.id === ore);
-          this.inventory.splice(getIndexOfOre, 1);
+    return new Promise((resolve, reject) => {
+      if (hasEnoughOre) {
+        // Let's take away the needed ores from inventory
+        const reqs = Object.keys(barToSmelt.requires);
+        for (const ore of reqs) {
+          for (let i = 0; i < barToSmelt.requires[ore]; i += 1) {
+            // Going through every ore requirement, getting the value
+            // and filtering the ore needed one by one.
+            // There's probably a better way to do this...
+            const getIndexOfOre = this.inventory.findIndex(inv => inv.id === ore);
+            this.inventory.splice(getIndexOfOre, 1);
+          }
         }
-      }
 
-      // Add bar to inventory
-      // WORLD PLAYER ADD BAR TO INVENTORY (inventory.add() from Player)
-      // AND RETURN THEIR NEW INVENTORY
-    } else {
-      console.log('Not enough ore.');
-    }
+        world.players[this.playerIndex].inventory.slots = this.inventory;
+        world.players[this.playerIndex].inventory.add(this.resourceId, 1);
+
+        // Tell user of successful resource gathering
+        const resource = smithing.find(i => i.id === this.resourceId);
+        Socket.sendMessageToPlayer(this.playerIndex, `You successfully smelted a ${resource.name}.`);
+
+        // Tell client of their new experience in that skill
+        Socket.emit('resource:skills:update', {
+          player: { socket_id: world.players[this.playerIndex].socket_id },
+          data: world.players[this.playerIndex].skills,
+        });
+
+
+        Socket.emit('core:refresh:inventory', {
+          player: { socket_id: world.players[this.playerIndex].socket_id },
+          data: world.players[this.playerIndex].inventory.slots,
+        });
+
+        Socket.emit('core:pane:close', {
+          player: { socket_id: world.players[this.playerIndex].socket_id },
+        });
+
+        resolve(resource);
+      } else {
+        console.log('Not enough ore.');
+        Socket.sendMessageToPlayer(this.playerIndex, 'You do not have enough ore.');
+        reject(new Error('Not enough ore.'));
+      }
+    });
   }
 
   static bars() {

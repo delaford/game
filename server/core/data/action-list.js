@@ -66,6 +66,7 @@ export default [
     allow: ['item'],
     nearby: 'edge',
     weight: 1,
+    closeOnAction: true,
     onPane: ['furnace'],
   },
   {
