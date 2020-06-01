@@ -46,7 +46,7 @@ const presetActions = (items) => {
       list = ['smelt', 'examine'];
       break;
     case 'smith-bars':
-      list = ['smelt', 'examine'];
+      list = ['smelt'];
     }
 
     actions.push(...list);
