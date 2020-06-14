@@ -45,8 +45,8 @@ const presetActions = (items) => {
     case 'furnace':
       list = ['smelt', 'examine'];
       break;
-    case 'smith-bars':
-      list = ['smelt'];
+    case 'anvil':
+      list = ['smith', 'examine'];
     }
 
     actions.push(...list);

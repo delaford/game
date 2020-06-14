@@ -392,6 +392,7 @@ class ContextMenu {
       // Push
     case 'player:resource:goldenplaque:push':
     case 'player:resource:smelt:furnace:pane':
+    case 'player:resource:smith:anvil:pane':
       if (foregroundData && this.canDoAction(foregroundData, action)) {
         const color = UI.getContextSubjectColor(foregroundData.context);
         items.push({

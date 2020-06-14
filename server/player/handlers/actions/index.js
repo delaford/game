@@ -205,6 +205,34 @@ export default {
     });
   },
 
+  'player:resource:smith:anvil:pane': (data) => {
+    const { playerIndex } = data;
+    const player = world.players[playerIndex];
+    world.players[data.playerIndex].currentPane = 'anvil';
+
+    const getBars = player.inventory.slots.filter(item => item.id.includes('-bar'));
+    const barToSmith = getBars ? getBars[0] : null;
+    const bar = barToSmith.id.split('-')[0];
+    const hasHammer = player.inventory.slots.find(item => item.id === 'hammer');
+
+    if (hasHammer) {
+      const itemsToReturn = Object.keys(Smithing.bars());
+
+      Socket.emit('open:screen', {
+        player: { socket_id: world.players[data.playerIndex].socket_id },
+        screen: 'furnace',
+        payload: { bar, smithingLevel: player.skills.smithing.level, items: itemsToReturn },
+      });
+
+      // Sometimes whats on the pane needs to travel
+      // with the screen because its not being tracked in
+      // the world object. So we need to pass the items to player.
+      world.players[data.playerIndex].currentPaneData = itemsToReturn;
+    } else {
+      Socket.sendMessageToPlayer(playerIndex, 'You need a hammer to smith bars on an anvil.');
+    }
+  },
+
   'player:resource:goldenplaque:push': (data) => {
     const { playerIndex } = data;
 

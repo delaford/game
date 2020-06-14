@@ -79,6 +79,15 @@ export default [
     queueable: true,
   },
   {
+    name: 'Smith',
+    actionId: 'player:resource:smith:anvil:pane',
+    context: ['gameMap'],
+    allow: ['foreground'],
+    nearby: 'edge',
+    weight: 1,
+    queueable: true,
+  },
+  {
     name: 'Push',
     actionId: 'player:resource:goldenplaque:push',
     context: ['gameMap'],

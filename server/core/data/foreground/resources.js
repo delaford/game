@@ -38,4 +38,13 @@ export default [{
   resources: null,
   actions: presetActions(['furnace']),
   type: 'smith',
+}, {
+  id: 287,
+  name: 'Anvil',
+  examine: 'Make weapons and armor from bars.',
+  experience: null,
+  function: 'smith-bar',
+  resources: null,
+  actions: presetActions(['anvil']),
+  type: 'smith',
 }];
