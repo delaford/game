@@ -162,6 +162,11 @@ export default {
           rows: 1,
           classId: 'furnaceSlot',
         },
+        anvil: {
+          columns: 5,
+          rows: 3,
+          classId: 'anvilSlot',
+        },
         inventory: {
           columns: 4,
           rows: 6,

@@ -213,17 +213,16 @@ export default {
     const getBars = player.inventory.slots.filter(item => item.id.includes('-bar'));
     const hasHammer = player.inventory.slots.find(item => item.id === 'hammer');
 
-    debugger;
     if (!getBars) {
       Socket.sendMessageToPlayer(playerIndex, 'You need bars to smelt.');
     } else if (hasHammer) {
       const barToSmith = getBars ? getBars[0] : null;
       const bar = barToSmith.id.split('-')[0]; // TEST
-      const itemsToReturn = Object.keys(Smithing.bars());
+      const itemsToReturn = Smithing.getItemsToSmith(barToSmith.id);
 
       Socket.emit('open:screen', {
         player: { socket_id: world.players[data.playerIndex].socket_id },
-        screen: 'furnace',
+        screen: 'anvil',
         payload: { bar, smithingLevel: player.skills.smithing.level, items: itemsToReturn },
       });
 
