@@ -12,7 +12,7 @@ export default [
     price: 9,
     function: 'smith-bar',
     resources: null,
-    actions: presetActions(['smith-bars', 'resource']),
+    actions: presetActions(['furnace', 'resource']),
     graphics: {
       tileset: 'general',
       row: 2,
@@ -28,7 +28,7 @@ export default [
     price: 30,
     function: 'smith-bar',
     resources: null,
-    actions: presetActions(['smith-bars', 'resource']),
+    actions: presetActions(['furnace', 'resource']),
     graphics: {
       tileset: 'general',
       row: 2,
@@ -44,7 +44,7 @@ export default [
     price: 150,
     function: 'smith-bar',
     resources: null,
-    actions: presetActions(['smith-bars', 'resource']),
+    actions: presetActions(['furnace', 'resource']),
     graphics: {
       tileset: 'general',
       row: 2,
@@ -60,7 +60,7 @@ export default [
     price: 100,
     function: 'smith-bar',
     resources: null,
-    actions: presetActions(['smith-bars', 'resource']),
+    actions: presetActions(['furnace', 'resource']),
     graphics: {
       tileset: 'general',
       row: 2,
@@ -76,7 +76,7 @@ export default [
     price: 2500,
     function: 'smith-bar',
     resources: null,
-    actions: presetActions(['smith-bars', 'resource']),
+    actions: presetActions(['furnace', 'resource']),
     graphics: {
       tileset: 'general',
       row: 2,
@@ -92,7 +92,7 @@ export default [
     price: 1000,
     function: 'smith-bar',
     resources: null,
-    actions: presetActions(['smith-bars', 'resource']),
+    actions: presetActions(['furnace', 'resource']),
     graphics: {
       tileset: 'general',
       row: 2,

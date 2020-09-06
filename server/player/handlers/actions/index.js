@@ -172,13 +172,13 @@ export default {
     const { player } = data;
 
     if (player.skills.smithing.level >= smithingLevelToSmelt[itemClickedOn]) {
-      const barSmelted = await smithing.smelt();
+      const barSmelted = await smithing.smelt(player.inventory.slots);
 
       if (barSmelted) {
         smithing.updateExperience(barSmelted.experience);
       }
     } else {
-      Socket.sendMessageToPlayer(this.playerIndex, 'You need a higher smithing level.');
+      Socket.sendMessageToPlayer(playerIndex, 'You need a higher smithing level.');
     }
   },
 
@@ -211,11 +211,14 @@ export default {
     world.players[data.playerIndex].currentPane = 'anvil';
 
     const getBars = player.inventory.slots.filter(item => item.id.includes('-bar'));
-    const barToSmith = getBars ? getBars[0] : null;
-    const bar = barToSmith.id.split('-')[0];
     const hasHammer = player.inventory.slots.find(item => item.id === 'hammer');
 
-    if (hasHammer) {
+    debugger;
+    if (!getBars) {
+      Socket.sendMessageToPlayer(playerIndex, 'You need bars to smelt.');
+    } else if (hasHammer) {
+      const barToSmith = getBars ? getBars[0] : null;
+      const bar = barToSmith.id.split('-')[0]; // TEST
       const itemsToReturn = Object.keys(Smithing.bars());
 
       Socket.emit('open:screen', {

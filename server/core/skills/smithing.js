@@ -33,21 +33,20 @@ export default class Smithing extends Skill {
   }
 
   smelt(inventory) {
-    console.log('Smelting', this.resourceId);
-
     const barToSmelt = Smithing.ores()[this.resourceId];
 
     const hasEnoughOre = () => {
       for (const ore of Object.keys(barToSmelt.requires)) {
         const oreFound = inventory.filter(inv => inv.id === ore);
+        debugger;
         if (barToSmelt.requires[ore] > oreFound.length) { return false; }
       }
 
       return true;
     };
 
-    return new Promise((resolve, reject) => {
-      if (hasEnoughOre) {
+    return new Promise((resolve) => {
+      if (hasEnoughOre()) {
         // Let's take away the needed ores from inventory
         const reqs = Object.keys(barToSmelt.requires);
         for (const ore of reqs) {
@@ -87,7 +86,6 @@ export default class Smithing extends Skill {
       } else {
         console.log('Not enough ore.');
         Socket.sendMessageToPlayer(this.playerIndex, 'You do not have enough ore.');
-        reject(new Error('Not enough ore.'));
       }
     });
   }

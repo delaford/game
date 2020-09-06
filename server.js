@@ -21,7 +21,7 @@ const world = require(`./${serverFolder}/core/world`);
 moduleAlias.addAlias('shared', `${__dirname}/${serverFolder}/shared`);
 moduleAlias.addAlias('root', `${__dirname}/${serverFolder}`);
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 6500;
 const env = process.env.NODE_ENV || 'production';
 const app = express();
 
