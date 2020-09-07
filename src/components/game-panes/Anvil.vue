@@ -1,15 +1,14 @@
 <template>
   <div class="anvilView">
     <pane-header text="Anvil" />
-    <p>
-      What would you like to make?
-    </p>
-    <item-grid
+    <p>What would you like to make?</p>
+    <anvil-grid
       :images="game.map.images"
-      :items="barItems"
+      :items="smeltItems"
       :slots="6"
       class="anvilGrid"
-      screen="anvil" />
+      screen="anvil"
+    />
   </div>
 </template>
 
@@ -31,11 +30,23 @@ export default {
     };
   },
   computed: {
-    barItems() {
+    barToForge() {
+      return this.data.bar;
+    },
+    barsInInventory() {
+      return this.game.player.inventory.filter(
+        item => item.id === `${this.barToForge}-bar`,
+      ).length;
+    },
+    smeltItems() {
       return this.data.items.map((e, index) => ({
         qty: 1,
         slot: index,
         id: e.item,
+        levelNeeded: e.level,
+        barsNeeded: e.bars,
+        hasBars: e.bars <= this.barsInInventory,
+        hasLevel: e.level <= this.smithingLevel,
         isLocked: e.level <= this.smithingLevel ? '' : 'locked-item',
       }));
     },
@@ -49,7 +60,7 @@ $background_color: #ededed;
 $default_color: #383838;
 
 p {
-  font-size: .6em;
+  font-size: 0.6em;
   margin: 1em 0;
 }
 
@@ -81,7 +92,7 @@ p {
   }
 
   .main {
-    padding: .5em;
+    padding: 0.5em;
   }
 }
 </style>

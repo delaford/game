@@ -1,6 +1,7 @@
 import world from '@server/core/world';
 import { smithing } from '@server/core/data/items';
 import Socket from '@server/socket';
+// import Query from '@server/core/data/query';
 
 import Skill from './index';
 
@@ -90,6 +91,9 @@ export default class Smithing extends Skill {
   }
 
   static getItemsToSmith(bar) {
+    // TODO: Make a getter to fetch that item's smithing
+    // data getItemSkillData('smithing', 'bronze-dagger')
+    // Query.getItemData('bronze-dagger')
     if (bar === 'bronze-bar') {
       return [
         {
@@ -102,13 +106,13 @@ export default class Smithing extends Skill {
           item: 'bronze-axe',
           level: 1,
           expGained: 12.5,
-          bars: 1,
+          bars: 2,
         },
         {
           item: 'bronze-mace',
           level: 2,
           expGained: 12.5,
-          bars: 1,
+          bars: 5,
         },
         {
           item: 'bronze-med-helm',
