@@ -41,7 +41,7 @@ Here are the types of things I will be adding as a minimum viable product (alpha
 
 ### What does a checkmark mean?
 
-When an item is checkmarked, it means the basic foundation is in place. Sometimes, however, it is not fully complete. For example, Inventory is checkmarked but the inventory currently only supports weapons. You cna help fix that.
+When an item is checkmarked, it means the basic foundation is in place but not necessarily complete. For example, Inventory is checkmarked but it currently only supports weapons. You can help fix that.
 
 - [Player](https://github.com/Delaford/game/projects/1)
   - [x] Walking / pathfinding
