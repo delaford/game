@@ -79,6 +79,16 @@ export default [
     queueable: true,
   },
   {
+    name: 'Forge',
+    actionId: 'player:resource:smelt:anvil:action',
+    context: ['anvilSlot'],
+    allow: ['item'],
+    nearby: 'edge',
+    weight: 1,
+    closeOnAction: true,
+    onPane: ['anvil'],
+  },
+  {
     name: 'Smith',
     actionId: 'player:resource:smith:anvil:pane',
     context: ['gameMap'],

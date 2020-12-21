@@ -1,8 +1,6 @@
 <template>
   <!-- eslint-disable max-len -->
-  <div
-    :style="slotColumnRows"
-    class="main grid_container">
+  <div class="main grid_container">
     <div
       v-for="(item, i) in items"
       :key="i">
@@ -34,6 +32,7 @@
 import UI from 'shared/ui';
 import bus from '../../core/utilities/bus';
 import ClientUI from '../../core/utilities/client-ui';
+import { weapons } from '../../../server/core/data/respawn';
 
 export default {
   props: {
@@ -159,6 +158,14 @@ export default {
         event,
         item: this.$store.getters.action.object,
       });
+
+      console.log(this.$store.getters.action.object);
+
+      // TODO
+      // Make 'context-menu' to smelt bars into weapons
+      // Do actual smithing from weapons from item click on menu
+      // Do same thing for bar of ore. Lower bar takes prescedent
+      // Earn exp and save
 
       // this.itemSelected = this.itemSelected === slot || this.screen !== 'inventory' ? false : slot;
     },

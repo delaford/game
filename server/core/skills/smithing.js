@@ -39,7 +39,9 @@ export default class Smithing extends Skill {
     const hasEnoughOre = () => {
       for (const ore of Object.keys(barToSmelt.requires)) {
         const oreFound = inventory.filter(inv => inv.id === ore);
-        if (barToSmelt.requires[ore] > oreFound.length) { return false; }
+        if (barToSmelt.requires[ore] > oreFound.length) {
+          return false;
+        }
       }
 
       return true;
@@ -54,7 +56,9 @@ export default class Smithing extends Skill {
             // Going through every ore requirement, getting the value
             // and filtering the ore needed one by one.
             // There's probably a better way to do this...
-            const getIndexOfOre = this.inventory.findIndex(inv => inv.id === ore);
+            const getIndexOfOre = this.inventory.findIndex(
+              inv => inv.id === ore,
+            );
             this.inventory.splice(getIndexOfOre, 1);
           }
         }
@@ -64,14 +68,16 @@ export default class Smithing extends Skill {
 
         // Tell user of successful resource gathering
         const resource = smithing.find(i => i.id === this.resourceId);
-        Socket.sendMessageToPlayer(this.playerIndex, `You successfully smelted a ${resource.name}.`);
+        Socket.sendMessageToPlayer(
+          this.playerIndex,
+          `You successfully smelted a ${resource.name}.`,
+        );
 
         // Tell client of their new experience in that skill
         Socket.emit('resource:skills:update', {
           player: { socket_id: world.players[this.playerIndex].socket_id },
           data: world.players[this.playerIndex].skills,
         });
-
 
         Socket.emit('core:refresh:inventory', {
           player: { socket_id: world.players[this.playerIndex].socket_id },
@@ -85,7 +91,10 @@ export default class Smithing extends Skill {
         resolve(resource);
       } else {
         console.log('Not enough ore.');
-        Socket.sendMessageToPlayer(this.playerIndex, 'You do not have enough ore.');
+        Socket.sendMessageToPlayer(
+          this.playerIndex,
+          'You do not have enough ore.',
+        );
       }
     });
   }
@@ -97,6 +106,7 @@ export default class Smithing extends Skill {
     if (bar === 'bronze-bar') {
       return [
         {
+          id: 'bronze-dagger',
           item: 'bronze-dagger',
           level: 1,
           expGained: 12.5,
@@ -104,11 +114,13 @@ export default class Smithing extends Skill {
         },
         {
           item: 'bronze-axe',
+          id: 'bronze-axe',
           level: 1,
           expGained: 12.5,
           bars: 2,
         },
         {
+          id: 'bronze-mace',
           item: 'bronze-mace',
           level: 2,
           expGained: 12.5,

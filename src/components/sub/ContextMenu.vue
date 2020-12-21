@@ -13,11 +13,11 @@
         :key="index"
         class="action"
         @click="selectAction($event, item)"
-        v-html="item.label"/>
+        v-html="item.label"
+      />
       <li
         class="action"
-        @click="selectAction($event, { action: { name: 'cancel'} })"
-      >Cancel</li>
+        @click="selectAction($event, { action: { name: 'cancel'} })">Cancel</li>
     </ul>
   </div>
 </template>
@@ -128,7 +128,10 @@ export default {
       this.tile.y = data.coordinates.y;
 
       // Remove misc info
-      const miscData = omit({ ...data, clickedOn: data.event.target.classList }, ['coordinates', 'event', 'target']);
+      const miscData = omit(
+        { ...data, clickedOn: data.event.target.classList, lol: false },
+        ['coordinates', 'event', 'target'],
+      );
 
       // Tell server to start building context menu
       Socket.emit('player:context-menu:build', {

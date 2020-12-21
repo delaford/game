@@ -33,7 +33,16 @@ const presetActions = (items) => {
       ];
       break;
     case 'resource':
-      list = ['take', 'examine', 'drop', 'deposit', 'withdraw', 'buy', 'sell', 'value'];
+      list = [
+        'take',
+        'examine',
+        'drop',
+        'deposit',
+        'withdraw',
+        'buy',
+        'sell',
+        'value',
+      ];
       break;
       // Axes you can chop with
     case 'axe':
@@ -46,7 +55,7 @@ const presetActions = (items) => {
       list = ['smelt', 'examine'];
       break;
     case 'anvil':
-      list = ['smith', 'examine'];
+      list = ['smith', 'forge', 'examine'];
     }
 
     actions.push(...list);

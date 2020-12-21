@@ -38,11 +38,15 @@ export default {
    * A player moves to a new tile via mouse
    */
   'player:mouseTo': async (data) => {
-    const movingData = Object.hasOwnProperty.call(data, 'doing') ? data : data.data;
+    const movingData = Object.hasOwnProperty.call(data, 'doing')
+      ? data
+      : data.data;
     const { x, y } = movingData.coordinates;
 
     const playerId = movingData.id || data.player.id;
-    const playerIndexMoveTo = world.players.findIndex(p => p.uuid === playerId);
+    const playerIndexMoveTo = world.players.findIndex(
+      p => p.uuid === playerId,
+    );
     const matrix = await Map.getMatrix(world.players[playerIndexMoveTo]);
 
     world.players[playerIndexMoveTo].path.grid = matrix;
@@ -61,14 +65,16 @@ export default {
     });
   },
   'player:inventory-drop': (data) => {
-    const itemInventory = data.player.inventory.slots.find(s => s.slot === data.data.miscData.slot);
+    const itemInventory = data.player.inventory.slots.find(
+      s => s.slot === data.data.miscData.slot,
+    );
 
     const itemUuid = itemInventory.uuid;
 
     const playerIndex = world.players.findIndex(p => p.uuid === data.id);
-    world.players[playerIndex].inventory.slots = world.players[playerIndex].inventory.slots.filter(
-      v => v.slot !== data.data.miscData.slot,
-    );
+    world.players[playerIndex].inventory.slots = world.players[
+      playerIndex
+    ].inventory.slots.filter(v => v.slot !== data.data.miscData.slot);
     Socket.broadcast('player:movement', world.players[playerIndex]);
 
     // Add item back to the world
@@ -83,9 +89,9 @@ export default {
     });
 
     console.log(
-      `Dropping: ${data.item.id} (${itemInventory.qty || 0}) at ${world.players[playerIndex].x}, ${
+      `Dropping: ${data.item.id} (${itemInventory.qty || 0}) at ${
         world.players[playerIndex].x
-      }`,
+      }, ${world.players[playerIndex].x}`,
     );
 
     Socket.broadcast('world:itemDropped', world.items);
@@ -163,9 +169,17 @@ export default {
     action.do(incoming.data.data, incoming.data.queueItem);
   },
 
+  'player:resource:smelt:anvil:action': (data) => {
+    // Forge bar to item (weapon/shield/armor)
+    // Check for smithing level and return appropriate response
+    console.log(data);
+    console.log('LETS FORGE SOME ITEMS');
+  },
   'player:resource:smelt:furnace:action': async (data) => {
     const itemClickedOn = data.player.currentPaneData[data.data.miscData.slot];
-    const playerIndex = world.players.findIndex(player => player.uuid === data.player.uuid);
+    const playerIndex = world.players.findIndex(
+      player => player.uuid === data.player.uuid,
+    );
     const smithing = new Smithing(playerIndex, itemClickedOn, 'smelt');
     const smithingLevelToSmelt = Smithing.bars();
 
@@ -178,7 +192,10 @@ export default {
         smithing.updateExperience(barSmelted.experience);
       }
     } else {
-      Socket.sendMessageToPlayer(playerIndex, 'You need a higher smithing level.');
+      Socket.sendMessageToPlayer(
+        playerIndex,
+        'You need a higher smithing level.',
+      );
     }
   },
 
@@ -201,7 +218,10 @@ export default {
     Socket.emit('open:screen', {
       player: { socket_id: world.players[data.playerIndex].socket_id },
       screen: 'furnace',
-      payload: { smithingLevel: player.skills.smithing.level, items: itemsToReturn },
+      payload: {
+        smithingLevel: player.skills.smithing.level,
+        items: itemsToReturn,
+      },
     });
   },
 
@@ -211,7 +231,9 @@ export default {
     world.players[data.playerIndex].currentPane = 'anvil';
 
     const getBars = player.inventory.slots.filter(item => item.id.includes('-bar'));
-    const hasHammer = player.inventory.slots.find(item => item.id === 'hammer');
+    const hasHammer = player.inventory.slots.find(
+      item => item.id === 'hammer',
+    );
 
     if (!getBars) {
       Socket.sendMessageToPlayer(playerIndex, 'You need bars to smelt.');
@@ -223,7 +245,11 @@ export default {
       Socket.emit('open:screen', {
         player: { socket_id: world.players[data.playerIndex].socket_id },
         screen: 'anvil',
-        payload: { bar, smithingLevel: player.skills.smithing.level, items: itemsToReturn },
+        payload: {
+          bar,
+          smithingLevel: player.skills.smithing.level,
+          items: itemsToReturn,
+        },
       });
 
       // Sometimes whats on the pane needs to travel
@@ -231,7 +257,10 @@ export default {
       // the world object. So we need to pass the items to player.
       world.players[data.playerIndex].currentPaneData = itemsToReturn;
     } else {
-      Socket.sendMessageToPlayer(playerIndex, 'You need a hammer to smith bars on an anvil.');
+      Socket.sendMessageToPlayer(
+        playerIndex,
+        'You need a hammer to smith bars on an anvil.',
+      );
     }
   },
 
@@ -252,7 +281,8 @@ export default {
 
     Socket.emit('game:send:message', {
       player: { socket_id: world.players[playerIndex].socket_id },
-      text: 'You feel a magical aurora as an item starts to appear from the ground...',
+      text:
+        'You feel a magical aurora as an item starts to appear from the ground...',
     });
   },
 
@@ -270,7 +300,9 @@ export default {
 
       Socket.broadcast('item:change', world.items);
 
-      console.log(`Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`);
+      console.log(
+        `Picking up: ${todo.item.id} (${todo.item.uuid.substr(0, 5)}...)`,
+      );
 
       world.players[playerIndex].inventory.add(id, quantity, todo.item.uuid);
 
@@ -281,7 +313,9 @@ export default {
 
       if (resetItemIndex !== -1) {
         world.respawns.items[resetItemIndex].pickedUp = true;
-        world.respawns.items[resetItemIndex].willRespawnIn = Item.calculateRespawnTime(
+        world.respawns.items[
+          resetItemIndex
+        ].willRespawnIn = Item.calculateRespawnTime(
           world.respawns.items[resetItemIndex].respawnIn,
         );
       }
@@ -311,7 +345,13 @@ export default {
 
   'player:screen:npc:trade:action:value': (data) => {
     const quantity = data.item.params ? data.item.params.quantity : 0;
-    const shop = new Shop(data.player.objectId, data.id, data.item.id, data.doing, quantity);
+    const shop = new Shop(
+      data.player.objectId,
+      data.id,
+      data.item.id,
+      data.doing,
+      quantity,
+    );
     shop.value();
   },
   /**
@@ -319,7 +359,13 @@ export default {
    */
   'player:screen:npc:trade:action': (data) => {
     const quantity = data.item.params ? data.item.params.quantity : 0;
-    const shop = new Shop(data.player.objectId, data.id, data.item.id, data.doing, quantity);
+    const shop = new Shop(
+      data.player.objectId,
+      data.id,
+      data.item.id,
+      data.doing,
+      quantity,
+    );
 
     // We will be buying or selling an item
     const response = shop[data.doing]();
@@ -370,7 +416,12 @@ export default {
    * A player withdraws or deposits items from their bank or inventory
    */
   'player:screen:bank:action': async (data) => {
-    const bank = new Bank(data.id, data.item.id, data.item.params.quantity, data.doing);
+    const bank = new Bank(
+      data.id,
+      data.item.id,
+      data.item.params.quantity,
+      data.doing,
+    );
 
     try {
       const { inventory, bankItems } = await bank[data.doing]();
@@ -407,7 +458,10 @@ export default {
       const rockMined = await mining.pickAtRock();
 
       // Tell user of successful resource gathering
-      Socket.sendMessageToPlayer(data.playerIndex, `You successfully mined some ${rockMined.name}.`);
+      Socket.sendMessageToPlayer(
+        data.playerIndex,
+        `You successfully mined some ${rockMined.name}.`,
+      );
 
       // Extract resource and either add to inventory or drop it
       mining.extractResource(rockMined);

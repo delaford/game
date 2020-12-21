@@ -39,7 +39,8 @@ export default [
   {
     id: 'steel-bar',
     name: 'Steel Bar',
-    examine: 'Astoundingly expensive and very strong steel. Lots of possibilities.',
+    examine:
+      'Astoundingly expensive and very strong steel. Lots of possibilities.',
     experience: 16,
     price: 150,
     function: 'smith-bar',
@@ -71,7 +72,8 @@ export default [
   {
     id: 'gold-bar',
     name: 'Gold Bar',
-    examine: 'Heavy and shiny. Perhaps can be used for making rings and necklaces.',
+    examine:
+      'Heavy and shiny. Perhaps can be used for making rings and necklaces.',
     experience: 20,
     price: 2500,
     function: 'smith-bar',
@@ -112,9 +114,7 @@ export default [
       row: 3,
       column: 5,
     },
-    actions: presetActions([
-      'resource',
-    ]),
+    actions: presetActions(['resource']),
   },
   {
     id: 'tin-ore',
@@ -127,8 +127,6 @@ export default [
       row: 3,
       column: 6,
     },
-    actions: presetActions([
-      'resource',
-    ]),
+    actions: presetActions(['resource']),
   },
 ];

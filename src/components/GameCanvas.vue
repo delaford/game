@@ -23,7 +23,8 @@
       @mousemove="mouseSelection"
       @click.left="leftClick"
       @click.right="rightClick"
-      @keyup="movePlayer"/>
+      @keyup="movePlayer"
+    />
   </div>
 </template>
 
@@ -58,7 +59,7 @@ export default {
     getPaneDimensions() {
       switch (this.current) {
       default:
-        return;
+        return '';
       case 'furnace':
         return 'width:70%;height:40%';
       }
@@ -70,7 +71,9 @@ export default {
       return this.$store.getters.action.label;
     },
     otherPlayers() {
-      return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
+      return this.game.players.filter(
+        p => p.socket_id !== this.game.player.socket_id,
+      );
     },
   },
   watch: {
@@ -170,7 +173,12 @@ export default {
         }
 
         // eslint-disable-next-line
-        if (!event || (this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y) && this.event && this.event.target) {
+        if (
+          !event
+          || ((this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y)
+            && this.event
+            && this.event.target)
+        ) {
           this.tileX = hoveredSquare.x;
           this.tileY = hoveredSquare.y;
 
@@ -225,8 +233,8 @@ div.game {
   .first-action {
     position: relative;
     z-index: 9;
-    left: .5em;
-    top: .5em;
+    left: 0.5em;
+    top: 0.5em;
     font-size: 0.75em;
     text-align: left;
     font-family: "GameFont", sans-serif;
