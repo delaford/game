@@ -33,13 +33,12 @@ export default class Smithing extends Skill {
     };
   }
 
-  smelt(inventory) {
+  smelt() {
     const barToSmelt = Smithing.ores()[this.resourceId];
 
     const hasEnoughOre = () => {
       for (const ore of Object.keys(barToSmelt.requires)) {
-        const oreFound = inventory.filter(inv => inv.id === ore);
-        if (barToSmelt.requires[ore] > oreFound.length) {
+        if (barToSmelt.requires[ore] > this.player.inventory.count(ore)) {
           return false;
         }
       }

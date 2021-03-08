@@ -14,31 +14,38 @@
 		"current": 10,
 		"max": 10
 	},
-	"skills": [{
-		"level": 1,
-		"exp": 0,
-		"name": "Attack"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Defence"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Mining"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Smithing"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Fishing"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Cooking"
-	}],
+	"skills": {
+		"attack": {
+			"level": 1,
+			"exp": 0,
+			"name": "Attack"
+		},
+		"defence": {
+			"level": 1,
+			"exp": 0,
+			"name": "Defence"
+		},
+		"mining": {
+			"level": 1,
+			"exp": 0,
+			"name": "Mining"
+		},
+		"smithing": {
+			"level": 1,
+			"exp": 0,
+			"name": "Smithing"
+		},
+		"fishing": {
+			"level": 1,
+			"exp": 0,
+			"name": "Fishing"
+		},
+		"cooking": {
+			"level": 1,
+			"exp": 0,
+			"name": "Cooking"
+		}
+	},
 	"wear": {
 		"head": null,
 		"back": null,

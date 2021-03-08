@@ -186,7 +186,7 @@ export default {
     const { player } = data;
 
     if (player.skills.smithing.level >= smithingLevelToSmelt[itemClickedOn]) {
-      const barSmelted = await smithing.smelt(player.inventory.slots);
+      const barSmelted = await smithing.smelt();
 
       if (barSmelted) {
         smithing.updateExperience(barSmelted.experience);
@@ -235,7 +235,7 @@ export default {
       item => item.id === 'hammer',
     );
 
-    if (!getBars) {
+    if (getBars.length <= 0) {
       Socket.sendMessageToPlayer(playerIndex, 'You need bars to smelt.');
     } else if (hasHammer) {
       const barToSmith = getBars ? getBars[0] : null;

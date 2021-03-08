@@ -43,4 +43,15 @@ export default class Inventory {
       }
     });
   }
+
+  /**
+   * Gets the quantity of an item in the player's inventory
+   *
+   * @param {string} itemId - The ID of the item
+   */
+  count(itemId) {
+    return this.slots
+      .filter(item => item.id === itemId)
+      .reduce((total, item) => total + (item.qty || 1), 0);
+  }
 }
