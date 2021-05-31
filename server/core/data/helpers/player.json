@@ -52,9 +52,25 @@
 		"slot": 0,
 		"uuid": "1aab021e-3d97-47b0-b1ec-ebba5c2d925c"
 	}, {
-		"id": "hammer",
+		"id": "bronze-bar",
 		"slot": 1,
 		"uuid": "770e08d6-0a86-4a31-9635-77e58c58d6ef"
+	}, {
+		"id": "bronze-bar",
+		"slot": 2,
+		"uuid": "170e08d6-0a86-4a31-9635-77e58c58d6ef"
+	}, {
+		"id": "bronze-bar",
+		"slot": 3,
+		"uuid": "270e08d6-0a86-4a31-9635-77e58c58d6ef"
+	}, {
+		"id": "bronze-bar",
+		"slot": 4,
+		"uuid": "370e08d6-0a86-4a31-9635-77e58c58d6ef"
+	}, {
+		"id": "hammer",
+		"slot": 5,
+		"uuid": "q70e08d6-0a86-4a31-9635-77e58c58d6ef"
 	}],
 	"bank": [{
 		"id": "coins",
