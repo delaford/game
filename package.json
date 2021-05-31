@@ -63,7 +63,7 @@
     "eslint-plugin-import": "^2.18.2",
     "lint-staged": "^8.1.6",
     "ndb": "^1.0.42",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.14.1",
     "nodemon": "^1.18.4",
     "sass-loader": "^7.0.1",
     "stylelint": "^10.0.1",
@@ -78,7 +78,7 @@
   ],
   "nodemonConfig": {
     "env": {
-      "SITE_URL": "http://website.test"
+      "SITE_URL": "http://127.0.0.1:8000"
     }
   },
   "gitHooks": {
