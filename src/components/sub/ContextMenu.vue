@@ -129,7 +129,7 @@ export default {
 
       // Remove misc info
       const miscData = omit(
-        { ...data, clickedOn: data.event.target.classList, lol: false },
+        { ...data, clickedOn: data.event.target.classList },
         ['coordinates', 'event', 'target'],
       );
 

@@ -103,7 +103,7 @@ export default class Smithing extends Skill {
     // TODO: Make a getter to fetch that item's smithing
     // data getItemSkillData('smithing', 'bronze-dagger')
     // Query.getItemData('bronze-dagger')
-    if (bar === 'bronze-bar') {
+    if (bar.includes('bronze')) {
       return [
         {
           id: 'bronze-dagger',
