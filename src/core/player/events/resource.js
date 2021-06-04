@@ -13,9 +13,8 @@ export default {
   /**
    * Mine a rock
    */
-  'player:resource:rock:mine': (data) => {
+  'player:resource:rock:mine': () => {
     // Show rock picking event going on...
-    console.log(data);
   },
 
   'game:ui:smelt': (data) => {
