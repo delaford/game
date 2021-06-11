@@ -8,7 +8,7 @@ export default class Mining extends Skill {
     super(playerIndex);
     this.player = world.players[playerIndex];
     this.rockId = rockId;
-    this.columnId = 'mining';
+    this.columnId = 'Mining';
   }
 
   get rock() {

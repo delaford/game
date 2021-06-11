@@ -13,17 +13,28 @@ export default class Skill {
    *
    * @param {integer} expToAdd The experience to add to current skill experience
    */
+  getSkillByColumnId() {
+    let skill = null;
+    world.players[this.playerIndex].skills.forEach((_skill) => {
+      if (_skill.name === this.columnId) {
+        skill = _skill;
+      }
+    });
+    console.log(skill);
+    return (skill);
+  }
+
   updateExperience(expToAdd) {
-    const currentExperience = world.players[this.playerIndex].skills[this.columnId].exp;
-    const updatedExperience = currentExperience + expToAdd;
-    const didUserLevelUp = Skill.didUserLevelUp(currentExperience, updatedExperience);
+    const skillToUp = this.getSkillByColumnId();
+    const updatedExperience = skillToUp.exp + expToAdd;
+    const didUserLevelUp = Skill.didUserLevelUp(skillToUp.exp, updatedExperience);
 
     if (didUserLevelUp) {
-      world.players[this.playerIndex].skills[this.columnId].level += 1;
+      skillToUp.level += 1;
       Socket.sendMessageToPlayer(this.playerIndex, `You have gained a ${UI.capitalizeFirstLetter(this.columnId)} level!`);
     }
 
-    world.players[this.playerIndex].skills[this.columnId].exp = updatedExperience;
+    skillToUp.exp = updatedExperience;
   }
 
   /**
