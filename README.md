@@ -35,6 +35,13 @@ For a better time, make sure to join the [Discord channel](https://discord.gg/nk
 
 Please check out our [CONTRIBUTING.md](https://github.com/Delaford/game/blob/master/.github/CONTRIBUTING.md) guide on how you can actively participate in the development of this medieval game. It's pretty easy and fun!
 
+
+### Possible Scam Notice
+
+Delaford contributors nor anyone associated with Delaford will never contact you in regards testing or instructing you to downloading anything in regards to the development of the game for the reward of payment or digital currency such as cryptocurrency.
+
+We have had verifiable reports of users pretending to be owners of Delaford promising money if they download a folder with the repository's contents inside. Please be aware.
+
 ## Systems and Engines
 
 Here are the types of things I will be adding as a minimum viable product (alpha). Not too over the top but enough to cover the basics until more is added. Each section links to a project which will contain its sub-tasks within.
@@ -76,7 +83,7 @@ When an item is checkmarked, it means the basic foundation is in place but not n
   - [ ] Player versus Player
   - [ ] Resource skills
     - [X] Mining
-    - [ ] Smithing
+    - [ ] Smithing (Almost finished)
     - [ ] Fishing
     - [ ] Cooking
 
