@@ -31,16 +31,11 @@ Now you may visit `http://localhost:8080` to login and start developing!
 
 For a better time, make sure to join the [Discord channel](https://discord.gg/nkZnHvD) to talk to other developers for help and exclusive dicussions!
 
+> Please be aware of a [possible scam in regards to Delaford](https://github.com/delaford/game#possible-scam-notice) that promises money for testing or similar action.
+
 ## Contributing
 
 Please check out our [CONTRIBUTING.md](https://github.com/Delaford/game/blob/master/.github/CONTRIBUTING.md) guide on how you can actively participate in the development of this medieval game. It's pretty easy and fun!
-
-
-### Possible Scam Notice
-
-Delaford contributors nor anyone associated with Delaford will never contact you in regards testing or instructing you to downloading anything in regards to the development of the game for the reward of payment or digital currency such as cryptocurrency.
-
-We have had verifiable reports of users pretending to be owners of Delaford promising money if they download a folder with the repository's contents inside. Please be aware.
 
 ## Systems and Engines
 
@@ -104,3 +99,11 @@ Delaford contains work from multiple sources not organically made by contributio
 - Game font '[PixelMix](https://www.dafont.com/pixelmix.font)' by [Andrew Tyler](http://andrewtyler.net/fonts/)
 - Chat font '[IBM VGA 8](https://int10h.org/oldschool-pc-fonts/fontlist/)' by [IBM](https://www.ibm.com).
 - [Heroicons](https://github.com/sschoger/heroicons-ui) by [Steve Schoger](http://www.steveschoger.com/)
+
+
+
+## Possible Scam Notice
+
+Delaford contributors nor anyone associated with Delaford will never contact you in regards testing or instructing you to downloading anything in regards to the development of the game for the reward of payment or digital currency such as cryptocurrency.
+
+We have had verifiable reports of users pretending to be owners of Delaford promising money if they download a folder with the repository's contents inside. Please be aware.
