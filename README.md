@@ -100,6 +100,8 @@ Delaford contains work from multiple sources not organically made by contributio
 - Chat font '[IBM VGA 8](https://int10h.org/oldschool-pc-fonts/fontlist/)' by [IBM](https://www.ibm.com).
 - [Heroicons](https://github.com/sschoger/heroicons-ui) by [Steve Schoger](http://www.steveschoger.com/)
 
+## Website Status
+__Website is not currently up.__ The number of users did not justify the monthly charge.
 
 
 ## Possible Scam Notice
