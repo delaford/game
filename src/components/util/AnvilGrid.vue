@@ -32,7 +32,7 @@
 import UI from 'shared/ui';
 import bus from '../../core/utilities/bus';
 import ClientUI from '../../core/utilities/client-ui';
-import { weapons } from '../../../server/core/data/respawn';
+// import { weapons } from '../../../server/core/data/respawn';
 
 export default {
   props: {

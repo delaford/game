@@ -180,7 +180,8 @@ export default {
     // const { player } = data;
     // eslint-disable-next-line
     const itemToForge = Smithing.getItemsToSmith(itemClickedOn.id).find(item => itemClickedOn.id === item.id);
-    console.log(itemToForge);
+    const barToTakeAway = itemToForge.item.split('-')[0];
+    console.log(`We will take ${itemToForge.bars} ${barToTakeAway} bars and you will receive ${itemToForge.item} and ${itemToForge.expGained} XP.`);
     // Bronze dagger ... bars -> 1 and return ... id..
   },
   'player:resource:smelt:furnace:action': async (data) => {
