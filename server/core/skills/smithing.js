@@ -33,6 +33,11 @@ export default class Smithing extends Skill {
     };
   }
 
+  forge(inventory) {
+    console.log(this.resourceId);
+    console.log('Now smithing..... things', inventory);
+  }
+
   smelt(inventory) {
     const barToSmelt = Smithing.ores()[this.resourceId];
 

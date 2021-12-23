@@ -172,17 +172,23 @@ export default {
   'player:resource:smelt:anvil:action': (data) => {
     // Forge bar to item (weapon/shield/armor)
     // Check for smithing level and return appropriate response
+    const playerIndex = world.players.findIndex(
+      player => player.uuid === data.player.uuid,
+    );
     const itemClickedOn = data.player.currentPaneData[data.data.miscData.slot];
     // const playerIndex = world.players.findIndex(
     //   player => player.uuid === data.player.uuid,
     // );
-    // const forge = new Smithing(playerIndex, itemClickedOn, 'forge');
+    const smith = new Smithing(playerIndex, itemClickedOn, 'forge');
+    smith.forge();
+    // SMITH ITEM -> TAKE FROM INVENTORY AND ADD NEW ITEM
     // const { player } = data;
+
     // eslint-disable-next-line
     const itemToForge = Smithing.getItemsToSmith(itemClickedOn.id).find(item => itemClickedOn.id === item.id);
     const barToTakeAway = itemToForge.item.split('-')[0];
     console.log(`We will take ${itemToForge.bars} ${barToTakeAway} bars and you will receive ${itemToForge.item} and ${itemToForge.expGained} XP.`);
-    // Bronze dagger ... bars -> 1 and return ... id..
+    console.log(itemClickedOn);
   },
   'player:resource:smelt:furnace:action': async (data) => {
     const itemClickedOn = data.player.currentPaneData[data.data.miscData.slot];
