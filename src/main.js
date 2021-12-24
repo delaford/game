@@ -36,7 +36,7 @@ if ('WebSocket' in window) {
     dev: `ws://${window.location.hostname}:6500`,
   };
 
-  const url = process.env.NODE_ENV === 'production' ? wsurl.prod : wsurl.dev;
+  const url = wsurl.dev;
   window.ws = new WebSocket(url);
 }
 
