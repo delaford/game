@@ -1,58 +1,104 @@
 {
-	"x": 20,
-	"y": 112,
-	"username": "dev",
-	"uuid": "83v7c9cec-aae2-4f98-a209-01b0ace5454g",
-	"level": 1,
-	"online": true,
-	"sign_in": 1537526023,
-	"combat": {
-		"attack": 0,
-		"defense": 0
-	},
-	"hp": {
-		"current": 10,
-		"max": 10
-	},
-	"skills": [{
-		"level": 1,
-		"exp": 0,
-		"name": "Attack"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Defence"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Mining"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Smithing"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Fishing"
-	}, {
-		"level": 1,
-		"exp": 0,
-		"name": "Cooking"
-	}],
-	"wear": {
-		"head": null,
-		"back": null,
-		"necklace": null,
-		"arrows": {
-			"quantity": null,
-			"id": null
-		},
-		"right_hand": null,
-		"armor": null,
-		"left_hand": null,
-		"gloves": null,
-		"feet": null,
-		"ring": null
-	},
-	"inventory": [{"slot":5,"id":"bronze-dagger","uuid":"kkzz20ce-e34c-47b5-a074-40058f864e12"},{"slot":1,"id":"bronze-chainmail","uuid":"q51f8283-9ca7-4aa4-b984-d0192a2164fc"}]
+  "x": 12,
+  "y": 116,
+  "username": "dev",
+  "uuid": "83v7c9cec-aae2-4f98-a209-01b0ace5454g",
+  "level": 1,
+  "online": true,
+  "sign_in": 1622502685,
+  "hp": {
+    "current": 10,
+    "max": 10
+  },
+  "skills": {
+    "attack": {
+      "level": 1,
+      "exp": 0
+    },
+    "defence": {
+      "level": 1,
+      "exp": 0
+    },
+    "mining": {
+      "level": 82,
+      "exp": 8213120
+    },
+    "smithing": {
+      "level": 52,
+      "exp": 1233312
+    },
+    "fishing": {
+      "level": 1,
+      "exp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "exp": 0
+    }
+  },
+  "wear": {
+    "head": null,
+    "back": null,
+    "necklace": null,
+    "right_hand": null,
+    "armor": null,
+    "left_hand": null,
+    "gloves": null,
+    "feet": null,
+    "ring": null
+  },
+  "inventory": [
+    {
+      "id": "bronze-pickaxe",
+      "slot": 0,
+      "uuid": "1aab021e-3d97-47b0-b1ec-ebba5c2d925c"
+    },
+    {
+      "id": "bronze-bar",
+      "slot": 1,
+      "uuid": "770e08d6-0a86-4a31-9635-77e58c58d6ef"
+    },
+    {
+      "id": "bronze-bar",
+      "slot": 2,
+      "uuid": "170e08d6-0a86-4a31-9635-77e58c58d6ef"
+    },
+    {
+      "id": "bronze-bar",
+      "slot": 3,
+      "uuid": "270e08d6-0a86-4a31-9635-77e58c58d6ef"
+    },
+    {
+      "id": "bronze-bar",
+      "slot": 4,
+      "uuid": "370e08d6-0a86-4a31-9635-77e58c58d6ef"
+    },
+    {
+      "id": "hammer",
+      "slot": 5,
+      "uuid": "q70e08d6-0a86-4a31-9635-77e58c58d6ef"
+    }
+  ],
+  "bank": [
+    {
+      "id": "coins",
+      "qty": 99433,
+      "slot": 0
+    },
+    {
+      "id": "tin-ore",
+      "qty": 32118,
+      "slot": 1
+    },
+    {
+      "id": "copper-ore",
+      "qty": 12305,
+      "slot": 2
+    },
+    {
+      "id": "bronze-bar",
+      "qty": 31223,
+      "slot": 3
+    }
+  ]
 }

@@ -33,7 +33,7 @@ utilFiles.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], ut
 if ('WebSocket' in window) {
   const wsurl = {
     prod: 'wss://play.delaford.com',
-    dev: `ws://${window.location.hostname}:4000`,
+    dev: `ws://${window.location.hostname}:6500`,
   };
 
   const url = process.env.NODE_ENV === 'production' ? wsurl.prod : wsurl.dev;

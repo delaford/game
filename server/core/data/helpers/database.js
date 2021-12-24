@@ -14,9 +14,7 @@ const presetActions = (items) => {
   items.forEach((item) => {
     switch (item) {
     default:
-      list = [
-        ...item,
-      ];
+      list = [...item];
       break;
       // Every wearable, you can
       // drop, examine, take, .etc.
@@ -48,15 +46,16 @@ const presetActions = (items) => {
       break;
       // Axes you can chop with
     case 'axe':
-      list = [
-        'chop',
-      ];
+      list = ['chop'];
       break;
     case 'pickaxe':
-      list = [
-        'mine',
-        'examine',
-      ];
+      list = ['mine', 'examine'];
+      break;
+    case 'furnace':
+      list = ['smelt', 'examine'];
+      break;
+    case 'anvil':
+      list = ['smith', 'forge', 'examine'];
     }
 
     actions.push(...list);

@@ -5,6 +5,7 @@
       v-html="action" />
     <div
       v-if="current !== false"
+      :style="getPaneDimensions"
       class="pane">
       <component
         :game="game"
@@ -22,7 +23,8 @@
       @mousemove="mouseSelection"
       @click.left="leftClick"
       @click.right="rightClick"
-      @keyup="movePlayer"/>
+      @keyup="movePlayer"
+    />
   </div>
 </template>
 
@@ -54,6 +56,14 @@ export default {
     };
   },
   computed: {
+    getPaneDimensions() {
+      switch (this.current) {
+      default:
+        return '';
+      case 'furnace':
+        return 'width:70%;height:40%';
+      }
+    },
     currentAction() {
       return this.$store.getters.action.object;
     },
@@ -61,7 +71,9 @@ export default {
       return this.$store.getters.action.label;
     },
     otherPlayers() {
-      return this.game.players.filter(p => p.socket_id !== this.game.player.socket_id);
+      return this.game.players.filter(
+        p => p.socket_id !== this.game.player.socket_id,
+      );
     },
   },
   watch: {
@@ -95,6 +107,7 @@ export default {
     openScreen(incoming) {
       this.current = incoming.data.screen;
       this.screenData = incoming.data.payload;
+      console.log(this.screenData);
       bus.$emit('pane:data', this.screenData);
     },
     /**
@@ -160,7 +173,12 @@ export default {
         }
 
         // eslint-disable-next-line
-        if (!event || (this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y) && this.event && this.event.target) {
+        if (
+          !event
+          || ((this.tileX !== hoveredSquare.x || this.tileY !== hoveredSquare.y)
+            && this.event
+            && this.event.target)
+        ) {
           this.tileX = hoveredSquare.x;
           this.tileY = hoveredSquare.y;
 
@@ -215,8 +233,8 @@ div.game {
   .first-action {
     position: relative;
     z-index: 9;
-    left: .5em;
-    top: .5em;
+    left: 0.5em;
+    top: 0.5em;
     font-size: 0.75em;
     text-align: left;
     font-family: "GameFont", sans-serif;
@@ -226,10 +244,13 @@ div.game {
 
   .pane {
     z-index: 5;
-    position: relative;
     width: 90%;
     height: 90%;
-    margin: 10px auto;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     div {
       height: 100%;

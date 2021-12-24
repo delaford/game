@@ -17,6 +17,12 @@ export default {
     // Show rock picking event going on...
   },
 
+  'game:ui:smelt': (data) => {
+    console.log('Someone wants to smelt some ore.');
+    // SHOW SMELTING UI POPUP2
+    console.log(data);
+  },
+
   /**
    * Update skills
    */

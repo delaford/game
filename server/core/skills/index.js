@@ -62,7 +62,7 @@ export default class Skill {
       Socket.broadcast('world:itemDropped', world.items);
     } else {
       // If so, we add it to our inventory
-      world.players[this.playerIndex].inventory.add(getItem.id, 1);
+      world.players[this.playerIndex].inventory.add(getItem.resources, 1);
 
       Socket.emit('core:refresh:inventory', {
         player: { socket_id: world.players[this.playerIndex].socket_id },

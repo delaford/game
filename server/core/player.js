@@ -28,14 +28,19 @@ class Player {
     // A player's bank
     this.bank = data.bank;
 
-
     // Worn items statistics
     this.combat = {
       attack: {
-        stab: 0, slash: 0, crush: 0, range: 0,
+        stab: 0,
+        slash: 0,
+        crush: 0,
+        range: 0,
       },
       defense: {
-        stab: 0, slash: 0, crush: 0, range: 0,
+        stab: 0,
+        slash: 0,
+        crush: 0,
+        range: 0,
       },
     };
 
@@ -84,7 +89,11 @@ class Player {
     // Player inventory
     this.inventory = new Inventory(data.inventory, this.socket_id);
 
-    console.log(`${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${this.x}, ${this.y})`);
+    console.log(
+      `${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${
+        this.x
+      }, ${this.y})`,
+    );
   }
 
   /**
@@ -177,7 +186,7 @@ class Player {
         // If equal, it means our last step is the same as from
         // when our pathfinding first started, so we keep going.
 
-        if ((path.current.step + 1) === path.current.path.walking.length) {
+        if (path.current.step + 1 === path.current.path.walking.length) {
           // If they queue is not empty
           // let's do it after destination is reached
           if (!Player.queueEmpty(playerIndex)) {
@@ -244,9 +253,7 @@ class Player {
    * @returns {boolean}
    */
   isBlocked(direction) {
-    const {
-      size, viewport,
-    } = config.map;
+    const { size, viewport } = config.map;
 
     const tileCrop = {
       x: this.x - Math.floor(0.5 * viewport.x),
@@ -263,7 +270,7 @@ class Player {
       return dirMove === 'left' ? 6 : 8;
     };
 
-    const onTile = ((((getY(direction) + tileCrop.y) * size.x) + getX(direction)) + tileCrop.x);
+    const onTile = (getY(direction) + tileCrop.y) * size.x + getX(direction) + tileCrop.x;
 
     const steppedOn = {
       // eslint-disable-next-line
@@ -330,8 +337,7 @@ class Player {
     };
 
     // Find player on server via their token
-    const getPlayer = world.players
-      .find(p => p.token === this.token);
+    const getPlayer = world.players.find(p => p.token === this.token);
 
     // Get player data
     const playerData = {
@@ -366,15 +372,18 @@ class Player {
     }
 
     const data = {
-      uuid: this.uuid, playerData, inventoryData, wearData, skillsData, bankData,
+      uuid: this.uuid,
+      playerData,
+      inventoryData,
+      wearData,
+      skillsData,
+      bankData,
     };
 
     return new Promise((resolve) => {
-      axios
-        .post(url, data, reqConfig)
-        .then((r) => {
-          resolve(r.data);
-        });
+      axios.post(url, data, reqConfig).then((r) => {
+        resolve(r.data);
+      });
     });
   }
 }

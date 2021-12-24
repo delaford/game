@@ -67,7 +67,7 @@ class Action {
 
       // How ugly is this? Stupid object iteration...
       // eslint-disable-next-line
-      return Object.assign(...Object.entries(tiles).map(([key, value]) => ({ [key]: UI.tileWalkable(value) })));
+      return Object.assign(...Object.entries(tiles).map(([key, value]) => ({[key]: UI.tileWalkable(value)})));
     }
 
     return false;

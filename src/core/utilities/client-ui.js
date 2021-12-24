@@ -8,6 +8,7 @@ class ClientUI {
    */
   static displayFirstAction(incoming) {
     const { count } = incoming.data.data;
+    if (count === -1) return;
     let { label } = incoming.data.data.firstItem;
     if (count > 0) label += ` / ${count} other options`;
     store.dispatch('setAction', {
