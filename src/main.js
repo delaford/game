@@ -30,16 +30,15 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 utilFiles.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], utilFiles(key).default));
 
 // Start the websocket server client-side
-// if ('WebSocket' in window) {
-//   const wsurl = {
-//     prod: 'wss://play.delaford.com',
-//     dev: `ws://${window.location.hostname}:6500`,
-//   };
+if ('WebSocket' in window) {
+  const wsurl = {
+    prod: 'wss://play.delaford.com',
+    dev: `ws://${window.location.hostname}:6500`,
+  };
 
-//   const url = wsurl.dev;
-//   window.ws = new WebSocket(url);
-// }
-console.log('Hello');
+  const url = process.env.NODE_ENV === 'production' ? wsurl.prod : wsurl.dev;
+  window.ws = new WebSocket(url);
+}
 
 // Add an event listener to close the websocket
 // connection right before the browser closes.
