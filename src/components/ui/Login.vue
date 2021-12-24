@@ -110,8 +110,10 @@ export default {
   created() {
     this.invalid = false;
 
+    const tempGuest = window.location.href.includes('?useGuestAccount');
+
     this.rememberMe = this.$store.getters.rememberMe;
-    this.guestAccount = this.$store.getters.guestAccount;
+    this.guestAccount = tempGuest || this.$store.getters.guestAccount;
 
     bus.$on('player:login-error', data => this.incorrectLogin(data));
     bus.$on('login:done', () => this.setLoginProgress(false));
