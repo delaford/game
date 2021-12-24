@@ -116,6 +116,9 @@ export default {
     bus.$on('player:login-error', data => this.incorrectLogin(data));
     bus.$on('login:done', () => this.setLoginProgress(false));
 
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('inDev', this.inDevelopment);
+
     if (this.guestAccount && process.env.NODE_ENV === 'development') {
       // Development user
       this.username = 'dev';
