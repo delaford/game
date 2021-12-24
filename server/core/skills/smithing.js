@@ -1,5 +1,5 @@
 import world from '@server/core/world';
-import { smithing } from '@server/core/data/items';
+import { smithing, weapons } from '@server/core/data/items';
 import Socket from '@server/socket';
 // import Query from '@server/core/data/query';
 
@@ -35,7 +35,44 @@ export default class Smithing extends Skill {
 
   forge(inventory) {
     console.log(this.resourceId);
-    console.log('Now smithing..... things', inventory);
+
+    // eslint-disable-next-line
+    const itemToForge = Smithing.getItemsToSmith(this.resourceId.id).find(item => this.resourceId.id === item.id);
+    const barToTakeAway = itemToForge.item.split('-')[0];
+
+    const inventoryHasThisManyBars = inventory.filter(inv => inv.id === `${barToTakeAway}-bar`).length;
+    const hasEnoughBars = inventoryHasThisManyBars >= this.resourceId.bars;
+
+    if (hasEnoughBars) {
+      const getIndexOfBar = this.inventory.findIndex(
+        inv => inv.id === `${barToTakeAway}-bar`,
+      );
+
+      for (let index = 0; index < this.resourceId.bars; index += 1) {
+        this.inventory.splice(getIndexOfBar, 1);
+      }
+
+      world.players[this.playerIndex].inventory.slots = this.inventory;
+      world.players[this.playerIndex].inventory.add(this.resourceId.id, 1);
+      Socket.sendMessageToPlayer(
+        this.playerIndex,
+        `You successfully smithed a ${weapons.find(i => i.id === this.resourceId.id).name}.`,
+      );
+
+      Socket.emit('core:refresh:inventory', {
+        player: { socket_id: world.players[this.playerIndex].socket_id },
+        data: world.players[this.playerIndex].inventory.slots,
+      });
+
+      Socket.emit('core:pane:close', {
+        player: { socket_id: world.players[this.playerIndex].socket_id },
+      });
+    } else {
+      Socket.sendMessageToPlayer(
+        this.playerIndex,
+        'You do not have enough bars to smith this item.',
+      );
+    }
   }
 
   smelt(inventory) {
@@ -114,27 +151,27 @@ export default class Smithing extends Skill {
           id: 'bronze-dagger',
           item: 'bronze-dagger',
           level: 1,
-          expGained: 12.5,
+          expGained: 13,
           bars: 1,
         },
         {
           item: 'bronze-axe',
           id: 'bronze-axe',
           level: 1,
-          expGained: 12.5,
+          expGained: 15,
           bars: 2,
         },
         {
           id: 'bronze-mace',
           item: 'bronze-mace',
           level: 2,
-          expGained: 12.5,
+          expGained: 19,
           bars: 5,
         },
         {
           item: 'bronze-med-helm',
           level: 3,
-          expGained: 15,
+          expGained: 21,
           bars: 1,
         },
         {

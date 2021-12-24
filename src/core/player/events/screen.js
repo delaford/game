@@ -10,7 +10,6 @@ export default {
   },
 
   'core:pane:close': () => {
-    console.log('Closing pane...');
     bus.$emit('screen:close');
   },
 };

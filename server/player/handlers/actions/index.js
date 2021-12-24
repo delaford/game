@@ -176,19 +176,19 @@ export default {
       player => player.uuid === data.player.uuid,
     );
     const itemClickedOn = data.player.currentPaneData[data.data.miscData.slot];
-    // const playerIndex = world.players.findIndex(
-    //   player => player.uuid === data.player.uuid,
-    // );
-    const smith = new Smithing(playerIndex, itemClickedOn, 'forge');
-    smith.forge();
-    // SMITH ITEM -> TAKE FROM INVENTORY AND ADD NEW ITEM
-    // const { player } = data;
 
-    // eslint-disable-next-line
-    const itemToForge = Smithing.getItemsToSmith(itemClickedOn.id).find(item => itemClickedOn.id === item.id);
-    const barToTakeAway = itemToForge.item.split('-')[0];
-    console.log(`We will take ${itemToForge.bars} ${barToTakeAway} bars and you will receive ${itemToForge.item} and ${itemToForge.expGained} XP.`);
-    console.log(itemClickedOn);
+    const smith = new Smithing(playerIndex, itemClickedOn, 'forge');
+    const { player } = data;
+    smith.forge(player.inventory.slots);
+
+    // Update the experience
+    smith.updateExperience(itemClickedOn.expGained);
+
+    // Tell client of their new experience in that skill
+    Socket.emit('resource:skills:update', {
+      player: { socket_id: world.players[playerIndex].socket_id },
+      data: world.players[playerIndex].skills,
+    });
   },
   'player:resource:smelt:furnace:action': async (data) => {
     const itemClickedOn = data.player.currentPaneData[data.data.miscData.slot];
@@ -205,6 +205,11 @@ export default {
 
       if (barSmelted) {
         smithing.updateExperience(barSmelted.experience);
+
+        Socket.emit('resource:skills:update', {
+          player: { socket_id: world.players[playerIndex].socket_id },
+          data: world.players[playerIndex].skills,
+        });
       }
     } else {
       Socket.sendMessageToPlayer(
