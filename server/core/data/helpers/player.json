@@ -1,6 +1,8 @@
 {
-  "x": 12,
-  "y": 116,
+  "x_ORIG": 12,
+  "y_ORIG": 116,
+  "x": 65,
+  "y": 128,
   "username": "dev",
   "uuid": "83v7c9cec-aae2-4f98-a209-01b0ace5454g",
   "level": 1,
