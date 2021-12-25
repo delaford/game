@@ -82,22 +82,22 @@
   "bank": [
     {
       "id": "coins",
-      "qty": 99433,
+      "qty": 35000,
       "slot": 0
     },
     {
       "id": "tin-ore",
-      "qty": 32118,
+      "qty": 2,
       "slot": 1
     },
     {
       "id": "copper-ore",
-      "qty": 12305,
+      "qty": 3,
       "slot": 2
     },
     {
       "id": "bronze-bar",
-      "qty": 31223,
+      "qty": 1,
       "slot": 3
     }
   ]

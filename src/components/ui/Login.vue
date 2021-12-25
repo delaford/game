@@ -2,7 +2,6 @@
   <div class="form">
     <div
       v-tippy
-      v-if="inDevelopment"
       title="Load pre-made guest account. No progress will be saved on this account."
       class="checkbox guest_account">
       <label for="guest_account">
