@@ -251,15 +251,14 @@ export default {
     world.players[data.playerIndex].currentPane = 'anvil';
 
     const getBars = player.inventory.slots.filter(item => item.id.includes('-bar'));
-    const hasHammer = player.inventory.slots.find(
+    const getHammer = player.inventory.slots.filter(
       item => item.id === 'hammer',
     );
 
-    if (!getBars) {
-      Socket.sendMessageToPlayer(playerIndex, 'You need bars to smelt.');
-    } else if (hasHammer) {
+    const hasRequiredTools = () => getBars.length > 0 && getHammer.length > 0;
+    if (hasRequiredTools()) {
       const barToSmith = getBars ? getBars[0] : null;
-      const bar = barToSmith.id.split('-')[0]; // TEST
+      const bar = barToSmith.id.split('-')[0];
       const itemsToReturn = Smithing.getItemsToSmith(barToSmith.id);
 
       Socket.emit('open:screen', {
@@ -276,7 +275,9 @@ export default {
       // with the screen because its not being tracked in
       // the world object. So we need to pass the items to player.
       world.players[data.playerIndex].currentPaneData = itemsToReturn;
-    } else {
+    } else if (!getBars || getBars.length === 0) {
+      Socket.sendMessageToPlayer(playerIndex, 'You need bars to smelt.');
+    } else if (!getHammer || getHammer.length === 0) {
       Socket.sendMessageToPlayer(
         playerIndex,
         'You need a hammer to smith bars on an anvil.',

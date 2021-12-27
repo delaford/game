@@ -30,6 +30,32 @@ export default class Smithing extends Skill {
         },
         experience: 13,
       },
+      'silver-bar': {
+        requires: {
+          'silver-ore': 1,
+        },
+        experience: 15,
+      },
+      'steel-bar': {
+        requires: {
+          'iron-ore': 1,
+          'coal-ore': 2,
+        },
+        experience: 18,
+      },
+      'gold-bar': {
+        requires: {
+          'gold-ore': 1,
+        },
+        experience: 22,
+      },
+      'jatite-bar': {
+        requires: {
+          'jatite-ore': 1,
+          'coal-ore': 4,
+        },
+        experience: 30,
+      },
     };
   }
 
@@ -88,6 +114,8 @@ export default class Smithing extends Skill {
 
       return true;
     };
+
+    console.log(hasEnoughOre());
 
     return new Promise((resolve) => {
       if (hasEnoughOre()) {
@@ -188,7 +216,6 @@ export default class Smithing extends Skill {
 
   static bars() {
     // The bars available to smith and their level needed.
-    // Is this better suited in a config file?
     return {
       'bronze-bar': 1,
       'iron-bar': 19,
