@@ -220,6 +220,10 @@ export default {
   },
 
   'player:resource:smelt:furnace:pane': (data) => {
+    if (data.playerIndex === undefined) {
+      data.playerIndex = world.players.findIndex(p => p.uuid === data.player.uuid);
+      data.todo = data;
+    }
     const { playerIndex } = data;
     const player = world.players[playerIndex];
     world.players[data.playerIndex].currentPane = 'furnace';
@@ -246,6 +250,10 @@ export default {
   },
 
   'player:resource:smith:anvil:pane': (data) => {
+    if (data.playerIndex === undefined) {
+      data.playerIndex = world.players.findIndex(p => p.uuid === data.player.uuid);
+      data.todo = data;
+    }
     const { playerIndex } = data;
     const player = world.players[playerIndex];
     world.players[data.playerIndex].currentPane = 'anvil';
@@ -353,6 +361,10 @@ export default {
    * A player wants opening a trade shop
    */
   'player:screen:npc:trade': (data) => {
+    if (data.playerIndex === undefined) {
+      data.playerIndex = world.players.findIndex(p => p.uuid === data.player.uuid);
+      data.todo = data;
+    }
     console.log('Accessing trade shop...', data.todo.item.id);
     world.players[data.playerIndex].currentPane = 'shop';
     world.players[data.playerIndex].objectId = data.todo.item.id;
@@ -411,6 +423,10 @@ export default {
   },
 
   'player:screen:smelt': (data) => {
+    if (data.playerIndex === undefined) {
+      data.playerIndex = world.players.findIndex(p => p.uuid === data.player.uuid);
+      data.todo = data;
+    }
     world.players[data.playerIndex].currentPane = 'smelt';
 
     Socket.emit('open:screen', {
@@ -424,6 +440,10 @@ export default {
    * A player wants to access their bank
    */
   'player:screen:bank': (data) => {
+    if (data.playerIndex === undefined) {
+      data.playerIndex = world.players.findIndex(p => p.uuid === data.player.uuid);
+      data.todo = data;
+    }
     world.players[data.playerIndex].currentPane = 'bank';
 
     Socket.emit('open:screen', {
