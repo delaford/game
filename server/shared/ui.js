@@ -226,7 +226,7 @@ class UI {
   static getExperience(level) {
     let a = 0;
     for (let x = 1; x < level; x += 1) {
-      a += Math.floor(x + (530 * (2 ** (x / 7))));
+      a += Math.floor(x + (265 * (2 ** (x / 7))));
     }
 
     return Math.floor(a / 4);
@@ -239,6 +239,8 @@ class UI {
    * @return {integer}
    */
   static getLevel(exp) {
+    if (exp === 0) return 1;
+
     let level = 1;
     let calcExp = 0;
     while (exp > calcExp) {
