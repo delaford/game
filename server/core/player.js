@@ -89,6 +89,14 @@ class Player {
     // Player inventory
     this.inventory = new Inventory(data.inventory, this.socket_id);
 
+    // Fix Skill Levels according to XP on Player constructor
+    const skillsName = ['attack', 'defence', 'mining', 'smithing', 'fishing', 'cooking'];
+    skillsName.forEach((skillName) => {
+      const skill = this.skills[skillName];
+      skill.exp = skill.exp > 0 ? skill.exp : 0;
+      skill.level = UI.getLevel(skill.exp);
+    });
+
     console.log(
       `${emoji.get('high_brightness')}  Player ${this.username} (lvl ${this.level}) logged in. (${
         this.x
