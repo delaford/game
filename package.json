@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.7.2",
-    "ajv": "6.10.0",
+    "ajv": "6.12.3",
     "axios": "^0.21.2",
     "compression": "^1.7.3",
     "date-fns": "^1.30.1",
