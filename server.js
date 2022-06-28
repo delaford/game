@@ -8,7 +8,7 @@ https://delaford.com
 const moduleAlias = require('module-alias');
 
 // Start Express
-// const path = require('path');
+const path = require('path');
 const secure = require('ssl-express-www');
 const http = require('http');
 const compression = require('compression');
@@ -31,7 +31,7 @@ app.use(secure);
 app.use(compression());
 
 // Start Express and use the correct env.
-// app.use(express.static(path.join(__dirname, onProduction ? '/dist' : '/')));
+app.use(express.static(path.join(__dirname, '/dist')));
 
 // Actual game server
 console.log(`ENVIRONMENT: ${env} and PORT ${port}`);
