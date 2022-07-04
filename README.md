@@ -5,7 +5,7 @@
 <div align="center">
 <a href="https://discord.gg/nkZnHvD"><img src="https://camo.githubusercontent.com/b12a95e20b7ca35f918c0ab5103fe56b6f44c067/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f636861742d6f6e253230646973636f72642d3732383964612e737667" alt="Discord" /></a>
   
-  <a href="https://www.youtube.com/watch?v=GRd7GVzMNwk"><h3>VIDEO DEMO OF GAME</h3></a>
+  [July 2022 update](https://github.com/delaford/game/discussions/152): beta demo available at https://beta.delaford.com/ &middot; Let me know your interest!
 </div>
 
 <p align="center">
@@ -49,10 +49,10 @@ When an item is checkmarked, it means the basic foundation is in place but not n
 
 - [Player](https://github.com/Delaford/game/projects/1)
   - [x] Walking / pathfinding
-  - [X] Context-menu / Actions
+  - [x] Context-menu / Actions
   - [ ] Health and stats
-  - [X] Inventory
-  - [X] Character wear
+  - [x] Inventory
+  - [x] Character wear
   - [ ] Your first quest
 - [User Interface](https://github.com/Delaford/game/projects/2)
   - [x] Inventory tab
@@ -61,25 +61,25 @@ When an item is checkmarked, it means the basic foundation is in place but not n
   - [x] Character wear tab
   - [x] Overall look &amp; feel
 - [NPC](https://github.com/Delaford/game/projects/3)
-  - [X] Trading (Shops)
+  - [x] Trading (Shops)
   - [ ] Dialog Interaction
   - [x] Walking around
-  - [X] Banking
+  - [x] Banking
 - [Monsters](https://github.com/Delaford/game/projects/3)
   - [ ] Battle System
   - [ ] Looting
   - [ ] Spawning
 - [Networking](https://github.com/Delaford/game/projects/5)
-  - [X] Players see each other
-  - [X] Non-playable characters
+  - [x] Players see each other
+  - [x] Non-playable characters
   - [ ] Monsters
   - [ ] Player trading
-  - [X] Items
+  - [x] Items
 - World
-  - [X] Respawn system
+  - [x] Respawn system
   - [ ] Player versus Player
   - [ ] Resource skills
-    - [X] Mining
+    - [x] Mining
     - [ ] Smithing (Almost finished)
     - [ ] Fishing
     - [ ] Cooking
@@ -88,7 +88,7 @@ Once all of these items are checked, Delaford will be stable without breaking ch
 
 ## Debugging
 
-Learning how to debug in this game is critical in order to interact with the Node.js server and to the client. Your primary source should be the [ndb](https://github.com/GoogleChromeLabs/ndb) tool from Google. It is an improved debugging experience witch __drastically__ improved client-side debugging.
+Learning how to debug in this game is critical in order to interact with the Node.js server and to the client. Your primary source should be the [ndb](https://github.com/GoogleChromeLabs/ndb) tool from Google. It is an improved debugging experience witch **drastically** improved client-side debugging.
 
 Read more at [DEBUGGING.md](debugging.md).
 
@@ -103,8 +103,8 @@ Delaford contains work from multiple sources not organically made by contributio
 - [Heroicons](https://github.com/sschoger/heroicons-ui) by [Steve Schoger](http://www.steveschoger.com/)
 
 ## Website Status
-__Website is not currently up.__ The number of users did not justify the monthly charge.
 
+**Website is not currently up.** The number of users did not justify the monthly charge.
 
 ## Possible Scam Notice
 
