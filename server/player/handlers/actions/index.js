@@ -179,10 +179,11 @@ export default {
 
     const smith = new Smithing(playerIndex, itemClickedOn, 'forge');
     const { player } = data;
-    smith.forge(player.inventory.slots);
 
-    // Update the experience
-    smith.updateExperience(itemClickedOn.expGained);
+    // Only add experience if forging was successful
+    if (smith.forge(player.inventory.slots)) {
+      smith.updateExperience(itemClickedOn.expGained);
+    }
 
     // Tell client of their new experience in that skill
     Socket.emit('resource:skills:update', {

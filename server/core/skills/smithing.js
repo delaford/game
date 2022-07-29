@@ -59,6 +59,9 @@ export default class Smithing extends Skill {
     };
   }
 
+  /**
+   * @returns {bool} Was forging successful
+   */
   forge(inventory) {
     console.log(this.resourceId);
 
@@ -93,12 +96,14 @@ export default class Smithing extends Skill {
       Socket.emit('core:pane:close', {
         player: { socket_id: world.players[this.playerIndex].socket_id },
       });
-    } else {
-      Socket.sendMessageToPlayer(
-        this.playerIndex,
-        'You do not have enough bars to smith this item.',
-      );
+      return true;
     }
+
+    Socket.sendMessageToPlayer(
+      this.playerIndex,
+      'You do not have enough bars to smith this item.',
+    );
+    return false;
   }
 
   smelt(inventory) {
