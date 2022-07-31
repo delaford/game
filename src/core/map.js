@@ -240,7 +240,6 @@ class Map {
         && (this.player.x >= (item.x - 8))
         && (this.player.y <= (6 + item.y))
         && (this.player.y >= (item.y - 6));
-
       return foundItems;
     });
 
@@ -251,8 +250,15 @@ class Map {
         y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - item.y),
       };
 
-      // Get item information
+      // Get item information and get proper quantity index for graphic
       const info = UI.getItemData(item.id);
+      let qtyIndex = 0;
+      if (item.qty > 1 && info.graphics.quantityLevel) {
+        const qLevels = info.graphics.quantityLevel;
+        while (qtyIndex < qLevels.length - 1 && qLevels[qtyIndex] < item.qty) {
+          qtyIndex += 1;
+        }
+      }
 
       // Get the correct tileset to draw upon
       const itemTileset = () => {
@@ -272,7 +278,7 @@ class Map {
       // Paint the item on map
       this.context.drawImage(
         itemTileset(),
-        (info.graphics.column * 32), // Number in Item tileset
+        ((info.graphics.column + qtyIndex) * 32), // Number in Item tileset
         (info.graphics.row * 32), // Y-axis of tileset
         32,
         32,
