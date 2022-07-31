@@ -16,7 +16,7 @@
         <div
           v-if="screen === 'register'"
           class="register">
-          To register an account, please visit <a href="https://delaford.com/register">this page</a> to get start and then come back.
+          To register an account, please visit <a href="https://delaford.com/register">this page</a> to get started and then come back.
         </div>
         <div
           v-if="screen === 'login'"
