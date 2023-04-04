@@ -29,7 +29,7 @@ export default [
       row: 0,
       column: 0,
     },
-    actions: presetActions(['wearable']),
+    actions: presetActions(['wearable', 'anvil']),
   },
   {
     id: 'bronze-axe',

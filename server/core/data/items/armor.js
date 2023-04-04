@@ -89,7 +89,7 @@ export default [
       row: 1,
       column: 0,
     },
-    actions: presetActions(['wearable']),
+    actions: presetActions(['wearable', 'anvil']),
   },
   {
     id: 'bronze-boots',

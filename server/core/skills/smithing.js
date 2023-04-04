@@ -1,5 +1,5 @@
 import world from '@server/core/world';
-import { smithing, weapons } from '@server/core/data/items';
+import { smithing, weapons, armor } from '@server/core/data/items';
 import Socket from '@server/socket';
 // import Query from '@server/core/data/query';
 
@@ -65,7 +65,6 @@ export default class Smithing extends Skill {
     // eslint-disable-next-line
     const itemToForge = Smithing.getItemsToSmith(this.resourceId.id).find(item => this.resourceId.id === item.id);
     const barToTakeAway = itemToForge.item.split('-')[0];
-
     const inventoryHasThisManyBars = inventory.filter(inv => inv.id === `${barToTakeAway}-bar`).length;
     const hasEnoughBars = inventoryHasThisManyBars >= this.resourceId.bars;
 
@@ -77,13 +76,18 @@ export default class Smithing extends Skill {
       for (let index = 0; index < this.resourceId.bars; index += 1) {
         this.inventory.splice(getIndexOfBar, 1);
       }
-
       world.players[this.playerIndex].inventory.slots = this.inventory;
+      console.log(this.resourceId);
       world.players[this.playerIndex].inventory.add(this.resourceId.id, 1);
+      const getSmithedItemName = this.resourceId.type === 'weapon'
+        ? weapons.find(i => i.id === this.resourceId.id).name
+        : armor.find(i => i.id === this.resourceId.id).name;
+
       Socket.sendMessageToPlayer(
         this.playerIndex,
-        `You successfully smithed a ${weapons.find(i => i.id === this.resourceId.id).name}.`,
+        `You successfully smithed a ${getSmithedItemName}.`,
       );
+
 
       Socket.emit('core:refresh:inventory', {
         player: { socket_id: world.players[this.playerIndex].socket_id },
@@ -181,6 +185,7 @@ export default class Smithing extends Skill {
           level: 1,
           expGained: 13,
           bars: 1,
+          type: 'weapon',
         },
         {
           item: 'bronze-axe',
@@ -188,6 +193,7 @@ export default class Smithing extends Skill {
           level: 1,
           expGained: 15,
           bars: 2,
+          type: 'weapon',
         },
         {
           id: 'bronze-mace',
@@ -195,18 +201,23 @@ export default class Smithing extends Skill {
           level: 2,
           expGained: 19,
           bars: 5,
+          type: 'weapon',
         },
         {
+          id: 'bronze-med-helm',
           item: 'bronze-med-helm',
           level: 3,
           expGained: 21,
           bars: 1,
+          type: 'armor',
         },
         {
+          id: 'bronze-sword',
           item: 'bronze-sword',
           level: 4,
           expGained: 25,
           bars: 2,
+          type: 'weapon',
         },
       ];
     }
