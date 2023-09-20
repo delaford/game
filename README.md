@@ -19,7 +19,7 @@
 ## Getting Started
 
 First, fork the repository. Then, go into your favorite terminal.
-
+gowtham
     git clone git@github.com:YOUR_USERNAME/game.git
     cd game
     npm install
