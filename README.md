@@ -90,7 +90,7 @@ Once all of these items are checked, Delaford will be stable without breaking ch
 
 ## Debugging
 
-Learning how to debug in this game is critical in order to interact with the Node.js server and to the client. Your primary source should be the [ndb](https://github.com/GoogleChromeLabs/ndb) tool from Google. It is an improved debugging experience witch **drastically** improved client-side debugging.
+Learning how to debug in this game is critical in order to interact with the Node.js server and to the client. Your primary source should be the [ndb](https://github.com/GoogleChromeLabs/ndb) tool from Google. It is an improved debugging experience which **drastically** improved client-side debugging.
 
 Read more at [DEBUGGING.md](debugging.md).
 
