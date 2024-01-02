@@ -11,6 +11,7 @@ const moduleAlias = require('module-alias');
 const path = require('path');
 const secure = require('ssl-express-www');
 const http = require('http');
+const bodyParser = require('body-parser');
 const compression = require('compression');
 const express = require('express');
 
