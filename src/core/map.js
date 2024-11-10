@@ -294,10 +294,18 @@ class Map {
    * Draw the player on the board
    */
   drawPlayer() {
+    const { x, y } = this.player;
+    const smoothX = x * 32;
+    const smoothY = y * 32;
+
     this.context.drawImage(
       this.images.playerImage,
       224,
       160,
+      32,
+      32,
+      smoothX,
+      smoothY,
       32,
       32,
     );
@@ -324,6 +332,9 @@ class Map {
         y: Math.floor(this.config.map.viewport.y / 2) - (this.player.y - player.y),
       };
 
+      const smoothX = viewport.x * 32;
+      const smoothY = viewport.y * 32;
+
       // Paint the Player on map
       this.context.drawImage(
         this.images.playerImage,
@@ -331,8 +342,8 @@ class Map {
         0, // Y-axis always 0
         32,
         32,
-        viewport.x * 32,
-        viewport.y * 32,
+        smoothX,
+        smoothY,
         32,
         32,
       );

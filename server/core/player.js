@@ -146,6 +146,9 @@ class Player {
       this.moving = true;
     }
 
+    const speed = 0.1; // Speed of smooth movement
+    const distance = 1; // Distance to move in each step
+
     switch (direction) {
     default:
       console.log('Nothing happened');
@@ -153,28 +156,62 @@ class Player {
 
     case 'right':
       if (!this.isBlocked(direction)) {
-        this.x += 1;
+        this.smoothMove(this.x, this.y, this.x + distance, this.y, speed);
       }
       break;
 
     case 'left':
       if (!this.isBlocked(direction)) {
-        this.x -= 1;
+        this.smoothMove(this.x, this.y, this.x - distance, this.y, speed);
       }
       break;
 
     case 'up':
       if (!this.isBlocked(direction)) {
-        this.y -= 1;
+        this.smoothMove(this.x, this.y, this.x, this.y - distance, speed);
       }
       break;
 
     case 'down':
       if (!this.isBlocked(direction)) {
-        this.y += 1;
+        this.smoothMove(this.x, this.y, this.x, this.y + distance, speed);
       }
       break;
     }
+  }
+
+  /**
+   * Smoothly move the player from one position to another
+   *
+   * @param {number} startX The starting x-coordinate
+   * @param {number} startY The starting y-coordinate
+   * @param {number} endX The ending x-coordinate
+   * @param {number} endY The ending y-coordinate
+   * @param {number} speed The speed of the movement
+   */
+  smoothMove(startX, startY, endX, endY, speed) {
+    const deltaX = endX - startX;
+    const deltaY = endY - startY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const steps = distance / speed;
+    const stepX = deltaX / steps;
+    const stepY = deltaY / steps;
+
+    let currentStep = 0;
+
+    const moveStep = () => {
+      if (currentStep < steps) {
+        this.x += stepX;
+        this.y += stepY;
+        currentStep += 1;
+        requestAnimationFrame(moveStep);
+      } else {
+        this.x = endX;
+        this.y = endY;
+      }
+    };
+
+    moveStep();
   }
 
   /**
@@ -185,62 +222,56 @@ class Player {
    */
   walkPath(playerIndex) {
     const { path } = world.players[playerIndex];
-    const speed = 150; // Delay to next step during walk
+    const speed = 0.1; // Speed of smooth movement
 
-    // Immediately-invoked function expression (IIFE) for the setTimeout
-    // so that the setTimeouts queue up and do not mix with each other
-    (() => {
-      setTimeout(() => {
-        // If equal, it means our last step is the same as from
-        // when our pathfinding first started, so we keep going.
+    const moveToNextStep = () => {
+      if (path.current.step + 1 === path.current.path.walking.length) {
+        // If the queue is not empty, perform the next action
+        if (!Player.queueEmpty(playerIndex)) {
+          const todo = world.players[playerIndex].queue[0];
 
-        if (path.current.step + 1 === path.current.path.walking.length) {
-          // If they queue is not empty
-          // let's do it after destination is reached
-          if (!Player.queueEmpty(playerIndex)) {
-            const todo = world.players[playerIndex].queue[0];
-
-            playerEvent[todo.action.actionId]({
-              todo,
-              playerIndex,
-            });
-
-            // Remove action from queue
-            this.queue.shift();
-          }
-
-          this.stopMovement({ player: { socket_id: world.players[playerIndex].socket_id } });
-        } else {
-          const steps = {
-            current: {
-              x: path.current.path.walking[path.current.step][0],
-              y: path.current.path.walking[path.current.step][1],
-            },
-            next: {
-              x: path.current.path.walking[path.current.step + 1][0],
-              y: path.current.path.walking[path.current.step + 1][1],
-            },
-          };
-
-          const movement = UI.getMovementDirection(steps);
-
-          this.move(movement, true);
-
-          const playerChanging = world.players[playerIndex];
-          world.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              Socket.broadcast('player:movement', playerChanging);
-            }
+          playerEvent[todo.action.actionId]({
+            todo,
+            playerIndex,
           });
 
-          world.players[playerIndex].path.current.step += 1;
-
-          if (path.current.step <= path.current.path.walking.length) {
-            this.walkPath(playerIndex);
-          }
+          // Remove action from queue
+          this.queue.shift();
         }
-      }, speed);
-    })();
+
+        this.stopMovement({ player: { socket_id: world.players[playerIndex].socket_id } });
+      } else {
+        const steps = {
+          current: {
+            x: path.current.path.walking[path.current.step][0],
+            y: path.current.path.walking[path.current.step][1],
+          },
+          next: {
+            x: path.current.path.walking[path.current.step + 1][0],
+            y: path.current.path.walking[path.current.step + 1][1],
+          },
+        };
+
+        const movement = UI.getMovementDirection(steps);
+
+        this.move(movement, true);
+
+        const playerChanging = world.players[playerIndex];
+        world.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            Socket.broadcast('player:movement', playerChanging);
+          }
+        });
+
+        world.players[playerIndex].path.current.step += 1;
+
+        if (path.current.step <= path.current.path.walking.length) {
+          setTimeout(moveToNextStep, speed * 1000);
+        }
+      }
+    };
+
+    moveToNextStep();
   }
 
   /**

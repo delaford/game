@@ -125,6 +125,9 @@ class Map {
       i.timestamp = Date.now();
       return i;
     });
+
+    // Initialize smooth movement system
+    this.initializeSmoothMovement();
   }
 
   /**
@@ -204,6 +207,13 @@ class Map {
       // The new walkable/non-walkable grid
       resolve(new PF.Grid(matrix));
     });
+  }
+
+  /**
+   * Initialize the smooth movement system
+   */
+  initializeSmoothMovement() {
+    // Add any necessary initialization code for the smooth movement system here
   }
 }
 
