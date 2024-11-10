@@ -8,6 +8,8 @@ Install the dependencies:
 
     npm install
 
+Make sure you have Node.js version >=14.17.0 and npm version >=6.14.13 installed.
+
 Start the development server:
 
     npm run serve
