@@ -68,7 +68,6 @@
     "sass-loader": "^7.0.1",
     "stylelint": "^10.0.1",
     "stylelint-config-standard": "^18.2.0",
-    "stylelint-processor-arbitrary-tags": "^1.0.0",
     "vue-template-compiler": "^2.5.17"
   },
   "browserslist": [
