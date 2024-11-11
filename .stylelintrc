@@ -1,5 +1,5 @@
 {
-  "processors": ["stylelint-processor-html"],
+  "processors": ["stylelint-processor-arbitrary-tags"],
   "extends": "stylelint-config-standard",
   "ignoreFiles": ["**/*.js"],
   "comment-word-blacklist": ["eslint"],
