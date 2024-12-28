@@ -110,6 +110,6 @@ Delaford contains work from multiple sources not organically made by contributio
 
 ## Possible Scam Notice
 
-Delaford contributors nor anyone associated with Delaford will never contact you in regards testing or instructing you to downloading anything in regards to the development of the game for the reward of payment or digital currency such as cryptocurrency.
+Delaford contributors nor anyone associated with Delaford will never contact you in regards testing or instructing you to download anything in regards to the development of the game for the reward of payment or digital currency such as cryptocurrency.
 
 We have had verifiable reports of users pretending to be owners of Delaford promising money if they download a folder with the repository's contents inside. Please be aware.
